@@ -10,13 +10,20 @@ selected{nullptr}
 	numbRemaining.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	numbRemaining.setCharacterSize(70);
 	numbRemaining.setColor(sf::Color::Green);
-	numbRemaining.setPosition(100,-140);
+	numbRemaining.setPosition(70,-170);
 
 	numbRemaining.setString(std::to_string(game->currentPlayer->getDeploymentPoints()));
 
 	currentPlayerText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	currentPlayerText.setColor(sf::Color::Yellow);
 	currentPlayerText.setPosition(1160, -170);
+
+	deploymentPointsRemaining.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
+	deploymentPointsRemaining.setCharacterSize(17);
+	deploymentPointsRemaining.setColor(sf::Color::White);
+	deploymentPointsRemaining.setPosition(15, -80);
+
+	deploymentPointsRemaining.setString("deployment points left");
 
 	Menu INF(UnitTile::UnitType::INF);
 	INF.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
@@ -470,6 +477,8 @@ void GameState_Setup::draw(){
 	game->mWindow.draw(game->uiSprite);
 	game->mWindow.draw(numbRemaining);
 	game->mWindow.draw(currentPlayerText);
+	game->mWindow.draw(deploymentPointsRemaining);
+
 
 	readyButton.draw(game->mWindow);
 

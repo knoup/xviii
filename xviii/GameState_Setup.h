@@ -89,6 +89,7 @@ private:
 
 	sf::Text numbRemaining;
 	sf::Text currentPlayerText;
+	sf::Text deploymentPointsRemaining;
 
 	Button readyButton;
 

@@ -234,7 +234,7 @@ void SaveGame::parse(){
 			}
 
 
-			player->spawnUnit(type, pos, dir, hp, mov, hasMoved, hasRotated, hasAttacked, hasHealed);
+			player->loadUnit(type, pos, dir, hp, mov, hasMoved, hasRotated, hasAttacked, hasHealed);
 
 		}
 

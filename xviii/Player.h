@@ -22,8 +22,8 @@ class Player
 		
 		//Returns true if successfully spawned unit
 		bool spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords);
-		//Used primarily for loading from a save game
-		void spawnUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasRotated, bool _hasAttacked, bool _hasHealed);
+		//For loading from a save game
+		void loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasRotated, bool _hasAttacked, bool _hasHealed);
 
 		//Returns true if succesfully removed unit
 		bool removeUnit(sf::Vector2i _worldCoords);

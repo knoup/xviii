@@ -118,8 +118,8 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 	return false;
 }
 
-//Used primarily for loading from a save game
-void Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasRotated, bool _hasAttacked, bool _hasHealed){
+//For loading from a save game
+void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasRotated, bool _hasAttacked, bool _hasHealed){
 
 	UnitTile::unitPtr ptr;
 
