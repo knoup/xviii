@@ -106,7 +106,7 @@ void SaveGame::parse(){
 	std::string line;
 
 
-	while (save && std::getline(save,line)){
+	while (save && std::getline(save, line)){
 		if (line.find("turn=") != std::string::npos){
 			int turn{std::stoi(line.substr(5))};
 			game->elapsedTurns = turn;
@@ -185,7 +185,7 @@ void SaveGame::parse(){
 					temp.ignore(4);
 
 					temp >> pos.x >> pos.y;
-					
+
 					//For convenience, coordinates are displayed to the player starting from 1; thus, 
 					//0,0 would actually be 1, 1
 
@@ -212,7 +212,7 @@ void SaveGame::parse(){
 				else if (line.find("hasMoved=") != std::string::npos){
 					hasMoved = std::stoi(line.substr(9));
 				}
-			
+
 				else if (line.find("hasRotated=") != std::string::npos){
 					hasRotated = std::stoi(line.substr(11));
 				}
@@ -237,3 +237,5 @@ void SaveGame::parse(){
 
 
 	}
+
+}
