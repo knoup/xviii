@@ -220,7 +220,7 @@ KEYBOARD SHORTCUTS & MOUSE COMMANDS
 N - Start new game  
 L - Load save game (if any is available)  
 
-Note that at the moment only one save is possible; saving will overwrite your last save, so be careful
+Note that at the moment only one save is possible; saving will overwrite your last save, so be careful. A premade save file is provided for those who just want to dive in without bothering to set up.
 
 ---Setup & Playing Phases---
 
