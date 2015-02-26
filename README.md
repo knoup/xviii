@@ -1,10 +1,10 @@
-Uses <a href="http://sfml-dev.org/">SFML 2.1</a>.  Any units not mentioned in the rules are not fully implemented/ready yet. This is my first real project, hence the generally amateurish code.
+Uses <a href="http://sfml-dev.org/">SFML 2.1</a>.  Any units not mentioned in the rules are not fully implemented/ready yet. This is my first real project, hence the generally amateurish code. Inspired by the ideas of a friend.
 
 
 Mechanics Guide
 
---------------------General--------------------
-
+General
+-------
 *There are four types of actions
 
 	
@@ -21,10 +21,9 @@ Mechanics Guide
 		*Includes Firing/Charging
 
 		
-	*INF can either MOVE, PARTIALLY ROTATE, or FULLY ROTATE in addition to attacking.
+*INF can either MOVE, PARTIALLY ROTATE, or FULLY ROTATE in addition to attacking.
 	
-	*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving/attacking	
-	
+*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving/attacking	
 	
 	
 *d stands for [6-sided] dice; a roll of 4 with modifiers of 0.5d and 1d will 
@@ -33,9 +32,15 @@ yield 2 and 4 DMG respectively; the roll result is multiplied by the modifier
 
 *When a player's GENERAL dies, inflict 2 DMG to all friendly units. General may 
 heal a unit for 2 health, once per turn.
+
+
+*The following units are members of the "CAV family" and will, unless when stated otherwise, behave the same as CAV:
+
+	GEN
 	
 
---------------------Unit Types & Stats--------------------
+Unit Types & Stats
+------------------
 
 	INF 
 		*MOV: 6
@@ -79,7 +84,7 @@ Shooting Dist. Modifiers:
 	GENERAL
 		*2-1:	0.5d
 		
-Charge Dir. Modifiers (CAV/GENERAL):
+Charge Dir. Modifiers (CAV):
 		
 
 	vs. INF
@@ -106,7 +111,8 @@ Charge Dir. Modifiers (INF):
 		*Rear: 2d
 
 		
---------------------Ranged Combat Rules--------------------
+Ranged Combat Rules
+-------------------
 
 
 	-The player rolls a dice and the result is multiplied by the unit's dist./dir. modifier. 
@@ -122,7 +128,8 @@ Charge Dir. Modifiers (INF):
 	 straight forward, but also one tile to the left and one tile to the right
 
 	 
---------------------Melee Combat Rules--------------------
+Melee Combat Rules
+-------------------
 
 
 	INF vs INF
@@ -169,7 +176,8 @@ Charge Dir. Modifiers (INF):
 
 	
 
---------------------Deployment Costs--------------------
+Deployment Costs
+----------------
 
 
 	You start with 30 deployment points.
@@ -185,7 +193,8 @@ Charge Dir. Modifiers (INF):
 	GENERAL: 0	[Max of 1]
 	
 	
---------------------In-Game--------------------
+In-Game
+-------
 
 During the setup phase, each player deploys their units on the game board. 
 Players are limited to the far reaches of the map during this phase. In 
@@ -204,7 +213,8 @@ During the playing phase, players successively command their units by clicking
 on the desired unit and giving it movement/attack/rotation orders while
 selected (see below). The currently selected unit is outlined in yellow.
 
---------------------Line of Sight (LoS)--------------------
+Line of Sight
+--------------
 
 In addition to movement points and max attacking range, units are limited by their
 line of sight. A unit cannot cross to the other side of a tile if it is occupied by
@@ -213,39 +223,40 @@ enemy unit in the way. Friendly units can move past each other; however, with th
 of ART and MOR, they cannot fire from behind other friendlies.
 
 
-KEYBOARD SHORTCUTS & MOUSE COMMANDS
+Keyboard shortcuts & mouse commands
+------------------------------------
 
 ---Menu Phase---
 
-N - Start new game  
-L - Load save game (if any is available)  
-
+	N - Start new game  
+	L - Load save game (if any is available)  
+	
 Note that at the moment only one save is possible; saving will overwrite your last save, so be careful. A premade save file is provided for those who just want to dive in without bothering to set up.
 
 ---Setup & Playing Phases---
 
-R - reset zoom level  
-WSAD - move view  
-dash - zoom out  
-equal - zoom in  
-Mouse wheel - zoom out/in  
+	R - reset zoom level  
+	WSAD - move view  
+	dash - zoom out  
+	equal - zoom in  
+	Mouse wheel - zoom out/in  
 
 ---Setup Phase--
 
-T - spawn infantry  
-Y - spawn cavalry  
-U - spawn general  
-F - spawn artillery  
-G - spawn mortar  
-
-LMB - place unit on tile  
-RMB - deselect currently selected sprite, or delete unit at tile  
+	T - spawn infantry  
+	Y - spawn cavalry  
+	U - spawn general  
+	F - spawn artillery  
+	G - spawn mortar  
+	
+	LMB - place unit on tile  
+	RMB - deselect currently selected sprite, or delete unit at tile  
 
 ---Playing Phase---
 
-LMB - select a unit and issue movement/attack orders  
-RMB - deselect currently selected unit/dismiss current message  
+	LMB - select a unit and issue movement/attack orders  
+	RMB - deselect currently selected unit/dismiss current message  
 
-Up/down/left/right - rotate a unit North, South, East, and West respectively
+	Up/down/left/right - rotate a unit North, South, East, and West respectively
 
-Z - toggle save on exit (will overwrite other save if present!)
+	Z - toggle save on exit (will overwrite other save if present!)
