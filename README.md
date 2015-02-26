@@ -250,6 +250,6 @@ Note that at the moment only one save is possible; saving will overwrite your la
 	LMB - select a unit and issue movement/attack orders  
 	RMB - deselect currently selected unit/dismiss current message  
 
-Up/down/left/right - rotate a unit North, South, East, and West respectively
+	Up/down/left/right - rotate a unit North, South, East, and West respectively
 
 	Z - toggle save on exit (will overwrite other save if present!)
