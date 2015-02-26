@@ -1,4 +1,4 @@
-Uses SFML 2.1. Any units not mentioned in the rules are not fully implemented/ready yet. This is my first real project, hence the generally amateurish code.
+Uses <a href="http://sfml-dev.org/">SFML 2.1</a>.  Any units not mentioned in the rules are not fully implemented/ready yet. This is my first real project, hence the generally amateurish code.
 
 
 Mechanics Guide
@@ -220,7 +220,7 @@ KEYBOARD SHORTCUTS & MOUSE COMMANDS
 N - Start new game  
 L - Load save game (if any is available)  
 
-Note that at the moment only one save is possible; saving will overwrite your last save, so be careful
+Note that at the moment only one save is possible; saving will overwrite your last save, so be careful. A premade save file is provided for those who just want to dive in without bothering to set up.
 
 ---Setup & Playing Phases---
 
