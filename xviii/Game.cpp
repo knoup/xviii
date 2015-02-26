@@ -25,17 +25,7 @@ Player2{mWorld, Player::Nation::PRU, sf::Color::White, mtengine, mTextureManager
 //Setting these to nullptr, they are properly initialised in the constructor body
 currentPlayer{nullptr},
 currentView{nullptr},
-/*
-Since the world is 100x100 (and each square is 36x36), the tiles occupy a total of
-3600x3600 pixels.
 
-We want the initial view to be in the center of the X axis (3600/2)and at the
-lower end of the Y axis, leaving out 154 (768 - x) pixels (3600 - x) for the UI at the bottom.
-
-Note: this amount (154 pixels) is carefully chosen because it covers 1/5th of the total screen.
-*/
-
-//-174 because the view is offset 20 pixels above the board
 uiView{sf::FloatRect(0, -174, mWindow.getSize().x, 154)},
 uiSprite{mTextureManager.getSprite(TextureManager::UI::RECTANGLE)},
 mousePos{},
