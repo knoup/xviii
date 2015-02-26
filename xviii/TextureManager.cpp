@@ -39,6 +39,10 @@ sf::Sprite TextureManager::getSprite(Unit type){
 		//todo
 		break;
 
+	case Unit::DRAG:
+		//todo
+		break;
+
 	case Unit::LCAV:
 		//todo
 		break;

@@ -18,6 +18,7 @@ public:
 	virtual std::string attack(Infantry* inf, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Cavalry* cav, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank);
+	virtual std::string attack(Dragoon* drag, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(LightCav* lcav, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Artillery* art, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Mortar* mor, int distance, UnitTile::Modifier flank);

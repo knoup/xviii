@@ -59,6 +59,9 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 	else if (_type == UnitTile::UnitType::CUIR){
 		ptr = std::move(std::unique_ptr<Cuirassier>(new Cuirassier(world, mt19937, this, tm, fm, dir)));
 	}
+	else if (_type == UnitTile::UnitType::DRAG){
+		ptr = std::move(std::unique_ptr<Dragoon>(new Dragoon(world, mt19937, this, tm, fm, dir)));
+	}
 	else if (_type == UnitTile::UnitType::LCAV){
 		ptr = std::move(std::unique_ptr<LightCav>(new LightCav(world, mt19937, this, tm, fm, dir)));
 	}
@@ -128,6 +131,9 @@ void Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Di
 	}
 	else if (_type == UnitTile::UnitType::CUIR){
 		ptr = std::move(std::unique_ptr<Cuirassier>(new Cuirassier(world, mt19937, this, tm, fm, _dir)));
+	}
+	else if (_type == UnitTile::UnitType::DRAG){
+		ptr = std::move(std::unique_ptr<Dragoon>(new Dragoon(world, mt19937, this, tm, fm, _dir)));
 	}
 	else if (_type == UnitTile::UnitType::LCAV){
 		ptr = std::move(std::unique_ptr<LightCav>(new LightCav(world, mt19937, this, tm, fm, _dir)));

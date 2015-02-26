@@ -57,6 +57,19 @@ selected{nullptr}
 	CUIR.unitSprite.setPosition({730, -130});
 	CUIR.unitName.setPosition({CUIR.unitSprite.getPosition().x, CUIR.unitSprite.getPosition().y - 30});
 
+	Menu DRAG(UnitTile::UnitType::DRAG);
+	DRAG.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
+	DRAG.unitName.setColor(sf::Color::White);
+	DRAG.unitName.setString("DRAGOON(5)");
+	DRAG.unitName.setCharacterSize(12);
+	DRAG.unitName.setOrigin(DRAG.unitName.getLocalBounds().width / 2, DRAG.unitName.getLocalBounds().height / 2);
+
+	DRAG.unitSprite = game->mTextureManager.getSprite(TextureManager::Unit::DRAG);
+	DRAG.unitSprite.setOrigin(DRAG.unitSprite.getGlobalBounds().width / 2, DRAG.unitSprite.getGlobalBounds().height / 2);
+
+	DRAG.unitSprite.setPosition({730, -60});
+	DRAG.unitName.setPosition({DRAG.unitSprite.getPosition().x, DRAG.unitSprite.getPosition().y - 30});
+
 	Menu LCAV(UnitTile::UnitType::LCAV);
 	LCAV.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	LCAV.unitName.setColor(sf::Color::White);
@@ -113,11 +126,13 @@ selected{nullptr}
 	MenuItems.emplace_back(INF);
 	MenuItems.emplace_back(CAV);
 	MenuItems.emplace_back(CUIR);
+	MenuItems.emplace_back(DRAG);
 	MenuItems.emplace_back(LCAV);
 	MenuItems.emplace_back(ART);
 	MenuItems.emplace_back(MOR);
 	MenuItems.emplace_back(GEN);
 
+	/* Not being used atm
 	sf::Text shortcuts;
 
 	sf::Text infShortcut;
@@ -126,15 +141,14 @@ selected{nullptr}
 	sf::Text morShortcut;
 	sf::Text genShortcut;
 
-	/*
+	
 	You will notice I set the origins for the following sf::Text objects to
 
 	(GEN.unitName.getLocalBounds().width / 2, GEN.unitName.getLocalBounds().height / 2)
 
 	This was a mistake at first, but I noticed changing it causes the text to become blurry somehow,
 	so I kept it. I know it doesn't make much sense, but still...
-	*/
-
+	
 
 	shortcuts.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	shortcuts.setColor(sf::Color::White);
@@ -185,6 +199,8 @@ selected{nullptr}
 	keyShortcuts.emplace_back(artShortcut);
 	keyShortcuts.emplace_back(morShortcut);
 	keyShortcuts.emplace_back(genShortcut);
+
+	*/
 
 	readyButton.sprite = game->mTextureManager.getSprite(TextureManager::UI::BUTTON);
 	readyButton.sprite.setOrigin(readyButton.sprite.getLocalBounds().width / 2, readyButton.sprite.getLocalBounds().height / 2);

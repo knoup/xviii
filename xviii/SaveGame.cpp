@@ -22,6 +22,9 @@ UnitTile::UnitType stringToUnitType(std::string _type){
 	else if (_type == "cuir"){
 		return UnitTile::UnitType::CUIR;
 	}
+	else if (_type == "drag"){
+		return UnitTile::UnitType::DRAG;
+	}
 	else if (_type == "lcav"){
 		return UnitTile::UnitType::LCAV;
 	}

@@ -61,6 +61,10 @@ std::string Artillery::attack(Cuirassier* cuir, int distance, UnitTile::Modifier
 	return rangedAttack(cuir, distance);
 }
 
+std::string Artillery::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+	return rangedAttack(drag, distance);
+}
+
 std::string Artillery::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
 	return rangedAttack(lcav, distance);
 }

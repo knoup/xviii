@@ -331,6 +331,79 @@ std::string Infantry::attack(Cuirassier* cuir, int distance, UnitTile::Modifier 
 
 }
 
+std::string Infantry::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+
+	if (distance != 1){
+		return rangedAttack(drag, distance);
+	}
+
+	std::uniform_int_distribution<int> distribution(1, 6);
+
+	int thisRoll_int{distribution(mt19937)};
+	int enemyRoll_int{distribution(mt19937)};
+
+	float thisRoll = thisRoll_int;
+	float enemyRoll = enemyRoll_int;
+
+	float damageDealt{0};
+	float damageReceived{0};
+
+
+	Modifier flankType;
+	float flankModifier;
+
+	switch (flank){
+	case Modifier::FRONT_FLANK:
+		flankType = Modifier::FRONT_FLANK;
+		flankModifier = cavFrontFlankModifier;
+		break;
+
+	case Modifier::SIDE_FLANK:
+		flankType = Modifier::SIDE_FLANK;
+		flankModifier = cavSideFlankModifier;
+		break;
+
+	case Modifier::REAR_FLANK:
+		flankType = Modifier::REAR_FLANK;
+		flankModifier = cavRearFlankModifier;
+	}
+
+	modVector.emplace_back(flankType, flankModifier);
+
+	multRollByModifiers(thisRoll);
+	drag->multRollByModifiers(enemyRoll);
+
+	if (abs(thisRoll - enemyRoll) < 0.01){
+		damageDealt = 1;
+		damageReceived = 0.5;
+
+		drag->takeDamage(damageDealt);
+		this->takeDamage(damageReceived);
+	}
+	else if (thisRoll > enemyRoll){
+		damageDealt = 2;
+		damageReceived = 1;
+
+		drag->takeDamage(damageDealt);
+		this->takeDamage(damageReceived);
+
+	}
+	else if (enemyRoll > thisRoll){
+		damageReceived = 4;
+
+		this->takeDamage(damageReceived);
+
+	}
+
+	mov = 0;
+	this->updateStats();
+	drag->updateStats();
+	hasAttacked = true;
+
+	return attackReport(distance, this, drag, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, drag->modVector);
+
+}
+
 std::string Infantry::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
 
 	if (distance != 1){

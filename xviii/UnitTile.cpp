@@ -107,6 +107,8 @@ std::string UnitTile::typeToString(UnitType _type){
 		return{"cav"};
 	case UnitType::CUIR:
 		return{"cuir"};
+	case UnitType::DRAG:
+		return{"drag"};
 	case UnitType::LCAV:
 		return{"lcav"};
 	case UnitType::ART:
@@ -298,10 +300,11 @@ std::string UnitTile::attack(UnitTile* unit){
 	}
 
 	//This code is to cast our regular UnitTile pointer to a pointer of the
-	//specific class it is
+	//specific class it is. Very ugly code, should change this
 	Infantry* inf = dynamic_cast<Infantry*>(unit);
 	Cavalry* cav = dynamic_cast<Cavalry*>(unit);
 	Cuirassier* cuir = dynamic_cast<Cuirassier*>(unit);
+	Dragoon* drag = dynamic_cast<Dragoon*>(unit);
 	LightCav* lcav = dynamic_cast<LightCav*>(unit);
 	Artillery* art = dynamic_cast<Artillery*>(unit);
 	Mortar* mor = dynamic_cast<Mortar*>(unit);
@@ -332,35 +335,39 @@ std::string UnitTile::attack(UnitTile* unit){
 
 //Virtual
 std::string UnitTile::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
-	return{"UnitTile's Infantry attack() called; report as bug"};
+	return{};
 }
 //Virtual
 std::string UnitTile::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
-	world.removeUnit(cav);
-	return{"UnitTile's Cavalry attack() called; report as bug"};
+	return{};
 }
 
 //Virtual
 std::string UnitTile::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
-	return{"UnitTile's Cuirassier attack() called; report as bug"};
+	return{};
+}
+
+//Virtual
+std::string UnitTile::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+	return{};
 }
 
 //Virtual
 std::string UnitTile::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
-	return{"UnitTile's LightCav attack() called; report as bug"};
+	return{};
 }
 
 //Virtual
 std::string UnitTile::attack(Artillery* art, int distance, UnitTile::Modifier flank){
-	return{"UnitTile's Artillery attack() called; report as bug"};
+	return{};
 }
 //Virtual
 std::string UnitTile::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
-	return{"UnitTile's Mortar attack() called; report as bug"};
+	return{};
 }
 //Virtual
 std::string UnitTile::attack(General* gen, int distance, UnitTile::Modifier flank){
-	return{"UnitTile's General attack() called; report as bug"};
+	return{};
 }
 
 //Virtual

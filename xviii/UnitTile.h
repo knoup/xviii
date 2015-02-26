@@ -24,6 +24,7 @@ class World;
 class Infantry;
 class Cavalry;
 class Cuirassier;
+class Dragoon;
 class LightCav;
 class Artillery;
 class Mortar;
@@ -50,7 +51,7 @@ public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, CUIRASSIER, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAGOON, ART, MOR, GEN};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN};
 
 	//Used for storing modifier information
 
@@ -116,6 +117,7 @@ public:
 	virtual std::string attack(Infantry* inf, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Cavalry* cav, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank);
+	virtual std::string attack(Dragoon* drag, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(LightCav* lcav, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Artillery* art, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Mortar* mor, int distance, UnitTile::Modifier flank);

@@ -2,9 +2,7 @@
 
 #include "UnitTile.h"
 
-//Todo
 
-/*
 
 class Dragoon : public UnitTile
 {
@@ -21,6 +19,7 @@ public:
 	virtual std::string attack(Infantry* inf, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Cavalry* cav, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank);
+	virtual std::string attack(Dragoon* drag, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(LightCav* lcav, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Artillery* art, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Mortar* mor, int distance, UnitTile::Modifier flank);
@@ -33,8 +32,8 @@ private:
 
 	static const int maxhp{6};
 	static const int maxMov{12};
-	static const int maxRange{0};
+	static const int maxRange{9};
 };
 
-*/
+
 

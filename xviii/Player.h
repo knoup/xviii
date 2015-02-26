@@ -9,6 +9,7 @@
 #include "Artillery.h"
 #include "Cavalry.h"
 #include "Cuirassier.h"
+#include "Dragoon.h"
 #include "LightCav.h"
 #include "Mortar.h"
 #include "General.h"

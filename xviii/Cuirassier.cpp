@@ -300,6 +300,91 @@ std::string Cuirassier::attack(Cuirassier* cuir, int distance, UnitTile::Modifie
 	return attackReport(distance, this, cuir, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cuir->modVector);
 }
 
+std::string Cuirassier::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+	if (distance != 1){
+		return rangedAttack(drag, distance);
+	}
+
+	std::uniform_int_distribution<int> distribution(1, 6);
+
+	int thisRoll_int{distribution(mt19937)};
+	int enemyRoll_int{distribution(mt19937)};
+
+	float thisRoll = thisRoll_int;
+	float enemyRoll = enemyRoll_int;
+
+	float damageDealt{0};
+	float damageReceived{0};
+
+	float flankModifier;
+	Modifier flankType;
+
+	switch (flank){
+	case Modifier::FRONT_FLANK:
+		flankType = Modifier::FRONT_FLANK;
+		flankModifier = cavFrontFlankModifier;
+		break;
+
+	case Modifier::SIDE_FLANK:
+		flankType = Modifier::SIDE_FLANK;
+		flankModifier = cavSideFlankModifier;
+		break;
+
+	case Modifier::REAR_FLANK:
+		flankType = Modifier::REAR_FLANK;
+		flankModifier = cavRearFlankModifier;
+	}
+
+	modVector.emplace_back(flankType, flankModifier);
+
+	//Cuirassier's +1 vs cav
+	modVector.emplace_back(UnitTile::Modifier::CUIRASSIER, 1);
+
+	multRollByModifiers(thisRoll);
+	drag->multRollByModifiers(enemyRoll);
+
+	if (abs(thisRoll - enemyRoll) < 0.01){
+		damageDealt = 1;
+		damageReceived = 1;
+
+		this->takeDamage(damageReceived);
+		drag->takeDamage(damageDealt);
+	}
+	else{
+		//If the difference between rolls is less than 3
+		if (abs(thisRoll - enemyRoll) < 3){
+			//Player with the highest roll inflicts 1 DMG on the other
+			if (thisRoll > enemyRoll){
+				damageDealt = 1;
+				drag->takeDamage(damageDealt);
+			}
+			else if (enemyRoll > thisRoll){
+				damageReceived = 1;
+				this->takeDamage(damageReceived);
+			}
+		}
+		//If the difference is greater or equal to 3,
+		else{
+			if (thisRoll > enemyRoll){
+				damageDealt = 2;
+				drag->takeDamage(damageDealt);
+			}
+			else if (enemyRoll > thisRoll){
+				damageReceived = 2;
+				this->takeDamage(damageReceived);
+			}
+		}
+	}
+
+	mov = 0;
+	this->updateStats();
+	drag->updateStats();
+	hasAttacked = true;
+
+	return attackReport(distance, this, drag, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, drag->modVector);
+
+}
+
 std::string Cuirassier::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
 	if (distance != 1){
 		return rangedAttack(lcav, distance);
@@ -382,7 +467,6 @@ std::string Cuirassier::attack(LightCav* lcav, int distance, UnitTile::Modifier 
 	hasAttacked = true;
 
 	return attackReport(distance, this, lcav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, lcav->modVector);
-
 
 }
 
