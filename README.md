@@ -1,4 +1,4 @@
-Uses <a href="http://sfml-dev.org/">SFML 2.1</a>.  Any units not mentioned in the rules are not fully implemented/ready yet. This is my first real project, hence the generally amateurish code.
+Uses <a href="http://sfml-dev.org/">SFML 2.1</a>.  Any units not mentioned in the rules are not fully implemented/ready yet. This is my first real project, hence the generally amateurish code. Inspired by the ideas of a friend.
 
 
 Mechanics Guide
