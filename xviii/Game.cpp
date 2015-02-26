@@ -20,7 +20,6 @@ mTextureManager{},
 mFontManager{},
 mWorld{mTextureManager, sf::Vector2i(69, 100)},
 Player1{mWorld, Player::Nation::AUS, sf::Color::Yellow, mtengine, mTextureManager, mFontManager, sf::View{sf::FloatRect(1183, 4800, mWindow.getSize().x, mWindow.getSize().y)}, "Austria"},
-//Player2{mWorld, Player::Nation::PRU, sf::Color::White, mtengine, mTextureManager, mFontManager, sf::View{sf::FloatRect(1183, 4800, mWindow.getSize().x, mWindow.getSize().y)}, "Prussia"},
 Player2{mWorld, Player::Nation::PRU, sf::Color::White, mtengine, mTextureManager, mFontManager, sf::View{sf::FloatRect(1183, -50, mWindow.getSize().x, mWindow.getSize().y)}, "Prussia"},
 //Setting these to nullptr, they are properly initialised in the constructor body
 currentPlayer{nullptr},
@@ -38,8 +37,8 @@ saveCreator{this}
 	uiView.setViewport(sf::FloatRect(0, 0.8f, 1, 0.2f));
 	uiSprite.setPosition(0, -174);
 
+	//FPS independent logic is not that crucial in a game without physics
 	mWindow.setFramerateLimit(120);
-
 	
 	MenuState = new GameState_Menu(this);
 	SetupState = new GameState_Setup(this);
