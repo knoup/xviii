@@ -5,7 +5,6 @@
 class Tile : public sf::Drawable
 {
 public:
-	enum class Type{INF, CAV, ART, MOR, GEN, TERRAIN};
 	using tilePtr = std::unique_ptr<Tile>;
 	Tile(TextureManager& tm, TextureManager::Unit id);
 	Tile(TextureManager& tm, TextureManager::Terrain id);
