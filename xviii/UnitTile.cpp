@@ -4,16 +4,6 @@
 #include "Player.h"
 #include "World.h"
 
-/*
-string prd(const double x, const int decDigits) {
-stringstream ss;
-ss << fixed;
-ss.precision(decDigits); // set # places after decimal
-ss << x;
-return ss.str();
-}
-*/
-
 
 UnitTile::Direction UnitTile::opposite(UnitTile::Direction _dir){
 	switch (_dir){
@@ -388,11 +378,6 @@ bool UnitTile::isHostile(UnitTile* _tile){
 		return false;
 	}
 }
-
-//void UnitTile::highlightEnemy(){
-	//rekt.setOutlineColor(sf::Color::Red);
-	//highlighted = true;
-//}
 
 UnitTile::UnitType UnitTile::getUnitType() const{
 	return unitType;
