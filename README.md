@@ -3,8 +3,8 @@ Uses <a href="http://sfml-dev.org/">SFML 2.1</a>.  Any units not mentioned in th
 
 Mechanics Guide
 
---------------------General--------------------
-
+General
+-------
 *There are four types of actions
 
 	
@@ -39,7 +39,8 @@ heal a unit for 2 health, once per turn.
 	GEN
 	
 
---------------------Unit Types & Stats--------------------
+Unit Types & Stats
+------------------
 
 	INF 
 		*MOV: 6
@@ -110,7 +111,8 @@ Charge Dir. Modifiers (INF):
 		*Rear: 2d
 
 		
---------------------Ranged Combat Rules--------------------
+Ranged Combat Rules
+-------------------
 
 
 	-The player rolls a dice and the result is multiplied by the unit's dist./dir. modifier. 
@@ -126,7 +128,8 @@ Charge Dir. Modifiers (INF):
 	 straight forward, but also one tile to the left and one tile to the right
 
 	 
---------------------Melee Combat Rules--------------------
+Melee Combat Rules
+-------------------
 
 
 	INF vs INF
@@ -173,7 +176,8 @@ Charge Dir. Modifiers (INF):
 
 	
 
---------------------Deployment Costs--------------------
+Deployment Costs
+----------------
 
 
 	You start with 30 deployment points.
@@ -189,7 +193,8 @@ Charge Dir. Modifiers (INF):
 	GENERAL: 0	[Max of 1]
 	
 	
---------------------In-Game--------------------
+In-Game
+-------
 
 During the setup phase, each player deploys their units on the game board. 
 Players are limited to the far reaches of the map during this phase. In 
@@ -208,7 +213,8 @@ During the playing phase, players successively command their units by clicking
 on the desired unit and giving it movement/attack/rotation orders while
 selected (see below). The currently selected unit is outlined in yellow.
 
---------------------Line of Sight (LoS)--------------------
+Line of Sight
+--------------
 
 In addition to movement points and max attacking range, units are limited by their
 line of sight. A unit cannot cross to the other side of a tile if it is occupied by
@@ -217,7 +223,8 @@ enemy unit in the way. Friendly units can move past each other; however, with th
 of ART and MOR, they cannot fire from behind other friendlies.
 
 
---------------------KEYBOARD SHORTCUTS & MOUSE COMMANDS--------------------
+Keyboard shortcuts & mouse commands
+------------------------------------
 
 ---Menu Phase---
 
