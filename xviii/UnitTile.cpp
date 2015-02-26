@@ -319,6 +319,9 @@ std::string UnitTile::attack(UnitTile* unit){
 		else if (cuir != nullptr){
 			return attack(cuir, dist, flank);
 		}
+		else if (drag != nullptr){
+			return attack(drag, dist, flank);
+		}
 		else if (lcav != nullptr){
 			return attack(lcav, dist, flank);
 		}
