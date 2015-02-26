@@ -1,4 +1,4 @@
-Uses SFML 2.1. Any units not mentioned in the rules are not fully implemented/ready yet.
+Uses SFML 2.1. Any units not mentioned in the rules are not fully implemented/ready yet. This is my first real project, hence the generally amateurish code.
 
 
 Mechanics Guide
