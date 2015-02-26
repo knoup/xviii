@@ -18,6 +18,8 @@ public:
 	void setPos(sf::Vector2f _pos);
 	sf::Vector2f getPos() const;
 
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
 protected:
 	TerrainType terrainType;
 };

@@ -195,6 +195,9 @@ protected:
 	float hp;
 	int mov;
 
+	//For outlining
+	sf::RectangleShape rekt;
+
 	//The visual representations of the stats
     sf::Text dirText;
 	sf::Text hpText;

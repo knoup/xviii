@@ -11,7 +11,6 @@ Tile{tm, TextureManager::Terrain::MEADOW},
 terrainType{type}
 {
 	sprite.setPosition(_pos);
-	rekt.setPosition(_pos);
 }
 
 void TerrainTile::setPos(sf::Vector2f _pos){
@@ -23,6 +22,9 @@ sf::Vector2f TerrainTile::getPos() const{
 	return sprite.getPosition();
 }
 
+void TerrainTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
+	target.draw(sprite, states);
+}
+
 TerrainTile::~TerrainTile(){
-	//Required for this to be an abstract class
 }

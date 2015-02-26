@@ -145,6 +145,12 @@ at{nullptr}
     dirText.setColor(sf::Color(0,0,180));
     hpText.setColor(sf::Color::Red);
     movText.setColor(sf::Color::Black);
+
+	rekt.setPosition(sprite.getPosition().x, sprite.getPosition().y);
+	rekt.setSize(sf::Vector2f(tm.getSize().x, tm.getSize().y));
+	rekt.setOutlineColor(sf::Color::Yellow);
+	rekt.setOutlineThickness(-1);
+	rekt.setFillColor(sf::Color::Transparent);
 }
 
 void UnitTile::spawn(TerrainTile* terrainTile){
@@ -437,7 +443,7 @@ void UnitTile::updateStats(){
 }
 
 void UnitTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
-	target.draw(sprite);
+	target.draw(sprite, states);
 	target.draw(unitFlag);
 	target.draw(dirText);
 	target.draw(hpText);

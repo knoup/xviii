@@ -10,12 +10,10 @@ public:
 	Tile(TextureManager& tm, TextureManager::Terrain id);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~Tile() = 0;
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
 
 	void setHighlightColor(sf::Color _color);
 	void setHighlighted(bool _value);
-	//Resets the rekt outline color to yellow
-	void resetHighlightedColor();
 
 	int top() const;
 	int left() const;
@@ -23,9 +21,6 @@ public:
 	int right() const;
 protected:
 	sf::Sprite sprite;
-	//The additional rectangle shape here is just for the
-	//convenient outlining feature
-	sf::RectangleShape rekt;
 	bool highlighted;
 };
 
