@@ -97,7 +97,7 @@ void SaveGame::create(){
 
 /*
 TODO	
-Improve formatting so that a space doesn't break everything; not a priority but still
+Make formatting less rigid so that e.g. a space doesn't break everything
 */
 void SaveGame::parse(){
 	std::ifstream save;
@@ -237,33 +237,3 @@ void SaveGame::parse(){
 
 
 	}
-	/*
-	bool ok{game->mWorld.getCombatLayer().empty()};
-
-	switch (ok){
-	case true:
-		std::cout << "No units spawned";
-		break;
-	case false:
-		std::cout << "Ok";
-		break;
-	}
-
-	*/
-	
-}
-
-
-/*
-switch (type){
-case UnitTile::UnitType::INF:
-	break;
-case UnitTile::UnitType::CAV:
-	break;
-case UnitTile::UnitType::ART:
-	break;
-case UnitTile::UnitType::MOR:
-	break;
-case UnitTile::UnitType::GEN:
-	break;
-}*/
