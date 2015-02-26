@@ -51,7 +51,8 @@ public:
 	//Due to the way gamestate changing works, the PlayState is created before the player decides
 	//whether to load a save or not. When the player loads the save, there are some essential values
 	//that need to be updated (turn, current player text, etc). only once;
-	//rather than having them constantly be updated in update(), I made this function instead
+	//rather than having them constantly be updated in update(), I made this function instead, although it
+	//feels "hacky"...
 	void oneTimeUpdate();
 
 	virtual void getInput();
