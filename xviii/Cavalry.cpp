@@ -59,6 +59,10 @@ int Cavalry::getMaxRange() const{
 	return maxRange;
 }
 
+std::string Cavalry::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
+	return _unit->attack(this, distance, flank);
+}
+
 std::string Cavalry::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
 
 	if (distance != 1){
@@ -127,7 +131,7 @@ std::string Cavalry::attack(Infantry* inf, int distance, UnitTile::Modifier flan
 	this->updateStats();
 	inf->updateStats();
 	hasAttacked = true;
-
+	
 	return attackReport(distance, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
 
 }

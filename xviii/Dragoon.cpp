@@ -60,6 +60,9 @@ int Dragoon::getMaxRange() const{
 	return maxRange;
 }
 
+std::string Dragoon::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
+	return _unit->attack(this, distance, flank);
+}
 
 std::string Dragoon::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
 

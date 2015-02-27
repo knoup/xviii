@@ -59,6 +59,10 @@ int Cuirassier::getMaxRange() const{
 	return maxRange;
 }
 
+std::string Cuirassier::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
+	return _unit->attack(this, distance, flank);
+}
+
 std::string Cuirassier::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
 
 	if (distance != 1){

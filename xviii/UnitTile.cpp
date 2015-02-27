@@ -283,7 +283,7 @@ std::string UnitTile::attack(UnitTile* unit){
 		return{"Cannot attack any more"};
 	}
 
-	UnitTile::Modifier flank;
+	UnitTile::Modifier flank{Modifier::FRONT_FLANK};
 
 	//Determine flank direction
 
@@ -299,41 +299,8 @@ std::string UnitTile::attack(UnitTile* unit){
 		flank = Modifier::SIDE_FLANK;
 	}
 
-	//This code is to cast our regular UnitTile pointer to a pointer of the
-	//specific class it is. Very ugly code, should change this
-	Infantry* inf = dynamic_cast<Infantry*>(unit);
-	Cavalry* cav = dynamic_cast<Cavalry*>(unit);
-	Cuirassier* cuir = dynamic_cast<Cuirassier*>(unit);
-	Dragoon* drag = dynamic_cast<Dragoon*>(unit);
-	LightCav* lcav = dynamic_cast<LightCav*>(unit);
-	Artillery* art = dynamic_cast<Artillery*>(unit);
-	Mortar* mor = dynamic_cast<Mortar*>(unit);
-	General* gen = dynamic_cast<General*>(unit);
-
-		if (inf != nullptr){
-			return attack(inf, dist, flank);
-		}
-		else if (cav != nullptr){
-			return attack(cav, dist, flank);
-		}
-		else if (cuir != nullptr){
-			return attack(cuir, dist, flank);
-		}
-		else if (drag != nullptr){
-			return attack(drag, dist, flank);
-		}
-		else if (lcav != nullptr){
-			return attack(lcav, dist, flank);
-		}
-		else if (art != nullptr){
-			return attack(art, dist, flank);
-		}
-		else if (mor != nullptr){
-			return attack(mor, dist, flank);
-		}
-		else if (gen != nullptr){
-			return attack(gen, dist, flank);
-		}
+	//Double dispatch, hence the reverse order
+	return unit->attack(this, dist, flank);
 }	
 
 //Virtual

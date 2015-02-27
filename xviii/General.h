@@ -18,6 +18,8 @@ public:
 	virtual std::string rotate(Direction _dir);
 	virtual std::string interactWithFriendly(UnitTile* _unit);
 
+	virtual std::string attack(UnitTile* _unit, int distance, UnitTile::Modifier flank);
+
 	virtual int getMaxHp() const;
 	virtual int getMaxMov() const;
 	virtual int getMaxRange() const;

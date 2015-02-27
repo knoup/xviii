@@ -59,6 +59,10 @@ int LightCav::getMaxRange() const{
 	return maxRange;
 }
 
+std::string LightCav::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
+	return _unit->attack(this, distance, flank);
+}
+
 std::string LightCav::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
 
 	if (distance != 1){

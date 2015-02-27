@@ -92,6 +92,10 @@ int General::getMaxRange() const{
 	return maxRange;
 }
 
+std::string General::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
+	return _unit->attack(this, distance, flank);
+}
+
 std::string General::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
 	if (distance != 1){
 		return rangedAttack(inf, distance);

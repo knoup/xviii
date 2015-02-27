@@ -101,6 +101,10 @@ int Infantry::getMaxRange() const{
 	return maxRange;
 }
 
+std::string Infantry::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
+	return _unit->attack(this, distance, flank);
+}
+
 std::string Infantry::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
 
 	if (distance != 1){

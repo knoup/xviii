@@ -50,6 +50,10 @@ int Mortar::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& 
 	return UnitTile::distanceFrom(_terrain, _validMovDirection, _validAttackDirection, _obstructionPresent, _inMovementRange, _inRangedAttackRange, true, 3);
 }
 
+std::string Mortar::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
+	return _unit->attack(this, distance, flank);
+}
+
 std::string Mortar::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
 	return rangedAttack(inf, distance);
 }

@@ -109,10 +109,11 @@ public:
 	virtual int getMaxMov() const;
 	virtual int getMaxRange() const;
 
-	//This function is in charge of casting and then calling the appropriate overloaded class functions
-	//below (see each derived's .cpp for the details of implementation). It also determines whether the combat
-	//is melee or ranged
+	//This function is in charge of initiating combat by determining distance, flank, etc.
 	std::string attack(UnitTile* _unit);
+
+	//Needed for double dispatch
+	virtual std::string attack(UnitTile* _unit, int distance, UnitTile::Modifier flank) = 0;
 
 	virtual std::string attack(Infantry* inf, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Cavalry* cav, int distance, UnitTile::Modifier flank);

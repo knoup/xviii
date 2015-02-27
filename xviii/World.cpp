@@ -139,7 +139,6 @@ UnitTile* World::unitAtMouseCoords(sf::Vector2i _pos){
 	TerrainTile* here = terrainLayer[indexAtMouseCoords(_pos)].get();
 
 	for (auto& unit : unitLayer){
-
 		if (unit->getTilePos() == here){
 			return unit.get();
 		}
