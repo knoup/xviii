@@ -2,7 +2,6 @@
 #include "Infantry.h"
 
 #include "Player.h"
-#include "World.h"
 
 const float infFrontFlankModifier = 0.5;
 const float infSideFlankModifier = 1;

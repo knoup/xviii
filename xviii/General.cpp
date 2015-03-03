@@ -2,7 +2,6 @@
 #include "General.h"
 
 #include "Player.h"
-#include "World.h"
 
 static const float infFrontFlankModifier = 0.5;
 static const float infSideFlankModifier = 1;
