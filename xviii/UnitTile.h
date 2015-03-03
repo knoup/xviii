@@ -9,14 +9,6 @@
 #include <iomanip>
 #include <math.h>
 
-/*
-TODO:
-
--Add LoS to movement
-
-
-*/
-
 class Player;
 class World;
 
