@@ -141,7 +141,7 @@ public:
 	bool getHasMoved() const;
 	bool getHasRotated() const;
 	bool getHasAttacked() const;
-	bool getHasHealed() const;
+	virtual bool getHasHealed() const;
 
 	void sethp(float _hp);
 	void setMov(float _mov);
@@ -150,7 +150,7 @@ public:
 	void setHasAttacked(bool _hasAttacked);
 	//The following are applicable only for some children; the definition in UnitTile will be
 	//blank
-	void setHasHealed(bool _hasHealed);
+	virtual void setHasHealed(bool _hasHealed);
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
