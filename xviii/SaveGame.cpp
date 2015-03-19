@@ -61,8 +61,25 @@ game{_game}
 }
 
 void SaveGame::create(){
-	std::ofstream save;
-	save.open("save.dat");
+	if (!boost::filesystem::exists("save")){
+		boost::filesystem::create_directory("save");
+	}
+
+	std::string saveName{"turn_" + std::to_string(game->elapsedTurns)};
+
+	//Check if a file with the same name exists
+	
+	boost::filesystem::directory_iterator end;
+
+	for (boost::filesystem::directory_iterator it("save"); it != end; ++it){
+		if (it->path().filename() == saveName){
+			saveName += "i";
+		}
+	}
+
+	boost::filesystem::ofstream save;
+
+	save.open("save\\" + saveName);
 
 	save << "turn=" << game->elapsedTurns << std::endl;
 	save << "player=" << game->currentPlayer->getName() << std::endl;
@@ -95,6 +112,7 @@ void SaveGame::create(){
 	}
 
 	save.close();
+
 }
 
 
@@ -102,9 +120,9 @@ void SaveGame::create(){
 TODO	
 Make formatting less rigid so that e.g. a space doesn't break everything
 */
-void SaveGame::parse(){
+void SaveGame::parse(boost::filesystem::path _dir){
 	std::ifstream save;
-	save.open("save.dat");
+	save.open(_dir.string());
 
 	std::string line;
 

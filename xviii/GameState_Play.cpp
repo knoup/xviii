@@ -57,7 +57,7 @@ saveOnExit{true}
 	saveOnExitText.setFont(game->mFontManager.getFont(FontManager::Type::Arial));
 	saveOnExitText.setCharacterSize(20);
 	saveOnExitText.setPosition(20, -80);
-	saveOnExitText.setString("Save on exit: " + boolToString(saveOnExit) + "\n(will overwrite!)");
+	saveOnExitText.setString("Save on exit: " + boolToString(saveOnExit));
 }
 
 void GameState_Play::oneTimeUpdate(){
@@ -153,7 +153,7 @@ void GameState_Play::getInput(){
 					saveOnExit = true;
 				}
 
-				saveOnExitText.setString("Save on exit: " + boolToString(saveOnExit) + "\n(will overwrite!)" );
+				saveOnExitText.setString("Save on exit: " + boolToString(saveOnExit));
 
 				break;
 

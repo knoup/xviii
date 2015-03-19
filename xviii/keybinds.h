@@ -22,7 +22,19 @@ const sf::Keyboard::Key EAST_KEY = sf::Keyboard::Right;
 const sf::Keyboard::Key SOUTH_KEY = sf::Keyboard::Down;
 const sf::Keyboard::Key WEST_KEY = sf::Keyboard::Left;
 
-const sf::Keyboard::Key NEW_GAME = sf::Keyboard::N;
-const sf::Keyboard::Key LOAD_GAME = sf::Keyboard::L;
+const sf::Keyboard::Key CONFIRM_KEY = sf::Keyboard::Return;
+
+const sf::Keyboard::Key UP_ARROW = sf::Keyboard::Up;
+const sf::Keyboard::Key DOWN_ARROW = sf::Keyboard::Down;
 
 const sf::Keyboard::Key TOGGLE_SAVE = sf::Keyboard::Z;
+
+const sf::Keyboard::Key ONE_KEY = sf::Keyboard::Num1;
+const sf::Keyboard::Key TWO_KEY = sf::Keyboard::Num2;
+const sf::Keyboard::Key THREE_KEY = sf::Keyboard::Num3;
+const sf::Keyboard::Key FOUR_KEY = sf::Keyboard::Num4;
+const sf::Keyboard::Key FIVE_KEY = sf::Keyboard::Num5;
+const sf::Keyboard::Key SIX_KEY = sf::Keyboard::Num6;
+const sf::Keyboard::Key SEVEN_KEY = sf::Keyboard::Num7;
+const sf::Keyboard::Key EIGHT_KEY = sf::Keyboard::Num8;
+const sf::Keyboard::Key NINE_KEY = sf::Keyboard::Num9;
