@@ -15,8 +15,10 @@ GameState{game}
 
 	boost::filesystem::directory_iterator end;
 
-	for (boost::filesystem::directory_iterator it("save"); it != end; ++it){
-		menuList.push_back({it->path(), Action::LOAD});
+	if (boost::filesystem::exists("save")){
+		for (boost::filesystem::directory_iterator it("save"); it != end; ++it){
+			menuList.push_back({it->path(), Action::LOAD});
+		}
 	}
 
 	for (int i{0}; i < menuList.size(); ++i){
