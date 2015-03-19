@@ -15,7 +15,8 @@ class SaveGame
 {
 public:
 	SaveGame(Game* _game);
-	void create();
+	//returns true on success
+	bool create();
 	void parse(boost::filesystem::path _dir);
 
 private:

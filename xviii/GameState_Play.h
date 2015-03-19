@@ -59,9 +59,10 @@ public:
 	virtual void update();
 	virtual void draw();
 private:
-	UnitTile* selected;
+	//Sets saveText to either say that the user has saved or not
+	void saveTextString(bool _value);
 
-	bool saveOnExit;
+	UnitTile* selected;
 
 	//UI stuff
 
@@ -75,7 +76,7 @@ private:
 
 	sf::Text currentMessageText;
 
-	sf::Text saveOnExitText;
+	sf::Text saveText;
 
 	std::string currentMessage;
 };

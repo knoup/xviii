@@ -12,8 +12,7 @@ std::string boolToString(bool _value){
 
 GameState_Play::GameState_Play(Game* _game) : 
 GameState{_game},
-selected{nullptr},
-saveOnExit{true}
+selected{nullptr}
 {
 	nextTurnButton.sprite = game->mTextureManager.getSprite(TextureManager::UI::BUTTON);
 	nextTurnButton.sprite.setOrigin(nextTurnButton.sprite.getLocalBounds().width / 2, nextTurnButton.sprite.getLocalBounds().height / 2);
@@ -54,10 +53,10 @@ saveOnExit{true}
 	currentPlayerText.setString(game->currentPlayer->getName());
 	elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
 
-	saveOnExitText.setFont(game->mFontManager.getFont(FontManager::Type::Arial));
-	saveOnExitText.setCharacterSize(20);
-	saveOnExitText.setPosition(20, -80);
-	saveOnExitText.setString("Save on exit: " + boolToString(saveOnExit));
+	saveText.setFont(game->mFontManager.getFont(FontManager::Type::Arial));
+	saveText.setCharacterSize(20);
+	saveText.setPosition(20, -80);
+	saveTextString(false);
 }
 
 void GameState_Play::oneTimeUpdate(){
@@ -78,9 +77,6 @@ void GameState_Play::getInput(){
 			break;
 
 		case sf::Event::Closed:
-			if (saveOnExit){
-				game->saveCreator.create();
-			}
 			game->mWindow.close();
 			break;
 
@@ -124,37 +120,35 @@ void GameState_Play::getInput(){
 			case NORTH_KEY:
 				if (selected != nullptr){
 					currentMessage = selected->rotate(UnitTile::Direction::N);
+					saveTextString(false);
 				}
 				break;
 
 			case EAST_KEY:
 				if (selected != nullptr){
 					currentMessage = selected->rotate(UnitTile::Direction::E);
+					saveTextString(false);
 				}
 				break;
 
 			case SOUTH_KEY:
 				if (selected != nullptr){
 					currentMessage = selected->rotate(UnitTile::Direction::S);
+					saveTextString(false);
 				}
 				break;
 
 			case WEST_KEY:
 				if (selected != nullptr){
 					currentMessage = selected->rotate(UnitTile::Direction::W);
+					saveTextString(false);
 				}
 				break;
 
 			case TOGGLE_SAVE:
-				if (saveOnExit){
-					saveOnExit = false;
+				if (game->saveCreator.create()){
+					saveTextString(true);
 				}
-				else if (!saveOnExit){
-					saveOnExit = true;
-				}
-
-				saveOnExitText.setString("Save on exit: " + boolToString(saveOnExit));
-
 				break;
 
 			}
@@ -206,11 +200,13 @@ void GameState_Play::getInput(){
 						//If vacant, move to the tile
 						if (!occupied){
 							currentMessage = selected->moveTo(terrain);
+							saveTextString(false);
 						}
 
 						//If the tile is occupied by an enemy unit, attack
 						if (occupied && !friendly){
 							currentMessage = selected->attack(unit);
+							saveTextString(false);
 
 							selected->modVector.clear();
 							unit->modVector.clear();
@@ -227,6 +223,7 @@ void GameState_Play::getInput(){
 						}
 						else if (occupied && friendly){
 							currentMessage = selected->interactWithFriendly(unit);
+							saveTextString(false);
 							//specially for the general's heal ability
 						}
 					}
@@ -266,6 +263,15 @@ void GameState_Play::getInput(){
 	}
 }
 
+void GameState_Play::saveTextString(bool _value){
+	if (_value){
+		saveText.setString("Saved!");
+	}
+	else{
+		saveText.setString("Not saved");
+	}
+}
+
 void GameState_Play::update(){
 
 	currentMessageText.setString(currentMessage);
@@ -281,6 +287,7 @@ void GameState_Play::update(){
 		game->nextPlayer();
 		game->elapsedTurns += 1;
 
+		saveTextString(false);
 		currentPlayerText.setString(game->currentPlayer->getName());
 		elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
 	}
@@ -373,7 +380,7 @@ void GameState_Play::draw(){
 	game->mWindow.draw(game->uiSprite);
 	game->mWindow.draw(currentPlayerText);
 	game->mWindow.draw(elapsedTurnsText);
-	game->mWindow.draw(saveOnExitText);
+	game->mWindow.draw(saveText);
 
 	if (!currentMessage.empty()){
 		game->mWindow.draw(currentMessageText);

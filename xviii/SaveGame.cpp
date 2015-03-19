@@ -60,7 +60,7 @@ game{_game}
 {
 }
 
-void SaveGame::create(){
+bool SaveGame::create(){
 	if (!boost::filesystem::exists("save")){
 		boost::filesystem::create_directory("save");
 	}
@@ -112,6 +112,7 @@ void SaveGame::create(){
 	}
 
 	save.close();
+	return true;
 
 }
 
