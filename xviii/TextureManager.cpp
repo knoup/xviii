@@ -4,8 +4,8 @@
 
 TextureManager::TextureManager() :
 textureSet{nullptr},
-size{54, 54}, //Current: 54,54; Old: 36,36
-counterSize{54, 34} //Current: 54,34; Old: 36,22
+size{54, 54}, //Current: 54,54
+counterSize{54, 34} //Current: 54,34
 {
 	textureSet = std::move(texturePtr(new sf::Texture()));
 	textureSet->loadFromFile("assets/gfx/spriteset.png");

@@ -1,13 +1,6 @@
 #include "stdafx.h"
 #include "GameState_Menu.h"
 
-void GameState_Menu::clearHighlighting(){
-	//Reset all the others to grey
-	for (auto& object : menuList){
-		object.text.setColor(sf::Color(80, 80, 80));
-	}
-}
-
 GameState_Menu::GameState_Menu(Game* game) :
 GameState{game}
 {
@@ -34,8 +27,7 @@ GameState{game}
 	}
 
 	//Set selected to the first item in menuList, which will always be "New Game"
-	menuIterator.first = menuList.begin();
-	menuIterator.second = true;
+	menuIterator = menuList.begin();
 }
 
 void GameState_Menu::getInput(){
@@ -50,13 +42,13 @@ void GameState_Menu::getInput(){
 
 		case sf::Event::KeyPressed:
 			if (event.key.code == CONFIRM_KEY){
-				switch (menuIterator.first->action){
+				switch (menuIterator->action){
 					case Action::NEW:
 						game->setGameStateSetup();
 						break;
 
 					case Action::LOAD:
-						game->saveCreator.parse(menuIterator.first->path);
+						game->saveCreator.parse(menuIterator->path);
 						game->setGameStatePlay();
 						break;
 				}
@@ -67,24 +59,23 @@ void GameState_Menu::getInput(){
 			//(after the end of the vector); --menuList.end() rather points to the last element
 
 			else if ((event.key.code == UP_ARROW || event.key.code == DOWN_ARROW) && menuList.size() > 1){
+
+				clearHighlighting();
+
 				if (event.key.code == UP_ARROW){
-					if (menuIterator.first == menuList.begin()){
-						clearHighlighting();
-						menuIterator.first = --menuList.end();
+					if (menuIterator == menuList.begin()){
+						menuIterator = --menuList.end();
 					}
 					else{
-						menuIterator.second = false;
-						iterate();
+						--menuIterator;
 					}
 				}
 				else if (event.key.code == DOWN_ARROW){
-					if (menuIterator.first == --menuList.end()){
-						clearHighlighting();
-						menuIterator.first = menuList.begin();
+					if (menuIterator == --menuList.end()){
+						menuIterator = menuList.begin();
 					}
 					else{
-						menuIterator.second = true;
-						iterate();
+						++menuIterator;
 					}
 				}
 			}
@@ -94,8 +85,15 @@ void GameState_Menu::getInput(){
 }
 
 void GameState_Menu::update(){
-	if (menuIterator.first->text.getColor() != sf::Color::White){
-		menuIterator.first->text.setColor(sf::Color::White);
+	if (menuIterator->text.getColor() != sf::Color::White){
+		menuIterator->text.setColor(sf::Color::White);
+	}
+}
+
+void GameState_Menu::clearHighlighting(){
+	//Reset all the others to grey
+	for (auto& object : menuList){
+		object.text.setColor(sf::Color(80, 80, 80));
 	}
 }
 
@@ -104,16 +102,5 @@ void GameState_Menu::draw(){
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);
-	}
-}
-
-void GameState_Menu::iterate(){
-	clearHighlighting();
-
-	if (menuIterator.second == true){
-		++menuIterator.first;
-	}
-	else if (menuIterator.second == false){
-		--menuIterator.first;
 	}
 }

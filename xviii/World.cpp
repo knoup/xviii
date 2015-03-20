@@ -226,23 +226,8 @@ const std::vector<UnitTile::unitPtr>& World::getCombatLayer() const{
 
 void World::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 
-	/*
-	NOTE	
-	I have to use the old version personally because of my dying GPU, which seems to have trouble with the
-	more efficient one. Be sure to use the new one yourself
-	*/
-
-	//Old drawing function for terrain
-
-	//for (auto& tile : terrainLayer){
-	//tile->draw(target, states);
-	//}
-
-	//Newer, more efficient version:
-		
     target.draw(mVertices,&mTexture);
 	
-
 	for (auto& unit : unitLayer){
 		unit->draw(target, states);
 	}

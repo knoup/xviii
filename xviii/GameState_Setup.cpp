@@ -5,25 +5,24 @@
 GameState_Setup::GameState_Setup(Game* _game) :
 GameState{_game},
 selected{nullptr}
-
 {
 	numbRemaining.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	numbRemaining.setCharacterSize(70);
 	numbRemaining.setColor(sf::Color::Green);
-	numbRemaining.setPosition(70,-170);
+	numbRemaining.setPosition(145,-170);
 
-	numbRemaining.setString(std::to_string(game->currentPlayer->getDeploymentPoints()));
+	currentPlayerText.setString(game->currentPlayer->getName());
 
 	currentPlayerText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	currentPlayerText.setColor(sf::Color::Yellow);
 	currentPlayerText.setPosition(1160, -170);
 
 	deploymentPointsRemaining.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	deploymentPointsRemaining.setCharacterSize(17);
+	deploymentPointsRemaining.setCharacterSize(19);
 	deploymentPointsRemaining.setColor(sf::Color::White);
-	deploymentPointsRemaining.setPosition(15, -80);
+	deploymentPointsRemaining.setPosition(60, -80);
 
-	deploymentPointsRemaining.setString("deployment points left");
+	deploymentPointsRemaining.setString("deployment points remain");
 
 	Menu INF(UnitTile::UnitType::INF);
 	INF.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
@@ -230,6 +229,11 @@ void GameState_Setup::getInput(){
 
 		switch (event.type){
 
+		case sf::Event::MouseMoved:
+			game->mousePos.x = event.mouseMove.x;
+			game->mousePos.y = event.mouseMove.y;
+			break;
+
 		case sf::Event::Resized:
 			game->Player1.view.setSize(event.size.width, event.size.height);
 			game->Player2.view.setSize(event.size.width, event.size.height);
@@ -315,10 +319,6 @@ void GameState_Setup::getInput(){
 
 			}
 
-
-		case sf::Event::MouseMoved:
-			game->mousePos.x = event.mouseMove.x;
-			game->mousePos.y = event.mouseMove.y;
 			break;
 
 		case sf::Event::Closed:
@@ -357,6 +357,10 @@ void GameState_Setup::getInput(){
 				game->currentView->setSize(game->currentView->getSize().x + game->mWindow.getSize().x / 10, game->currentView->getSize().y + game->mWindow.getSize().y / 10);
                 break;
 
+			/*
+
+			Disabled for now while new units are being added; this needs to be made more elegant anyway
+
             case SPAWNINF_KEY:
 				selected = nullptr;
 				delete selected;
@@ -387,6 +391,8 @@ void GameState_Setup::getInput(){
                 selected = new Menu(MenuItems[4]);
                 break;
 
+			*/
+
 			default:
 				break;
 			}
@@ -412,10 +418,6 @@ void GameState_Setup::update(){
 
 	numbRemaining.setString(std::to_string(game->currentPlayer->getDeploymentPoints()));
 
-	//
-	currentPlayerText.setString(game->currentPlayer->getName());
-
-	//
 	if (game->currentPlayer->isReady()){
 		if (game->currentPlayer == &game->Player1){
 			game->nextPlayer();
@@ -424,6 +426,9 @@ void GameState_Setup::update(){
 			game->nextPlayer();
 			game->setGameStatePlay();
 		}
+
+		currentPlayerText.setString(game->currentPlayer->getName());
+
 	}
 
 	//Changes the color of the number depending on how many points you have
@@ -436,7 +441,6 @@ void GameState_Setup::update(){
 	else{
 		numbRemaining.setColor(sf::Color::Red);
 	}
-
 
 	sf::Vector2f worldCoords{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
 
@@ -456,15 +460,6 @@ void GameState_Setup::update(){
 	else{
 		readyButton.highlighted = false;
 	}
-
-	
-
-/*
-        std::cout << worldCoords.x;
-        std::cout << ", " << worldCoords.y;
-        std::cout << std::endl;
-*/
-
 }
 
 void GameState_Setup::draw(){
@@ -490,7 +485,6 @@ void GameState_Setup::draw(){
 	//	game->mWindow.draw(shortcut);
 	//}
 
-	//
 	game->mWindow.setView(*game->currentView);
 	if (selected != nullptr){
 		game->mWindow.draw(selected->unitSprite);

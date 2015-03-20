@@ -28,7 +28,7 @@ class Player
 		//Returns true if succesfully removed unit
 		bool removeUnit(sf::Vector2i _worldCoords);
 
-        World& getWorld() const;
+        const World& getWorld() const;
 		int getDeploymentPoints() const;
 		std::string getName() const;
 
@@ -38,7 +38,6 @@ class Player
 		//Public because there is no real reason to make it private; it needs to be
 		//constantly modified...
 		sf::View view;
-
 		
 		//We need to define an overloaded == function in order to use this with
 		//std::vector.find()

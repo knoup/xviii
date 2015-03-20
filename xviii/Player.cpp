@@ -24,27 +24,23 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 	auto terrain = world.terrainAtMouseCoords(_worldCoords);
 	auto cartesianCoords = world.cartesianCoordsAtIndex(world.indexAtTile(*terrain));
 
+	UnitTile::unitPtr ptr;
+	UnitTile::Direction dir;
+
 	if (nation == Player::Nation::AUS){
 		//Because coordinates start at [0,0], in order for Austria to have the same length of spawning
 		//as Prussia does, we need to subtract 1
 		if (cartesianCoords.y <= (world.getDimensions().y - (world.getDimensions().y/8)) - 1){
 			return false;
 		}
+
+		dir = UnitTile::Direction::N;
 	}
 	else if (nation == Player::Nation::PRU){
 		if (cartesianCoords.y >= (world.getDimensions().y / 8)){
 			return false;
 		}
-	}
 
-
-	UnitTile::unitPtr ptr;
-	UnitTile::Direction dir;
-
-	if (_worldCoords.y >= world.getDimensionsInPixels().y / 2){
-		dir = UnitTile::Direction::N;
-	}
-	else{
 		dir = UnitTile::Direction::S;
 	}
 
@@ -182,7 +178,7 @@ bool Player::removeUnit(sf::Vector2i _worldCoords){
 	return false;
 }
 
-World& Player::getWorld() const{
+const World& Player::getWorld() const{
     return world;
 }
 

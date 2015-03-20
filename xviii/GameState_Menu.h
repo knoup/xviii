@@ -30,17 +30,13 @@ private:
 
 	std::vector<saveObject> menuList;
 	
-	/*menuIterator is a pair containining an iterator and a boolean;
-		The iterator will serve as a pointer to the currently selected option, that can
-		 be incremented and decremented to move around the vector
+	
+	//menuIterator will serve as an easy way to access the pointer to
+	// the currently selected option that can be incremented and
+	//decremented to move around the vector
 
-		 The boolean will serve as an indicator of what direction to iterate in. True
-		 means that menuIterator is to be incremented (i.e. moving forward in menuList),
-		 and false indicates menuIterator is to be decremented (i.e. moving backwards in menuList)
-		*/
-	std::pair<std::vector<saveObject>::iterator, bool > menuIterator;
+	std::vector<saveObject>::iterator menuIterator;
 
 	void clearHighlighting();
-	void iterate();
 };
 

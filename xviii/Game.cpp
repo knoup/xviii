@@ -37,7 +37,7 @@ saveCreator{this}
 	uiView.setViewport(sf::FloatRect(0, 0.8f, 1, 0.2f));
 	uiSprite.setPosition(0, -174);
 
-	//FPS independent logic is not that crucial in a game without physics
+	//FPS independent logic is not that crucial in a game without physics, but I should probably get around to it eventually anyway
 	mWindow.setFramerateLimit(120);
 	
 	MenuState = new GameState_Menu(this);
