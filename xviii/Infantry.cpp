@@ -49,7 +49,8 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 		mov -= movExpended;
 		sprite.setPosition(terrainTile->getPos());
 		unitFlag.setPosition(terrainTile->getPos());
-		rekt.setPosition(terrainTile->getPos());
+		yellowOutline.setPosition(terrainTile->getPos());
+		redOutline.setPosition(terrainTile->getPos());
 		updateStats();
 		return "Successfully moved to (" + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1) + ")";
 	}

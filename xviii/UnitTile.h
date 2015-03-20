@@ -190,8 +190,10 @@ protected:
 	float hp;
 	int mov;
 
-	//For outlining
-	sf::RectangleShape rekt;
+	//For (yellow) outlining
+	sf::RectangleShape yellowOutline;
+	//For (red) outlining
+	sf::RectangleShape redOutline;
 
 	//The visual representations of the stats
     sf::Text dirText;

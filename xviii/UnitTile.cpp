@@ -148,18 +148,25 @@ at{nullptr}
     hpText.setColor(sf::Color::Red);
     movText.setColor(sf::Color::Black);
 
-	rekt.setPosition(sprite.getPosition().x, sprite.getPosition().y);
-	rekt.setSize(sf::Vector2f(tm.getSize().x, tm.getSize().y));
-	rekt.setOutlineColor(sf::Color::Yellow);
-	rekt.setOutlineThickness(-1);
-	rekt.setFillColor(sf::Color::Transparent);
+	yellowOutline.setPosition(sprite.getPosition().x, sprite.getPosition().y);
+	yellowOutline.setSize(sf::Vector2f(tm.getSize().x, tm.getSize().y));
+	yellowOutline.setOutlineColor(sf::Color::Yellow);
+	yellowOutline.setOutlineThickness(-1);
+	yellowOutline.setFillColor(sf::Color::Transparent);
+
+	redOutline.setPosition(sprite.getPosition().x, sprite.getPosition().y);
+	redOutline.setSize(sf::Vector2f(tm.getSize().x, tm.getSize().y));
+	redOutline.setOutlineColor(sf::Color::Red);
+	redOutline.setOutlineThickness(-1);
+	redOutline.setFillColor(sf::Color::Transparent);
 }
 
 void UnitTile::spawn(TerrainTile* terrainTile){
 	at = terrainTile;
 	sprite.setPosition(terrainTile->getPos());
 	unitFlag.setPosition(terrainTile->getPos());
-	rekt.setPosition(terrainTile->getPos());
+	yellowOutline.setPosition(terrainTile->getPos());
+	redOutline.setPosition(terrainTile->getPos());
 	updateStats();
 }
 
@@ -189,7 +196,8 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 		mov -= movExpended;
 		sprite.setPosition(_terrainTile->getPos());
 		unitFlag.setPosition(_terrainTile->getPos());
-		rekt.setPosition(_terrainTile->getPos());
+		yellowOutline.setPosition(_terrainTile->getPos());
+		redOutline.setPosition(_terrainTile->getPos());
 		updateStats();
 		return "Successfully moved to (" + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1) + ")";
 	}
@@ -426,8 +434,12 @@ void UnitTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	target.draw(hpText);
 	target.draw(movText);
 
+	if (hasAttacked){
+		target.draw(redOutline);
+	}
+
 	if (highlighted){
-		target.draw(rekt);
+		target.draw(yellowOutline);
 	}
 }
 

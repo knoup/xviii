@@ -12,7 +12,6 @@ public:
 	virtual ~Tile() = 0;
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
 
-	void setHighlightColor(sf::Color _color);
 	void setHighlighted(bool _value);
 
 	int top() const;
