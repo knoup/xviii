@@ -20,7 +20,9 @@ General
 		
 *INF can either MOVE, PARTIALLY ROTATE, or FULLY ROTATE in addition to attacking.
 	
-*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving/attacking	
+*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving/attacking
+
+*However, unless otherwise stated, units may not ROTATE or MOVE at all AFTER attacking.
 	
 	
 *d stands for [6-sided] dice; a roll of 4 with modifiers of 0.5d and 1d will 
