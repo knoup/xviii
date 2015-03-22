@@ -274,6 +274,10 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	int dist{distanceFrom(unit->at, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange)};
 
+	if (hasAttacked){
+		return{"Cannot attack any more"};
+	}
+
 	if (obstructionPresent){
 		return{"Invalid attack order: line of sight not clear"};
 	}
@@ -285,10 +289,6 @@ std::string UnitTile::attack(UnitTile* unit){
 	if (dist > 1 && dist > getMaxRange()){
 		std::string result{"Out of max range (" + std::to_string(getMaxRange()) + ")"};
 		return result;
-	}
-	
-	if (hasAttacked){
-		return{"Cannot attack any more"};
 	}
 
 	UnitTile::Modifier flank{Modifier::FRONT_FLANK};
@@ -305,6 +305,10 @@ std::string UnitTile::attack(UnitTile* unit){
 	}
 	else{
 		flank = Modifier::SIDE_FLANK;
+	}
+
+	if (!canRotateAfterAttack){
+		hasRotated = true;
 	}
 
 	//Double dispatch, hence the reverse order

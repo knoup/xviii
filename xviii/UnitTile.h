@@ -204,6 +204,7 @@ protected:
 	bool hasRotated{false};
 	bool hasAttacked{false};
 
+	bool canRotateAfterAttack{false};
 	bool waterCrosser{false};
 };
 
