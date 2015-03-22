@@ -1,7 +1,4 @@
-Uses <a href="http://sfml-dev.org/">SFML 2.1</a>.  Any units not mentioned in the rules are not fully implemented/ready yet. This is my first real project, hence the generally amateurish code. Inspired by the ideas of a friend.
-
-
-Mechanics Guide
+Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and <a href="http://www.boost.org/">Boost's</a> filesystem module.  Any units not mentioned in the rules are not fully implemented/ready yet. This is my first real project, hence the generally amateurish code. Inspired by the ideas of a friend.
 
 General
 -------
@@ -23,7 +20,9 @@ General
 		
 *INF can either MOVE, PARTIALLY ROTATE, or FULLY ROTATE in addition to attacking.
 	
-*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving/attacking	
+*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving/attacking
+
+*However, unless otherwise stated, units may not ROTATE or MOVE at all AFTER attacking.
 	
 	
 *d stands for [6-sided] dice; a roll of 4 with modifiers of 0.5d and 1d will 
@@ -211,7 +210,8 @@ not deployment cost.
 
 During the playing phase, players successively command their units by clicking 
 on the desired unit and giving it movement/attack/rotation orders while
-selected (see below). The currently selected unit is outlined in yellow.
+selected (see below). The currently selected unit is outlined in yellow, while 
+units that have already attacked this turn are outlined in red.
 
 Line of Sight
 --------------
@@ -228,26 +228,19 @@ Keyboard shortcuts & mouse commands
 
 ---Menu Phase---
 
-	N - Start new game  
-	L - Load save game (if any is available)  
+	W/Up/S/Down keys & Return
 	
-Note that at the moment only one save is possible; saving will overwrite your last save, so be careful. A premade save file is provided for those who just want to dive in without bothering to set up.
+Two premade save files are provided for those who just want to dive in without bothering to set up.
 
 ---Setup & Playing Phases---
 
 	R - reset zoom level  
-	WSAD - move view  
+	WASD - move view  
 	dash - zoom out  
 	equal - zoom in  
 	Mouse wheel - zoom out/in  
 
----Setup Phase--
-
-	T - spawn infantry  
-	Y - spawn cavalry  
-	U - spawn general  
-	F - spawn artillery  
-	G - spawn mortar  
+---Setup Phase---  
 	
 	LMB - place unit on tile  
 	RMB - deselect currently selected sprite, or delete unit at tile  
@@ -259,4 +252,4 @@ Note that at the moment only one save is possible; saving will overwrite your la
 
 	Up/down/left/right - rotate a unit North, South, East, and West respectively
 
-	Z - toggle save on exit (will overwrite other save if present!)
+	Z - save
