@@ -2,10 +2,11 @@
 #include "GameState_Menu.h"
 
 GameState_Menu::GameState_Menu(Game* game) :
-GameState{game}
+GameState{game},
+menuSelectView{sf::FloatRect({}, {},game->mWindow.getSize().x, game->mWindow.getSize().y)}
 {
 	menuList.push_back({{"New Game"}, Action::NEW});
-
+	
 	boost::filesystem::directory_iterator end;
 
 	if (boost::filesystem::exists("save")){
@@ -20,12 +21,10 @@ GameState{game}
 		menuList[i].text.setColor(sf::Color(80, 80, 80));
 
 		int textXPos = game->mWindow.getSize().x / 2;
-		int textYPos = (i * 50) + 200;
-
+		int textYPos = (i * 50);
 
 		menuList[i].text.setPosition(textXPos, textYPos);
 	}
-
 	//Set selected to the first item in menuList, which will always be "New Game"
 	menuIterator = menuList.begin();
 }
@@ -80,6 +79,20 @@ void GameState_Menu::getInput(){
 				}
 			}
 
+			else if (event.key.code == DELETE_KEY && menuIterator->action != Action::NEW){
+				boost::filesystem::remove(menuIterator->path);
+				menuList.erase(menuIterator);
+				menuIterator = menuList.begin();
+
+				for (int i{0}; i < menuList.size(); ++i){
+					int textXPos = game->mWindow.getSize().x / 2;
+					int textYPos = (i * 50);
+
+
+					menuList[i].text.setPosition(textXPos, textYPos);
+				}
+			}
+
 		}
 	}
 }
@@ -88,6 +101,8 @@ void GameState_Menu::update(){
 	if (menuIterator->text.getColor() != sf::Color::White){
 		menuIterator->text.setColor(sf::Color::White);
 	}
+
+	menuSelectView.setCenter(menuSelectView.getCenter().x, menuIterator->text.getPosition().y);
 }
 
 void GameState_Menu::clearHighlighting(){
@@ -99,6 +114,8 @@ void GameState_Menu::clearHighlighting(){
 
 void GameState_Menu::draw(){
 	game->mWindow.clear(sf::Color::Black);
+
+	game->mWindow.setView(menuSelectView);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);

@@ -54,8 +54,36 @@ UnitTile::Direction stringToDir(std::string _dir){
 	}
 }
 
+/*
+std::string toRomanNumerals(int n){
+	std::string result;
 
-SaveGame::SaveGame(Game* _game) : 
+	std::vector<std::pair<int, std::string>> romanNumerals;
+
+	romanNumerals.push_back(std::make_pair(100, "C"));
+	romanNumerals.push_back(std::make_pair(90, "XC"));
+	romanNumerals.push_back(std::make_pair(50, "L"));
+	romanNumerals.push_back(std::make_pair(40, "XL"));
+	romanNumerals.push_back(std::make_pair(10, "X"));
+	romanNumerals.push_back(std::make_pair(9, "IX"));
+	romanNumerals.push_back(std::make_pair(5, "V"));
+	romanNumerals.push_back(std::make_pair(4, "IV"));
+	romanNumerals.push_back(std::make_pair(1, "I"));
+	romanNumerals.push_back(std::make_pair(0, ""));
+
+	for (std::vector<std::pair<int, std::string>>::iterator it{romanNumerals.begin()}; it->first > 0; ++it){
+		while (n >= it->first){
+			result += it->second;
+			n -= it->first;
+		}
+	}
+
+	return result;
+
+}*/
+
+
+SaveGame::SaveGame(Game* _game) :
 game{_game}
 {
 }
@@ -68,18 +96,33 @@ bool SaveGame::create(){
 	std::string saveName{"turn_" + std::to_string(game->elapsedTurns)};
 
 	//Check if a file with the same name exists
-	
-	boost::filesystem::directory_iterator end;
 
-	for (boost::filesystem::directory_iterator it("save"); it != end; ++it){
-		if (it->path().filename() == saveName){
+	boost::filesystem::recursive_directory_iterator end;
+
+	for (boost::filesystem::recursive_directory_iterator it("save"); it != end; ++it){
+		if (it->path().filename().leaf().stem() == saveName){
 			saveName += "i";
 		}
 	}
 
+	/*
+	I cannot figure out why the following does not work. After several few successful iterations,
+	index tends to get stuck at around 9. I have a feeling it's related to the order. Nonetheless,
+	until I can figure it out, I will do it the old fashioned way.
+
+	int index{0};
+
+	for (boost::filesystem::recursive_directory_iterator it("save"); it != end; ++it){
+		if (it->path().filename() == saveName + toRomanNumerals(index) ){
+			++index;
+		}
+	}
+
+	saveName += toRomanNumerals(index);	*/
+
 	boost::filesystem::ofstream save;
 
-	save.open("save\\" + saveName);
+	save.open("save\\" + saveName + ".dat");
 
 	save << "turn=" << game->elapsedTurns << std::endl;
 	save << "player=" << game->currentPlayer->getName() << std::endl;
@@ -118,7 +161,7 @@ bool SaveGame::create(){
 
 
 /*
-TODO	
+TODO
 Make formatting less rigid so that e.g. a space doesn't break everything
 */
 void SaveGame::parse(boost::filesystem::path _dir){
