@@ -3,7 +3,7 @@
 #include "GameState.h"
 
 //#include <iostream>
-#include "keybinds.h"
+#include "global.h"
 
 class GameState_Setup : public GameState
 {

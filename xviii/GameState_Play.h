@@ -1,6 +1,6 @@
 #pragma once
 #include "GameState.h"
-#include "keybinds.h"
+#include "global.h"
 
 class GameState_Play : public GameState
 {

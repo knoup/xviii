@@ -1,22 +1,41 @@
 #include "stdafx.h"
 #include "Player.h"
 
+static const sf::View bottomView{sf::View{sf::FloatRect(1183, 4800, xResolution, yResolution)}};
+static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yResolution)}};
 
-Player::Player(World& _world, Nation _nation, sf::Color _colour, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, sf::View _view, std::string _name) :
+Player::Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom) :
 world{_world},
 nation{_nation},
-nationColour{_colour},
-name{_name},
 mt19937{_mt19937},
 tm{_tm},
 fm{_fm},
-view{_view},
 deploymentPoints{30},
-ready{false}
+ready{false},
+spawnedAtBottom{_spawnedAtBottom}
 {
 	//Putting this in the initialisation list causes a crash for whatever reason, so 
 	//I've moved it down here
 	playerFlag = nationToSprite(nation);
+
+	switch (nation){
+	case Nation::AUS:
+		name = "Austria";
+		nationColour = sf::Color::Yellow;
+		break;
+
+	case Nation::PRU:
+		name = "Prussia";
+		nationColour = sf::Color::White;
+		break;
+	}
+
+	if (spawnedAtBottom){
+		view = bottomView;
+	}
+	else{
+		view = topView;
+	}
 }
 
 bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
@@ -27,16 +46,16 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 	UnitTile::unitPtr ptr;
 	UnitTile::Direction dir;
 
-	if (nation == Player::Nation::AUS){
-		//Because coordinates start at [0,0], in order for Austria to have the same length of spawning
-		//as Prussia does, we need to subtract 1
+	if (spawnedAtBottom){
+		//Because coordinates start at [0,0], in order for the bottom spawner to have the same length of spawning
+		//as the top spawner does, we need to subtract 1
 		if (cartesianCoords.y <= (world.getDimensions().y - (world.getDimensions().y/8)) - 1){
 			return false;
 		}
 
 		dir = UnitTile::Direction::N;
 	}
-	else if (nation == Player::Nation::PRU){
+	else{
 		if (cartesianCoords.y >= (world.getDimensions().y / 8)){
 			return false;
 		}
@@ -189,6 +208,14 @@ int Player::getDeploymentPoints() const{
 
 std::string Player::getName() const{
 	return name;
+}
+
+sf::Color Player::getColour() const{
+	return nationColour;
+}
+
+Player::Nation Player::getNation() const{
+	return nation;
 }
 
 bool Player::isReady() const{

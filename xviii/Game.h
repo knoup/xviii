@@ -10,6 +10,7 @@
 
 class GameState;
 class GameState_Setup;
+class GameState_SelectNations;
 class GameState_Play;
 class GameState_Menu;
 class UnitTile;
@@ -25,7 +26,7 @@ public:
 	void update();
 	void draw();
 
-
+	void setGameStateSelectNations();
 	void setGameStateSetup();
 	void setGameStatePlay();
 
@@ -38,6 +39,7 @@ public:
 	sf::RenderWindow mWindow;
 
 	GameState* state;
+	GameState_SelectNations* SelectNationsState;
 	GameState_Menu* MenuState;
 	GameState_Setup* SetupState;
 	GameState_Play* PlayState;
@@ -47,8 +49,8 @@ public:
 
 	World mWorld;
 	
-	Player Player1;
-	Player Player2;
+	Player* Player1;
+	Player* Player2;
 
 	Player* currentPlayer;
 	sf::View* currentView;

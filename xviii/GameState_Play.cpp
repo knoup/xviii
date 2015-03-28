@@ -50,7 +50,7 @@ selected{nullptr}
 	currentMessageText.setCharacterSize(22);
 	currentMessageText.setPosition(310, -150);
 
-	currentPlayerText.setString(game->currentPlayer->getName());
+
 	elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
 
 	saveText.setFont(game->mFontManager.getFont(FontManager::Type::Arial));
@@ -61,6 +61,7 @@ selected{nullptr}
 
 void GameState_Play::oneTimeUpdate(){
 	currentPlayerText.setString(game->currentPlayer->getName());
+	currentPlayerText.setColor(game->currentPlayer->getColour());
 	elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
 }
 
@@ -71,8 +72,8 @@ void GameState_Play::getInput(){
 		switch (event.type){
 
 		case sf::Event::Resized:
-			game->Player1.view.setSize(event.size.width, event.size.height);
-			game->Player2.view.setSize(event.size.width, event.size.height);
+			game->Player1->view.setSize(event.size.width, event.size.height);
+			game->Player2->view.setSize(event.size.width, event.size.height);
 
 			break;
 
@@ -106,15 +107,15 @@ void GameState_Play::getInput(){
 				break;
 
 			case RESETZOOM_KEY:
-				game->currentView->setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+				game->currentView->setSize(xResolution, yResolution);
 				break;
 
 			case ZOOMIN_KEY:
-				game->currentView->setSize(game->currentView->getSize().x - game->mWindow.getSize().x / 10, game->currentView->getSize().y - game->mWindow.getSize().y / 10);
+				game->currentView->setSize(game->currentView->getSize().x - xResolution / 10, game->currentView->getSize().y - yResolution / 10);
 				break;
 
 			case ZOOMOUT_KEY:
-				game->currentView->setSize(game->currentView->getSize().x + game->mWindow.getSize().x / 10, game->currentView->getSize().y + game->mWindow.getSize().y / 10);
+				game->currentView->setSize(game->currentView->getSize().x + xResolution / 10, game->currentView->getSize().y + yResolution / 10);
 				break;
 
 			case NORTH_KEY:
@@ -157,10 +158,10 @@ void GameState_Play::getInput(){
 
 		case sf::Event::MouseWheelMoved:
 			if (event.mouseWheel.delta > 0){
-				game->currentView->setSize(game->currentView->getSize().x - game->mWindow.getSize().x / 12, game->currentView->getSize().y - game->mWindow.getSize().y / 12);
+				game->currentView->setSize(game->currentView->getSize().x - xResolution / 12, game->currentView->getSize().y - yResolution / 12);
 			}
 			else if (event.mouseWheel.delta < 0){
-				game->currentView->setSize(game->currentView->getSize().x + game->mWindow.getSize().x / 12, game->currentView->getSize().y + game->mWindow.getSize().y / 12);
+				game->currentView->setSize(game->currentView->getSize().x + xResolution / 12, game->currentView->getSize().y + yResolution / 12);
 			}
 
 			break;
@@ -289,6 +290,7 @@ void GameState_Play::update(){
 
 		saveTextString(false);
 		currentPlayerText.setString(game->currentPlayer->getName());
+		currentPlayerText.setColor(game->currentPlayer->getColour());
 		elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
 	}
 

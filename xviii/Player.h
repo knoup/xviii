@@ -14,11 +14,13 @@
 #include "Mortar.h"
 #include "General.h"
 
+#include "global.h"
+
 class Player
 {
     public:
 		enum class Nation{AUS, PRU};
-		Player(World& _world, Nation _nation, sf::Color _colour, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, sf::View _view, std::string _name);
+		Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
 		
 		//Returns true if successfully spawned unit
 		bool spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords);
@@ -57,7 +59,7 @@ class Player
 		Nation nation;
 		sf::Color nationColour;
 		sf::Sprite playerFlag;
-		const std::string name;
+		std::string name;
 
 		std::mt19937& mt19937;
 
@@ -66,4 +68,8 @@ class Player
 
 		int deploymentPoints;
 		bool ready;
+
+		//If this player spawned at the lower part of the map, this is true. 
+		const bool spawnedAtBottom;
+
 };

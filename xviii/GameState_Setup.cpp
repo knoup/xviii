@@ -11,8 +11,6 @@ selected{nullptr}
 	numbRemaining.setColor(sf::Color::Green);
 	numbRemaining.setPosition(145,-170);
 
-	currentPlayerText.setString(game->currentPlayer->getName());
-
 	currentPlayerText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	currentPlayerText.setColor(sf::Color::Yellow);
 	currentPlayerText.setPosition(1160, -170);
@@ -235,8 +233,8 @@ void GameState_Setup::getInput(){
 			break;
 
 		case sf::Event::Resized:
-			game->Player1.view.setSize(event.size.width, event.size.height);
-			game->Player2.view.setSize(event.size.width, event.size.height);
+			game->Player1->view.setSize(event.size.width, event.size.height);
+			game->Player2->view.setSize(event.size.width, event.size.height);
 
 			break;
 
@@ -346,15 +344,15 @@ void GameState_Setup::getInput(){
 				break;
 
 			case RESETZOOM_KEY:
-				game->currentView->setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+				game->currentView->setSize(xResolution, yResolution);
 				break;
 
             case ZOOMIN_KEY:
-				game->currentView->setSize(game->currentView->getSize().x - game->mWindow.getSize().x / 10, game->currentView->getSize().y - game->mWindow.getSize().y / 10);
+				game->currentView->setSize(game->currentView->getSize().x - xResolution / 10, game->currentView->getSize().y - yResolution / 10);
                 break;
 
             case ZOOMOUT_KEY:
-				game->currentView->setSize(game->currentView->getSize().x + game->mWindow.getSize().x / 10, game->currentView->getSize().y + game->mWindow.getSize().y / 10);
+				game->currentView->setSize(game->currentView->getSize().x + xResolution / 10, game->currentView->getSize().y + yResolution / 10);
                 break;
 
 			/*
@@ -401,10 +399,10 @@ void GameState_Setup::getInput(){
 
 		case sf::Event::MouseWheelMoved:
 			if (event.mouseWheel.delta > 0){
-				game->currentView->setSize(game->currentView->getSize().x - game->mWindow.getSize().x / 12, game->currentView->getSize().y - game->mWindow.getSize().y / 12);
+				game->currentView->setSize(game->currentView->getSize().x - xResolution / 12, game->currentView->getSize().y - yResolution / 12);
 			}
 			else if (event.mouseWheel.delta < 0){
-				game->currentView->setSize(game->currentView->getSize().x + game->mWindow.getSize().x / 12, game->currentView->getSize().y + game->mWindow.getSize().y / 12);
+				game->currentView->setSize(game->currentView->getSize().x + xResolution / 12, game->currentView->getSize().y + yResolution / 12);
 			}
 
 			break;
@@ -416,13 +414,16 @@ void GameState_Setup::getInput(){
 
 void GameState_Setup::update(){
 
+	currentPlayerText.setString(game->currentPlayer->getName());
+	currentPlayerText.setColor(game->currentPlayer->getColour());
+
 	numbRemaining.setString(std::to_string(game->currentPlayer->getDeploymentPoints()));
 
 	if (game->currentPlayer->isReady()){
-		if (game->currentPlayer == &game->Player1){
+		if (game->currentPlayer == game->Player1){
 			game->nextPlayer();
 		}
-		else if (game->currentPlayer == &game->Player2){
+		else if (game->currentPlayer == game->Player2){
 			game->nextPlayer();
 			game->setGameStatePlay();
 		}

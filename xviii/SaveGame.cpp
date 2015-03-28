@@ -125,9 +125,20 @@ bool SaveGame::create(){
 	save.open("save\\" + saveName + ".dat");
 
 	save << "turn=" << game->elapsedTurns << std::endl;
-	save << "player=" << game->currentPlayer->getName() << std::endl;
-	save << "AustriaCam=" << game->Player1.view.getCenter().x << " " << game->Player1.view.getCenter().y << std::endl;
-	save << "PrussiaCam=" << game->Player2.view.getCenter().x << " " << game->Player2.view.getCenter().y << std::endl;
+	save << "player1=" << game->Player1->getName() << std::endl;
+	save << "player2=" << game->Player2->getName() << std::endl;
+	save << "player1Cam=" << game->Player1->view.getCenter().x << " " << game->Player1->view.getCenter().y << std::endl;
+	save << "player2Cam=" << game->Player2->view.getCenter().x << " " << game->Player2->view.getCenter().y << std::endl;
+	save << "currentPlayer=";
+
+	if (game->currentPlayer == game->Player1){
+		save << "player1";
+	}
+	else if (game->currentPlayer == game->Player2){
+		save << "player2";
+	}
+
+	std::cout << std::endl;
 
 	save << std::endl;
 
@@ -177,21 +188,13 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			game->elapsedTurns = turn;
 		}
 
-		else if (line.find("player=") != std::string::npos){
-			Player::Nation nation{stringToNation(line.substr(7))};
+		else if (line.find("player1=") != std::string::npos){
+			Player::Nation nation{stringToNation(line.substr(8))};
 
-			if (nation == Player::Nation::AUS){
-				game->currentPlayer = &game->Player1;
-			}
-
-			else if (nation == Player::Nation::PRU){
-				game->currentPlayer = &game->Player2;
-			}
-
-			game->currentView = &game->currentPlayer->view;
+			game->Player1 = new Player({game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, true});
 		}
 
-		else if (line.find("AustriaCam=") != std::string::npos){
+		else if (line.find("player1Cam=") != std::string::npos){
 			std::stringstream temp(line);
 			temp.ignore(11);
 
@@ -199,10 +202,16 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 			temp >> view.x >> view.y;
 
-			game->Player1.view.setCenter(view.x, view.y);
+			game->Player1->view.setCenter(view.x, view.y);
 		}
 
-		else if (line.find("PrussiaCam=") != std::string::npos){
+		else if (line.find("player2=") != std::string::npos){
+			Player::Nation nation{stringToNation(line.substr(8))};
+
+			game->Player2 = new Player({game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, false});
+		}
+
+		else if (line.find("player2Cam=") != std::string::npos){
 			std::stringstream temp(line);
 			temp.ignore(11);
 
@@ -210,8 +219,21 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 			temp >> view.x >> view.y;
 
-			game->Player2.view.setCenter(view.x, view.y);
+			game->Player2->view.setCenter(view.x, view.y);
 
+		}
+
+		else if (line.find("currentPlayer=") != std::string::npos){
+			std::string playerStr{line.substr(14)};
+
+			if (playerStr == "player1"){
+				game->currentPlayer = game->Player1;
+				game->currentView = &game->Player1->view;
+			}
+			else if (playerStr == "player2"){
+				game->currentPlayer = game->Player2;
+				game->currentView = &game->Player2->view;
+			}
 		}
 
 		else if (line.find("{") != std::string::npos){
@@ -234,14 +256,18 @@ void SaveGame::parse(boost::filesystem::path _dir){
 					type = stringToUnitType(line.substr(5));
 				}
 
+				/*In the interest of keeping the save files easily readable, rather than saving each unit's 
+				faction as simply player1 or player2, we save it as the faction name and then, after the players
+				are loaded, check which player it belongs to*/
+
 				else if (line.find("faction=") != std::string::npos){
 					Player::Nation nation{stringToNation(line.substr(8))};
 
-					if (nation == Player::Nation::AUS){
-						player = &game->Player1;
+					if (nation == game->Player1->getNation()){
+						player = game->Player1;
 					}
-					else if (nation == Player::Nation::PRU){
-						player = &game->Player2;
+					else if (nation == game->Player2->getNation()){
+						player = game->Player2;
 					}
 				}
 

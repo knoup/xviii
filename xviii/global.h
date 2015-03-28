@@ -2,6 +2,9 @@
 
 #include "SFML/Graphics.hpp"
 
+const unsigned int xResolution{1360};
+const unsigned int yResolution{768};
+
 const sf::Keyboard::Key DELETE_KEY = sf::Keyboard::Delete;
 
 const sf::Keyboard::Key UP_KEY = sf::Keyboard::W;
@@ -28,6 +31,8 @@ const sf::Keyboard::Key CONFIRM_KEY = sf::Keyboard::Return;
 
 const sf::Keyboard::Key UP_ARROW = sf::Keyboard::Up;
 const sf::Keyboard::Key DOWN_ARROW = sf::Keyboard::Down;
+const sf::Keyboard::Key RIGHT_ARROW = sf::Keyboard::Right;
+const sf::Keyboard::Key LEFT_ARROW = sf::Keyboard::Left;
 
 const sf::Keyboard::Key TOGGLE_SAVE = sf::Keyboard::Z;
 

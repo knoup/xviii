@@ -3,7 +3,7 @@
 
 GameState_Menu::GameState_Menu(Game* game) :
 GameState{game},
-menuSelectView{sf::FloatRect({}, {},game->mWindow.getSize().x, game->mWindow.getSize().y)}
+menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)}
 {
 	menuList.push_back({{"New Game"}, Action::NEW});
 	
@@ -20,7 +20,7 @@ menuSelectView{sf::FloatRect({}, {},game->mWindow.getSize().x, game->mWindow.get
 		menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
 		menuList[i].text.setColor(sf::Color(80, 80, 80));
 
-		int textXPos = game->mWindow.getSize().x / 2;
+		int textXPos = xResolution / 2;
 		int textYPos = (i * 50);
 
 		menuList[i].text.setPosition(textXPos, textYPos);
@@ -43,7 +43,7 @@ void GameState_Menu::getInput(){
 			if (event.key.code == CONFIRM_KEY){
 				switch (menuIterator->action){
 					case Action::NEW:
-						game->setGameStateSetup();
+						game->setGameStateSelectNations();
 						break;
 
 					case Action::LOAD:
@@ -85,7 +85,7 @@ void GameState_Menu::getInput(){
 				menuIterator = menuList.begin();
 
 				for (int i{0}; i < menuList.size(); ++i){
-					int textXPos = game->mWindow.getSize().x / 2;
+					int textXPos = xResolution / 2;
 					int textYPos = (i * 50);
 
 

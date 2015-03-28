@@ -4,7 +4,7 @@
 
 #include "boost/filesystem/fstream.hpp"
 
-#include "keybinds.h"
+#include "global.h"
 
 class GameState_Menu : public GameState
 {
