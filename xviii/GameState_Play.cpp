@@ -29,14 +29,14 @@ selected{nullptr}
 
 	currentPlayerText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	currentPlayerText.setColor(sf::Color::Yellow);
-	currentPlayerText.setPosition(1160, -170);
+	currentPlayerText.setPosition(970, -170);
 
 	elapsedTurnsText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	elapsedTurnsText.setColor(sf::Color::Yellow);
 	elapsedTurnsText.setPosition(20, -170);
 
 	tileDistanceText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	tileDistanceText.setString("if you see this, there is a bug somewhere");
+	tileDistanceText.setString("");
 	tileDistanceText.setCharacterSize(20);
 
 	messageLogText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));

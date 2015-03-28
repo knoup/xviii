@@ -10,6 +10,36 @@ Player::Nation stringToNation(std::string _name){
 	else if (_name == "Prussia"){
 		return Player::Nation::PRU;
 	}
+	else if (_name == "France"){
+		return Player::Nation::FRA;
+	}
+	else if (_name == "Great Britain"){
+		return Player::Nation::GBR;
+	}
+	else if (_name == "Russia"){
+		return Player::Nation::RUS;
+	}
+	else if (_name == "Bavaria"){
+		return Player::Nation::BAV;
+	}
+	else if (_name == "Commonwealth"){
+		return Player::Nation::COM;
+	}
+	else if (_name == "Spain"){
+		return Player::Nation::SPA;
+	}
+	else if (_name == "Portugal"){
+		return Player::Nation::POR;
+	}
+	else if (_name == "Venice"){
+		return Player::Nation::VEN;
+	}
+	else if (_name == "Saxony"){
+		return Player::Nation::SAX;
+	}
+	else if (_name == "Sweden"){
+		return Player::Nation::SWE;
+	}
 }
 
 UnitTile::UnitType stringToUnitType(std::string _type){

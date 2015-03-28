@@ -14,8 +14,8 @@ public:
 private:
 	void clearHighlighting();
 
-	struct flagMenuItem{
-		flagMenuItem(sf::Sprite _sprite, Player::Nation _nation) :
+	struct FlagMenuItem{
+		FlagMenuItem(sf::Sprite _sprite, Player::Nation _nation) :
 			sprite{_sprite},
 			nation{_nation},
 			highlighted{false}
@@ -42,8 +42,8 @@ private:
 		}
 	};
 
-	std::vector<flagMenuItem> flagSelection;
-	std::vector<flagMenuItem>::iterator flagIterator;
+	std::vector<FlagMenuItem> flagMenuItems;
+	std::vector<FlagMenuItem>::iterator flagIterator;
 
 	sf::Text currentPlayerText;
 	sf::View flagView;

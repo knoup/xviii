@@ -13,7 +13,7 @@ selected{nullptr}
 
 	currentPlayerText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	currentPlayerText.setColor(sf::Color::Yellow);
-	currentPlayerText.setPosition(1160, -170);
+	currentPlayerText.setPosition(970, -170);
 
 	deploymentPointsRemaining.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	deploymentPointsRemaining.setCharacterSize(19);

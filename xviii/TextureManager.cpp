@@ -102,12 +102,54 @@ sf::Sprite TextureManager::getSprite(Flag type){
 	switch (type){
 	case Flag::AUS:
 		rekt = {0, 0, counterSize.x, counterSize.y};
-		return{*flags, rekt};
+		break;
 
 	case Flag::PRU:
 		rekt = {54, 0, counterSize.x, counterSize.y};
-		return{*flags, rekt};
+		break;
+
+	case Flag::FRA:
+		rekt = {108, 0, counterSize.x, counterSize.y};
+		break;
+
+	case Flag::GBR:
+		rekt = {162, 0, counterSize.x, counterSize.y};
+		break;
+
+	case Flag::RUS:
+		rekt = {0, 34, counterSize.x, counterSize.y};
+		break;
+
+	case Flag::BAV:
+		rekt = {54, 34, counterSize.x, counterSize.y};
+		break;
+		
+	case Flag::COM:
+		rekt = {108, 34, counterSize.x, counterSize.y};
+		break;
+
+	case Flag::SPA:
+		rekt = {162, 34, counterSize.x, counterSize.y};
+		break;
+
+	case Flag::POR:
+		rekt = {0, 68, counterSize.x, counterSize.y};
+		break;
+
+	case Flag::VEN:
+		rekt = {54, 68, counterSize.x, counterSize.y};
+		break;
+
+	case Flag::SAX:
+		rekt = {108, 68, counterSize.x, counterSize.y};
+		break;
+
+	case Flag::SWE:
+		rekt = {162, 68, counterSize.x, counterSize.y};
+		break;
 	}
+
+	return{*flags, rekt};
 
 }
 

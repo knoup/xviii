@@ -4,6 +4,58 @@
 static const sf::View bottomView{sf::View{sf::FloatRect(1183, 4800, xResolution, yResolution)}};
 static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yResolution)}};
 
+sf::Sprite Player::nationToSprite(Nation _nation){
+
+	if (_nation == Nation::AUS){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::AUS)};
+		return sprite;
+	}
+	else if (_nation == Nation::PRU){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::PRU)};
+		return sprite;
+	}
+	else if (_nation == Nation::FRA){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::FRA)};
+		return sprite;
+	}
+	else if (_nation == Nation::GBR){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::GBR)};
+		return sprite;
+	}
+	else if (_nation == Nation::RUS){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::RUS)};
+		return sprite;
+	}
+	else if (_nation == Nation::BAV){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::BAV)};
+		return sprite;
+	}
+	else if (_nation == Nation::COM){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::COM)};
+		return sprite;
+	}
+	else if (_nation == Nation::SPA){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::SPA)};
+		return sprite;
+	}
+	else if (_nation == Nation::POR){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::POR)};
+		return sprite;
+	}
+	else if (_nation == Nation::VEN){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::VEN)};
+		return sprite;
+	}
+	else if (_nation == Nation::SAX){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::SAX)};
+		return sprite;
+	}
+	else if (_nation == Nation::SWE){
+		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::SWE)};
+		return sprite;
+	}
+}
+
 Player::Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom) :
 world{_world},
 nation{_nation},
@@ -21,12 +73,62 @@ spawnedAtBottom{_spawnedAtBottom}
 	switch (nation){
 	case Nation::AUS:
 		name = "Austria";
-		nationColour = sf::Color::Yellow;
+		//nationColour = sf::Color::Yellow;
 		break;
 
 	case Nation::PRU:
 		name = "Prussia";
-		nationColour = sf::Color::White;
+		//nationColour = sf::Color::White;
+		break;
+
+	case Nation::FRA:
+		name = "France";
+		//nationColour = sf::Color::Red;
+		break;
+
+	case Nation::GBR:
+		name = "Great Britain";
+		//nationColour = sf::Color::White;
+		break;
+
+	case Nation::RUS:
+		name = "Russia";
+		
+		break;
+
+	case Nation::BAV:
+		name = "Bavaria";
+
+		break;
+
+	case Nation::COM:
+		name = "Commonwealth";
+
+		break;
+
+	case Nation::SPA:
+		name = "Spain";
+
+		break;
+		
+	case Nation::POR:
+		name = "Portugal";
+
+		break;
+
+	case Nation::VEN:
+		name = "Venice";
+
+		break;
+
+	case Nation::SAX:
+		name = "Saxony";
+
+		break;
+
+	case Nation::SWE:
+		name = "Sweden";
+		
 		break;
 	}
 
@@ -224,18 +326,6 @@ bool Player::isReady() const{
 
 void Player::setReady(bool _value){
 	ready = _value;
-}
-
-sf::Sprite Player::nationToSprite(Nation _nation){
-	
-	if (_nation == Nation::AUS){
-		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::AUS)};
-		return sprite;
-	}
-	else if (_nation == Nation::PRU){
-		sf::Sprite sprite{tm.getSprite(TextureManager::Flag::PRU)};
-		return sprite;
-	}
 }
 
 sf::Sprite Player::getFlag() const{

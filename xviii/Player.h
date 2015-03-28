@@ -19,7 +19,7 @@
 class Player
 {
     public:
-		enum class Nation{AUS, PRU};
+		enum class Nation{ AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE};
 		Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
 		
 		//Returns true if successfully spawned unit
@@ -57,7 +57,7 @@ class Player
         World& world;
 
 		Nation nation;
-		sf::Color nationColour;
+		sf::Color nationColour{sf::Color::White};
 		sf::Sprite playerFlag;
 		std::string name;
 
