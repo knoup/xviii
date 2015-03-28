@@ -32,7 +32,7 @@ public:
 
 private:
 
-	static const int maxhp{5};
+	static const int maxhp{9};
 	static const int maxMov{15};
 	static const int maxRange{0};
 };

@@ -32,23 +32,23 @@ sf::Sprite TextureManager::getSprite(Unit type){
 		break;
 
 	case Unit::CAV:
-		rekt = {0, 34, counterSize.x, counterSize.y};
+		rekt = {108, 0, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::CUIR:
-		//todo
+		rekt = {0, 34	, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::DRAG:
-		//todo
+		rekt = {54, 68, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::LCAV:
-		//todo
+		rekt = {54, 0, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::ART:
-		rekt = {54, 0, counterSize.x, counterSize.y};
+		rekt = {108, 34, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::MOR:
@@ -56,7 +56,7 @@ sf::Sprite TextureManager::getSprite(Unit type){
 		break;
 
 	case Unit::GEN:
-		rekt = {108, 0, counterSize.x, counterSize.y};
+		rekt = {0, 102, counterSize.x, counterSize.y};
 		break;
 	}
 
@@ -130,7 +130,7 @@ sf::IntRect TextureManager::getTerrainRekt(Terrain type){
 
 	switch (type){
 	case Terrain::MEADOW:
-		rekt = {108, 34, size.x, size.y};
+		rekt = {108, 68, size.x, size.y};
 		break;
 	}
 
