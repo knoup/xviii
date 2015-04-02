@@ -57,12 +57,12 @@ void GameState_Menu::getInput(){
 			//--menuList.end() because menuList.end() would point to a undereferencable reference
 			//(after the end of the vector); --menuList.end() rather points to the last element
 
-			else if ((event.key.code == UP_ARROW || event.key.code == DOWN_ARROW) && menuList.size() > 1){
+			else if ((event.key.code == UP_ARROW || event.key.code == DOWN_ARROW || event.key.code == UP_KEY || event.key.code == DOWN_KEY) && menuList.size() > 1){
 
 				//Unhighlight current object
 				menuIterator->text.setColor((sf::Color(80, 80, 80)));
 
-				if (event.key.code == UP_ARROW){
+				if (event.key.code == UP_ARROW || event.key.code == UP_KEY){
 					if (menuIterator == menuList.begin()){
 						menuIterator = --menuList.end();
 					}
@@ -70,7 +70,7 @@ void GameState_Menu::getInput(){
 						--menuIterator;
 					}
 				}
-				else if (event.key.code == DOWN_ARROW){
+				else if (event.key.code == DOWN_ARROW || event.key.code == DOWN_KEY){
 					if (menuIterator == --menuList.end()){
 						menuIterator = menuList.begin();
 					}

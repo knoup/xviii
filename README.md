@@ -35,33 +35,51 @@ heal a unit for 2 health, once per turn.
 
 *The following units are members of the "CAV family" and will, unless when stated otherwise, behave the same as CAV:
 
-	GEN
+	Cuirassier (CUIR)
+	Dragoon (DRAG)
+	Light Cavalry (LCAV)
+	General (GEN)
 	
 
 Unit Types & Stats
 ------------------
 
-	INF 
+	Infantry (INF)
 		*MOV: 6
 		*HP: 18
 		*MAX RANGED DIST: 6
 		
-	ARTY
+	Artillery (ART)
 		*MOV: 2
 		*HP: 3
 		*MAX RANGED DIST: 20
 		
-	MORTAR
+	Mortar (MOR)
 		*MOV: 0
 		*HP: 2
 		*MAX RANGED DIST: 15
 		
-	CAV
+	Cavalry (CAV)
 		*MOV: 12
 		*HP: 12
 		*MAX RANGED DIST: -
+
+	Cuirassier (CUIR)
+		*MOV: 9
+		*HP:  15
+		*MAX RANGED DIST: -
+
+	Dragoon (DRAG)
+		*MOV: 12
+		*HP: 10
+		*MAX RANGED DIST: 9
+
+	Light Cavalry (LCAV)
+		*MOV: 15
+		*HP: 9
+		*MAX RANGED DIST: -
 		
-	GENERAL
+	General (GEN)
 		*MOV: 6
 		*HP: 5
 		*MAX RANGED DIST: 2
@@ -114,7 +132,7 @@ Ranged Combat Rules
 -------------------
 
 
-	-The player rolls a dice and the result is multiplied by the unit's dist./dir. modifier. 
+	-The player rolls a die and the result is multiplied by the unit's dist./dir. modifier. 
 	 
 	 EXAMPLE:
 	 
@@ -123,8 +141,8 @@ Ranged Combat Rules
 	 Player 1 rolls 4 and inflicts 8 DMG on Player  2's CAV.
 	 
 	 
-	 ART and MOR are able to shoot within a "cone width" of 3, meaning they can shoot not only
-	 straight forward, but also one tile to the left and one tile to the right
+	 ART and MOR are able to shoot with a "cone width" of 3, meaning they can shoot not only
+	 straight forward, but also one tile to the left and one tile to the right.
 
 	 
 Melee Combat Rules
@@ -179,17 +197,18 @@ Deployment Costs
 ----------------
 
 
-	You start with 30 deployment points.
+	Each player begins with 30 deployment points, and each unit spawned costs a certain amount.
 
 	INF: 1
 	
-	CAV: 3 		[Max of 5]
+	CAV: 3 		[Can have max of 5]; applies to entire CAV family tentatively
 	
-	ARTY: 3 	[Max of 5]
+	ARTY: 3 	[Can have max of 5]
 	
-	MORTAR: 2	[Max of 5]
+	MORTAR: 2	[Can have max of 5]
 	
-	GENERAL: 0	[Max of 1]
+	GENERAL: 0	[Can have max of 1]
+
 	
 	
 In-Game
@@ -217,10 +236,9 @@ Line of Sight
 --------------
 
 In addition to movement points and max attacking range, units are limited by their
-line of sight. A unit cannot cross to the other side of a tile if it is occupied by
-an enemy unit; likewise, a unit cannot attack an enemy on a tile if there is another
-enemy unit in the way. Friendly units can move past each other; however, with the exception
-of ART and MOR, they cannot fire from behind other friendlies.
+line of sight. A unit cannot attack an enemy on a tile if there is anotherenemy unit 
+in the way. Friendly units can move past each other; however, with the exception of
+ART and MOR, they cannot fire from behind other friendlies.
 
 
 Keyboard shortcuts & mouse commands
@@ -232,12 +250,16 @@ Keyboard shortcuts & mouse commands
 	
 Two premade save files are provided for those who just want to dive in without bothering to set up.
 
+---Nation Selection Phase---
+	
+	Left/A/Right/D keys & Return
+
 ---Setup & Playing Phases---
 
 	R - reset zoom level  
 	WASD - move view  
-	dash - zoom out  
-	equal - zoom in  
+	dash (-) - zoom out  
+	equal (=) - zoom in  
 	Mouse wheel - zoom out/in  
 
 ---Setup Phase---  
@@ -250,6 +272,6 @@ Two premade save files are provided for those who just want to dive in without b
 	LMB - select a unit and issue movement/attack orders  
 	RMB - deselect currently selected unit/dismiss current message  
 
-	Up/down/left/right - rotate a unit North, South, East, and West respectively
+	Up/down/left/right arrow keys - rotate a unit North, South, East, and West respectively
 
 	Z - save

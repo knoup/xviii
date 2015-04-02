@@ -3,13 +3,13 @@
 
 #include "Player.h"
 
-const float infFrontFlankModifier = 0.5;
-const float infSideFlankModifier = 1;
-const float infRearFlankModifier = 2;
+static const float infFrontFlankModifier = 0.5;
+static const float infSideFlankModifier = 1;
+static const float infRearFlankModifier = 2;
 
-const float cavFrontFlankModifier = 1;
-const float cavSideFlankModifier = 1.5;
-const float cavRearFlankModifier = 2;
+static const float cavFrontFlankModifier = 1;
+static const float cavSideFlankModifier = 1.5;
+static const float cavRearFlankModifier = 2;
 
 
 Infantry::Infantry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :

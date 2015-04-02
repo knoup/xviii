@@ -8,7 +8,7 @@ public:
 	enum class Unit{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN};
 	enum class Terrain{MEADOW};
 	enum class UI{RECTANGLE, BUTTON};
-	enum class Flag{AUS,PRU,FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE};
+	enum class Flag{AUS,PRU,FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO};
 
 	TextureManager();
 

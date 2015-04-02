@@ -4,7 +4,7 @@
 
 GameState_Setup::GameState_Setup(Game* _game) :
 GameState{_game},
-selected{nullptr}
+selectedSpawnableUnit{nullptr}
 {
 	numbRemaining.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	numbRemaining.setCharacterSize(70);
@@ -21,190 +21,6 @@ selected{nullptr}
 	deploymentPointsRemaining.setPosition(60, -80);
 
 	deploymentPointsRemaining.setString("deployment points remain");
-
-	Menu INF(UnitTile::UnitType::INF);
-	INF.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	INF.unitName.setColor(sf::Color::White);
-	INF.unitName.setString("INFANTRY");
-	INF.unitName.setCharacterSize(12);
-	INF.unitName.setOrigin(INF.unitName.getLocalBounds().width / 2, INF.unitName.getLocalBounds().height / 2);
-
-	INF.unitSprite = game->mTextureManager.getSprite(TextureManager::Unit::INF);
-	INF.unitSprite.setOrigin(INF.unitSprite.getGlobalBounds().width / 2, INF.unitSprite.getGlobalBounds().height / 2);
-
-	INF.unitSprite.setPosition({430, -130});
-	INF.unitName.setPosition({INF.unitSprite.getPosition().x, INF.unitSprite.getPosition().y - 30});
-
-	Menu CAV(UnitTile::UnitType::CAV);
-	CAV.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	CAV.unitName.setColor(sf::Color::White);
-	CAV.unitName.setString("CAVALRY(5)");
-	CAV.unitName.setCharacterSize(12);
-	CAV.unitName.setOrigin(CAV.unitName.getLocalBounds().width / 2, CAV.unitName.getLocalBounds().height / 2);
-
-	CAV.unitSprite = game->mTextureManager.getSprite(TextureManager::Unit::CAV);
-	CAV.unitSprite.setOrigin(CAV.unitSprite.getGlobalBounds().width / 2, CAV.unitSprite.getGlobalBounds().height / 2);
-
-	CAV.unitSprite.setPosition({530, -130});
-	CAV.unitName.setPosition({CAV.unitSprite.getPosition().x, CAV.unitSprite.getPosition().y - 30});
-
-	Menu CUIR(UnitTile::UnitType::CUIR);
-	CUIR.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	CUIR.unitName.setColor(sf::Color::White);
-	CUIR.unitName.setString("CUIRASSIER(5)");
-	CUIR.unitName.setCharacterSize(12);
-	CUIR.unitName.setOrigin(CUIR.unitName.getLocalBounds().width / 2, CUIR.unitName.getLocalBounds().height / 2);
-
-	CUIR.unitSprite = game->mTextureManager.getSprite(TextureManager::Unit::CUIR);
-	CUIR.unitSprite.setOrigin(CUIR.unitSprite.getGlobalBounds().width / 2, CUIR.unitSprite.getGlobalBounds().height / 2);
-
-	CUIR.unitSprite.setPosition({730, -130});
-	CUIR.unitName.setPosition({CUIR.unitSprite.getPosition().x, CUIR.unitSprite.getPosition().y - 30});
-
-	Menu DRAG(UnitTile::UnitType::DRAG);
-	DRAG.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	DRAG.unitName.setColor(sf::Color::White);
-	DRAG.unitName.setString("DRAGOON(5)");
-	DRAG.unitName.setCharacterSize(12);
-	DRAG.unitName.setOrigin(DRAG.unitName.getLocalBounds().width / 2, DRAG.unitName.getLocalBounds().height / 2);
-
-	DRAG.unitSprite = game->mTextureManager.getSprite(TextureManager::Unit::DRAG);
-	DRAG.unitSprite.setOrigin(DRAG.unitSprite.getGlobalBounds().width / 2, DRAG.unitSprite.getGlobalBounds().height / 2);
-
-	DRAG.unitSprite.setPosition({730, -60});
-	DRAG.unitName.setPosition({DRAG.unitSprite.getPosition().x, DRAG.unitSprite.getPosition().y - 30});
-
-	Menu LCAV(UnitTile::UnitType::LCAV);
-	LCAV.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	LCAV.unitName.setColor(sf::Color::White);
-	LCAV.unitName.setString("LCAV(3)");
-	LCAV.unitName.setCharacterSize(12);
-	LCAV.unitName.setOrigin(LCAV.unitName.getLocalBounds().width / 2, LCAV.unitName.getLocalBounds().height / 2);
-
-	LCAV.unitSprite = game->mTextureManager.getSprite(TextureManager::Unit::LCAV);
-	LCAV.unitSprite.setOrigin(LCAV.unitSprite.getGlobalBounds().width / 2, LCAV.unitSprite.getGlobalBounds().height / 2);
-
-	LCAV.unitSprite.setPosition({630, -60});
-	LCAV.unitName.setPosition({LCAV.unitSprite.getPosition().x, LCAV.unitSprite.getPosition().y - 30});
-
-	Menu ART(UnitTile::UnitType::ART);
-	ART.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	ART.unitName.setColor(sf::Color::White);
-	ART.unitName.setString("ARTILLERY(5)");
-	ART.unitName.setCharacterSize(12);
-	ART.unitName.setOrigin(ART.unitName.getLocalBounds().width / 2, ART.unitName.getLocalBounds().height / 2);
-
-
-	ART.unitSprite = game->mTextureManager.getSprite(TextureManager::Unit::ART);
-	ART.unitSprite.setOrigin(ART.unitSprite.getGlobalBounds().width / 2, ART.unitSprite.getGlobalBounds().height / 2);
-
-	ART.unitSprite.setPosition({430, -60});
-	ART.unitName.setPosition({ART.unitSprite.getPosition().x, ART.unitSprite.getPosition().y - 30});
-
-	Menu MOR(UnitTile::UnitType::MOR);
-	MOR.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	MOR.unitName.setColor(sf::Color::White);
-	MOR.unitName.setString("MORTAR(5)");
-	MOR.unitName.setCharacterSize(12);
-	MOR.unitName.setOrigin(MOR.unitName.getLocalBounds().width / 2, MOR.unitName.getLocalBounds().height / 2);
-
-	MOR.unitSprite = game->mTextureManager.getSprite(TextureManager::Unit::MOR);
-	MOR.unitSprite.setOrigin(MOR.unitSprite.getGlobalBounds().width / 2, MOR.unitSprite.getGlobalBounds().height / 2);
-
-	MOR.unitSprite.setPosition({530, -60});
-	MOR.unitName.setPosition({MOR.unitSprite.getPosition().x, MOR.unitSprite.getPosition().y - 30});
-
-	Menu GEN(UnitTile::UnitType::GEN);
-	GEN.unitName.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	GEN.unitName.setColor(sf::Color::White);
-	GEN.unitName.setString("GENERAL(1)");
-	GEN.unitName.setCharacterSize(12);
-	GEN.unitName.setOrigin(GEN.unitName.getLocalBounds().width / 2, GEN.unitName.getLocalBounds().height / 2);
-
-	GEN.unitSprite = game->mTextureManager.getSprite(TextureManager::Unit::GEN);
-	GEN.unitSprite.setOrigin(GEN.unitSprite.getGlobalBounds().width / 2, GEN.unitSprite.getGlobalBounds().height / 2);
-
-	GEN.unitSprite.setPosition({630, -130});
-	GEN.unitName.setPosition({GEN.unitSprite.getPosition().x, GEN.unitSprite.getPosition().y - 30});
-
-	MenuItems.emplace_back(INF);
-	MenuItems.emplace_back(CAV);
-	MenuItems.emplace_back(CUIR);
-	MenuItems.emplace_back(DRAG);
-	MenuItems.emplace_back(LCAV);
-	MenuItems.emplace_back(ART);
-	MenuItems.emplace_back(MOR);
-	MenuItems.emplace_back(GEN);
-
-	/* Not being used atm
-	sf::Text shortcuts;
-
-	sf::Text infShortcut;
-	sf::Text cavShortcut;
-	sf::Text artShortcut;
-	sf::Text morShortcut;
-	sf::Text genShortcut;
-
-	
-	You will notice I set the origins for the following sf::Text objects to
-
-	(GEN.unitName.getLocalBounds().width / 2, GEN.unitName.getLocalBounds().height / 2)
-
-	This was a mistake at first, but I noticed changing it causes the text to become blurry somehow,
-	so I kept it. I know it doesn't make much sense, but still...
-	
-
-	shortcuts.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	shortcuts.setColor(sf::Color::White);
-	shortcuts.setString("Spawning Shortcuts:");
-	shortcuts.setCharacterSize(12);
-	shortcuts.setOrigin(shortcuts.getLocalBounds().width / 2, shortcuts.getLocalBounds().height / 2);
-	shortcuts.setPosition(300, -160);
-
-	infShortcut.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	infShortcut.setColor(sf::Color::White);
-	infShortcut.setString("T - INF");
-	infShortcut.setCharacterSize(12);
-	infShortcut.setOrigin(GEN.unitName.getLocalBounds().width / 2, GEN.unitName.getLocalBounds().height / 2);
-	infShortcut.setPosition(330, -130);
-
-	cavShortcut.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	cavShortcut.setColor(sf::Color::White);
-	cavShortcut.setString("Y - CAV");
-	cavShortcut.setCharacterSize(12);
-	cavShortcut.setOrigin(GEN.unitName.getLocalBounds().width / 2, GEN.unitName.getLocalBounds().height / 2);
-	cavShortcut.setPosition(330, -115);
-
-	genShortcut.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	genShortcut.setColor(sf::Color::White);
-	genShortcut.setString("U - GEN");
-	genShortcut.setCharacterSize(12);
-	genShortcut.setOrigin(GEN.unitName.getLocalBounds().width / 2, GEN.unitName.getLocalBounds().height / 2);
-	genShortcut.setPosition(330, -100);
-
-	artShortcut.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	artShortcut.setColor(sf::Color::White);
-	artShortcut.setString("F - ART");
-	artShortcut.setCharacterSize(12);
-	artShortcut.setOrigin(GEN.unitName.getLocalBounds().width / 2, GEN.unitName.getLocalBounds().height / 2);
-	artShortcut.setPosition(330, -85);
-
-	morShortcut.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	morShortcut.setColor(sf::Color::White);
-	morShortcut.setString("G - MOR");
-	morShortcut.setCharacterSize(12);
-	morShortcut.setOrigin(GEN.unitName.getLocalBounds().width / 2, GEN.unitName.getLocalBounds().height / 2);
-	morShortcut.setPosition(330, -70);
-
-
-	keyShortcuts.emplace_back(shortcuts);
-	keyShortcuts.emplace_back(infShortcut);
-	keyShortcuts.emplace_back(cavShortcut);
-	keyShortcuts.emplace_back(artShortcut);
-	keyShortcuts.emplace_back(morShortcut);
-	keyShortcuts.emplace_back(genShortcut);
-
-	*/
 
 	readyButton.sprite = game->mTextureManager.getSprite(TextureManager::UI::BUTTON);
 	readyButton.sprite.setOrigin(readyButton.sprite.getLocalBounds().width / 2, readyButton.sprite.getLocalBounds().height / 2);
@@ -241,18 +57,20 @@ void GameState_Setup::getInput(){
 		case sf::Event::MouseButtonPressed:
 			if (event.mouseButton.button == sf::Mouse::Left){
 
-				//If no menu item was selected, select it
+				//If no menu item was selectedSpawnableUnit, select it
 
-				if (selected == nullptr){
+				if (selectedSpawnableUnit == nullptr){
 					sf::Vector2f worldCoords{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
 					sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, game->uiView)};
 
-					for (int i{0}; i < MenuItems.size(); ++i){
-						if (uiCoords.x > MenuItems[i].left() && uiCoords.x < MenuItems[i].right()
-							&&
-							uiCoords.y > MenuItems[i].top() && uiCoords.y < MenuItems[i].bottom()){
+					std::vector<Player::SpawnableUnit> current{game->currentPlayer->getSpawnableUnits()};
 
-							selected = new Menu(MenuItems[i]);
+					for (int i{0}; i < current.size(); ++i){
+						if (uiCoords.x > current[i].left() && uiCoords.x < current[i].right()
+							&&
+							uiCoords.y > current[i].top() && uiCoords.y < current[i].bottom()){
+
+							selectedSpawnableUnit = new Player::SpawnableUnit(current[i]);
 							break;
 
 						}
@@ -282,12 +100,12 @@ void GameState_Setup::getInput(){
 						(worldCoords.y <= game->mWorld.getDimensionsInPixels().y &&
 						worldCoords.y >= 0)){
 
-						game->currentPlayer->spawnUnit(selected->type, worldCoords);
+						game->currentPlayer->spawnUnit(selectedSpawnableUnit->type, worldCoords);
 
 					}
 
-					selected = nullptr;
-					delete selected;
+					selectedSpawnableUnit = nullptr;
+					delete selectedSpawnableUnit;
 					break;
 				}
 			}
@@ -295,12 +113,12 @@ void GameState_Setup::getInput(){
 
 			else if (event.mouseButton.button == sf::Mouse::Right){
 
-				//Deselect the currently selected icon:
+				//Deselect the currently selectedSpawnableUnit icon:
 
-				if (selected != nullptr){
+				if (selectedSpawnableUnit != nullptr){
 					
-					selected = nullptr;
-					delete selected;
+					selectedSpawnableUnit = nullptr;
+					delete selectedSpawnableUnit;
 					break;
 				}
 
@@ -409,8 +227,8 @@ void GameState_Setup::update(){
 
 	sf::Vector2f worldCoords{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
 
-    if(selected != nullptr){
-            selected->unitSprite.setPosition(worldCoords);
+    if(selectedSpawnableUnit != nullptr){
+            selectedSpawnableUnit->unitSprite.setPosition(worldCoords);
 	}
 
 	//For the highlighting of the ready button:
@@ -439,20 +257,17 @@ void GameState_Setup::draw(){
 	game->mWindow.draw(currentPlayerText);
 	game->mWindow.draw(deploymentPointsRemaining);
 
-
 	readyButton.draw(game->mWindow);
 
-	for (auto& menu : MenuItems){
-		menu.draw(game->mWindow);
+	for (auto& item : game->currentPlayer->getSpawnableUnits()){
+		game->mWindow.draw(item.unitSprite);
+		game->mWindow.draw(item.unitName);
 	}
 
-	//for (auto& shortcut : keyShortcuts){
-	//	game->mWindow.draw(shortcut);
-	//}
-
 	game->mWindow.setView(*game->currentView);
-	if (selected != nullptr){
-		game->mWindow.draw(selected->unitSprite);
+	if (selectedSpawnableUnit != nullptr){
+		game->mWindow.draw(selectedSpawnableUnit->unitSprite);
+		game->mWindow.draw(selectedSpawnableUnit->unitName);
 	}
 
 }

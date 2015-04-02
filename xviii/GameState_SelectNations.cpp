@@ -71,10 +71,10 @@ void GameState_SelectNations::getInput(){
 				}
 
 			}
-			else if (event.key.code == RIGHT_ARROW || event.key.code == LEFT_ARROW){
+			else if (event.key.code == RIGHT_ARROW || event.key.code == LEFT_ARROW || event.key.code == LEFT_KEY || event.key.code == RIGHT_KEY){
 				flagIterator->highlighted = false;
 
-				if (event.key.code == LEFT_ARROW){
+				if (event.key.code == LEFT_ARROW || event.key.code == LEFT_KEY){
 					if (flagIterator == flagMenuItems.begin()){
 						flagIterator = --flagMenuItems.end();
 					}
@@ -82,7 +82,7 @@ void GameState_SelectNations::getInput(){
 						--flagIterator;
 					}
 				}
-				else if (event.key.code == RIGHT_ARROW){
+				else if (event.key.code == RIGHT_ARROW || event.key.code == RIGHT_KEY){
 					if (flagIterator == --flagMenuItems.end()){
 						flagIterator = flagMenuItems.begin();
 					}
