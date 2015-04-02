@@ -2,20 +2,19 @@ Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and <a href="http://www.boost.o
 
 General
 -------
-*There are four types of actions
+	There are four types of actions:
 
 	
 	1) MOVEMENT
 			
 	2) PARTIAL ROTATION
-			*Left  		(90 deg.; sideways)
-			*Right  	(90 deg.; sideways)
+			*Left/Right (90 degrees)
 			
 	3) FULL ROTATION
-		*180 degrees
+			*180 degrees
 	
 	4) ATTACK
-		*Includes Firing/Charging
+			*Includes Firing/Charging
 
 		
 *INF can either MOVE, PARTIALLY ROTATE, or FULLY ROTATE in addition to attacking.
@@ -25,12 +24,12 @@ General
 *However, unless otherwise stated, units may not ROTATE or MOVE at all AFTER attacking.
 	
 	
-*d stands for [6-sided] dice; a roll of 4 with modifiers of 0.5d and 1d will 
-yield 2 and 4 DMG respectively; the roll result is multiplied by the modifier
+*d stands for [6-sided] die; the roll result is multiplied by the modifier, such that
+ a roll of 4 with modifiers of 0.5d and 1d will yield 2 and 4 DMG respectively
 	
 
 *When a player's GENERAL dies, inflict 2 DMG to all friendly units. General may 
-heal a unit for 2 health, once per turn.
+heal a friendly unit for 2 HP once per turn.
 
 
 *The following units are members of the "CAV family" and will, unless when stated otherwise, behave the same as CAV:
@@ -68,6 +67,7 @@ Unit Types & Stats
 		*MOV: 9
 		*HP:  15
 		*MAX RANGED DIST: -
+		*CUIR gets +1 to rolls against the CAV family
 
 	Dragoon (DRAG)
 		*MOV: 12
@@ -84,25 +84,29 @@ Unit Types & Stats
 		*HP: 5
 		*MAX RANGED DIST: 2
 
-Shooting Dist. Modifiers:
+---Shooting Dist. Modifiers---
 	
 	INF
 		*6: 	0.5d
 		*5-3: 	1d
 		*2-1: 	2d
 
-	ARTY [ONLY IF ROLL IS 4-6]
+	ART [ONLY IF ROLL IS 4-6]
 		*20-10:	2 DMG 
 		*9-1:	4 DMG 
 		
-	MORTAR [ONLY IF ROLL IS 4-6]	
+	MOR [ONLY IF ROLL IS 4-6]	
 		*15-1:	3 DMG 
 
-	GENERAL
+	DRAG
+		*5-9: 0.5d
+		*2-4: 1d
+		*1: 1.5d
+
+	GEN
 		*2-1:	0.5d
 		
-Charge Dir. Modifiers (CAV):
-		
+---Charge Dir. Modifiers (CAV)---	
 
 	vs. INF
 		*Front:	0.5d
@@ -114,8 +118,22 @@ Charge Dir. Modifiers (CAV):
 		*Flank:	2d
 		*Rear:	2d
 		
+---Charge Dir. Modifiers (LCAV)---
+
+	vs. INF
+		*Front: 0.5d
+		*Flank: 0.5d
+		*Rear: 1d
+
+---Charge Dir. Modifiers (DRAG)---
+
+	vs INF
+		*Front: 0.5d
+		*Flank: 0.5d
+		*Rear: 1d
+	
 		
-Charge Dir. Modifiers (INF):
+---Charge Dir. Modifiers (INF)---
 
 	vs. INF
 		*Front: 0.5d
@@ -132,17 +150,16 @@ Ranged Combat Rules
 -------------------
 
 
-	-The player rolls a die and the result is multiplied by the unit's dist./dir. modifier. 
+The player rolls a die and the result is multiplied by the unit's dist./dir. modifier. 
 	 
-	 EXAMPLE:
+EXAMPLE:
 	 
-	 Player 1 has INF shooting at Player 2's CAV from 2 tiles away. 
-	 Since INF has a modifier of 2d while shooting from this distance, his roll is multiplied by 2.
-	 Player 1 rolls 4 and inflicts 8 DMG on Player  2's CAV.
+Player 1 has INF shooting at Player 2's CAV from 2 tiles away. 
+Since INF has a modifier of 2d while shooting from this distance, his roll is multiplied by 2.
+Player 1 rolls 4 and inflicts 8 DMG on Player  2's CAV.
 	 
 	 
-	 ART and MOR are able to shoot with a "cone width" of 3, meaning they can shoot not only
-	 straight forward, but also one tile to the left and one tile to the right.
+ART and MOR are able to fire with a "cone width" of 3, meaning they can shoot not only straight forward, but also one tile to the left and one tile to the right.
 
 	 
 Melee Combat Rules
@@ -155,13 +172,14 @@ Melee Combat Rules
 
 		*If difference between player 1 and 2 is less than 3, player with highest roll inflicts 1 DMG
 
+		*If both get the same roll, both take 1 DMG
+
 		*Otherwise, inflict 2 DMG
 		
-		*If both get the same roll, both take 1 DMG
 		
 	CAV vs CAV:
 	
-		*Roll Dice
+		*Roll dice
 
 		*Same rules as INF vs INF.
 
@@ -173,9 +191,9 @@ Melee Combat Rules
 
 		*If CAV wins, inflict 4 DMG
 
+		*If equal rolls, CAV takes 1 DMG and INF takes 0.5 DMG
+
 		*If INF wins, inflict 2 DMG (and receive 1)
-		
-		*If equal rolls, CAV takes 1 DMG and INF takes 0.5
 		
 	INF/CAV vs ART
 	
@@ -197,7 +215,7 @@ Deployment Costs
 ----------------
 
 
-	Each player begins with 30 deployment points, and each unit spawned costs a certain amount.
+Each player begins with 30 deployment points, and each unit spawned costs a certain amount.
 
 	INF: 1
 	
@@ -236,9 +254,9 @@ Line of Sight
 --------------
 
 In addition to movement points and max attacking range, units are limited by their
-line of sight. A unit cannot attack an enemy on a tile if there is anotherenemy unit 
-in the way. Friendly units can move past each other; however, with the exception of
-ART and MOR, they cannot fire from behind other friendlies.
+line of sight. A unit can neither move to a tile, nor attack an enemy, that has an
+enemy unit in the way. Friendly units can move past each other; however, with the 
+exception of ART and MOR, they cannot fire from behind other friendlies.
 
 
 Keyboard shortcuts & mouse commands
@@ -257,7 +275,7 @@ Two premade save files are provided for those who just want to dive in without b
 ---Setup & Playing Phases---
 
 	R - reset zoom level  
-	WASD - move view  
+	WASD - pan view  
 	dash (-) - zoom out  
 	equal (=) - zoom in  
 	Mouse wheel - zoom out/in  

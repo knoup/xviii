@@ -2,7 +2,6 @@
 
 #include "UnitTile.h"
 
-//Done; awaiting graphics
 
 class LightCav : public UnitTile
 {

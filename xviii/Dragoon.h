@@ -3,7 +3,6 @@
 #include "UnitTile.h"
 
 
-
 class Dragoon : public UnitTile
 {
 public:

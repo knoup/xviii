@@ -2,7 +2,6 @@
 
 #include "UnitTile.h"
 
-//Done; awaiting graphics
 
 class Cuirassier : public UnitTile
 {

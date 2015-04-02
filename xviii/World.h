@@ -5,8 +5,6 @@
 #include "UnitTile.h"
 #include "TerrainTile.h"
 
-
-
 class World : public sf::Drawable, public sf::NonCopyable
 {
 public:
