@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "TerrainTile.h"
 #include "FontManager.h"
@@ -18,6 +18,7 @@
 	X(UnitTile::UnitType::INF, Infantry, "inf")\
 	X(UnitTile::UnitType::LCAV, LightCav, "lcav")\
 	X(UnitTile::UnitType::MOR, Mortar, "mor")\
+	X(UnitTile::UnitType::AKINCI, Akinci, "akinci")
 
 class Player;
 class World;
@@ -31,6 +32,7 @@ class LightCav;
 class Artillery;
 class Mortar;
 class General;
+class Akinci;
 
 /*
 	Note: due to the fact that static/const variables cannot be modified in derived classes,
@@ -53,7 +55,7 @@ public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, CUIRASSIER, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI};
 
 	//Used for storing modifier information
 
@@ -125,6 +127,7 @@ public:
 	virtual std::string attack(Artillery* art, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(Mortar* mor, int distance, UnitTile::Modifier flank);
 	virtual std::string attack(General* gen, int distance, UnitTile::Modifier flank);
+	virtual std::string attack(Akinci* aki, int distance, UnitTile::Modifier flank);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 

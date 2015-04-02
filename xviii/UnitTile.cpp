@@ -78,7 +78,7 @@ std::string UnitTile::modToString(Modifier _mod){
 		break;
 
 	case Modifier::CUIRASSIER:
-		return{"cuir v. cav"};
+		return{"cuir"};
 		break;
 
 	case Modifier::DISTANCE:
@@ -281,6 +281,10 @@ std::string UnitTile::attack(UnitTile* unit){
 		return result;
 	}
 
+	if (dist > 1){
+		return this->rangedAttack(unit, dist);
+	}
+
 	UnitTile::Modifier flank{Modifier::FRONT_FLANK};
 
 	//Determine flank direction
@@ -339,6 +343,10 @@ std::string UnitTile::attack(Mortar* mor, int distance, UnitTile::Modifier flank
 }
 //Virtual
 std::string UnitTile::attack(General* gen, int distance, UnitTile::Modifier flank){
+	return{};
+}
+//Virtual
+std::string UnitTile::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
 	return{};
 }
 
@@ -778,10 +786,13 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	if (defenderInflicted > 0.01){
 		result << attackerInflictedString;
 
-		//If the HP is less than 0.4, it means they are about to be deleted due to death...
+		//If the HP is less than 0.5, it means they are about to be deleted due to death...
 		
 		if (attacker->gethp() < 0.4){
-			result << " (killed) ";
+			result << " (killed)";
+			if (attacker->getUnitType() == UnitTile::UnitType::GEN){
+				result << "; -2HP to all " + attacker->getPlayer()->getName().substr(0, 3) + "!";
+			}
 		}
 	}
 
@@ -792,10 +803,13 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	if (attackerInflicted > 0.01){
 		result << defenderInflictedString;
 
-		//If the HP is less than 0.4, it means they are about to be deleted due to death...
+		//If the HP is less than 0.5, it means they are about to be deleted due to death...
 
 		if (defender->gethp() < 0.4){
-			result << " (killed) ";
+			result << " (killed)";
+			if (defender->getUnitType() == UnitTile::UnitType::GEN){
+				result << "; -2HP to all " + defender->getPlayer()->getName().substr(0, 3) + "!";
+			}
 		}
 	}
 

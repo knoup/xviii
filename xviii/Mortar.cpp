@@ -85,6 +85,10 @@ std::string Mortar::attack(General* gen, int distance, UnitTile::Modifier flank)
 	return rangedAttack(gen, distance);
 }
 
+std::string Mortar::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
+	return rangedAttack(aki, distance);
+}
+
 std::string Mortar::rangedAttack(UnitTile* unit, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
@@ -96,10 +100,6 @@ std::string Mortar::rangedAttack(UnitTile* unit, int distance){
 	float damageDealt{0};
 
 	multRollByModifiers(thisRoll);
-
-	if (distance > maxRange){
-		return outOfRange();
-	}
 
 	if (thisRoll_int >= 4 && thisRoll_int <= 6){
 		damageDealt = 3;

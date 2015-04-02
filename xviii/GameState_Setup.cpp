@@ -267,7 +267,6 @@ void GameState_Setup::draw(){
 	game->mWindow.setView(*game->currentView);
 	if (selectedSpawnableUnit != nullptr){
 		game->mWindow.draw(selectedSpawnableUnit->unitSprite);
-		game->mWindow.draw(selectedSpawnableUnit->unitName);
 	}
 
 }

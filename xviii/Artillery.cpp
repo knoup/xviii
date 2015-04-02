@@ -84,7 +84,12 @@ std::string Artillery::attack(General* gen, int distance, UnitTile::Modifier fla
 	return rangedAttack(gen, distance);
 }
 
+std::string Artillery::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
+	return rangedAttack(aki, distance);
+}
+
 std::string Artillery::rangedAttack(UnitTile* unit, int distance){
+
 	std::uniform_int_distribution<int> distribution(1, 6);
 
 	int thisRoll_int{distribution(mt19937)};
@@ -92,10 +97,6 @@ std::string Artillery::rangedAttack(UnitTile* unit, int distance){
 	float thisRoll = thisRoll_int;
 
 	float damageDealt{0};
-
-	if (distance > maxRange){
-		return outOfRange();
-	}
 
 	if (thisRoll_int >= 4 && thisRoll_int <= 6){
 		if (distance <= 20 && distance >= 10){

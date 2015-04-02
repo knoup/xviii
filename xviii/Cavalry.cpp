@@ -64,10 +64,6 @@ std::string Cavalry::attack(UnitTile* _unit, int distance, UnitTile::Modifier fl
 
 std::string Cavalry::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
 
-	if (distance != 1){
-		return rangedAttack(inf, distance);
-	}
-
 	std::uniform_int_distribution<int> distribution(1, 6);
 
 	int thisRoll_int{distribution(mt19937)};
@@ -136,9 +132,6 @@ std::string Cavalry::attack(Infantry* inf, int distance, UnitTile::Modifier flan
 }
 
 std::string Cavalry::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
-	if (distance != 1){
-		return rangedAttack(cav, distance);
-	}
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -218,9 +211,6 @@ std::string Cavalry::attack(Cavalry* cav, int distance, UnitTile::Modifier flank
 }
 
 std::string Cavalry::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
-	if (distance != 1){
-		return rangedAttack(cuir, distance);
-	}
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -304,9 +294,6 @@ std::string Cavalry::attack(Cuirassier* cuir, int distance, UnitTile::Modifier f
 }
 
 std::string Cavalry::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
-	if (distance != 1){
-		return rangedAttack(drag, distance);
-	}
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -387,9 +374,6 @@ std::string Cavalry::attack(Dragoon* drag, int distance, UnitTile::Modifier flan
 }
 
 std::string Cavalry::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
-	if (distance != 1){
-		return rangedAttack(lcav, distance);
-	}
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -470,9 +454,6 @@ std::string Cavalry::attack(LightCav* lcav, int distance, UnitTile::Modifier fla
 }
 
 std::string Cavalry::attack(Artillery* art, int distance, UnitTile::Modifier flank){
-	if (distance != 1){
-		return rangedAttack(art, distance);
-	}
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -509,9 +490,6 @@ std::string Cavalry::attack(Artillery* art, int distance, UnitTile::Modifier fla
 }
 
 std::string Cavalry::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
-	if (distance != 1){
-		return rangedAttack(mor, distance);
-	}
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -548,9 +526,6 @@ std::string Cavalry::attack(Mortar* mor, int distance, UnitTile::Modifier flank)
 }
 
 std::string Cavalry::attack(General* gen, int distance, UnitTile::Modifier flank){
-	if (distance != 1){
-		return rangedAttack(gen, distance);
-	}
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -630,6 +605,84 @@ std::string Cavalry::attack(General* gen, int distance, UnitTile::Modifier flank
 
 }
 
+std::string Cavalry::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
+
+	std::uniform_int_distribution<int> distribution(1, 6);
+
+	int thisRoll_int{distribution(mt19937)};
+	int enemyRoll_int{distribution(mt19937)};
+
+	float thisRoll = thisRoll_int;
+	float enemyRoll = enemyRoll_int;
+
+	float damageDealt{0};
+	float damageReceived{0};
+
+	float flankModifier;
+	Modifier flankType;
+
+	switch (flank){
+	case Modifier::FRONT_FLANK:
+		flankType = Modifier::FRONT_FLANK;
+		flankModifier = cavFrontFlankModifier;
+		break;
+
+	case Modifier::SIDE_FLANK:
+		flankType = Modifier::SIDE_FLANK;
+		flankModifier = cavSideFlankModifier;
+		break;
+
+	case Modifier::REAR_FLANK:
+		flankType = Modifier::REAR_FLANK;
+		flankModifier = cavRearFlankModifier;
+	}
+
+	modVector.emplace_back(flankType, flankModifier);
+
+	multRollByModifiers(thisRoll);
+	aki->multRollByModifiers(enemyRoll);
+
+	if (abs(thisRoll - enemyRoll) < 0.01){
+		damageDealt = 1;
+		damageReceived = 1;
+
+		this->takeDamage(damageReceived);
+		aki->takeDamage(damageDealt);
+	}
+	else{
+		//If the difference between rolls is less than 3
+		if (abs(thisRoll - enemyRoll) < 3){
+			//Player with the highest roll inflicts 1 DMG on the other
+			if (thisRoll > enemyRoll){
+				damageDealt = 1;
+				aki->takeDamage(damageDealt);
+			}
+			else if (enemyRoll > thisRoll){
+				damageReceived = 1;
+				this->takeDamage(damageReceived);
+			}
+		}
+		//If the difference is greater or equal to 3,
+		else{
+			if (thisRoll > enemyRoll){
+				damageDealt = 2;
+				aki->takeDamage(damageDealt);
+			}
+			else if (enemyRoll > thisRoll){
+				damageReceived = 2;
+				this->takeDamage(damageReceived);
+			}
+		}
+	}
+
+	mov = 0;
+	this->updateStats();
+	aki->updateStats();
+	hasAttacked = true;
+
+	return attackReport(distance, this, aki, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, aki->modVector);
+}
+
 std::string Cavalry::rangedAttack(UnitTile* unit, int distance){
-	return{"No ranged capability"};
+	return{};
 }
