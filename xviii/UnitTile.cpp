@@ -51,8 +51,8 @@ std::string UnitTile::roundFloat(const double x) {
 }
 
 
-std::string UnitTile::dirToString(UnitTile::Direction _dir){
-    switch(_dir){
+std::string UnitTile::dirToString(){
+    switch(dir){
     case UnitTile::Direction::N:
         return "N";
         break;
@@ -99,24 +99,14 @@ std::string UnitTile::modToString(Modifier _mod){
 	}
 }
 
-std::string UnitTile::typeToString(UnitType _type){
-	switch (_type){
-	case UnitType::INF:
-		return{"inf"};
-	case UnitType::CAV:
-		return{"cav"};
-	case UnitType::CUIR:
-		return{"cuir"};
-	case UnitType::DRAG:
-		return{"drag"};
-	case UnitType::LCAV:
-		return{"lcav"};
-	case UnitType::ART:
-		return{"art"};
-	case UnitType::MOR:
-		return{"mor"};
-	case UnitType::GEN:
-		return{"gen"};
+std::string UnitTile::typeToString(){
+	switch (unitType){
+	#define X(unitType, cl, str)\
+		case (unitType):\
+		return str;\
+		break;
+	UNITPROPERTIES
+	#undef X
 	}
 }
 
@@ -134,7 +124,7 @@ at{nullptr}
 {
 	unitFlag = player->getFlag();
 
-    dirText.setString(dirToString(dir));
+    dirText.setString(dirToString());
 
     dirText.setFont(fm.getFont(FontManager::Type::Arial));
     hpText.setFont(fm.getFont(FontManager::Type::Arial));
@@ -414,7 +404,7 @@ UnitTile::Direction UnitTile::getDir() const{
 void UnitTile::updateStats(){
 
 	//Update the stats
-	dirText.setString(dirToString(dir));
+	dirText.setString(dirToString());
 	movText.setString(std::to_string(mov));
 	hpText.setString(roundFloat(hp));
 
@@ -728,12 +718,11 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 	if (!attackerModifiers.empty()){
 
-		std::string modifiersString;
 		float finalAttackerRoll{float(attackerRoll)};
 
 		this->multRollByModifiers(finalAttackerRoll);
 
-		attackerRollString = attacker->getPlayer()->getName().substr(0, 3) + " " + roundFloat(finalAttackerRoll) + " [" + std::to_string(attackerRoll) + modifiersString + "]";
+		attackerRollString = attacker->getPlayer()->getName().substr(0, 3) + " " + std::to_string(attackerRoll) + " -> " + roundFloat(finalAttackerRoll);
 	}
 	else{
 		attackerRollString = attacker->getPlayer()->getName().substr(0, 3) + " " + std::to_string(attackerRoll);
@@ -756,7 +745,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	std::string attackerInflictedString{attacker->getPlayer()->getName().substr(0, 3) + " -" + roundFloat(defenderInflicted)};
 	std::string defenderInflictedString{defender->getPlayer()->getName().substr(0, 3) + " -" + roundFloat(attackerInflicted)};
 
-	result << "Combat:    " << attacker->getPlayer()->getName().substr(0, 3) + " " + attacker->typeToString(attacker->getUnitType()) + "[" + attacker->dirToString(attacker->getDir()) + "] " << " vs. " << defender->getPlayer()->getName().substr(0, 3) + " " + defender->typeToString(defender->getUnitType()) + "[" + defender->dirToString(defender->getDir()) + "]" << "; ";
+	result << "Combat:    " << attacker->getPlayer()->getName().substr(0, 3) + " " + attacker->typeToString() + "[" + attacker->dirToString() + "] " << " vs. " << defender->getPlayer()->getName().substr(0, 3) + " " + defender->typeToString() + "[" + defender->dirToString() + "]" << "; ";
 
 	if (distance == 1){
 		result << "melee";

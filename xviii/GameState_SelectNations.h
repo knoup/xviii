@@ -12,8 +12,6 @@ public:
 	virtual void draw();
 
 private:
-	void clearHighlighting();
-
 	struct FlagMenuItem{
 		FlagMenuItem(sf::Sprite _sprite, Player::Nation _nation) :
 			sprite{_sprite},

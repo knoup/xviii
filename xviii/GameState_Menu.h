@@ -37,8 +37,6 @@ private:
 
 	std::vector<saveObject>::iterator menuIterator;
 
-	void clearHighlighting();
-
 	sf::View menuSelectView;
 };
 

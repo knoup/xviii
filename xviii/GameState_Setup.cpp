@@ -355,42 +355,6 @@ void GameState_Setup::getInput(){
 				game->currentView->setSize(game->currentView->getSize().x + xResolution / 10, game->currentView->getSize().y + yResolution / 10);
                 break;
 
-			/*
-
-			Disabled for now while new units are being added; this needs to be made more elegant anyway
-
-            case SPAWNINF_KEY:
-				selected = nullptr;
-				delete selected;
-                selected = new Menu(MenuItems[0]);
-                break;
-
-            case SPAWNCAV_KEY:
-				selected = nullptr;
-				delete selected;
-                selected = new Menu(MenuItems[1]);
-                break;
-
-            case SPAWNART_KEY:
-				selected = nullptr;
-				delete selected;
-                selected = new Menu(MenuItems[2]);
-                break;
-
-            case SPAWNMOR_KEY:
-				selected = nullptr;
-				delete selected;
-                selected = new Menu(MenuItems[3]);
-                break;
-
-            case SPAWNGEN_KEY:
-				selected = nullptr;
-				delete selected;
-                selected = new Menu(MenuItems[4]);
-                break;
-
-			*/
-
 			default:
 				break;
 			}

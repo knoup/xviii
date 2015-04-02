@@ -28,7 +28,7 @@ std::string Dragoon::rotate(UnitTile::Direction _dir){
 		return "Cannot rotate any more";
 	}
 	else if (dir == _dir){
-		return "Already facing " + UnitTile::dirToString(dir);
+		return "Already facing " + UnitTile::dirToString();
 	}
 	//If it was a full rotation
 	if (_dir == opposite(dir)){
@@ -40,7 +40,7 @@ std::string Dragoon::rotate(UnitTile::Direction _dir){
 	dir = _dir;
 	updateStats();
 
-	return "Successfully rotated to " + UnitTile::dirToString(dir);
+	return "Successfully rotated to " + UnitTile::dirToString();
 }
 
 std::string Dragoon::interactWithFriendly(UnitTile* _unit){

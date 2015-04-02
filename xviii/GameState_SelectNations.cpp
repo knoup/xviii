@@ -1,13 +1,6 @@
 #include "stdafx.h"
 #include "GameState_SelectNations.h"
 
-
-void GameState_SelectNations::clearHighlighting(){
-	for (auto& flag : flagMenuItems){
-		flag.highlighted = false;
-	}
-}
-
 GameState_SelectNations::GameState_SelectNations(Game* _game) :
 GameState{_game},
 flagView{sf::FloatRect({}, {}, xResolution, yResolution)},
@@ -79,7 +72,7 @@ void GameState_SelectNations::getInput(){
 
 			}
 			else if (event.key.code == RIGHT_ARROW || event.key.code == LEFT_ARROW){
-				clearHighlighting();
+				flagIterator->highlighted = false;
 
 				if (event.key.code == LEFT_ARROW){
 					if (flagIterator == flagMenuItems.begin()){

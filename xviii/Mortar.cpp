@@ -19,14 +19,14 @@ std::string Mortar::rotate(UnitTile::Direction _dir){
 		return "Cannot rotate any more";
 	}
 	else if (dir == _dir){
-		return "Already facing " + UnitTile::dirToString(dir);
+		return "Already facing " + UnitTile::dirToString();
 	}
 
 	hasRotated = true;
 	dir = _dir;
 	updateStats();
 
-	return "Successfully rotated to " + UnitTile::dirToString(dir);
+	return "Successfully rotated to " + UnitTile::dirToString();
 }
 
 std::string Mortar::interactWithFriendly(UnitTile* _unit){

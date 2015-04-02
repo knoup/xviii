@@ -4,42 +4,12 @@
 #include "Game.h"
 
 Player::Nation stringToNation(std::string _name){
-	if (_name == "Austria"){
-		return Player::Nation::AUS;
-	}
-	else if (_name == "Prussia"){
-		return Player::Nation::PRU;
-	}
-	else if (_name == "France"){
-		return Player::Nation::FRA;
-	}
-	else if (_name == "Great Britain"){
-		return Player::Nation::GBR;
-	}
-	else if (_name == "Russia"){
-		return Player::Nation::RUS;
-	}
-	else if (_name == "Bavaria"){
-		return Player::Nation::BAV;
-	}
-	else if (_name == "Commonwealth"){
-		return Player::Nation::COM;
-	}
-	else if (_name == "Spain"){
-		return Player::Nation::SPA;
-	}
-	else if (_name == "Portugal"){
-		return Player::Nation::POR;
-	}
-	else if (_name == "Venice"){
-		return Player::Nation::VEN;
-	}
-	else if (_name == "Saxony"){
-		return Player::Nation::SAX;
-	}
-	else if (_name == "Sweden"){
-		return Player::Nation::SWE;
-	}
+	//nation, flag, name
+	#define X(nat, fla, str)\
+	if (_name == str)\
+		return nat;
+	NATIONPROPERTIES
+	#undef X
 }
 
 UnitTile::UnitType stringToUnitType(std::string _type){
@@ -177,10 +147,10 @@ bool SaveGame::create(){
 
 		save << "{" << std::endl;
 
-		save << "type=" << unit->typeToString(unit->getUnitType()) << std::endl;
+		save << "type=" << unit->typeToString() << std::endl;
 		save << "faction=" << unit->getPlayer()->getName() << std::endl;
 		save << "pos=" << coords.x + 1 << " " << coords.y + 1 << std::endl;
-		save << "dir=" << unit->dirToString(unit->getDir()) << std::endl;
+		save << "dir=" << unit->dirToString() << std::endl;
 		save << "hp=" << unit->roundFloat(unit->gethp()) << std::endl;
 		save << "mov=" << unit->getMov() << std::endl;
 		save << "hasMoved=" << unit->getHasMoved() << std::endl;

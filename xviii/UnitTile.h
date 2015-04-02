@@ -9,6 +9,16 @@
 #include <iomanip>
 #include <math.h>
 
+#define UNITPROPERTIES\
+	X(UnitTile::UnitType::ART, Artillery, "art")\
+	X(UnitTile::UnitType::CAV, Cavalry, "cav")\
+	X(UnitTile::UnitType::CUIR, Cuirassier, "cuir")\
+	X(UnitTile::UnitType::DRAG, Dragoon, "drag")\
+	X(UnitTile::UnitType::GEN, General, "gen")\
+	X(UnitTile::UnitType::INF, Infantry, "inf")\
+	X(UnitTile::UnitType::LCAV, LightCav, "lcav")\
+	X(UnitTile::UnitType::MOR, Mortar, "mor")\
+
 class Player;
 class World;
 
@@ -132,9 +142,9 @@ public:
 	//Overloaded version that only gets the distance and doesn't take in bools
 	int distanceFrom(Tile* _tile);
 
-	std::string dirToString(Direction _dir);
+	std::string dirToString();
 	std::string modToString(Modifier _mod);
-	std::string typeToString(UnitType _type);
+	std::string typeToString();
 
 	std::string attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted, std::vector<ModifierReport>& thisModifiers, std::vector<ModifierReport>& enemyModifiers);
 

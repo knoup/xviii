@@ -16,6 +16,24 @@
 
 #include "global.h"
 
+//Since each nation will only have one unique unit (and different names/flags), I felt it would be
+//unnecessary to create classes for each. The exceptions to these are Crimea, the Ottomans, and
+//the Mughals, who will have different units completely
+
+#define NATIONPROPERTIES\
+	X(Player::Nation::AUS, TextureManager::Flag::AUS, "Austria")\
+	X(Player::Nation::PRU, TextureManager::Flag::PRU, "Prussia")\
+	X(Player::Nation::FRA, TextureManager::Flag::FRA, "France")\
+	X(Player::Nation::GBR, TextureManager::Flag::GBR, "Great Britain")\
+	X(Player::Nation::RUS, TextureManager::Flag::RUS, "Russia")\
+	X(Player::Nation::BAV, TextureManager::Flag::BAV, "Bavaria")\
+	X(Player::Nation::COM, TextureManager::Flag::COM, "Commonwealth")\
+	X(Player::Nation::SPA, TextureManager::Flag::SPA, "Spain")\
+	X(Player::Nation::POR, TextureManager::Flag::POR, "Portugal")\
+	X(Player::Nation::VEN, TextureManager::Flag::VEN, "Venice")\
+	X(Player::Nation::SAX, TextureManager::Flag::SAX, "Saxony")\
+	X(Player::Nation::SWE, TextureManager::Flag::SWE, "Sweden")\
+
 class Player
 {
     public:
@@ -46,8 +64,6 @@ class Player
 		bool operator== (const Player& _player){
 			return this == &_player;
 		}
-
-		sf::Sprite nationToSprite(Player::Nation _nation);
 
 		sf::Sprite getFlag() const;
 		sf::Color getColour() const;

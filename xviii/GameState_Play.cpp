@@ -364,7 +364,7 @@ void GameState_Play::update(){
 
 		}
 
-		tileDistanceText.setString(std::to_string(dist) + (selected->dirToString(selected->getDir())));
+		tileDistanceText.setString(std::to_string(dist) + (selected->dirToString()));
 		tileDistanceText.setPosition({game->mWindow.mapPixelToCoords({game->mousePos.x - 18, game->mousePos.y + 18}, *game->currentView)});
 		
 	}

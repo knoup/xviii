@@ -59,7 +59,8 @@ void GameState_Menu::getInput(){
 
 			else if ((event.key.code == UP_ARROW || event.key.code == DOWN_ARROW) && menuList.size() > 1){
 
-				clearHighlighting();
+				//Unhighlight current object
+				menuIterator->text.setColor((sf::Color(80, 80, 80)));
 
 				if (event.key.code == UP_ARROW){
 					if (menuIterator == menuList.begin()){
@@ -103,13 +104,6 @@ void GameState_Menu::update(){
 	}
 
 	menuSelectView.setCenter(menuSelectView.getCenter().x, menuIterator->text.getPosition().y);
-}
-
-void GameState_Menu::clearHighlighting(){
-	//Reset all the others to grey
-	for (auto& object : menuList){
-		object.text.setColor(sf::Color(80, 80, 80));
-	}
 }
 
 void GameState_Menu::draw(){
