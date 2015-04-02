@@ -12,31 +12,13 @@ Player::Nation stringToNation(std::string _name){
 	#undef X
 }
 
-UnitTile::UnitType stringToUnitType(std::string _type){
-	if (_type == "inf"){
-		return UnitTile::UnitType::INF;
-	}
-	else if (_type == "cav"){
-		return UnitTile::UnitType::CAV;
-	}
-	else if (_type == "cuir"){
-		return UnitTile::UnitType::CUIR;
-	}
-	else if (_type == "drag"){
-		return UnitTile::UnitType::DRAG;
-	}
-	else if (_type == "lcav"){
-		return UnitTile::UnitType::LCAV;
-	}
-	else if (_type == "art"){
-		return UnitTile::UnitType::ART;
-	}
-	else if (_type == "mor"){
-		return UnitTile::UnitType::MOR;
-	}
-	else if (_type == "gen"){
-		return UnitTile::UnitType::GEN;
-	}
+UnitTile::UnitType stringToUnitType(std::string _str){
+	//UnitType, class, shorthand name
+	#define X(type, cl, str)\
+	if(_str == str)\
+		return type;
+	UNITPROPERTIES
+	#undef X
 }
 
 UnitTile::Direction stringToDir(std::string _dir){
