@@ -132,6 +132,7 @@ public:
 	virtual std::string attack(Mortar* mor, int distance);
 	virtual std::string attack(General* gen, int distance);
 	virtual std::string attack(Akinci* aki, int distance);
+	virtual std::string attack(Deli* deli, int distance);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
@@ -226,7 +227,6 @@ protected:
 	bool hasRotated{false};
 	bool hasAttacked{false};
 
-	bool canRotateAfterAttack{false};
 	bool waterCrosser{false};
 };
 

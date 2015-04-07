@@ -562,6 +562,63 @@ std::string LightCav::attack(Akinci* aki, int distance){
 	return attackReport(distance, this, aki, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, aki->modVector);
 }
 
+std::string LightCav::attack(Deli* deli, int distance){
+
+	std::uniform_int_distribution<int> distribution(1, 6);
+
+	int thisRoll_int{distribution(mt19937)};
+	int enemyRoll_int{distribution(mt19937)};
+
+	float thisRoll = thisRoll_int;
+	float enemyRoll = enemyRoll_int;
+
+	float damageDealt{0};
+	float damageReceived{0};
+
+	multRollByModifiers(thisRoll);
+	deli->multRollByModifiers(enemyRoll);
+
+	if (abs(thisRoll - enemyRoll) < 0.01){
+		damageDealt = 1;
+		damageReceived = 1;
+
+		this->takeDamage(damageReceived);
+		deli->takeDamage(damageDealt);
+	}
+	else{
+		//If the difference between rolls is less than 3
+		if (abs(thisRoll - enemyRoll) < 3){
+			//Player with the highest roll inflicts 1 DMG on the other
+			if (thisRoll > enemyRoll){
+				damageDealt = 1;
+				deli->takeDamage(damageDealt);
+			}
+			else if (enemyRoll > thisRoll){
+				damageReceived = 1;
+				this->takeDamage(damageReceived);
+			}
+		}
+		//If the difference is greater or equal to 3,
+		else{
+			if (thisRoll > enemyRoll){
+				damageDealt = 2;
+				deli->takeDamage(damageDealt);
+			}
+			else if (enemyRoll > thisRoll){
+				damageReceived = 2;
+				this->takeDamage(damageReceived);
+			}
+		}
+	}
+
+	mov = 0;
+	this->updateStats();
+	deli->updateStats();
+	hasAttacked = true;
+
+	return attackReport(distance, this, deli, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, deli->modVector);
+}
+
 std::string LightCav::rangedAttack(UnitTile* unit, int distance){
 	return{};
 }

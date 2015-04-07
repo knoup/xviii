@@ -568,6 +568,52 @@ std::string Infantry::attack(Akinci* aki, int distance){
 	return attackReport(distance, this, aki, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, aki->modVector);
 }
 
+std::string Infantry::attack(Deli* deli, int distance){
+
+	std::uniform_int_distribution<int> distribution(1, 6);
+
+	int thisRoll_int{distribution(mt19937)};
+	int enemyRoll_int{distribution(mt19937)};
+
+	float thisRoll = thisRoll_int;
+	float enemyRoll = enemyRoll_int;
+
+	float damageDealt{0};
+	float damageReceived{0};
+
+	multRollByModifiers(thisRoll);
+	deli->multRollByModifiers(enemyRoll);
+
+	if (abs(thisRoll - enemyRoll) < 0.01){
+		damageDealt = 1;
+		damageReceived = 0.5;
+
+		deli->takeDamage(damageDealt);
+		this->takeDamage(damageReceived);
+	}
+	else if (thisRoll > enemyRoll){
+		damageDealt = 2;
+		damageReceived = 1;
+
+		deli->takeDamage(damageDealt);
+		this->takeDamage(damageReceived);
+
+	}
+	else if (enemyRoll > thisRoll){
+		damageReceived = 4;
+
+		this->takeDamage(damageReceived);
+
+	}
+
+	mov = 0;
+	this->updateStats();
+	deli->updateStats();
+	hasAttacked = true;
+
+	return attackReport(distance, this, deli, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, deli->modVector);
+}
+
 std::string Infantry::rangedAttack(UnitTile* unit, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);

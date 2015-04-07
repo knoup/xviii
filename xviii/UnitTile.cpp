@@ -282,13 +282,13 @@ std::string UnitTile::attack(UnitTile* unit){
 		return result;
 	}
 
-	///////////////////////////////////////////////////// Ranged
+	// Ranged	////////////////////////////////////////////////////
 	if (dist > 1){
 		return this->rangedAttack(unit, dist);
 	}
 
-	///////////////////////////////////////////////////// Melee
-
+	// Melee	///////////////////////////////////////////////////
+	
 	UnitTile::Modifier flank{Modifier::FRONT_FLANK};
 
 	//Determine flank direction
@@ -307,16 +307,12 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	//Add the flank modifier to this unit's modVector. See particular unit's getFlankModifier() for details.
 	this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitFamilyType(), flank));
-
-	if (!canRotateAfterAttack){
-		hasRotated = true;
-	}
 	
-	if ((this->getUnitType() == UnitType::CUIR || this->getUnitType() == UnitType::AKINCI) && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+	if ((this->getUnitType() == UnitType::CUIR || this->getUnitType() == UnitType::DELI) && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		this->modVector.emplace_back(Modifier::VSCAV, 1);
 	}
 
-	if ((unit->getUnitType() == UnitType::CUIR || unit->getUnitType() == UnitType::AKINCI) && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+	if ((unit->getUnitType() == UnitType::CUIR || unit->getUnitType() == UnitType::DELI) && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		unit->modVector.emplace_back(Modifier::VSCAV, 1);
 	}
 
@@ -364,6 +360,12 @@ std::string UnitTile::attack(General* gen, int distance){
 std::string UnitTile::attack(Akinci* aki, int distance){
 	return{};
 }
+
+//Virtual
+std::string UnitTile::attack(Deli* deli, int distance){
+	return{};
+}
+
 
 //Virtual
 std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
