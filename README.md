@@ -26,7 +26,11 @@ General
 	
 *d stands for [6-sided] die; the roll result is multiplied by the modifier, such that
  a roll of 4 with modifiers of 0.5d and 1d will yield 2 and 4 DMG respectively
-	
+
+ 
+ *Incremental modifiers always come after multiplicational ones; a Cuirassier 4 rolling
+ against a Dragoon will get a resultant roll of 9 [(2x4) + 1], not 10 [2*(4+1)].
+
 
 *When a player's GENERAL dies, inflict 2 DMG to all friendly units. General may 
 heal a friendly unit for 2 HP once per turn.

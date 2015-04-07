@@ -18,7 +18,8 @@
 	X(UnitTile::UnitType::INF, Infantry, "inf")\
 	X(UnitTile::UnitType::LCAV, LightCav, "lcav")\
 	X(UnitTile::UnitType::MOR, Mortar, "mor")\
-	X(UnitTile::UnitType::AKINCI, Akinci, "akinci")
+	X(UnitTile::UnitType::AKINCI, Akinci, "akinci")\
+	X(UnitTile::UnitType::DELI, Deli, "deli")
 
 class Player;
 class World;
@@ -33,6 +34,7 @@ class Artillery;
 class Mortar;
 class General;
 class Akinci;
+class Deli;
 
 /*
 	Note: due to the fact that static/const variables cannot be modified in derived classes,
@@ -54,8 +56,9 @@ class UnitTile : public Tile
 public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
-	enum class Modifier{NONE, CUIRASSIER, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI};
+	enum class Modifier{NONE, VSCAV, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI};
+	enum class UnitFamily{INF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information
 
@@ -71,7 +74,7 @@ public:
 		float modFloat;
 	};
 
-	UnitTile(World& _world, std::mt19937&, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitType type, Direction _dir);
+	UnitTile(World& _world, std::mt19937&, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitType type, UnitFamily familyType, Direction _dir);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
 
@@ -79,6 +82,7 @@ public:
 	std::string roundFloat(const double x);
 
 	UnitType getUnitType() const;
+	UnitFamily getUnitFamilyType() const;
 
 	int getCost() const;
 	int getLimit() const;
@@ -130,6 +134,11 @@ public:
 	virtual std::string attack(Akinci* aki, int distance, UnitTile::Modifier flank);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
+
+	//Each class will have an overloaded definition returning its specific flank modifier for either 
+	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 
+	//its own implementation of essentially the same function.
+	virtual float getFlankModifier(UnitFamily _family, Modifier _flank);
 
 	TerrainTile* getTilePos() const;
 	Player* getPlayer() const;
@@ -193,7 +202,7 @@ protected:
 	TerrainTile* at;
 
 	UnitType unitType;
-
+	UnitFamily unitFamilyType;
 
 	int deploymentCost;
 

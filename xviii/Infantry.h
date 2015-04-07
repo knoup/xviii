@@ -32,6 +32,8 @@ public:
 	
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
+	virtual float getFlankModifier(UnitFamily _family, Modifier _flank);
+
 private:
 	static const int maxhp{18};
 	static const int maxMov{6};

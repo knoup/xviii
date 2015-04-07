@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "Cavalry.h"
+#include "Deli.h"
 
 #include "Player.h"
 
 static const float infFrontFlankModifier = 0.5;
-static const float infSideFlankModifier = 1;
-static const float infRearFlankModifier = 2;
+static const float infSideFlankModifier = 0.5;
+static const float infRearFlankModifier = 1;
 
 static const float cavFrontFlankModifier = 1;
 static const float cavSideFlankModifier = 2;
 static const float cavRearFlankModifier = 2;
 
-float Cavalry::getFlankModifier(UnitFamily _family, Modifier _flank){
+float Deli::getFlankModifier(UnitFamily _family, Modifier _flank){
 	if (_family == UnitFamily::INF_FAMILY){
 		switch (_flank){
 		case Modifier::FRONT_FLANK:
@@ -50,18 +50,18 @@ float Cavalry::getFlankModifier(UnitFamily _family, Modifier _flank){
 	}
 }
 
-Cavalry::Cavalry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::CAV, UnitType::CAV, UnitFamily::CAV_FAMILY, _dir)
-{	
+Deli::Deli(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
+UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::DELI, UnitType::DELI, UnitFamily::CAV_FAMILY, _dir)
+{
 	deploymentCost = 3;
 	limit = 5;
+	waterCrosser = true;
 
 	mov = maxMov;
 	hp = maxhp;
 }
 
-
-std::string Cavalry::rotate(UnitTile::Direction _dir){
+std::string Deli::rotate(UnitTile::Direction _dir){
 	if (hasRotated){
 		return "Cannot rotate any more";
 	}
@@ -81,27 +81,27 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 	return "Successfully rotated to " + UnitTile::dirToString();
 }
 
-std::string Cavalry::interactWithFriendly(UnitTile* _unit){
+std::string Deli::interactWithFriendly(UnitTile* _unit){
 	return{};
 }
-	
-int Cavalry::getMaxHp() const{
+
+int Deli::getMaxHp() const{
 	return maxhp;
 }
 
-int Cavalry::getMaxMov() const{
+int Deli::getMaxMov() const{
 	return maxMov;
 }
 
-int Cavalry::getMaxRange() const{
+int Deli::getMaxRange() const{
 	return maxRange;
 }
 
-std::string Cavalry::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
+std::string Deli::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
 	return _unit->attack(this, distance, flank);
 }
 
-std::string Cavalry::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
+std::string Deli::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -143,12 +143,12 @@ std::string Cavalry::attack(Infantry* inf, int distance, UnitTile::Modifier flan
 	this->updateStats();
 	inf->updateStats();
 	hasAttacked = true;
-	
+
 	return attackReport(distance, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
 
 }
 
-std::string Cavalry::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
+std::string Deli::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -160,9 +160,6 @@ std::string Cavalry::attack(Cavalry* cav, int distance, UnitTile::Modifier flank
 
 	float damageDealt{0};
 	float damageReceived{0};
-
-	float flankModifier;
-	Modifier flankType;
 
 	multRollByModifiers(thisRoll);
 	cav->multRollByModifiers(enemyRoll);
@@ -206,10 +203,9 @@ std::string Cavalry::attack(Cavalry* cav, int distance, UnitTile::Modifier flank
 	hasAttacked = true;
 
 	return attackReport(distance, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
-	
 }
 
-std::string Cavalry::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
+std::string Deli::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -224,7 +220,6 @@ std::string Cavalry::attack(Cuirassier* cuir, int distance, UnitTile::Modifier f
 
 	multRollByModifiers(thisRoll);
 	cuir->multRollByModifiers(enemyRoll);
-
 
 	if (abs(thisRoll - enemyRoll) < 0.01){
 		damageDealt = 1;
@@ -265,10 +260,9 @@ std::string Cavalry::attack(Cuirassier* cuir, int distance, UnitTile::Modifier f
 	hasAttacked = true;
 
 	return attackReport(distance, this, cuir, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cuir->modVector);
-
 }
 
-std::string Cavalry::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+std::string Deli::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -323,11 +317,9 @@ std::string Cavalry::attack(Dragoon* drag, int distance, UnitTile::Modifier flan
 	hasAttacked = true;
 
 	return attackReport(distance, this, drag, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, drag->modVector);
-
-
 }
 
-std::string Cavalry::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
+std::string Deli::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -382,11 +374,9 @@ std::string Cavalry::attack(LightCav* lcav, int distance, UnitTile::Modifier fla
 	hasAttacked = true;
 
 	return attackReport(distance, this, lcav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, lcav->modVector);
-
-
 }
 
-std::string Cavalry::attack(Artillery* art, int distance, UnitTile::Modifier flank){
+std::string Deli::attack(Artillery* art, int distance, UnitTile::Modifier flank){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -394,7 +384,7 @@ std::string Cavalry::attack(Artillery* art, int distance, UnitTile::Modifier fla
 	std::uniform_int_distribution<int> distribution(1, 6);
 
 	int thisRoll_int{distribution(mt19937)};
-	
+
 	float thisRoll = thisRoll_int;
 
 	multRollByModifiers(thisRoll);
@@ -412,7 +402,7 @@ std::string Cavalry::attack(Artillery* art, int distance, UnitTile::Modifier fla
 		art->takeDamage(damageDealt);
 		this->takeDamage(damageReceived);
 	}
-	
+
 
 	mov = 0;
 	this->updateStats();
@@ -422,7 +412,7 @@ std::string Cavalry::attack(Artillery* art, int distance, UnitTile::Modifier fla
 	return attackReport(distance, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
 }
 
-std::string Cavalry::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
+std::string Deli::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -448,7 +438,7 @@ std::string Cavalry::attack(Mortar* mor, int distance, UnitTile::Modifier flank)
 		mor->takeDamage(damageDealt);
 		this->takeDamage(damageReceived);
 	}
-	
+
 
 	mov = 0;
 	this->updateStats();
@@ -458,7 +448,7 @@ std::string Cavalry::attack(Mortar* mor, int distance, UnitTile::Modifier flank)
 	return attackReport(distance, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
 }
 
-std::string Cavalry::attack(General* gen, int distance, UnitTile::Modifier flank){
+std::string Deli::attack(General* gen, int distance, UnitTile::Modifier flank){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -513,11 +503,9 @@ std::string Cavalry::attack(General* gen, int distance, UnitTile::Modifier flank
 	hasAttacked = true;
 
 	return attackReport(distance, this, gen, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, gen->modVector);
-
-
 }
 
-std::string Cavalry::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
+std::string Deli::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -574,6 +562,6 @@ std::string Cavalry::attack(Akinci* aki, int distance, UnitTile::Modifier flank)
 	return attackReport(distance, this, aki, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, aki->modVector);
 }
 
-std::string Cavalry::rangedAttack(UnitTile* unit, int distance){
+std::string Deli::rangedAttack(UnitTile* unit, int distance){
 	return{};
 }

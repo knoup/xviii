@@ -36,6 +36,8 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
+	virtual float getFlankModifier(UnitFamily _family, Modifier _flank);
+
 	virtual bool getHasHealed() const;
 	virtual void setHasHealed(bool _hasHealed);
 	

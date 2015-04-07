@@ -11,8 +11,47 @@ static const float cavFrontFlankModifier = 1;
 static const float cavSideFlankModifier = 2;
 static const float cavRearFlankModifier = 2;
 
+float LightCav::getFlankModifier(UnitFamily _family, Modifier _flank){
+	if (_family == UnitFamily::INF_FAMILY){
+		switch (_flank){
+		case Modifier::FRONT_FLANK:
+			return infFrontFlankModifier;
+			break;
+
+		case Modifier::SIDE_FLANK:
+			return infSideFlankModifier;
+			break;
+
+		case Modifier::REAR_FLANK:
+			return infRearFlankModifier;
+			break;
+		}
+	}
+
+	else if (_family == UnitFamily::CAV_FAMILY){
+		switch (_flank){
+		case Modifier::FRONT_FLANK:
+			return cavFrontFlankModifier;
+			break;
+
+		case Modifier::SIDE_FLANK:
+			return cavSideFlankModifier;
+			break;
+
+		case Modifier::REAR_FLANK:
+			return cavRearFlankModifier;
+			break;
+		}
+	}
+
+	//If unit is neither in INF or CAV family, return 0. Modifiers of 0 will be ignored.
+	else{
+		return 0;
+	}
+}
+
 LightCav::LightCav(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::LCAV, UnitType::LCAV, _dir)
+UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::LCAV, UnitType::LCAV, UnitFamily::CAV_FAMILY, _dir)
 {
 	deploymentCost = 3;
 	limit = 5;
@@ -75,28 +114,6 @@ std::string LightCav::attack(Infantry* inf, int distance, UnitTile::Modifier fla
 	float damageDealt{0};
 	float damageReceived{0};
 
-
-	float flankModifier;
-	Modifier flankType;
-
-	switch (flank){
-	case Modifier::FRONT_FLANK:
-		flankType = Modifier::FRONT_FLANK;
-		flankModifier = infFrontFlankModifier;
-		break;
-
-	case Modifier::SIDE_FLANK:
-		flankType = Modifier::SIDE_FLANK;
-		flankModifier = infSideFlankModifier;
-		break;
-
-	case Modifier::REAR_FLANK:
-		flankType = Modifier::REAR_FLANK;
-		flankModifier = infRearFlankModifier;
-	}
-
-	modVector.emplace_back(flankType, flankModifier);
-
 	multRollByModifiers(thisRoll);
 	inf->multRollByModifiers(enemyRoll);
 
@@ -143,27 +160,6 @@ std::string LightCav::attack(Cavalry* cav, int distance, UnitTile::Modifier flan
 
 	float damageDealt{0};
 	float damageReceived{0};
-
-	float flankModifier;
-	Modifier flankType;
-
-	switch (flank){
-	case Modifier::FRONT_FLANK:
-		flankType = Modifier::FRONT_FLANK;
-		flankModifier = cavFrontFlankModifier;
-		break;
-
-	case Modifier::SIDE_FLANK:
-		flankType = Modifier::SIDE_FLANK;
-		flankModifier = cavSideFlankModifier;
-		break;
-
-	case Modifier::REAR_FLANK:
-		flankType = Modifier::REAR_FLANK;
-		flankModifier = cavRearFlankModifier;
-	}
-
-	modVector.emplace_back(flankType, flankModifier);
 
 	multRollByModifiers(thisRoll);
 	cav->multRollByModifiers(enemyRoll);
@@ -222,30 +218,6 @@ std::string LightCav::attack(Cuirassier* cuir, int distance, UnitTile::Modifier 
 	float damageDealt{0};
 	float damageReceived{0};
 
-	float flankModifier;
-	Modifier flankType;
-
-	switch (flank){
-	case Modifier::FRONT_FLANK:
-		flankType = Modifier::FRONT_FLANK;
-		flankModifier = cavFrontFlankModifier;
-		break;
-
-	case Modifier::SIDE_FLANK:
-		flankType = Modifier::SIDE_FLANK;
-		flankModifier = cavSideFlankModifier;
-		break;
-
-	case Modifier::REAR_FLANK:
-		flankType = Modifier::REAR_FLANK;
-		flankModifier = cavRearFlankModifier;
-	}
-
-	modVector.emplace_back(flankType, flankModifier);
-
-	//Cuirassier's +1 vs cav
-	cuir->modVector.emplace_back(UnitTile::Modifier::CUIRASSIER, 1);
-
 	multRollByModifiers(thisRoll);
 	cuir->multRollByModifiers(enemyRoll);
 
@@ -303,27 +275,6 @@ std::string LightCav::attack(Dragoon* drag, int distance, UnitTile::Modifier fla
 	float damageDealt{0};
 	float damageReceived{0};
 
-	float flankModifier;
-	Modifier flankType;
-
-	switch (flank){
-	case Modifier::FRONT_FLANK:
-		flankType = Modifier::FRONT_FLANK;
-		flankModifier = cavFrontFlankModifier;
-		break;
-
-	case Modifier::SIDE_FLANK:
-		flankType = Modifier::SIDE_FLANK;
-		flankModifier = cavSideFlankModifier;
-		break;
-
-	case Modifier::REAR_FLANK:
-		flankType = Modifier::REAR_FLANK;
-		flankModifier = cavRearFlankModifier;
-	}
-
-	modVector.emplace_back(flankType, flankModifier);
-
 	multRollByModifiers(thisRoll);
 	drag->multRollByModifiers(enemyRoll);
 
@@ -380,27 +331,6 @@ std::string LightCav::attack(LightCav* lcav, int distance, UnitTile::Modifier fl
 
 	float damageDealt{0};
 	float damageReceived{0};
-
-	float flankModifier;
-	Modifier flankType;
-
-	switch (flank){
-	case Modifier::FRONT_FLANK:
-		flankType = Modifier::FRONT_FLANK;
-		flankModifier = cavFrontFlankModifier;
-		break;
-
-	case Modifier::SIDE_FLANK:
-		flankType = Modifier::SIDE_FLANK;
-		flankModifier = cavSideFlankModifier;
-		break;
-
-	case Modifier::REAR_FLANK:
-		flankType = Modifier::REAR_FLANK;
-		flankModifier = cavRearFlankModifier;
-	}
-
-	modVector.emplace_back(flankType, flankModifier);
 
 	multRollByModifiers(thisRoll);
 	lcav->multRollByModifiers(enemyRoll);
@@ -531,27 +461,6 @@ std::string LightCav::attack(General* gen, int distance, UnitTile::Modifier flan
 	float damageDealt{0};
 	float damageReceived{0};
 
-	float flankModifier;
-	Modifier flankType;
-
-	switch (flank){
-	case Modifier::FRONT_FLANK:
-		flankType = Modifier::FRONT_FLANK;
-		flankModifier = cavFrontFlankModifier;
-		break;
-
-	case Modifier::SIDE_FLANK:
-		flankType = Modifier::SIDE_FLANK;
-		flankModifier = cavSideFlankModifier;
-		break;
-
-	case Modifier::REAR_FLANK:
-		flankType = Modifier::REAR_FLANK;
-		flankModifier = cavRearFlankModifier;
-	}
-
-	modVector.emplace_back(flankType, flankModifier);
-
 	multRollByModifiers(thisRoll);
 	gen->multRollByModifiers(enemyRoll);
 
@@ -608,27 +517,6 @@ std::string LightCav::attack(Akinci* aki, int distance, UnitTile::Modifier flank
 
 	float damageDealt{0};
 	float damageReceived{0};
-
-	float flankModifier;
-	Modifier flankType;
-
-	switch (flank){
-	case Modifier::FRONT_FLANK:
-		flankType = Modifier::FRONT_FLANK;
-		flankModifier = cavFrontFlankModifier;
-		break;
-
-	case Modifier::SIDE_FLANK:
-		flankType = Modifier::SIDE_FLANK;
-		flankModifier = cavSideFlankModifier;
-		break;
-
-	case Modifier::REAR_FLANK:
-		flankType = Modifier::REAR_FLANK;
-		flankModifier = cavRearFlankModifier;
-	}
-
-	modVector.emplace_back(flankType, flankModifier);
 
 	multRollByModifiers(thisRoll);
 	aki->multRollByModifiers(enemyRoll);

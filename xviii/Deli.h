@@ -3,10 +3,10 @@
 #include "UnitTile.h"
 
 
-class Cavalry : public UnitTile
+class Deli : public UnitTile
 {
 public:
-	Cavalry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
+	Deli(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
 
 	virtual std::string rotate(Direction _dir);
 	virtual std::string interactWithFriendly(UnitTile* _unit);
@@ -34,8 +34,8 @@ public:
 
 private:
 
-	static const int maxhp{12};
-	static const int maxMov{12};
+	static const int maxhp{9};
+	static const int maxMov{16};
 	static const int maxRange{0};
 };
 

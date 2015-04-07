@@ -29,6 +29,8 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
+	virtual float getFlankModifier(UnitFamily _family, Modifier _flank);
+
 
 private:
 

@@ -77,8 +77,8 @@ std::string UnitTile::modToString(Modifier _mod){
 		return{"none"};
 		break;
 
-	case Modifier::CUIRASSIER:
-		return{"cuir"};
+	case Modifier::VSCAV:
+		return{"vs.cav"};
 		break;
 
 	case Modifier::DISTANCE:
@@ -110,11 +110,12 @@ std::string UnitTile::typeToString(){
 	}
 }
 
-UnitTile::UnitTile(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitTile::UnitType type, Direction _dir) :
+UnitTile::UnitTile(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
 Tile(tm, id),
 world{_world},
 mt19937{_mt19937},
 unitType{type},
+unitFamilyType{familyType},
 player{_belongsToPlayer},
 dir{_dir},
 hp{0},
@@ -281,9 +282,12 @@ std::string UnitTile::attack(UnitTile* unit){
 		return result;
 	}
 
+	///////////////////////////////////////////////////// Ranged
 	if (dist > 1){
 		return this->rangedAttack(unit, dist);
 	}
+
+	///////////////////////////////////////////////////// Melee
 
 	UnitTile::Modifier flank{Modifier::FRONT_FLANK};
 
@@ -301,8 +305,19 @@ std::string UnitTile::attack(UnitTile* unit){
 		flank = Modifier::SIDE_FLANK;
 	}
 
+	//Add the flank modifier to this unit's modVector. See particular unit's getFlankModifier() for details.
+	this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitFamilyType(), flank));
+
 	if (!canRotateAfterAttack){
 		hasRotated = true;
+	}
+	
+	if ((this->getUnitType() == UnitType::CUIR || this->getUnitType() == UnitType::AKINCI) && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		this->modVector.emplace_back(Modifier::VSCAV, 1);
+	}
+
+	if ((unit->getUnitType() == UnitType::CUIR || unit->getUnitType() == UnitType::AKINCI) && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		unit->modVector.emplace_back(Modifier::VSCAV, 1);
 	}
 
 	//Double dispatch, hence the reverse order
@@ -355,6 +370,11 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	return{};
 }
 
+//Virtual
+float UnitTile::getFlankModifier(UnitFamily _family, Modifier _flank){
+	return 0;
+}
+
 TerrainTile* UnitTile::getTilePos() const{
 	return at;
 }
@@ -374,6 +394,10 @@ bool UnitTile::isHostile(UnitTile* _tile){
 
 UnitTile::UnitType UnitTile::getUnitType() const{
 	return unitType;
+}
+
+UnitTile::UnitFamily UnitTile::getUnitFamilyType() const{
+	return unitFamilyType;
 }
 
 int UnitTile::getCost() const{
@@ -739,12 +763,11 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	std::string defenderRollString{};
 
 	if (!defenderModifiers.empty()){
-		std::string defenderModifierString;
 		float finalDefenderRoll{float(defenderRoll)};
 
 		defender->multRollByModifiers(finalDefenderRoll);
 
-		defenderRollString = defender->getPlayer()->getName().substr(0, 3) + " " + roundFloat(finalDefenderRoll) + " [" + std::to_string(defenderRoll) + defenderModifierString + "]";
+		defenderRollString = defender->getPlayer()->getName().substr(0, 3) + " " + std::to_string(defenderRoll) + " -> " + roundFloat(finalDefenderRoll);
 	}
 	else{
 		defenderRollString = defender->getPlayer()->getName().substr(0, 3) + " " + std::to_string(defenderRoll);
@@ -815,29 +838,29 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 	result << "\n";
 
-	if (!attackerModifiers.empty()){
-		result << attacker->getPlayer()->getName().substr(0, 3) + " Mod:   ";
 
-		for (auto& mod : attackerModifiers){
-			if (mod.modType == UnitTile::Modifier::CUIRASSIER){
-				result << "[" + modToString(mod.modType) + ": +" + roundFloat(mod.modFloat) +"]";
+	result << attacker->getPlayer()->getName().substr(0, 3) + " Mod:   ";
+
+	for (auto& mod : attackerModifiers){
+		if (mod.modFloat != 0){
+			if (mod.modType == UnitTile::Modifier::VSCAV){
+				result << "[" + modToString(mod.modType) + ": +" + roundFloat(mod.modFloat) + "]";
 			}
 			else{
 				result << "[" + modToString(mod.modType) + ": " + roundFloat(mod.modFloat) + "d]";
 			}
 		}
 
-		result << "\n";
+	result << "\n";
+
 	}
 
 
+	result << defender->getPlayer()->getName().substr(0, 3) + " Mod:   ";
 
-	if (!defenderModifiers.empty()){
-		for (auto& mod : defenderModifiers){
-
-			result << defender->getPlayer()->getName().substr(0, 3) + " Mod:   ";
-
-			if (mod.modType == UnitTile::Modifier::CUIRASSIER){
+	for (auto& mod : defenderModifiers){
+		if (mod.modFloat != 0){
+			if (mod.modType == UnitTile::Modifier::VSCAV){
 				result << "[" + modToString(mod.modType) + ": +" + roundFloat(mod.modFloat) + "]";
 			}
 			else{
@@ -850,15 +873,18 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 }
 
 void UnitTile::multRollByModifiers(float &originalRoll){
+	//Anything besides the VSCAV modifier is a multiplication modifier; apply them first. Also,
+	//ignore any modifier with a value of 0.
 	for (auto& mod : modVector){
-		if (mod.modType == Modifier::CUIRASSIER){
-			originalRoll += mod.modFloat;
+		if (mod.modType != Modifier::VSCAV && mod.modFloat != 0){
+			originalRoll *= mod.modFloat;
 		}
 	}
 
+	//Then add the value to the final resultant roll
 	for (auto& mod : modVector){
-		if (mod.modType != Modifier::CUIRASSIER){
-			originalRoll *= mod.modFloat;
+		if (mod.modType == Modifier::VSCAV  && mod.modFloat != 0){
+			originalRoll += mod.modFloat;
 		}
 	}
 }
