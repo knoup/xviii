@@ -130,11 +130,11 @@ int General::getMaxRange() const{
 	return maxRange;
 }
 
-std::string General::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
-	return _unit->attack(this, distance, flank);
+std::string General::attack(UnitTile* _unit, int distance){
+	return _unit->attack(this, distance);
 }
 
-std::string General::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
+std::string General::attack(Infantry* inf, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -181,7 +181,7 @@ std::string General::attack(Infantry* inf, int distance, UnitTile::Modifier flan
 
 }
 
-std::string General::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
+std::string General::attack(Cavalry* cav, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -238,7 +238,7 @@ std::string General::attack(Cavalry* cav, int distance, UnitTile::Modifier flank
 	return attackReport(distance, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
 }
 
-std::string General::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
+std::string General::attack(Cuirassier* cuir, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -297,7 +297,7 @@ std::string General::attack(Cuirassier* cuir, int distance, UnitTile::Modifier f
 
 }
 
-std::string General::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+std::string General::attack(Dragoon* drag, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -356,7 +356,7 @@ std::string General::attack(Dragoon* drag, int distance, UnitTile::Modifier flan
 
 }
 
-std::string General::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
+std::string General::attack(LightCav* lcav, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -415,7 +415,7 @@ std::string General::attack(LightCav* lcav, int distance, UnitTile::Modifier fla
 
 }
 
-std::string General::attack(Artillery* art, int distance, UnitTile::Modifier flank){
+std::string General::attack(Artillery* art, int distance){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -452,7 +452,7 @@ std::string General::attack(Artillery* art, int distance, UnitTile::Modifier fla
 	return attackReport(distance, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
 }
 
-std::string General::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
+std::string General::attack(Mortar* mor, int distance){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -489,7 +489,7 @@ std::string General::attack(Mortar* mor, int distance, UnitTile::Modifier flank)
 	return attackReport(distance, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
 }
 
-std::string General::attack(General* gen, int distance, UnitTile::Modifier flank){
+std::string General::attack(General* gen, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -548,7 +548,7 @@ std::string General::attack(General* gen, int distance, UnitTile::Modifier flank
 	
 }
 
-std::string General::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
+std::string General::attack(Akinci* aki, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -629,7 +629,7 @@ std::string General::rangedAttack(UnitTile* unit, int distance){
 	unit->updateStats();
 	hasAttacked = true;
 
-	return attackReport(false, this, unit, thisRoll_int, 0, damageDealt, 0, modVector, unit->modVector);
+	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0, modVector, unit->modVector);
 }
 
 bool General::getHasHealed() const{

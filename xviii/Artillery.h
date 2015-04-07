@@ -18,17 +18,7 @@ public:
 	virtual int getMaxMov() const;
 	virtual int getMaxRange() const;
 
-	virtual std::string attack(UnitTile* _unit, int distance, UnitTile::Modifier flank);
-
-	virtual std::string attack(Infantry* inf, int distance, UnitTile::Modifier flank);
-	virtual std::string attack(Cavalry* cav, int distance, UnitTile::Modifier flank);
-	virtual std::string attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank);
-	virtual std::string attack(Dragoon* drag, int distance, UnitTile::Modifier flank);
-	virtual std::string attack(LightCav* lcav, int distance, UnitTile::Modifier flank);
-	virtual std::string attack(Artillery* art, int distance, UnitTile::Modifier flank);
-	virtual std::string attack(Mortar* mor, int distance, UnitTile::Modifier flank);
-	virtual std::string attack(General* gen, int distance, UnitTile::Modifier flank);
-	virtual std::string attack(Akinci* aki, int distance, UnitTile::Modifier flank);
+	virtual std::string attack(UnitTile* _unit, int distance);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 

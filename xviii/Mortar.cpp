@@ -49,44 +49,10 @@ int Mortar::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& 
 	return UnitTile::distanceFrom(_terrain, _validMovDirection, _validAttackDirection, _obstructionPresent, _inMovementRange, _inRangedAttackRange, true, 3);
 }
 
-std::string Mortar::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
-	return _unit->attack(this, distance, flank);
-}
-
-std::string Mortar::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
-	return rangedAttack(inf, distance);
-}
-
-std::string Mortar::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
-	return rangedAttack(cav, distance);
-}
-
-std::string Mortar::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
-	return rangedAttack(cuir, distance);
-}
-
-std::string Mortar::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
-	return rangedAttack(drag, distance);
-}
-
-std::string Mortar::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
-	return rangedAttack(lcav, distance);
-}
-
-std::string Mortar::attack(Artillery* art, int distance, UnitTile::Modifier flank){
-	return rangedAttack(art, distance);
-}
-
-std::string Mortar::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
-	return rangedAttack(mor, distance);
-}
-
-std::string Mortar::attack(General* gen, int distance, UnitTile::Modifier flank){
-	return rangedAttack(gen, distance);
-}
-
-std::string Mortar::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
-	return rangedAttack(aki, distance);
+std::string Mortar::attack(UnitTile* _unit, int distance){
+	//rangedAttack() is called in UnitTile's initial attack(UnitTile*) function;
+	//we don't need to do anything here, since this unit cannot melee
+	return {};
 }
 
 std::string Mortar::rangedAttack(UnitTile* unit, int distance){

@@ -321,47 +321,47 @@ std::string UnitTile::attack(UnitTile* unit){
 	}
 
 	//Double dispatch, hence the reverse order
-	return unit->attack(this, dist, flank);
+	return unit->attack(this, dist);
 }	
 
 //Virtual
-std::string UnitTile::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
+std::string UnitTile::attack(Infantry* inf, int distance){
 	return{};
 }
 //Virtual
-std::string UnitTile::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
-	return{};
-}
-
-//Virtual
-std::string UnitTile::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
+std::string UnitTile::attack(Cavalry* cav, int distance){
 	return{};
 }
 
 //Virtual
-std::string UnitTile::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+std::string UnitTile::attack(Cuirassier* cuir, int distance){
 	return{};
 }
 
 //Virtual
-std::string UnitTile::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
+std::string UnitTile::attack(Dragoon* drag, int distance){
 	return{};
 }
 
 //Virtual
-std::string UnitTile::attack(Artillery* art, int distance, UnitTile::Modifier flank){
+std::string UnitTile::attack(LightCav* lcav, int distance){
+	return{};
+}
+
+//Virtual
+std::string UnitTile::attack(Artillery* art, int distance){
 	return{};
 }
 //Virtual
-std::string UnitTile::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
+std::string UnitTile::attack(Mortar* mor, int distance){
 	return{};
 }
 //Virtual
-std::string UnitTile::attack(General* gen, int distance, UnitTile::Modifier flank){
+std::string UnitTile::attack(General* gen, int distance){
 	return{};
 }
 //Virtual
-std::string UnitTile::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
+std::string UnitTile::attack(Akinci* aki, int distance){
 	return{};
 }
 

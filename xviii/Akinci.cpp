@@ -97,11 +97,11 @@ int Akinci::getMaxRange() const{
 	return maxRange;
 }
 
-std::string Akinci::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
-	return _unit->attack(this, distance, flank);
+std::string Akinci::attack(UnitTile* _unit, int distance){
+	return _unit->attack(this, distance);
 }
 
-std::string Akinci::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
+std::string Akinci::attack(Infantry* inf, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -148,7 +148,7 @@ std::string Akinci::attack(Infantry* inf, int distance, UnitTile::Modifier flank
 
 }
 
-std::string Akinci::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
+std::string Akinci::attack(Cavalry* cav, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -205,7 +205,7 @@ std::string Akinci::attack(Cavalry* cav, int distance, UnitTile::Modifier flank)
 	return attackReport(distance, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
 }
 
-std::string Akinci::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
+std::string Akinci::attack(Cuirassier* cuir, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -262,7 +262,7 @@ std::string Akinci::attack(Cuirassier* cuir, int distance, UnitTile::Modifier fl
 	return attackReport(distance, this, cuir, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cuir->modVector);
 }
 
-std::string Akinci::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+std::string Akinci::attack(Dragoon* drag, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -319,7 +319,7 @@ std::string Akinci::attack(Dragoon* drag, int distance, UnitTile::Modifier flank
 	return attackReport(distance, this, drag, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, drag->modVector);
 }
 
-std::string Akinci::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
+std::string Akinci::attack(LightCav* lcav, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -376,7 +376,7 @@ std::string Akinci::attack(LightCav* lcav, int distance, UnitTile::Modifier flan
 	return attackReport(distance, this, lcav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, lcav->modVector);
 }
 
-std::string Akinci::attack(Artillery* art, int distance, UnitTile::Modifier flank){
+std::string Akinci::attack(Artillery* art, int distance){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -412,7 +412,7 @@ std::string Akinci::attack(Artillery* art, int distance, UnitTile::Modifier flan
 	return attackReport(distance, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
 }
 
-std::string Akinci::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
+std::string Akinci::attack(Mortar* mor, int distance){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -448,7 +448,7 @@ std::string Akinci::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
 	return attackReport(distance, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
 }
 
-std::string Akinci::attack(General* gen, int distance, UnitTile::Modifier flank){
+std::string Akinci::attack(General* gen, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -505,7 +505,7 @@ std::string Akinci::attack(General* gen, int distance, UnitTile::Modifier flank)
 	return attackReport(distance, this, gen, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, gen->modVector);
 }
 
-std::string Akinci::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
+std::string Akinci::attack(Akinci* aki, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 

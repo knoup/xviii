@@ -97,11 +97,11 @@ int Cavalry::getMaxRange() const{
 	return maxRange;
 }
 
-std::string Cavalry::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
-	return _unit->attack(this, distance, flank);
+std::string Cavalry::attack(UnitTile* _unit, int distance){
+	return _unit->attack(this, distance);
 }
 
-std::string Cavalry::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
+std::string Cavalry::attack(Infantry* inf, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -148,7 +148,7 @@ std::string Cavalry::attack(Infantry* inf, int distance, UnitTile::Modifier flan
 
 }
 
-std::string Cavalry::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
+std::string Cavalry::attack(Cavalry* cav, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -209,7 +209,7 @@ std::string Cavalry::attack(Cavalry* cav, int distance, UnitTile::Modifier flank
 	
 }
 
-std::string Cavalry::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
+std::string Cavalry::attack(Cuirassier* cuir, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -268,7 +268,7 @@ std::string Cavalry::attack(Cuirassier* cuir, int distance, UnitTile::Modifier f
 
 }
 
-std::string Cavalry::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+std::string Cavalry::attack(Dragoon* drag, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -327,7 +327,7 @@ std::string Cavalry::attack(Dragoon* drag, int distance, UnitTile::Modifier flan
 
 }
 
-std::string Cavalry::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
+std::string Cavalry::attack(LightCav* lcav, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -386,7 +386,7 @@ std::string Cavalry::attack(LightCav* lcav, int distance, UnitTile::Modifier fla
 
 }
 
-std::string Cavalry::attack(Artillery* art, int distance, UnitTile::Modifier flank){
+std::string Cavalry::attack(Artillery* art, int distance){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -422,7 +422,7 @@ std::string Cavalry::attack(Artillery* art, int distance, UnitTile::Modifier fla
 	return attackReport(distance, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
 }
 
-std::string Cavalry::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
+std::string Cavalry::attack(Mortar* mor, int distance){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -458,7 +458,7 @@ std::string Cavalry::attack(Mortar* mor, int distance, UnitTile::Modifier flank)
 	return attackReport(distance, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
 }
 
-std::string Cavalry::attack(General* gen, int distance, UnitTile::Modifier flank){
+std::string Cavalry::attack(General* gen, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -517,7 +517,7 @@ std::string Cavalry::attack(General* gen, int distance, UnitTile::Modifier flank
 
 }
 
-std::string Cavalry::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
+std::string Cavalry::attack(Akinci* aki, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 

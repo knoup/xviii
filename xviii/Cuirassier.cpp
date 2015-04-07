@@ -97,11 +97,11 @@ int Cuirassier::getMaxRange() const{
 	return maxRange;
 }
 
-std::string Cuirassier::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
-	return _unit->attack(this, distance, flank);
+std::string Cuirassier::attack(UnitTile* _unit, int distance){
+	return _unit->attack(this, distance);
 }
 
-std::string Cuirassier::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
+std::string Cuirassier::attack(Infantry* inf, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -148,7 +148,7 @@ std::string Cuirassier::attack(Infantry* inf, int distance, UnitTile::Modifier f
 
 }
 
-std::string Cuirassier::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
+std::string Cuirassier::attack(Cavalry* cav, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -205,7 +205,7 @@ std::string Cuirassier::attack(Cavalry* cav, int distance, UnitTile::Modifier fl
 	return attackReport(distance, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
 }
 
-std::string Cuirassier::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
+std::string Cuirassier::attack(Cuirassier* cuir, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -262,7 +262,7 @@ std::string Cuirassier::attack(Cuirassier* cuir, int distance, UnitTile::Modifie
 	return attackReport(distance, this, cuir, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cuir->modVector);
 }
 
-std::string Cuirassier::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+std::string Cuirassier::attack(Dragoon* drag, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -320,7 +320,7 @@ std::string Cuirassier::attack(Dragoon* drag, int distance, UnitTile::Modifier f
 
 }
 
-std::string Cuirassier::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
+std::string Cuirassier::attack(LightCav* lcav, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -378,7 +378,7 @@ std::string Cuirassier::attack(LightCav* lcav, int distance, UnitTile::Modifier 
 
 }
 
-std::string Cuirassier::attack(Artillery* art, int distance, UnitTile::Modifier flank){
+std::string Cuirassier::attack(Artillery* art, int distance){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -414,7 +414,7 @@ std::string Cuirassier::attack(Artillery* art, int distance, UnitTile::Modifier 
 	return attackReport(distance, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
 }
 
-std::string Cuirassier::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
+std::string Cuirassier::attack(Mortar* mor, int distance){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -450,7 +450,7 @@ std::string Cuirassier::attack(Mortar* mor, int distance, UnitTile::Modifier fla
 	return attackReport(distance, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
 }
 
-std::string Cuirassier::attack(General* gen, int distance, UnitTile::Modifier flank){
+std::string Cuirassier::attack(General* gen, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -507,7 +507,7 @@ std::string Cuirassier::attack(General* gen, int distance, UnitTile::Modifier fl
 	return attackReport(distance, this, gen, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, gen->modVector);
 }
 
-std::string Cuirassier::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
+std::string Cuirassier::attack(Akinci* aki, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 

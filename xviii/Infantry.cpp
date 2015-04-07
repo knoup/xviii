@@ -140,11 +140,11 @@ int Infantry::getMaxRange() const{
 	return maxRange;
 }
 
-std::string Infantry::attack(UnitTile* _unit, int distance, UnitTile::Modifier flank){
-	return _unit->attack(this, distance, flank);
+std::string Infantry::attack(UnitTile* _unit, int distance){
+	return _unit->attack(this, distance);
 }
 
-std::string Infantry::attack(Infantry* inf, int distance, UnitTile::Modifier flank){
+std::string Infantry::attack(Infantry* inf, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -203,7 +203,7 @@ std::string Infantry::attack(Infantry* inf, int distance, UnitTile::Modifier fla
 
 }
 
-std::string Infantry::attack(Cavalry* cav, int distance, UnitTile::Modifier flank){
+std::string Infantry::attack(Cavalry* cav, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -250,7 +250,7 @@ std::string Infantry::attack(Cavalry* cav, int distance, UnitTile::Modifier flan
 	
 }
 
-std::string Infantry::attack(Cuirassier* cuir, int distance, UnitTile::Modifier flank){
+std::string Infantry::attack(Cuirassier* cuir, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -297,7 +297,7 @@ std::string Infantry::attack(Cuirassier* cuir, int distance, UnitTile::Modifier 
 
 }
 
-std::string Infantry::attack(Dragoon* drag, int distance, UnitTile::Modifier flank){
+std::string Infantry::attack(Dragoon* drag, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -344,7 +344,7 @@ std::string Infantry::attack(Dragoon* drag, int distance, UnitTile::Modifier fla
 
 }
 
-std::string Infantry::attack(LightCav* lcav, int distance, UnitTile::Modifier flank){
+std::string Infantry::attack(LightCav* lcav, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -391,7 +391,7 @@ std::string Infantry::attack(LightCav* lcav, int distance, UnitTile::Modifier fl
 
 }
 
-std::string Infantry::attack(Artillery* art, int distance, UnitTile::Modifier flank){
+std::string Infantry::attack(Artillery* art, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -429,7 +429,7 @@ std::string Infantry::attack(Artillery* art, int distance, UnitTile::Modifier fl
 
 }
 
-std::string Infantry::attack(Mortar* mor, int distance, UnitTile::Modifier flank){
+std::string Infantry::attack(Mortar* mor, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -466,7 +466,7 @@ std::string Infantry::attack(Mortar* mor, int distance, UnitTile::Modifier flank
 
 }
 
-std::string Infantry::attack(General* gen, int distance, UnitTile::Modifier flank){
+std::string Infantry::attack(General* gen, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -511,7 +511,7 @@ std::string Infantry::attack(General* gen, int distance, UnitTile::Modifier flan
 	return attackReport(distance, this, gen, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, gen->modVector);
 }
 
-std::string Infantry::attack(Akinci* aki, int distance, UnitTile::Modifier flank){
+std::string Infantry::attack(Akinci* aki, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
