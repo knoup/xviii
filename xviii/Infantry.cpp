@@ -11,7 +11,7 @@ static const float cavFrontFlankModifier = 1;
 static const float cavSideFlankModifier = 1.5;
 static const float cavRearFlankModifier = 2;
 
-float Infantry::getFlankModifier(UnitFamily _family, Modifier _flank){
+float Infantry::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	if (_family == UnitFamily::INF_FAMILY){
 		switch (_flank){
 		case Modifier::FRONT_FLANK:
@@ -140,11 +140,11 @@ int Infantry::getMaxRange() const{
 	return maxRange;
 }
 
-std::string Infantry::attack(UnitTile* _unit, int distance){
-	return _unit->attack(this, distance);
+std::string Infantry::meleeAttack(UnitTile* _unit){
+	return _unit->meleeAttack(this);
 }
 
-std::string Infantry::attack(Infantry* inf, int distance){
+std::string Infantry::meleeAttack(Infantry* inf){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -199,11 +199,11 @@ std::string Infantry::attack(Infantry* inf, int distance){
 	inf->updateStats();
 	hasAttacked = true;
 
-	return attackReport(distance, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
+	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
 
 }
 
-std::string Infantry::attack(Cavalry* cav, int distance){
+std::string Infantry::meleeAttack(Cavalry* cav){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -246,152 +246,11 @@ std::string Infantry::attack(Cavalry* cav, int distance){
 	cav->updateStats();
 	hasAttacked = true;
 
-	return attackReport(distance, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
+	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
 	
 }
 
-std::string Infantry::attack(Cuirassier* cuir, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	cuir->multRollByModifiers(enemyRoll);
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 0.5;
-
-		cuir->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
-	}
-	else if (thisRoll > enemyRoll){
-		damageDealt = 2;
-		damageReceived = 1;
-
-		cuir->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
-
-	}
-	else if (enemyRoll > thisRoll){
-		damageReceived = 4;
-
-		this->takeDamage(damageReceived);
-
-	}
-
-	mov = 0;
-	this->updateStats();
-	cuir->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, cuir, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cuir->modVector);
-
-}
-
-std::string Infantry::attack(Dragoon* drag, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	drag->multRollByModifiers(enemyRoll);
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 0.5;
-
-		drag->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
-	}
-	else if (thisRoll > enemyRoll){
-		damageDealt = 2;
-		damageReceived = 1;
-
-		drag->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
-
-	}
-	else if (enemyRoll > thisRoll){
-		damageReceived = 4;
-
-		this->takeDamage(damageReceived);
-
-	}
-
-	mov = 0;
-	this->updateStats();
-	drag->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, drag, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, drag->modVector);
-
-}
-
-std::string Infantry::attack(LightCav* lcav, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	lcav->multRollByModifiers(enemyRoll);
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 0.5;
-
-		lcav->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
-	}
-	else if (thisRoll > enemyRoll){
-		damageDealt = 2;
-		damageReceived = 1;
-
-		lcav->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
-
-	}
-	else if (enemyRoll > thisRoll){
-		damageReceived = 4;
-
-		this->takeDamage(damageReceived);
-
-	}
-
-	mov = 0;
-	this->updateStats();
-	lcav->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, lcav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, lcav->modVector);
-
-}
-
-std::string Infantry::attack(Artillery* art, int distance){
+std::string Infantry::meleeAttack(Artillery* art){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -425,11 +284,11 @@ std::string Infantry::attack(Artillery* art, int distance){
 	art->updateStats();
 	hasAttacked = true;
 
-	return attackReport(distance, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
+	return attackReport(1, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
 
 }
 
-std::string Infantry::attack(Mortar* mor, int distance){
+std::string Infantry::meleeAttack(Mortar* mor){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -462,156 +321,8 @@ std::string Infantry::attack(Mortar* mor, int distance){
 	mor->updateStats();
 	hasAttacked = true;
 
-	return attackReport(distance, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
+	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
 
-}
-
-std::string Infantry::attack(General* gen, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-	
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	gen->multRollByModifiers(enemyRoll);
-
-		
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 0.5;
-
-		gen->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
-	}
-	else if (thisRoll > enemyRoll){
-		damageDealt = 2;
-		damageReceived = 1;
-
-		gen->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
-	}
-	else if (enemyRoll > thisRoll){
-		damageReceived = 4;
-		this->takeDamage(damageReceived);
-
-	}
-
-	mov = 0;
-	this->updateStats();
-	gen->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, gen, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, gen->modVector);
-}
-
-std::string Infantry::attack(Akinci* aki, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	aki->multRollByModifiers(enemyRoll);
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 1;
-
-		this->takeDamage(damageReceived);
-		aki->takeDamage(damageDealt);
-	}
-	else{
-		//If the difference between rolls is less than 3
-		if (abs(thisRoll - enemyRoll) < 3){
-			//Player with the highest roll inflicts 1 DMG on the other
-			if (thisRoll > enemyRoll){
-				damageDealt = 1;
-				aki->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 1;
-				this->takeDamage(damageReceived);
-			}
-		}
-		//If the difference is greater or equal to 3,
-		else{
-			if (thisRoll > enemyRoll){
-				damageDealt = 2;
-				aki->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 2;
-				this->takeDamage(damageReceived);
-			}
-		}
-	}
-
-	mov = 0;
-	this->updateStats();
-	aki->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, aki, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, aki->modVector);
-}
-
-std::string Infantry::attack(Deli* deli, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	deli->multRollByModifiers(enemyRoll);
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 0.5;
-
-		deli->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
-	}
-	else if (thisRoll > enemyRoll){
-		damageDealt = 2;
-		damageReceived = 1;
-
-		deli->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
-
-	}
-	else if (enemyRoll > thisRoll){
-		damageReceived = 4;
-
-		this->takeDamage(damageReceived);
-
-	}
-
-	mov = 0;
-	this->updateStats();
-	deli->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, deli, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, deli->modVector);
 }
 
 std::string Infantry::rangedAttack(UnitTile* unit, int distance){

@@ -18,7 +18,7 @@ public:
 	virtual int getMaxMov() const;
 	virtual int getMaxRange() const;
 
-	virtual std::string attack(UnitTile* _unit, int distance);
+	virtual std::string meleeAttack(UnitTile* _unit);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 

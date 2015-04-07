@@ -11,7 +11,7 @@ static const float cavFrontFlankModifier = 1;
 static const float cavSideFlankModifier = 2;
 static const float cavRearFlankModifier = 2;
 
-float Cavalry::getFlankModifier(UnitFamily _family, Modifier _flank){
+float Cavalry::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	if (_family == UnitFamily::INF_FAMILY){
 		switch (_flank){
 		case Modifier::FRONT_FLANK:
@@ -50,8 +50,8 @@ float Cavalry::getFlankModifier(UnitFamily _family, Modifier _flank){
 	}
 }
 
-Cavalry::Cavalry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::CAV, UnitType::CAV, UnitFamily::CAV_FAMILY, _dir)
+Cavalry::Cavalry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType, UnitType uType) :
+UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily::CAV_FAMILY, _dir)
 {	
 	deploymentCost = 3;
 	limit = 5;
@@ -97,11 +97,11 @@ int Cavalry::getMaxRange() const{
 	return maxRange;
 }
 
-std::string Cavalry::attack(UnitTile* _unit, int distance){
-	return _unit->attack(this, distance);
+std::string Cavalry::meleeAttack(UnitTile* _unit){
+	return _unit->meleeAttack(this);
 }
 
-std::string Cavalry::attack(Infantry* inf, int distance){
+std::string Cavalry::meleeAttack(Infantry* inf){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -144,11 +144,11 @@ std::string Cavalry::attack(Infantry* inf, int distance){
 	inf->updateStats();
 	hasAttacked = true;
 	
-	return attackReport(distance, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
+	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
 
 }
 
-std::string Cavalry::attack(Cavalry* cav, int distance){
+std::string Cavalry::meleeAttack(Cavalry* cav){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -205,186 +205,11 @@ std::string Cavalry::attack(Cavalry* cav, int distance){
 	cav->updateStats();
 	hasAttacked = true;
 
-	return attackReport(distance, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
+	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
 	
 }
 
-std::string Cavalry::attack(Cuirassier* cuir, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	cuir->multRollByModifiers(enemyRoll);
-
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 1;
-
-		this->takeDamage(damageReceived);
-		cuir->takeDamage(damageDealt);
-	}
-	else{
-		//If the difference between rolls is less than 3
-		if (abs(thisRoll - enemyRoll) < 3){
-			//Player with the highest roll inflicts 1 DMG on the other
-			if (thisRoll > enemyRoll){
-				damageDealt = 1;
-				cuir->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 1;
-				this->takeDamage(damageReceived);
-			}
-		}
-		//If the difference is greater or equal to 3,
-		else{
-			if (thisRoll > enemyRoll){
-				damageDealt = 2;
-				cuir->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 2;
-				this->takeDamage(damageReceived);
-			}
-		}
-	}
-
-	mov = 0;
-	this->updateStats();
-	cuir->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, cuir, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cuir->modVector);
-
-}
-
-std::string Cavalry::attack(Dragoon* drag, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	drag->multRollByModifiers(enemyRoll);
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 1;
-
-		this->takeDamage(damageReceived);
-		drag->takeDamage(damageDealt);
-	}
-	else{
-		//If the difference between rolls is less than 3
-		if (abs(thisRoll - enemyRoll) < 3){
-			//Player with the highest roll inflicts 1 DMG on the other
-			if (thisRoll > enemyRoll){
-				damageDealt = 1;
-				drag->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 1;
-				this->takeDamage(damageReceived);
-			}
-		}
-		//If the difference is greater or equal to 3,
-		else{
-			if (thisRoll > enemyRoll){
-				damageDealt = 2;
-				drag->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 2;
-				this->takeDamage(damageReceived);
-			}
-		}
-	}
-
-	mov = 0;
-	this->updateStats();
-	drag->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, drag, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, drag->modVector);
-
-
-}
-
-std::string Cavalry::attack(LightCav* lcav, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	lcav->multRollByModifiers(enemyRoll);
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 1;
-
-		this->takeDamage(damageReceived);
-		lcav->takeDamage(damageDealt);
-	}
-	else{
-		//If the difference between rolls is less than 3
-		if (abs(thisRoll - enemyRoll) < 3){
-			//Player with the highest roll inflicts 1 DMG on the other
-			if (thisRoll > enemyRoll){
-				damageDealt = 1;
-				lcav->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 1;
-				this->takeDamage(damageReceived);
-			}
-		}
-		//If the difference is greater or equal to 3,
-		else{
-			if (thisRoll > enemyRoll){
-				damageDealt = 2;
-				lcav->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 2;
-				this->takeDamage(damageReceived);
-			}
-		}
-	}
-
-	mov = 0;
-	this->updateStats();
-	lcav->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, lcav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, lcav->modVector);
-}
-
-std::string Cavalry::attack(Artillery* art, int distance){
+std::string Cavalry::meleeAttack(Artillery* art){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -417,10 +242,10 @@ std::string Cavalry::attack(Artillery* art, int distance){
 	art->updateStats();
 	hasAttacked = true;
 
-	return attackReport(distance, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
+	return attackReport(1, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
 }
 
-std::string Cavalry::attack(Mortar* mor, int distance){
+std::string Cavalry::meleeAttack(Mortar* mor){
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -453,180 +278,7 @@ std::string Cavalry::attack(Mortar* mor, int distance){
 	mor->updateStats();
 	hasAttacked = true;
 
-	return attackReport(distance, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
-}
-
-std::string Cavalry::attack(General* gen, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	gen->multRollByModifiers(enemyRoll);
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 1;
-
-		this->takeDamage(damageReceived);
-		gen->takeDamage(damageDealt);
-	}
-	else{
-		//If the difference between rolls is less than 3
-		if (abs(thisRoll - enemyRoll) < 3){
-			//Player with the highest roll inflicts 1 DMG on the other
-			if (thisRoll > enemyRoll){
-				damageDealt = 1;
-				gen->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 1;
-				this->takeDamage(damageReceived);
-			}
-		}
-		//If the difference is greater or equal to 3,
-		else{
-			if (thisRoll > enemyRoll){
-				damageDealt = 2;
-				gen->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 2;
-				this->takeDamage(damageReceived);
-			}
-		}
-	}
-
-	mov = 0;
-	this->updateStats();
-	gen->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, gen, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, gen->modVector);
-
-
-}
-
-std::string Cavalry::attack(Akinci* aki, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	aki->multRollByModifiers(enemyRoll);
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 1;
-
-		this->takeDamage(damageReceived);
-		aki->takeDamage(damageDealt);
-	}
-	else{
-		//If the difference between rolls is less than 3
-		if (abs(thisRoll - enemyRoll) < 3){
-			//Player with the highest roll inflicts 1 DMG on the other
-			if (thisRoll > enemyRoll){
-				damageDealt = 1;
-				aki->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 1;
-				this->takeDamage(damageReceived);
-			}
-		}
-		//If the difference is greater or equal to 3,
-		else{
-			if (thisRoll > enemyRoll){
-				damageDealt = 2;
-				aki->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 2;
-				this->takeDamage(damageReceived);
-			}
-		}
-	}
-
-	mov = 0;
-	this->updateStats();
-	aki->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, aki, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, aki->modVector);
-}
-
-std::string Cavalry::attack(Deli* deli, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	deli->multRollByModifiers(enemyRoll);
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 1;
-
-		this->takeDamage(damageReceived);
-		deli->takeDamage(damageDealt);
-	}
-	else{
-		//If the difference between rolls is less than 3
-		if (abs(thisRoll - enemyRoll) < 3){
-			//Player with the highest roll inflicts 1 DMG on the other
-			if (thisRoll > enemyRoll){
-				damageDealt = 1;
-				deli->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 1;
-				this->takeDamage(damageReceived);
-			}
-		}
-		//If the difference is greater or equal to 3,
-		else{
-			if (thisRoll > enemyRoll){
-				damageDealt = 2;
-				deli->takeDamage(damageDealt);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived = 2;
-				this->takeDamage(damageReceived);
-			}
-		}
-	}
-
-	mov = 0;
-	this->updateStats();
-	deli->updateStats();
-	hasAttacked = true;
-
-	return attackReport(distance, this, deli, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, deli->modVector);
+	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
 }
 
 std::string Cavalry::rangedAttack(UnitTile* unit, int distance){

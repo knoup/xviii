@@ -317,52 +317,52 @@ std::string UnitTile::attack(UnitTile* unit){
 	}
 
 	//Double dispatch, hence the reverse order
-	return unit->attack(this, dist);
+	return unit->meleeAttack(this);
 }	
 
 //Virtual
-std::string UnitTile::attack(Infantry* inf, int distance){
+std::string UnitTile::meleeAttack(Infantry* inf){
 	return{};
 }
 //Virtual
-std::string UnitTile::attack(Cavalry* cav, int distance){
-	return{};
-}
-
-//Virtual
-std::string UnitTile::attack(Cuirassier* cuir, int distance){
+std::string UnitTile::meleeAttack(Cavalry* cav){
 	return{};
 }
 
 //Virtual
-std::string UnitTile::attack(Dragoon* drag, int distance){
+std::string UnitTile::meleeAttack(Cuirassier* cuir){
 	return{};
 }
 
 //Virtual
-std::string UnitTile::attack(LightCav* lcav, int distance){
+std::string UnitTile::meleeAttack(Dragoon* drag){
 	return{};
 }
 
 //Virtual
-std::string UnitTile::attack(Artillery* art, int distance){
-	return{};
-}
-//Virtual
-std::string UnitTile::attack(Mortar* mor, int distance){
-	return{};
-}
-//Virtual
-std::string UnitTile::attack(General* gen, int distance){
-	return{};
-}
-//Virtual
-std::string UnitTile::attack(Akinci* aki, int distance){
+std::string UnitTile::meleeAttack(LightCav* lcav){
 	return{};
 }
 
 //Virtual
-std::string UnitTile::attack(Deli* deli, int distance){
+std::string UnitTile::meleeAttack(Artillery* art){
+	return{};
+}
+//Virtual
+std::string UnitTile::meleeAttack(Mortar* mor){
+	return{};
+}
+//Virtual
+std::string UnitTile::meleeAttack(General* gen){
+	return{};
+}
+//Virtual
+std::string UnitTile::meleeAttack(Akinci* aki){
+	return{};
+}
+
+//Virtual
+std::string UnitTile::meleeAttack(Deli* deli){
 	return{};
 }
 
@@ -373,7 +373,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 }
 
 //Virtual
-float UnitTile::getFlankModifier(UnitFamily _family, Modifier _flank){
+float UnitTile::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	return 0;
 }
 
@@ -852,11 +852,9 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 				result << "[" + modToString(mod.modType) + ": " + roundFloat(mod.modFloat) + "d]";
 			}
 		}
-
-	result << "\n";
-
 	}
 
+	result << "\n";
 
 	result << defender->getPlayer()->getName().substr(0, 3) + " Mod:   ";
 

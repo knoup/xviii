@@ -117,29 +117,30 @@ public:
 	virtual int getMaxMov() const;
 	virtual int getMaxRange() const;
 
-	//This function is in charge of initiating combat by determining distance, flank, etc.
+	//This function is in charge of initiating combat by determining distance, flank, etc. and calling either
+	//meleeAttack() or rangedAttack()
 	std::string attack(UnitTile* _unit);
 
 	//Needed for double dispatch
-	virtual std::string attack(UnitTile* _unit, int distance) = 0;
+	virtual std::string meleeAttack(UnitTile* _unit) = 0;
 
-	virtual std::string attack(Infantry* inf, int distance);
-	virtual std::string attack(Cavalry* cav, int distance);
-	virtual std::string attack(Cuirassier* cuir, int distance);
-	virtual std::string attack(Dragoon* drag, int distance);
-	virtual std::string attack(LightCav* lcav, int distance);
-	virtual std::string attack(Artillery* art, int distance);
-	virtual std::string attack(Mortar* mor, int distance);
-	virtual std::string attack(General* gen, int distance);
-	virtual std::string attack(Akinci* aki, int distance);
-	virtual std::string attack(Deli* deli, int distance);
+	virtual std::string meleeAttack(Infantry* inf);
+	virtual std::string meleeAttack(Cavalry* cav);
+	virtual std::string meleeAttack(Cuirassier* cuir);
+	virtual std::string meleeAttack(Dragoon* drag);
+	virtual std::string meleeAttack(LightCav* lcav);
+	virtual std::string meleeAttack(Artillery* art);
+	virtual std::string meleeAttack(Mortar* mor);
+	virtual std::string meleeAttack(General* gen);
+	virtual std::string meleeAttack(Akinci* aki);
+	virtual std::string meleeAttack(Deli* deli);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
 	//Each class will have an overloaded definition returning its specific flank modifier for either 
 	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 
 	//its own implementation of essentially the same function.
-	virtual float getFlankModifier(UnitFamily _family, Modifier _flank);
+	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
 
 	TerrainTile* getTilePos() const;
 	Player* getPlayer() const;

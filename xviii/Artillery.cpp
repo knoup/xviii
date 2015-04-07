@@ -48,8 +48,8 @@ int Artillery::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, boo
 	return UnitTile::distanceFrom(_terrain, _validMovDirection, _validAttackDirection, _obstructionPresent, _inMovementRange, _inRangedAttackRange, true, 3);
 }
 
-std::string Artillery::attack(UnitTile* _unit, int distance){
-	//rangedAttack() is called in UnitTile's initial attack(UnitTile*) function;
+std::string Artillery::meleeAttack(UnitTile* _unit){
+	//rangedAttack() is called in UnitTile's initial meleeAttack(UnitTile*) function;
 	//we don't need to do anything here, since this unit cannot melee
 	return{};
 }
