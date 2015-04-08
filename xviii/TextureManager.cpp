@@ -3,12 +3,15 @@
 
 
 TextureManager::TextureManager() :
-textureSet{nullptr},
+units{nullptr},
 size{54, 54}, //Current: 54,54
 counterSize{54, 34} //Current: 54,34
 {
-	textureSet = std::move(texturePtr(new sf::Texture()));
-	textureSet->loadFromFile("assets/gfx/spriteset.png");
+	units = std::move(texturePtr(new sf::Texture()));
+	units->loadFromFile("assets/gfx/spriteset.png");
+
+	terrain = std::move(texturePtr(new sf::Texture()));
+	terrain->loadFromFile("assets/gfx/terrain.png");
 	
 	ui = std::move(texturePtr(new sf::Texture()));
 	ui->loadFromFile("assets/gfx/ui.png");
@@ -19,7 +22,7 @@ counterSize{54, 34} //Current: 54,34
 	flags = std::move(texturePtr(new sf::Texture()));
 	flags->loadFromFile("assets/gfx/flags.png");
 
-	textureSet->setSmooth(true);
+	units->setSmooth(true);
 }
 
 sf::Sprite TextureManager::getSprite(Unit type){
@@ -60,7 +63,7 @@ sf::Sprite TextureManager::getSprite(Unit type){
 		break;
 	}
 
-	return{*textureSet, rekt};
+	return{*units, rekt};
 
 }
 
@@ -70,10 +73,39 @@ sf::Sprite TextureManager::getSprite(Terrain type){
 
 	switch (type){
 	case Terrain::MEADOW:
-		rekt = {108, 34, size.x, size.y};
+		rekt = {0, 0, size.x, size.y};
+		break;
+
+	case Terrain::HILLS:
+		rekt = {54, 0, size.x, size.y};
+		break;
+
+	case Terrain::MUD:
+		rekt = {108, 0, size.x, size.y};
+		break;
+
+	case Terrain::ROAD:
+		rekt = {162, 0, size.x, size.y};
+		break;
+
+	case Terrain::SLOPES:
+		rekt = {0, 54, size.x, size.y};
+		break;
+
+	case Terrain::URBAN:
+		rekt = {54, 54, size.x, size.y};
+		break;
+
+	case Terrain::WATER:
+		rekt = {108, 54, size.x, size.y};
+		break;
+
+	case Terrain::WOODS:
+		rekt = {162, 54, size.x, size.y};
 		break;
 	}
-	return{*textureSet, rekt};
+
+	return{*terrain, rekt};
 
 }
 
@@ -90,8 +122,6 @@ sf::Sprite TextureManager::getSprite(UI type){
 		return sf::Sprite{*button};
 		}
 	}
-
-	return{*textureSet, rekt};
 
 }
 
@@ -161,18 +191,45 @@ sf::Vector2i TextureManager::getCounterSize() const{
 	return counterSize;
 }
 
-sf::Texture& TextureManager::getTexture() const{
-	return *textureSet;
+sf::Texture& TextureManager::getTerrainTexture() const{
+	return *terrain;
 }
 
 //NOTE: UI and BUTTON (and obviously BLANK) are not handled here. 
 sf::IntRect TextureManager::getTerrainRekt(Terrain type){
-
 	sf::IntRect rekt;
 
 	switch (type){
 	case Terrain::MEADOW:
-		rekt = {108, 68, size.x, size.y};
+		rekt = {0, 0, size.x, size.y};
+		break;
+
+	case Terrain::HILLS:
+		rekt = {54, 0, size.x, size.y};
+		break;
+
+	case Terrain::MUD:
+		rekt = {108, 0, size.x, size.y};
+		break;
+
+	case Terrain::ROAD:
+		rekt = {162, 0, size.x, size.y};
+		break;
+
+	case Terrain::SLOPES:
+		rekt = {0, 54, size.x, size.y};
+		break;
+
+	case Terrain::URBAN:
+		rekt = {54, 54, size.x, size.y};
+		break;
+
+	case Terrain::WATER:
+		rekt = {108, 54, size.x, size.y};
+		break;
+
+	case Terrain::WOODS:
+		rekt = {162, 54, size.x, size.y};
 		break;
 	}
 

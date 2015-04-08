@@ -6,7 +6,7 @@ public:
 	using texturePtr = std::unique_ptr<sf::Texture>;
 
 	enum class Unit{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, LINF, SAP, CRICAV};
-	enum class Terrain{MEADOW};
+	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS};
 	enum class UI{RECTANGLE, BUTTON};
 	enum class Flag{AUS,PRU,FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI};
 
@@ -21,12 +21,14 @@ public:
 	sf::Vector2i getCounterSize() const;
 
     //Used for the vertex array (for terrain tiles)
-	sf::Texture& getTexture() const;
+	sf::Texture& getTerrainTexture() const;
 	sf::IntRect getTerrainRekt(Terrain type);
 
 private:
 	//The unit sprites
-	texturePtr textureSet;
+	texturePtr units;
+	//The terrain
+	texturePtr terrain;
 	//The rectangular UI bar at the bottom
 	texturePtr ui;
 	//Ready/next turn button

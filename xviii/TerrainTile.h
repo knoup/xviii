@@ -10,7 +10,7 @@ class TerrainTile : public Tile
 {
 public:
 	using terrainPtr = std::unique_ptr<TerrainTile>;
-	enum class TerrainType{MEADOW};
+	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS };
 
 	TerrainTile(TextureManager& tm, TerrainType type, sf::Vector2f _pos);
 	virtual ~TerrainTile();

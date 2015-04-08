@@ -11,6 +11,8 @@ public:
 	World(TextureManager& _tm, sf::Vector2i _dimensions);
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
+	void generate();
+
 	int indexAtMouseCoords(sf::Vector2i _pos);
 	int indexAtCartesianCoords(sf::Vector2i _pos);
 	int indexAtTile(Tile& _tile);
