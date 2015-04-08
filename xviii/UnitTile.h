@@ -19,12 +19,19 @@
 	X(UnitTile::UnitType::LCAV, LightCav, "lcav")\
 	X(UnitTile::UnitType::MOR, Mortar, "mor")\
 	X(UnitTile::UnitType::AKINCI, Akinci, "akinci")\
-	X(UnitTile::UnitType::DELI, Deli, "deli")
+	X(UnitTile::UnitType::DELI, Deli, "deli")\
+	X(UnitTile::UnitType::TIM, Timarioti, "tim")\
+	X(UnitTile::UnitType::KAP, Kapikulu, "kap")\
+	X(UnitTile::UnitType::GRE, Grenadier, "gre")\
+	X(UnitTile::UnitType::JAN, Janissary, "jan")\
+	X(UnitTile::UnitType::OINF, OttoInfantry, "o. inf")\
+	X(UnitTile::UnitType::LINF, LightInfantry, "linf")\
+	X(UnitTile::UnitType::SAP, Sapper, "sap")
+	
 
 class Player;
 class World;
 
-//A bit of forward declarations for the overloaded attack functions
 class Infantry;
 class Cavalry;
 class Cuirassier;
@@ -35,6 +42,13 @@ class Mortar;
 class General;
 class Akinci;
 class Deli;
+class Timarioti;
+class Kapikulu;
+class Grenadier;
+class Janissary;
+class OttoInfantry;
+class LightInfantry;
+class Sapper;
 
 /*
 	Note: due to the fact that static/const variables cannot be modified in derived classes,
@@ -56,8 +70,8 @@ class UnitTile : public Tile
 public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
-	enum class Modifier{NONE, VSCAV, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI};
+	enum class Modifier{NONE, ADDITIONAL, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP};
 	enum class UnitFamily{INF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information
@@ -157,7 +171,7 @@ public:
 	int distanceFrom(Tile* _tile);
 
 	std::string dirToString();
-	std::string modToString(Modifier _mod);
+	std::string modToString(ModifierReport _mod);
 	std::string typeToString();
 
 	std::string attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted, std::vector<ModifierReport>& thisModifiers, std::vector<ModifierReport>& enemyModifiers);

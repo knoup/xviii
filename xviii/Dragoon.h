@@ -2,7 +2,6 @@
 
 #include "Cavalry.h"
 
-
 class Dragoon : public Cavalry
 {
 public:
@@ -19,7 +18,7 @@ public:
 private:
 	static const int maxhp{10};
 	static const int maxMov{12};
-	static const int maxRange{9};
+	static const int maxRange{5};
 };
 
 

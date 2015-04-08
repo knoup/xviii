@@ -15,6 +15,13 @@
 #include "General.h"
 #include "Akinci.h"
 #include "Deli.h"
+#include "Timarioti.h"
+#include "Kapikulu.h"
+#include "Grenadier.h"
+#include "Janissary.h"
+#include "OttoInfantry.h"
+#include "LightInfantry.h"
+#include "Sapper.h"
 
 #include "global.h"
 

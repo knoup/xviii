@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Cuirassier.h"
 
-#include "Player.h"
-
 static const float infFrontFlankModifier = 0.5;
 static const float infSideFlankModifier = 1;
 static const float infRearFlankModifier = 2;
@@ -57,6 +55,7 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::
 	deploymentCost = 3;
 	limit = 5;
 
+	waterCrosser = true;
 	mov = maxMov;
 	hp = maxhp;
 }

@@ -56,6 +56,7 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily:
 	deploymentCost = 3;
 	limit = 5;
 
+	waterCrosser = false;
 	mov = maxMov;
 	hp = maxhp;
 }

@@ -71,16 +71,21 @@ std::string UnitTile::dirToString(){
     }
 }
 
-std::string UnitTile::modToString(Modifier _mod){
-	switch (_mod){
+std::string UnitTile::modToString(ModifierReport _mod){
+	switch (_mod.modType){
 	case Modifier::NONE:
 		return{"none"};
 		break;
 
-	case Modifier::VSCAV:
-		return{"vs.cav"};
-		break;
+	case Modifier::ADDITIONAL:
+		if (_mod.modFloat >= 0){
+			return{"bonus"};
+		}
+		else{
+			return{"malus"};
+		}
 
+		break;
 	case Modifier::DISTANCE:
 		return{"distance"};
 		break;
@@ -307,13 +312,36 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	//Add the flank modifier to this unit's modVector. See particular unit's getFlankModifier() for details.
 	this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitFamilyType(), flank));
+
+
 	
-	if ((this->getUnitType() == UnitType::CUIR || this->getUnitType() == UnitType::DELI) && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		this->modVector.emplace_back(Modifier::VSCAV, 1);
+	//Apply unit-specific modifiers. Implementation will be revised once modifier values and types are finalised.
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	if ((this->getUnitType() == UnitType::CUIR || this->getUnitType() == UnitType::DELI || this->getUnitType() == UnitType::KAP) && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
 	}
 
-	if ((unit->getUnitType() == UnitType::CUIR || unit->getUnitType() == UnitType::DELI) && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		unit->modVector.emplace_back(Modifier::VSCAV, 1);
+	if ((unit->getUnitType() == UnitType::CUIR || unit->getUnitType() == UnitType::DELI || unit->getUnitType() == UnitType::KAP) && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		unit->modVector.emplace_back(Modifier::ADDITIONAL, 1);
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	if (this->getUnitType() == UnitType::OINF && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);
+	}
+
+	if (unit->getUnitType() == UnitType::OINF && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		unit->modVector.emplace_back(Modifier::ADDITIONAL, -1);
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	if (this->getUnitType() == UnitType::LINF){
+		this->modVector.emplace_back(Modifier::ADDITIONAL, -2);
+	}
+
+	if (unit->getUnitType() == UnitType::LINF){
+		unit->modVector.emplace_back(Modifier::ADDITIONAL, -2);
 	}
 
 	//Double dispatch, hence the reverse order
@@ -845,11 +873,11 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 	for (auto& mod : attackerModifiers){
 		if (mod.modFloat != 0){
-			if (mod.modType == UnitTile::Modifier::VSCAV){
-				result << "[" + modToString(mod.modType) + ": +" + roundFloat(mod.modFloat) + "]";
+			if (mod.modType == UnitTile::Modifier::ADDITIONAL){
+				result << "[" + modToString(mod) + ": +" + roundFloat(mod.modFloat) + "]";
 			}
 			else{
-				result << "[" + modToString(mod.modType) + ": " + roundFloat(mod.modFloat) + "d]";
+				result << "[" + modToString(mod) + ": " + roundFloat(mod.modFloat) + "d]";
 			}
 		}
 	}
@@ -860,11 +888,11 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 	for (auto& mod : defenderModifiers){
 		if (mod.modFloat != 0){
-			if (mod.modType == UnitTile::Modifier::VSCAV){
-				result << "[" + modToString(mod.modType) + ": +" + roundFloat(mod.modFloat) + "]";
+			if (mod.modType == UnitTile::Modifier::ADDITIONAL){
+				result << "[" + modToString(mod) + ": +" + roundFloat(mod.modFloat) + "]";
 			}
 			else{
-				result << "[" + modToString(mod.modType) + ": " + roundFloat(mod.modFloat) + "d]";
+				result << "[" + modToString(mod) + ": " + roundFloat(mod.modFloat) + "d]";
 			}
 		}
 	}
@@ -876,15 +904,19 @@ void UnitTile::multRollByModifiers(float &originalRoll){
 	//Anything besides the VSCAV modifier is a multiplication modifier; apply them first. Also,
 	//ignore any modifier with a value of 0.
 	for (auto& mod : modVector){
-		if (mod.modType != Modifier::VSCAV && mod.modFloat != 0){
-			originalRoll *= mod.modFloat;
+		if (mod.modFloat != 0){
+			if (mod.modType != Modifier::ADDITIONAL){
+				originalRoll *= mod.modFloat;
+			}
 		}
 	}
 
 	//Then add the value to the final resultant roll
 	for (auto& mod : modVector){
-		if (mod.modType == Modifier::VSCAV  && mod.modFloat != 0){
-			originalRoll += mod.modFloat;
+		if (mod.modFloat != 0){
+			if (mod.modType == Modifier::ADDITIONAL){
+				originalRoll += mod.modFloat;
+			}
 		}
 	}
 }

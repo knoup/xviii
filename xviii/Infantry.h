@@ -2,11 +2,10 @@
 
 #include "UnitTile.h"
 
-
 class Infantry : public UnitTile
 {
 public:
-	Infantry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
+	Infantry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType = TextureManager::Unit::INF, UnitType uType = UnitType::INF);
 	
 	//Infantry's moveTo is overloaded because of the rule: INF can either MOVE, PARTIALLY ROTATE, or FULLY ROTATE in addition to attacking.
 	std::string moveTo(TerrainTile* terrainTile);

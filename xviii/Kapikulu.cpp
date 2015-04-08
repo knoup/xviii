@@ -1,15 +1,15 @@
 #include "stdafx.h"
-#include "Deli.h"
+#include "Kapikulu.h"
 
 static const float infFrontFlankModifier = 0.5;
-static const float infSideFlankModifier = 0.5;
-static const float infRearFlankModifier = 1;
+static const float infSideFlankModifier = 1;
+static const float infRearFlankModifier = 2;
 
 static const float cavFrontFlankModifier = 1;
 static const float cavSideFlankModifier = 2;
 static const float cavRearFlankModifier = 2;
 
-float Deli::getFlankModifier(UnitFamily _family, Modifier _flank) const{
+float Kapikulu::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	if (_family == UnitFamily::INF_FAMILY){
 		switch (_flank){
 		case Modifier::FRONT_FLANK:
@@ -48,8 +48,9 @@ float Deli::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	}
 }
 
-Deli::Deli(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm,_dir, TextureManager::Unit::DELI, UnitType::DELI)
+
+Kapikulu::Kapikulu(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
+Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::KAP, UnitType::KAP)
 {
 	deploymentCost = 3;
 	limit = 5;
@@ -59,14 +60,14 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm,_dir, TextureManager::Unit::D
 	hp = maxhp;
 }
 
-int Deli::getMaxHp() const{
+int Kapikulu::getMaxHp() const{
 	return maxhp;
 }
 
-int Deli::getMaxMov() const{
+int Kapikulu::getMaxMov() const{
 	return maxMov;
 }
 
-int Deli::getMaxRange() const{
+int Kapikulu::getMaxRange() const{
 	return maxRange;
 }

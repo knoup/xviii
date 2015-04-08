@@ -28,7 +28,7 @@ General
  a roll of 4 with modifiers of 0.5d and 1d will yield 2 and 4 DMG respectively
 
  
- *Incremental modifiers always come after multiplicational ones; a Cuirassier 4 rolling
+*Incremental modifiers always come after multiplicational ones; a Cuirassier 4 rolling
  against a Dragoon will get a resultant roll of 9 [(2x4) + 1], not 10 [2*(4+1)].
 
 
@@ -36,7 +36,7 @@ General
 heal a friendly unit for 2 HP once per turn.
 
 
-*The following units are members of the "CAV family" and will, unless when stated otherwise, behave the same as CAV:
+*The following units are members of the "CAV family" and will, unless stated otherwise, behave the same as CAV:
 
 	Cuirassier (CUIR)
 	Dragoon (DRAG)
@@ -48,44 +48,44 @@ Unit Types & Stats
 ------------------
 
 	Infantry (INF)
-		*MOV: 6
 		*HP: 18
+		*MOV: 6
 		*MAX RANGED DIST: 6
 		
 	Artillery (ART)
-		*MOV: 2
 		*HP: 3
+		*MOV: 2
 		*MAX RANGED DIST: 20
 		
 	Mortar (MOR)
-		*MOV: 0
 		*HP: 2
+		*MOV: 0
 		*MAX RANGED DIST: 15
 		
 	Cavalry (CAV)
-		*MOV: 12
 		*HP: 12
+		*MOV: 12
 		*MAX RANGED DIST: -
 
 	Cuirassier (CUIR)
-		*MOV: 9
 		*HP:  15
+		*MOV: 9
 		*MAX RANGED DIST: -
 		*CUIR gets +1 to rolls against the CAV family
 
 	Dragoon (DRAG)
-		*MOV: 12
 		*HP: 10
-		*MAX RANGED DIST: 9
+		*MOV: 12
+		*MAX RANGED DIST: 5
 
 	Light Cavalry (LCAV)
-		*MOV: 15
 		*HP: 9
+		*MOV: 15
 		*MAX RANGED DIST: -
 		
 	General (GEN)
-		*MOV: 6
 		*HP: 5
+		*MOV: 6
 		*MAX RANGED DIST: 2
 
 ---Shooting Dist. Modifiers---

@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Akinci.h"
 
-#include "Player.h"
-
 static const float infFrontFlankModifier = 0.5;
 static const float infSideFlankModifier = 0.5;
 static const float infRearFlankModifier = 1;

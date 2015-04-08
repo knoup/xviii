@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Dragoon.h"
 
-#include "Player.h"
-
 static const float infFrontFlankModifier = 0.5;
 static const float infSideFlankModifier = 0.5;
 static const float infRearFlankModifier = 1;
@@ -56,9 +54,9 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::
 	deploymentCost = 3;
 	limit = 5;
 
+	waterCrosser = true;
 	mov = maxMov;
 	hp = maxhp;
-	waterCrosser = true;
 }
 
 int Dragoon::getMaxHp() const{
@@ -85,7 +83,7 @@ std::string Dragoon::rangedAttack(UnitTile* unit, int distance){
 
 	float distanceModifier{1};
 
-	if (distance >= 5 && distance <= 9){
+	if (distance >= 4 && distance <= 5){
 		distanceModifier = 0.5;
 	}
 	else if (distance >= 2 && distance <= 4){

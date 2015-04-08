@@ -2,7 +2,6 @@
 
 #include "UnitTile.h"
 
-
 class Cavalry : public UnitTile
 {
 public:
