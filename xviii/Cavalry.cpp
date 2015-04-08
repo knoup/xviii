@@ -63,15 +63,21 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily:
 
 
 std::string Cavalry::rotate(UnitTile::Direction _dir){
-	if (hasRotated){
-		return "Cannot rotate any more";
+	if (hasMeleeAttacked || hasRangedAttacked){
+		return "Cannot rotate after attacking";
+	}
+	else if (hasRotated){
+		return "Already rotated this turn";
 	}
 	else if (dir == _dir){
 		return "Already facing " + UnitTile::dirToString();
 	}
 	//If it was a full rotation
 	if (_dir == opposite(dir)){
-		hasAttacked = true;
+		//Due to the rule that cav cannot attack after full rotation, and to simplify matters, I set the
+		//hasAttacked variables to true here
+		hasMeleeAttacked = true;
+		hasRangedAttacked = true;
 		mov = 0;
 	}
 
@@ -143,7 +149,7 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 	mov = 0;
 	this->updateStats();
 	inf->updateStats();
-	hasAttacked = true;
+	hasMeleeAttacked = true;
 	
 	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
 
@@ -204,7 +210,7 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 	mov = 0;
 	this->updateStats();
 	cav->updateStats();
-	hasAttacked = true;
+	hasMeleeAttacked = true;
 
 	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
 	
@@ -241,7 +247,7 @@ std::string Cavalry::meleeAttack(Artillery* art){
 	mov = 0;
 	this->updateStats();
 	art->updateStats();
-	hasAttacked = true;
+	hasMeleeAttacked = true;
 
 	return attackReport(1, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
 }
@@ -277,7 +283,7 @@ std::string Cavalry::meleeAttack(Mortar* mor){
 	mov = 0;
 	this->updateStats();
 	mor->updateStats();
-	hasAttacked = true;
+	hasMeleeAttacked = true;
 
 	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
 }

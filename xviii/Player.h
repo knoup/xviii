@@ -19,9 +19,10 @@
 #include "Kapikulu.h"
 #include "Grenadier.h"
 #include "Janissary.h"
-#include "OttoInfantry.h"
-#include "LightInfantry.h"
+#include "OttoInf.h"
+#include "LightInf.h"
 #include "Sapper.h"
+#include "CrimeanCav.h"
 
 #include "global.h"
 
@@ -42,7 +43,8 @@
 	X(Player::Nation::VEN, TextureManager::Flag::VEN, "Venice")\
 	X(Player::Nation::SAX, TextureManager::Flag::SAX, "Saxony")\
 	X(Player::Nation::SWE, TextureManager::Flag::SWE, "Sweden")\
-	X(Player::Nation::OTO, TextureManager::Flag::OTO, "Ottoman Empire")
+	X(Player::Nation::OTO, TextureManager::Flag::OTO, "Ottoman Empire")\
+	X(Player::Nation::CRI, TextureManager::Flag::CRI, "Crimea")
 
 class Player
 {
@@ -73,13 +75,13 @@ class Player
 		};
 
 
-		enum class Nation{ AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO};
+		enum class Nation{ AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI};
 		Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
 		
 		//Returns true if successfully spawned unit
 		bool spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords);
 		//For loading from a save game
-		void loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasRotated, bool _hasAttacked, bool _hasHealed);
+		void loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed);
 
 		//Returns true if succesfully removed unit
 		bool removeUnit(sf::Vector2i _worldCoords);

@@ -231,7 +231,7 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 }
 
 //For loading from a save game
-void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasRotated, bool _hasAttacked, bool _hasHealed){
+void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed){
 
 	UnitTile::unitPtr ptr;
 
@@ -249,7 +249,8 @@ void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Dir
 
 	ptr->setHasMoved(_hasMoved);
 	ptr->setHasRotated(_hasRotated);
-	ptr->setHasAttacked(_hasAttacked);
+	ptr->setHasMeleeAttacked(_hasMeleeAttacked);
+	ptr->setHasRangedAttacked(_hasRangedAttacked);
 	ptr->setHasHealed(_hasHealed);
 
 	world.placeAt(sf::Vector2i{_pos.x * tm.getSize().x, _pos.y * tm.getSize().y}, std::move(ptr));

@@ -1,5 +1,6 @@
 #include "stdafx.h"
-#include "Akinci.h"
+#include "CrimeanCav.h"
+
 
 static const float infFrontFlankModifier = 0.5;
 static const float infSideFlankModifier = 0.5;
@@ -9,7 +10,7 @@ static const float cavFrontFlankModifier = 1;
 static const float cavSideFlankModifier = 2;
 static const float cavRearFlankModifier = 2;
 
-float Akinci::getFlankModifier(UnitFamily _family, Modifier _flank) const{
+float CrimeanCav::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	if (_family == UnitFamily::INF_FAMILY){
 		switch (_flank){
 		case Modifier::FRONT_FLANK:
@@ -48,31 +49,57 @@ float Akinci::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	}
 }
 
-Akinci::Akinci(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::AKINCI, UnitType::AKINCI)
+CrimeanCav::CrimeanCav(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
+Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::CRICAV, UnitType::CRICAV)
 {
 	deploymentCost = 3;
 	limit = 5;
-	waterCrosser = true;
 
+	waterCrosser = true;
 	mov = maxMov;
 	hp = maxhp;
 }
 
-int Akinci::getMaxHp() const{
+std::string CrimeanCav::rotate(UnitTile::Direction _dir){
+	if (hasMeleeAttacked){
+		return "Cannot rotate after melee attacking";
+	}
+	else if (hasRotated){
+		return "Already rotated this turn";
+	}
+	else if (dir == _dir){
+		return "Already facing " + UnitTile::dirToString();
+	}
+	//If it was a full rotation
+	if (_dir == opposite(dir)){
+		//Due to the rule that cav cannot attack after full rotation, and to simplify matters, I set the
+		//hasAttacked variables to true here
+		hasMeleeAttacked = true;
+		hasRangedAttacked = true;
+		mov = 2;
+	}
+
+	hasRotated = true;
+	dir = _dir;
+	updateStats();
+
+	return "Successfully rotated to " + UnitTile::dirToString();
+}
+
+
+int CrimeanCav::getMaxHp() const{
 	return maxhp;
 }
 
-int Akinci::getMaxMov() const{
+int CrimeanCav::getMaxMov() const{
 	return maxMov;
 }
 
-int Akinci::getMaxRange() const{
+int CrimeanCav::getMaxRange() const{
 	return maxRange;
 }
 
-
-std::string Akinci::rangedAttack(UnitTile* unit, int distance){
+std::string CrimeanCav::rangedAttack(UnitTile* unit, int distance){
 	std::uniform_int_distribution<int> distribution(1, 6);
 
 	int thisRoll_int{distribution(mt19937)};

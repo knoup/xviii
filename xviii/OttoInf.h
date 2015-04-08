@@ -2,10 +2,10 @@
 
 #include "Infantry.h"
 
-class OttoInfantry : public Infantry
+class OttoInf : public Infantry
 {
 public:
-	OttoInfantry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
+	OttoInf(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
 
 	virtual int getMaxHp() const;
 	virtual int getMaxMov() const;

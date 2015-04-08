@@ -84,7 +84,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 	}
 
 	else if (validMovDirection && inMovementRange){
-		hasRotated = true;
+		hasMoved = true;
 		at = terrainTile;
 		mov -= movExpended;
 		sprite.setPosition(terrainTile->getPos());
@@ -107,11 +107,14 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 
 std::string Infantry::rotate(UnitTile::Direction _dir){
+	if (hasMeleeAttacked || hasRangedAttacked){
+		return "Can't rotate after attacking";
+	}
 	if (hasRotated){
-		return "Cannot rotate any more";
+		return "Already rotated this turn";
 	}
 	else if (hasMoved){
-		return "Already moved this turn";
+		return "Can't rotate after moving";
 	}
 	else if (dir == _dir){
 		return "Already facing " + UnitTile::dirToString();
@@ -198,7 +201,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 	mov = 0;
 	this->updateStats();
 	inf->updateStats();
-	hasAttacked = true;
+	hasMeleeAttacked = true;
 
 	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
 
@@ -245,7 +248,7 @@ std::string Infantry::meleeAttack(Cavalry* cav){
 	mov = 0;
 	this->updateStats();
 	cav->updateStats();
-	hasAttacked = true;
+	hasMeleeAttacked = true;
 
 	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
 	
@@ -283,7 +286,7 @@ std::string Infantry::meleeAttack(Artillery* art){
 	mov = 0;
 	this->updateStats();
 	art->updateStats();
-	hasAttacked = true;
+	hasMeleeAttacked = true;
 
 	return attackReport(1, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
 
@@ -320,7 +323,7 @@ std::string Infantry::meleeAttack(Mortar* mor){
 	mov = 0;
 	this->updateStats();
 	mor->updateStats();
-	hasAttacked = true;
+	hasMeleeAttacked = true;
 
 	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
 
@@ -357,7 +360,7 @@ std::string Infantry::rangedAttack(UnitTile* unit, int distance){
 	mov = 0;
 	this->updateStats();
 	unit->updateStats();
-	hasAttacked = true;
+	hasRangedAttacked = true;
 
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0, modVector, unit->modVector);
 }

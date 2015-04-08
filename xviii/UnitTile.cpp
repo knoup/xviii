@@ -213,7 +213,8 @@ void UnitTile::reset(){
 	mov = getMaxMov();
 	hasMoved = false;
 	hasRotated = false;
-	hasAttacked = false;
+	hasMeleeAttacked = false;
+	hasRangedAttacked = false;
 	updateStats();
 }
 
@@ -270,8 +271,8 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	int dist{distanceFrom(unit->at, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange)};
 
-	if (hasAttacked){
-		return{"Cannot attack any more"};
+	if (hasMeleeAttacked || hasRangedAttacked){
+		return{"Already attacked this turn"};
 	}
 
 	if (obstructionPresent){
@@ -343,6 +344,8 @@ std::string UnitTile::attack(UnitTile* unit){
 	if (unit->getUnitType() == UnitType::LINF){
 		unit->modVector.emplace_back(Modifier::ADDITIONAL, -2);
 	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Double dispatch, hence the reverse order
 	return unit->meleeAttack(this);
@@ -490,7 +493,7 @@ void UnitTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	target.draw(hpText);
 	target.draw(movText);
 
-	if (hasAttacked){
+	if (hasMeleeAttacked || hasRangedAttacked){
 		target.draw(redOutline);
 	}
 
@@ -934,8 +937,12 @@ bool UnitTile::getHasRotated() const{
 	return hasRotated;
 }
 
-bool UnitTile::getHasAttacked() const{
-	return hasAttacked;
+bool UnitTile::getHasMeleeAttacked() const{
+	return hasMeleeAttacked;
+}
+
+bool UnitTile::getHasRangedAttacked() const{
+	return hasRangedAttacked;
 }
 
 bool UnitTile::getHasHealed() const{
@@ -958,8 +965,12 @@ void UnitTile::setHasRotated(bool _hasRotated){
 	hasRotated = _hasRotated;
 }
 
-void UnitTile::setHasAttacked(bool _hasAttacked){
-	hasAttacked = _hasAttacked;
+void UnitTile::setHasMeleeAttacked(bool _value){
+	hasMeleeAttacked = _value;
+}
+
+void UnitTile::setHasRangedAttacked(bool _value){
+	hasRangedAttacked = _value;
 }
 
 void UnitTile::setHasHealed(bool _hasHealed){

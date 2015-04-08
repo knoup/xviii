@@ -52,7 +52,7 @@ std::string Sapper::rangedAttack(UnitTile* unit, int distance){
 	mov = 0;
 	this->updateStats();
 	unit->updateStats();
-	hasAttacked = true;
+	hasRangedAttacked = true;
 
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0, modVector, unit->modVector);
 }

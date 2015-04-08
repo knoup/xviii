@@ -14,8 +14,11 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::MOR, 
 
 
 std::string Mortar::rotate(UnitTile::Direction _dir){
-	if (hasRotated){
-		return "Cannot rotate any more";
+	if (hasRangedAttacked){
+		return "Cannot rotate after attacking";
+	}
+	else if (hasRotated){
+		return "Already rotated this turn";
 	}
 	else if (dir == _dir){
 		return "Already facing " + UnitTile::dirToString();
@@ -75,7 +78,7 @@ std::string Mortar::rangedAttack(UnitTile* unit, int distance){
 	mov = 0;
 	this->updateStats();
 	unit->updateStats();
-	hasAttacked = true;
+	hasRangedAttacked = true;
 
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0, modVector, unit->modVector);
 }

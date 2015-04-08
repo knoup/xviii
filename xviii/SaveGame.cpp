@@ -137,7 +137,8 @@ bool SaveGame::create(){
 		save << "mov=" << unit->getMov() << std::endl;
 		save << "hasMoved=" << unit->getHasMoved() << std::endl;
 		save << "hasRotated=" << unit->getHasRotated() << std::endl;
-		save << "hasAttacked=" << unit->getHasAttacked() << std::endl;
+		save << "hasMeleeAttacked=" << unit->getHasMeleeAttacked() << std::endl;
+		save << "hasRangedAttacked=" << unit->getHasRangedAttacked() << std::endl;
 
 		if (unit->getUnitType() == UnitTile::UnitType::GEN){
 			save << "hasHealed=" << unit->getHasHealed() << std::endl;
@@ -220,6 +221,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 		else if (line.find("{") != std::string::npos){
 
+			//Keeping these uninitialised for the moment to ensure I catch any bugs
+
 			UnitTile::UnitType type;
 			Player* player{nullptr};
 			sf::Vector2i pos;
@@ -228,7 +231,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			float mov;
 			bool hasMoved;
 			bool hasRotated;
-			bool hasAttacked;
+			bool hasMeleeAttacked;
+			bool hasRangedAttacked;
 			bool hasHealed{false};
 
 			while (line.find("}") == std::string::npos){
@@ -290,8 +294,12 @@ void SaveGame::parse(boost::filesystem::path _dir){
 					hasRotated = std::stoi(line.substr(11));
 				}
 
-				else if (line.find("hasAttacked=") != std::string::npos){
-					hasAttacked = std::stoi(line.substr(12));
+				else if (line.find("hasMeleeAttacked=") != std::string::npos){
+					hasMeleeAttacked = std::stoi(line.substr(17));
+				}
+
+				else if (line.find("hasRangedAttacked=") != std::string::npos){
+					hasRangedAttacked = std::stoi(line.substr(18));
 				}
 
 				else if (line.find("hasHealed=") != std::string::npos){
@@ -304,7 +312,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			}
 
 
-			player->loadUnit(type, pos, dir, hp, mov, hasMoved, hasRotated, hasAttacked, hasHealed);
+			player->loadUnit(type, pos, dir, hp, mov, hasMoved, hasRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed);
 
 		}
 

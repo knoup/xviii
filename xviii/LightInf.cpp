@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "LightInfantry.h"
+#include "LightInf.h"
 
 
-LightInfantry::LightInfantry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
+LightInf::LightInf(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
 Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::LINF, UnitTile::UnitType::LINF)
 {
 	deploymentCost = 1;
@@ -13,19 +13,19 @@ Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	hp = maxhp;
 }
 
-int LightInfantry::getMaxHp() const{
+int LightInf::getMaxHp() const{
 	return maxhp;
 }
 
-int LightInfantry::getMaxMov() const{
+int LightInf::getMaxMov() const{
 	return maxMov;
 }
 
-int LightInfantry::getMaxRange() const{
+int LightInf::getMaxRange() const{
 	return maxRange;
 }
 
-std::string LightInfantry::rangedAttack(UnitTile* unit, int distance){
+std::string LightInf::rangedAttack(UnitTile* unit, int distance){
 	std::uniform_int_distribution<int> distribution(1, 6);
 
 	int thisRoll_int{distribution(mt19937)};
@@ -55,7 +55,7 @@ std::string LightInfantry::rangedAttack(UnitTile* unit, int distance){
 	mov = 0;
 	this->updateStats();
 	unit->updateStats();
-	hasAttacked = true;
+	hasRangedAttacked = true;
 
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0, modVector, unit->modVector);
 }

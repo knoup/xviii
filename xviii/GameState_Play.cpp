@@ -350,7 +350,7 @@ void GameState_Play::update(){
 			//Check if it is an enemy unit
 			bool friendly = (unit->getPlayer() == game->currentPlayer);
 
-				if (!validAttackDirection || obstructionPresent || (dist > 1 && !inRangedAttackRange) || selected->getHasAttacked()){
+				if (!validAttackDirection || obstructionPresent || (dist > 1 && !inRangedAttackRange) || selected->getHasMeleeAttacked() || selected->getHasMeleeAttacked()){
 					tileDistanceText.setColor(sf::Color::Red); 
 				}
 				else{

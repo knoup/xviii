@@ -17,7 +17,8 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::
 void General::reset(){
 	mov = maxMov;
 	hasRotated = false;
-	hasAttacked = false;
+	hasMeleeAttacked = false;
+	hasRangedAttacked = false;
 	hasHealed = false;
 	updateStats();
 }
@@ -86,7 +87,7 @@ std::string General::rangedAttack(UnitTile* unit, int distance){
 	mov = 0;
 	this->updateStats();
 	unit->updateStats();
-	hasAttacked = true;
+	hasRangedAttacked = true;
 
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0, modVector, unit->modVector);
 }

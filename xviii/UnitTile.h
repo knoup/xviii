@@ -24,9 +24,10 @@
 	X(UnitTile::UnitType::KAP, Kapikulu, "kap")\
 	X(UnitTile::UnitType::GRE, Grenadier, "gre")\
 	X(UnitTile::UnitType::JAN, Janissary, "jan")\
-	X(UnitTile::UnitType::OINF, OttoInfantry, "o. inf")\
-	X(UnitTile::UnitType::LINF, LightInfantry, "linf")\
-	X(UnitTile::UnitType::SAP, Sapper, "sap")
+	X(UnitTile::UnitType::OINF, OttoInf, "o. inf")\
+	X(UnitTile::UnitType::LINF, LightInf, "linf")\
+	X(UnitTile::UnitType::SAP, Sapper, "sap")\
+	X(UnitTile::UnitType::CRICAV, CrimeanCav, "cr. cav")
 	
 
 class Player;
@@ -46,9 +47,10 @@ class Timarioti;
 class Kapikulu;
 class Grenadier;
 class Janissary;
-class OttoInfantry;
-class LightInfantry;
+class OttoInf;
+class LightInf;
 class Sapper;
+class CrimeanCav;
 
 /*
 	Note: due to the fact that static/const variables cannot be modified in derived classes,
@@ -71,7 +73,7 @@ public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, ADDITIONAL, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV};
 	enum class UnitFamily{INF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information
@@ -178,14 +180,17 @@ public:
 
 	bool getHasMoved() const;
 	bool getHasRotated() const;
-	bool getHasAttacked() const;
+	bool getHasMeleeAttacked() const;
+	bool getHasRangedAttacked() const;
 	virtual bool getHasHealed() const;
 
 	void sethp(float _hp);
 	void setMov(float _mov);
 	void setHasMoved(bool _hasMoved);
 	void setHasRotated(bool _hasRotated);
-	void setHasAttacked(bool _hasAttacked);
+	void setHasMeleeAttacked(bool _value);
+	void setHasRangedAttacked(bool _value);
+
 	//The following are applicable only for some children; the definition in UnitTile will be
 	//blank
 	virtual void setHasHealed(bool _hasHealed);
@@ -240,7 +245,8 @@ protected:
 
 	bool hasMoved{false};
 	bool hasRotated{false};
-	bool hasAttacked{false};
+	bool hasMeleeAttacked{false};
+	bool hasRangedAttacked{false};
 
 	bool waterCrosser{false};
 };
