@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "World.h"
 
-#include "Ant.h"
+#include "RiverAnt.h"
 
 World::World(TextureManager& _tm, sf::Vector2i _dimensions, std::mt19937& _mt19937) :
 tm(_tm),
@@ -56,32 +56,35 @@ void World::generate(){
 	//Now, we create the "ants"
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	std::unique_ptr<Ant> antsa1{new Ant(this, TerrainTile::TerrainType::WOODS, 100)};
-	std::unique_ptr<Ant> antsa2{new Ant(this, TerrainTile::TerrainType::WOODS, 15)};
-	std::unique_ptr<Ant> antsa3{new Ant(this, TerrainTile::TerrainType::WOODS, 75)};
-	std::unique_ptr<Ant> antsa4{new Ant(this, TerrainTile::TerrainType::WOODS, 50)};
-	std::unique_ptr<Ant> antsa5{new Ant(this, TerrainTile::TerrainType::WOODS, 100)};
-	std::unique_ptr<Ant> antsa6{new Ant(this, TerrainTile::TerrainType::URBAN, 5)};
-	std::unique_ptr<Ant> antsa7{new Ant(this, TerrainTile::TerrainType::URBAN, 15)};
-	std::unique_ptr<Ant> antsa8{new Ant(this, TerrainTile::TerrainType::URBAN, 15)};
-	std::unique_ptr<Ant> antsa9{new Ant(this, TerrainTile::TerrainType::URBAN, 10)};
-	std::unique_ptr<Ant> antsa10{new Ant(this, TerrainTile::TerrainType::WOODS, 100)};
-	std::unique_ptr<Ant> antsa113{new Ant(this, TerrainTile::TerrainType::WOODS, 30)};
-	std::unique_ptr<Ant> antsawaw{new Ant(this, TerrainTile::TerrainType::WOODS, 40)};
-	std::unique_ptr<Ant> antsa1413{new Ant(this, TerrainTile::TerrainType::WOODS, 30)};
-	std::unique_ptr<Ant> antsa1143{new Ant(this, TerrainTile::TerrainType::WOODS, 30)};
-	std::unique_ptr<Ant> antsa1123{new Ant(this, TerrainTile::TerrainType::WOODS, 30)};
-	std::unique_ptr<Ant> antsa11{new Ant(this, TerrainTile::TerrainType::MUD, 42)};
-	std::unique_ptr<Ant> antsa12{new Ant(this, TerrainTile::TerrainType::MUD, 20)};
-	std::unique_ptr<Ant> antsa13{new Ant(this, TerrainTile::TerrainType::MUD, 20)};
-	std::unique_ptr<Ant> antsa14{new Ant(this, TerrainTile::TerrainType::MUD, 10)};
-	std::unique_ptr<Ant> antsa15{new Ant(this, TerrainTile::TerrainType::MUD, 25)};
-	std::unique_ptr<Ant> antsawater1{new Ant(this, TerrainTile::TerrainType::WATER, 40)};
-	std::unique_ptr<Ant> antsawater2{new Ant(this, TerrainTile::TerrainType::WATER, 20)};
-	std::unique_ptr<Ant> antsawater3{new Ant(this, TerrainTile::TerrainType::WATER, 10)};
+	std::vector < std::unique_ptr<Ant> > ants;
 
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 75)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 50)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::URBAN, 5)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::URBAN, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::URBAN, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::URBAN, 10)));;
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::MUD, 42)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::MUD, 20)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::MUD, 20)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::MUD, 10)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::MUD, 25)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(this, 300)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(this, 220)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(this, 400)));
 
-
+	for (auto& ant : ants){
+		ant->crawl();
+	}
 }
 
 //Returns the index of the tile at the position
@@ -288,8 +291,4 @@ void World::addToDamagedUnits(UnitTile* unit){
 
 void World::clearDamagedUnits(){
 	damagedUnits.clear();
-}
-
-std::mt19937& World::getmt19937(){
-	return mt19937;
 }

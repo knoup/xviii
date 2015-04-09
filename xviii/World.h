@@ -18,6 +18,7 @@
 class World : public sf::Drawable, public sf::NonCopyable
 {
 	friend class Ant;
+	friend class RiverAnt;
 public:
 	World(TextureManager& _tm, sf::Vector2i _dimensions, std::mt19937& _mt19937);
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
@@ -59,8 +60,6 @@ public:
 	const std::vector<UnitTile*>& getDamagedUnits() const;
 	void addToDamagedUnits(UnitTile* unit);
 	void clearDamagedUnits();
-
-	std::mt19937& getmt19937();
 
 private:
 	TextureManager& tm;
