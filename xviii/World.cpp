@@ -82,6 +82,7 @@ void World::generate(){
 	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(this, 220)));
 	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(this, 400)));
 
+
 	for (auto& ant : ants){
 		ant->crawl();
 	}

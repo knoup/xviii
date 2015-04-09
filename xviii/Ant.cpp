@@ -112,7 +112,6 @@ void Ant::crawl(){
 		//move ant in that direction again until that is not the case
 		while (world->terrainLayer[world->indexAtCartesianCoords(newCartesianPos)]->getTerrainType() == type && lifetime > 0){
 			increment(randomDirection, newCartesianPos);
-			currentIndex = world->indexAtCartesianCoords(newCartesianPos);
 		}
 
 		//Set the index to the new coordinates

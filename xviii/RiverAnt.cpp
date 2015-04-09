@@ -4,7 +4,7 @@
 
 RiverAnt::RiverAnt(World* _world, int _lifetime) : 
 Ant{_world, TerrainTile::TerrainType::WATER, _lifetime},
-lastDirection{0}
+initialDirection{0}
 {
 }
 
@@ -42,27 +42,25 @@ void RiverAnt::crawl(){
 		std::uniform_int_distribution<int> randomDirectionDist(1, 8);
 		int randomDirection{randomDirectionDist(world->mt19937)};
 
-		//Since direction is initialised as 0 at the start, ignore this the first time it is run
-		if (lastDirection != 0){
-			//To simulate a 75% chance of the direction going on in the same direction
-			//This solution is temporary; a better one that makes the river look more realistic
-			//should be found
-			std::uniform_int_distribution<int> chance(1, 100);
-			int randomRoll{chance(world->mt19937)};
+		//initialDirection is initialised as 0; the first direction chosen is assigned
+		if (initialDirection == 0){
+			initialDirection = randomDirection;
+		}
 
-			if (randomRoll <= 75){
-				randomDirection = lastDirection;
-			}
+		//To simulate a 75% chance of flowing in the initial direction
+		std::uniform_int_distribution<int> chance(1, 100);
+		int randomRoll{chance(world->mt19937)};
+
+		if (randomRoll <= 75){
+			randomDirection = initialDirection;
 		}
 
 		//If the tile we are moving to is the same type
-		//move ant in that direction again until that is not the case
+			//move ant in that direction again until that is not the case
 		while (world->terrainLayer[world->indexAtCartesianCoords(newCartesianPos)]->getTerrainType() == type && lifetime > 0){
 			increment(randomDirection, newCartesianPos);
-			currentIndex = world->indexAtCartesianCoords(newCartesianPos);
 		}
 
-		lastDirection = randomDirection;
 		//Set the index to the new coordinates
 		currentIndex = world->indexAtCartesianCoords(newCartesianPos);
 
