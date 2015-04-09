@@ -55,7 +55,7 @@ void World::generate(){
 	//Now, we create the "ants"
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	std::unique_ptr<Ant> antsa{new Ant(this, TerrainTile::TerrainType::WOODS, 13)};
+	std::unique_ptr<Ant> antsa{new Ant(this, TerrainTile::TerrainType::WOODS, 30)};
 }
 
 //Returns the index of the tile at the position
@@ -234,11 +234,8 @@ const std::vector<UnitTile::unitPtr>& World::getCombatLayer() const{
 
 void World::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 
-   // target.draw(mVertices,&mTexture);
-	
-	for (auto& terrain : terrainLayer){
-		terrain->draw(target, states);
-	}
+    target.draw(mVertices,&mTexture);
+
 	for (auto& unit : unitLayer){
 		unit->draw(target, states);
 	}

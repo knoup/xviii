@@ -3,14 +3,14 @@
 #include "Tile.h"
 
 #define TERRAINPROPERTIES\
-	X(TerrainTile::TerrainType::MEADOW, Meadow, "meadow")\
-	X(TerrainTile::TerrainType::HILLS, Hills, "hills")\
-	X(TerrainTile::TerrainType::MUD, Mud, "mud")\
-	X(TerrainTile::TerrainType::ROAD, Road, "road")\
-	X(TerrainTile::TerrainType::SLOPES, Slopes, "slopes")\
-	X(TerrainTile::TerrainType::URBAN, Urban, "urban")\
-	X(TerrainTile::TerrainType::WATER, Water, "water")\
-	X(TerrainTile::TerrainType::WOODS, Woods, "woods")
+	X(TerrainTile::TerrainType::MEADOW, Meadow, TextureManager::Terrain::MEADOW, "meadow")\
+	X(TerrainTile::TerrainType::HILLS, Hills, TextureManager::Terrain::HILLS, "hills")\
+	X(TerrainTile::TerrainType::MUD, Mud, TextureManager::Terrain::MUD, "mud")\
+	X(TerrainTile::TerrainType::ROAD, Road, TextureManager::Terrain::ROAD, "road")\
+	X(TerrainTile::TerrainType::SLOPES, Slopes, TextureManager::Terrain::SLOPES, "slopes")\
+	X(TerrainTile::TerrainType::URBAN, Urban, TextureManager::Terrain::URBAN, "urban")\
+	X(TerrainTile::TerrainType::WATER, Water, TextureManager::Terrain::WATER, "water")\
+	X(TerrainTile::TerrainType::WOODS, Woods, TextureManager::Terrain::WOODS, "woods")
 
 
 class Meadow;
