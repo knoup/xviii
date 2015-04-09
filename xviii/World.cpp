@@ -2,10 +2,11 @@
 #include "World.h"
 
 
-World::World(TextureManager& _tm, sf::Vector2i _dimensions) :
+World::World(TextureManager& _tm, sf::Vector2i _dimensions, std::mt19937& _mt19937) :
 tm(_tm),
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * tm.getSize().x, dimensions.y * tm.getSize().y)},
+mt19937(_mt19937),
 mTexture{tm.getTerrainTexture()}
 {
 	mVertices.setPrimitiveType(sf::PrimitiveType::Quads);
@@ -16,7 +17,10 @@ mTexture{tm.getTerrainTexture()}
 
 void World::generate(){
 
-	sf::IntRect terrainRekt = tm.getTerrainRekt(TextureManager::Terrain::WATER);
+	//Begin by filling the map with meadows
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	sf::IntRect terrainRekt = tm.getTerrainRekt(TextureManager::Terrain::MEADOW);
 
 	/*
 	Here, we create the tiles as well as all the vertices for the vertex array. The reason we're using
@@ -30,7 +34,7 @@ void World::generate(){
 
 	for (int c{0}; c < dimensions.y; ++c){
 		for (int r{0}; r < dimensions.x; ++r){
-			TerrainTile::terrainPtr tile(new TerrainTile(tm, TerrainTile::TerrainType::MEADOW, {float(r * tm.getSize().x), float(c * tm.getSize().y)}));
+			TerrainTile::terrainPtr tile(new Meadow(tm, {float(r * tm.getSize().x), float(c * tm.getSize().y)}));
 			terrainLayer.push_back(std::move(tile));
 
 			sf::Vertex* quad = &mVertices[(r + c*dimensions.x) * 4];
@@ -47,6 +51,11 @@ void World::generate(){
 
 		}
 	}
+
+	//Now, we create the "ants"
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	std::unique_ptr<Ant> antsa{new Ant(this, TerrainTile::TerrainType::WOODS, 13)};
 }
 
 //Returns the index of the tile at the position
@@ -225,8 +234,11 @@ const std::vector<UnitTile::unitPtr>& World::getCombatLayer() const{
 
 void World::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 
-    target.draw(mVertices,&mTexture);
+   // target.draw(mVertices,&mTexture);
 	
+	for (auto& terrain : terrainLayer){
+		terrain->draw(target, states);
+	}
 	for (auto& unit : unitLayer){
 		unit->draw(target, states);
 	}

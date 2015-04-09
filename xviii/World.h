@@ -5,11 +5,69 @@
 #include "UnitTile.h"
 #include "TerrainTile.h"
 
+#include "Meadow.h"
+#include "Hills.h"
+#include "Mud.h"
+#include "Slopes.h"
+#include "Road.h"
+#include "Hills.h"
+#include "Urban.h"
+#include "Water.h"
+#include "Woods.h"
+
 class World : public sf::Drawable, public sf::NonCopyable
 {
 public:
-	World(TextureManager& _tm, sf::Vector2i _dimensions);
+	World(TextureManager& _tm, sf::Vector2i _dimensions, std::mt19937& _mt19937);
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
+
+	struct Ant{
+		Ant(World* _world, TerrainTile::TerrainType _type, int _lifetime) :
+			world{_world}, 
+			type{_type}, 
+			lifetime{_lifetime},
+			current{0}
+		{
+			//Initialise the ant's beginning tile to a random tile in the world; because the dimensions start
+			//from 1 and not 0, subtract one to get the true coordinate
+			std::uniform_int_distribution<int> xDist{0, world->getDimensions().x - 1};
+			std::uniform_int_distribution<int> yDist{0, world->getDimensions().y - 1};
+
+			int xCoord = xDist(world->mt19937);
+			int yCoord = yDist(world->mt19937);
+
+			current = world->indexAtCartesianCoords({xCoord,yCoord});
+
+			crawl();
+		}
+
+		World* world;
+		TerrainTile::TerrainType type;
+		//The current index
+		int current;
+
+		int lifetime;
+
+		void crawl(){
+			//So long as we are alive and the current index is within bounds of the world
+			while (lifetime > 0 && current >= 0 && current < world->getDimensions().x * world->getDimensions().y){
+				--lifetime;
+				sf::Vector2f currentPos{world->terrainLayer[current]->getPos()}; 
+				//Create new terrain as needed, type associations defined in TERRAINPROPERTIES (TerrainTile.h)
+				switch (type){
+					#define X(_type, cl, str)\
+					case(_type):\
+						world->terrainLayer[current] = std::move(std::unique_ptr<cl>(new cl{world->tm, currentPos}));\
+						break;
+					TERRAINPROPERTIES
+					#undef X
+				}
+
+				current++;
+			}
+		}
+	};
+
 
 	void generate();
 
@@ -53,6 +111,8 @@ private:
 	TextureManager& tm;
 	sf::Vector2i dimensions;
 	sf::Vector2i dimensionsInPixels;
+
+	std::mt19937& mt19937;
 
 	//The first layer, or "terrain layer"; always drawn behind the units and only consists
 	//of Terrain.

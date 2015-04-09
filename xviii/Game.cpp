@@ -21,7 +21,7 @@ SetupState{nullptr},
 PlayState{nullptr},
 mTextureManager{},
 mFontManager{},
-mWorld{mTextureManager, sf::Vector2i(69, 100)},
+mWorld{mTextureManager, sf::Vector2i(69, 100), mtengine},
 Player1{nullptr},
 Player2{nullptr},
 //Setting these to nullptr, they are properly initialised in the constructor body

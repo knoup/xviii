@@ -2,13 +2,9 @@
 #include "TerrainTile.h"
 
 
-//Terain tiles don't really need a textured sprite, but we still need the sprite
-//for locational information. I'll initialise the sprites as terrain anyway, but
-//we won't be drawing them directly (but rather using vertex arrays; see world.cpp)
-
-TerrainTile::TerrainTile(TextureManager& tm, TerrainType type, sf::Vector2f _pos) :
-Tile{tm, TextureManager::Terrain::MEADOW},
-terrainType{type}
+TerrainTile::TerrainTile(TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos) :
+Tile{tm, textType},
+terrainType{terrainType}
 {
 	sprite.setPosition(_pos);
 }

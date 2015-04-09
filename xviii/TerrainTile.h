@@ -2,9 +2,26 @@
 
 #include "Tile.h"
 
-//Terain tiles don't really need a sprite, but we're still going to inherit from
-//tile for all the other functionality. Hence, we're just going to set a blank textured sprite.
-//Note we still need the sprite to be the correct size for location information
+#define TERRAINPROPERTIES\
+	X(TerrainTile::TerrainType::MEADOW, Meadow, "meadow")\
+	X(TerrainTile::TerrainType::HILLS, Hills, "hills")\
+	X(TerrainTile::TerrainType::MUD, Mud, "mud")\
+	X(TerrainTile::TerrainType::ROAD, Road, "road")\
+	X(TerrainTile::TerrainType::SLOPES, Slopes, "slopes")\
+	X(TerrainTile::TerrainType::URBAN, Urban, "urban")\
+	X(TerrainTile::TerrainType::WATER, Water, "water")\
+	X(TerrainTile::TerrainType::WOODS, Woods, "woods")
+
+
+class Meadow;
+class Hills;
+class Mud;
+class Road;
+class Slopes;
+class Urban;
+class Water;
+class Woods;
+
 
 class TerrainTile : public Tile
 {
@@ -12,8 +29,8 @@ public:
 	using terrainPtr = std::unique_ptr<TerrainTile>;
 	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS };
 
-	TerrainTile(TextureManager& tm, TerrainType type, sf::Vector2f _pos);
-	virtual ~TerrainTile();
+	TerrainTile(TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);
+	virtual ~TerrainTile() = 0;
 
 	void setPos(sf::Vector2f _pos);
 	sf::Vector2f getPos() const;
