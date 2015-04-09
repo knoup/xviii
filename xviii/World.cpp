@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "World.h"
 
+#include "Ant.h"
 
 World::World(TextureManager& _tm, sf::Vector2i _dimensions, std::mt19937& _mt19937) :
 tm(_tm),
