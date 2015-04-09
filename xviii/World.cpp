@@ -55,7 +55,32 @@ void World::generate(){
 	//Now, we create the "ants"
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	std::unique_ptr<Ant> antsa{new Ant(this, TerrainTile::TerrainType::WOODS, 30)};
+	std::unique_ptr<Ant> antsa1{new Ant(this, TerrainTile::TerrainType::WOODS, 100)};
+	std::unique_ptr<Ant> antsa2{new Ant(this, TerrainTile::TerrainType::WOODS, 15)};
+	std::unique_ptr<Ant> antsa3{new Ant(this, TerrainTile::TerrainType::WOODS, 75)};
+	std::unique_ptr<Ant> antsa4{new Ant(this, TerrainTile::TerrainType::WOODS, 50)};
+	std::unique_ptr<Ant> antsa5{new Ant(this, TerrainTile::TerrainType::WOODS, 100)};
+	std::unique_ptr<Ant> antsa6{new Ant(this, TerrainTile::TerrainType::URBAN, 5)};
+	std::unique_ptr<Ant> antsa7{new Ant(this, TerrainTile::TerrainType::URBAN, 15)};
+	std::unique_ptr<Ant> antsa8{new Ant(this, TerrainTile::TerrainType::URBAN, 15)};
+	std::unique_ptr<Ant> antsa9{new Ant(this, TerrainTile::TerrainType::URBAN, 10)};
+	std::unique_ptr<Ant> antsa10{new Ant(this, TerrainTile::TerrainType::WOODS, 100)};
+	std::unique_ptr<Ant> antsa113{new Ant(this, TerrainTile::TerrainType::WOODS, 30)};
+	std::unique_ptr<Ant> antsawaw{new Ant(this, TerrainTile::TerrainType::WOODS, 40)};
+	std::unique_ptr<Ant> antsa1413{new Ant(this, TerrainTile::TerrainType::WOODS, 30)};
+	std::unique_ptr<Ant> antsa1143{new Ant(this, TerrainTile::TerrainType::WOODS, 30)};
+	std::unique_ptr<Ant> antsa1123{new Ant(this, TerrainTile::TerrainType::WOODS, 30)};
+	std::unique_ptr<Ant> antsa11{new Ant(this, TerrainTile::TerrainType::MUD, 42)};
+	std::unique_ptr<Ant> antsa12{new Ant(this, TerrainTile::TerrainType::MUD, 20)};
+	std::unique_ptr<Ant> antsa13{new Ant(this, TerrainTile::TerrainType::MUD, 20)};
+	std::unique_ptr<Ant> antsa14{new Ant(this, TerrainTile::TerrainType::MUD, 10)};
+	std::unique_ptr<Ant> antsa15{new Ant(this, TerrainTile::TerrainType::MUD, 25)};
+	std::unique_ptr<Ant> antsawater1{new Ant(this, TerrainTile::TerrainType::WATER, 40)};
+	std::unique_ptr<Ant> antsawater2{new Ant(this, TerrainTile::TerrainType::WATER, 20)};
+	std::unique_ptr<Ant> antsawater3{new Ant(this, TerrainTile::TerrainType::WATER, 10)};
+
+
+
 }
 
 //Returns the index of the tile at the position
@@ -74,7 +99,9 @@ int World::indexAtMouseCoords(sf::Vector2i _pos){
 }
 
 //This function is somewhat similar to the one above, except it takes in the x and y coords directly:
-//for example, it takes 4 and 2 and gives the index of the tile at (4,2)
+//for example, in a 5x3 vector, indexAtCartesianCoords(4,2) would give the index of the last element.
+
+//N.B.: Takes TRUE coordinates, +1. Valid ranges are (0,0) -> (size.x - 1, size.y - 1)
 
 int World::indexAtCartesianCoords(sf::Vector2i _pos){
 	return int{_pos.x} +int{_pos.y} *dimensions.x;
@@ -260,4 +287,8 @@ void World::addToDamagedUnits(UnitTile* unit){
 
 void World::clearDamagedUnits(){
 	damagedUnits.clear();
+}
+
+std::mt19937& World::getmt19937(){
+	return mt19937;
 }

@@ -26,7 +26,7 @@ public:
 			world{_world}, 
 			type{_type}, 
 			lifetime{_lifetime},
-			current{0}
+			currentIndex{0}
 		{
 			//Initialise the ant's beginning tile to a random tile in the world; because the dimensions start
 			//from 1 and not 0, subtract one to get the true coordinate
@@ -36,29 +36,53 @@ public:
 			int xCoord = xDist(world->mt19937);
 			int yCoord = yDist(world->mt19937);
 
-			current = world->indexAtCartesianCoords({xCoord,yCoord});
-
+			currentIndex = world->indexAtCartesianCoords({xCoord, yCoord});
 			crawl();
 		}
 
 		World* world;
 		TerrainTile::TerrainType type;
-		//The current index
-		int current;
-
+		int currentIndex;
+		//How many terrain tiles it will end up modifying
 		int lifetime;
 
+		//Adjusts currentIndex according to the direction
+		void increment(int dir, sf::Vector2i& newCartesianCoords){
+			//North
+			if (dir == 1 && newCartesianCoords.y > 0){
+				newCartesianCoords.y -= 1;
+			}
+			//East
+			else if (dir == 2 && newCartesianCoords.x < world->getDimensions().x - 1){
+				newCartesianCoords.x += 1;
+			}
+			//South
+			else if (dir == 3 && newCartesianCoords.y < world->getDimensions().y - 1){
+				newCartesianCoords.y += 1;
+			}
+			//West
+			else if (dir == 4 && newCartesianCoords.x > 0){
+				newCartesianCoords.x -= 1;
+			}
+			//If at the edge of the map, kill the ant
+			else{
+				lifetime = 0;
+			}
+
+		}
+
 		void crawl(){
-			//So long as we are alive and the current index is within bounds of the world
-			while (lifetime > 0 && current >= 0 && current < world->getDimensions().x * world->getDimensions().y){
+			//So long as we are still alive and within bounds
+			while (lifetime > 0){
 
 				sf::IntRect currentRekt{};
-				sf::Vector2f currentPos{world->terrainLayer[current]->getPos()}; 
+				sf::Vector2f currentPos{world->terrainLayer[currentIndex]->getPos()}; 
+
 				//Create new terrain as needed, type associations defined in TERRAINPROPERTIES (TerrainTile.h)
 				switch (type){
 					#define X(_type, cl, texture, str)\
 					case(_type):\
-						world->terrainLayer[current] = std::move(std::unique_ptr<cl>(new cl{world->tm, currentPos}));\
+						world->terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl{world->tm, currentPos}));\
 						currentRekt = world->tm.getTerrainRekt(texture);\
 						break;
 					TERRAINPROPERTIES
@@ -66,7 +90,7 @@ public:
 				}
 
 				//Update the vertex array at this tile:
-				sf::Vector2i currentCartesianPos{world->cartesianCoordsAtIndex(current)};
+				const sf::Vector2i currentCartesianPos{world->cartesianCoordsAtIndex(currentIndex)};
 
 				sf::Vertex* quad = &world->mVertices[(currentCartesianPos.x + currentCartesianPos.y*world->getDimensions().x) * 4];
 
@@ -80,10 +104,27 @@ public:
 				quad[2].texCoords = sf::Vector2f(currentRekt.left + currentRekt.width, currentRekt.top + currentRekt.height);
 				quad[3].texCoords = sf::Vector2f(currentRekt.left, currentRekt.top + currentRekt.height);
 
+				//And finally, switch the currentIndex index to a tile in a random direction. To do this, we'll use our cartesian coordinates. We
+				//also check if the new tile is already the same terrain type we are trying to spawn; if so we keep going in the same direction 
+				//until that is not the case
+				
+				sf::Vector2i newCartesianPos{currentCartesianPos};
+
+				std::uniform_int_distribution<int> randomDirectionDist(1, 4);
+				int randomDirection{randomDirectionDist(world->mt19937)};
+
+				//If the tile we are moving to is the same type 
+					//move ant in that direction again until that is not the case
+				while (world->terrainLayer[world->indexAtCartesianCoords(newCartesianPos)]->getTerrainType() == type && lifetime > 0){
+					increment(randomDirection, newCartesianPos);
+					currentIndex = world->indexAtCartesianCoords(newCartesianPos);
+				}
+
+				//Set the index to the new coordinates
+				currentIndex = world->indexAtCartesianCoords(newCartesianPos);
+
 				//Decrement our lifetime
 				--lifetime;
-				//And finally, switch the current index to a tile in a random direction
-				current++;
 			}
 		}
 	};
@@ -126,6 +167,8 @@ public:
 	const std::vector<UnitTile*>& getDamagedUnits() const;
 	void addToDamagedUnits(UnitTile* unit);
 	void clearDamagedUnits();
+
+	std::mt19937& getmt19937();
 
 private:
 	TextureManager& tm;

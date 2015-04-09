@@ -18,6 +18,10 @@ sf::Vector2f TerrainTile::getPos() const{
 	return sprite.getPosition();
 }
 
+TerrainTile::TerrainType TerrainTile::getTerrainType() const{
+	return terrainType;
+}
+
 void TerrainTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	target.draw(sprite, states);
 }
