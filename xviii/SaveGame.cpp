@@ -74,7 +74,7 @@ bool SaveGame::create(){
 	if (!boost::filesystem::exists("save")){
 		boost::filesystem::create_directory("save");
 	}
-
+	 
 	std::string saveName{"turn_" + std::to_string(game->elapsedTurns)};
 
 	//Check if a file with the same name exists
@@ -87,24 +87,9 @@ bool SaveGame::create(){
 		}
 	}
 
-	/*
-	I cannot figure out why the following does not work. After several few successful iterations,
-	index tends to get stuck at around 9. I have a feeling it's related to the order. Nonetheless,
-	until I can figure it out, I will do it the old fashioned way.
-
-	int index{0};
-
-	for (boost::filesystem::recursive_directory_iterator it("save"); it != end; ++it){
-		if (it->path().filename() == saveName + toRomanNumerals(index) ){
-			++index;
-		}
-	}
-
-	saveName += toRomanNumerals(index);	*/
-
 	boost::filesystem::ofstream save;
 
-	save.open("save\\" + saveName + ".dat");
+	save.open("save\\" + saveName + ".dat"); 
 
 	save << "turn=" << game->elapsedTurns << std::endl;
 	save << "player1=" << game->Player1->getName() << std::endl;
@@ -120,14 +105,38 @@ bool SaveGame::create(){
 		save << "player2";
 	}
 
-	std::cout << std::endl;
-
+	save << std::endl;
 	save << std::endl;
 
-	for (auto& unit : game->mWorld.getCombatLayer()){
+	//Save terrain data
+	
+	save << "w{" << std::endl;
+
+	int worldSizeIndex = game->mWorld.terrainLayer.size();
+
+	for (int i{0}; i < worldSizeIndex; ++i){
+		save << "terrain" + std::to_string(i) << "=";
+		TerrainTile::TerrainType currentType = game->mWorld.terrainLayer[i]->getTerrainType();
+
+		switch (currentType){
+		#define X(_type, cl, texture, str)\
+			case(_type):\
+			save << str;\
+			break;
+		TERRAINPROPERTIES
+		#undef X
+		}
+
+		save << std::endl;
+	}
+
+	save << "}w" << std::endl;
+	save << std::endl;
+
+	for (auto& unit : game->mWorld.unitLayer){
 		sf::Vector2i coords{game->mWorld.cartesianCoordsAtIndex(game->mWorld.indexAtTile(*unit))};
 
-		save << "{" << std::endl;
+		save << "u{" << std::endl;
 
 		save << "type=" << unit->typeToString() << std::endl;
 		save << "faction=" << unit->getPlayer()->getName() << std::endl;
@@ -144,7 +153,7 @@ bool SaveGame::create(){
 			save << "hasHealed=" << unit->getHasHealed() << std::endl;
 		}
 
-		save << "}" << std::endl;
+		save << "}u" << std::endl;
 		save << std::endl;
 	}
 
@@ -219,7 +228,39 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			}
 		}
 
-		else if (line.find("{") != std::string::npos){
+
+		else if (line.find("w{") != std::string::npos){
+
+			std::getline(save, line);
+
+			while (line.find("}w") == std::string::npos){
+				//Get the type of terrain from the save file
+
+				//remove the "terrain" part
+				std::string currentLine = line.substr(7);
+
+				//At this point, our string is something like
+				//3124=meadow
+
+				int currentIndex = std::stoi(currentLine.substr(0, line.find("=")));
+				std::string currentTypeStr = currentLine.substr(currentLine.find("=") + 1, currentLine.size()-1);
+				
+				sf::Vector2f currentPos = game->mWorld.terrainLayer[currentIndex]->getPos();
+
+				
+				#define X(_type, cl, texture, str)\
+					if(currentTypeStr == str)\
+						game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(&game->mWorld, game->mTextureManager, currentPos)));
+					TERRAINPROPERTIES
+				#undef X
+
+
+				std::getline(save, line);
+			}
+
+		}
+
+		else if (line.find("u{") != std::string::npos){
 
 			//Keeping these uninitialised for the moment to ensure I catch any bugs
 
@@ -235,7 +276,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			bool hasRangedAttacked;
 			bool hasHealed{false};
 
-			while (line.find("}") == std::string::npos){
+			while (line.find("}u") == std::string::npos){
 
 
 				if (line.find("type=") != std::string::npos){

@@ -13,45 +13,25 @@ mTexture{tm.getTerrainTexture()}
 	mVertices.setPrimitiveType(sf::PrimitiveType::Quads);
 	mVertices.resize(dimensions.x * dimensions.y * 4);
 
-	generate();
-}
-
-void World::generate(){
-
 	//Begin by filling the map with meadows
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	sf::IntRect terrainRekt = tm.getTerrainRekt(TextureManager::Terrain::MEADOW);
 
-	/*
-	Here, we create the tiles as well as all the vertices for the vertex array. The reason we're using
-	a vertex array to draw rather than just drawing each terrain tiles' individual sprites is because it is far
-	more efficient; terrain tiles still have their own sprites, used elsewhere in the game's logic. The only
-	purpose of the vertex array is to make drawing more efficient.
-
-	Unit tiles still use traditional sprites, however, because it greatly simplifies movement and such.
-	It makes sense for terrain tiles though since they never move.
-	*/
+	
+	//Here, we create the tiles
 
 	for (int c{0}; c < dimensions.y; ++c){
 		for (int r{0}; r < dimensions.x; ++r){
-			TerrainTile::terrainPtr tile(new Meadow(tm, {float(r * tm.getSize().x), float(c * tm.getSize().y)}));
+			TerrainTile::terrainPtr tile(new Meadow(this, tm, {float(r * tm.getSize().x), float(c * tm.getSize().y)}));
 			terrainLayer.push_back(std::move(tile));
-
-			sf::Vertex* quad = &mVertices[(r + c*dimensions.x) * 4];
-
-			quad[0].position = sf::Vector2f(r * tm.getSize().x, c * tm.getSize().y);
-			quad[1].position = sf::Vector2f((r + 1) * tm.getSize().x, c *tm.getSize().y);
-			quad[2].position = sf::Vector2f((r + 1) * tm.getSize().x, (c + 1)*tm.getSize().y);
-			quad[3].position = sf::Vector2f(r * tm.getSize().x, (c + 1)*tm.getSize().y);
-
-			quad[0].texCoords = sf::Vector2f(terrainRekt.left, terrainRekt.top);
-			quad[1].texCoords = sf::Vector2f(terrainRekt.left + terrainRekt.width, terrainRekt.top);
-			quad[2].texCoords = sf::Vector2f(terrainRekt.left + terrainRekt.width, terrainRekt.top + terrainRekt.height);
-			quad[3].texCoords = sf::Vector2f(terrainRekt.left, terrainRekt.top + terrainRekt.height);
 
 		}
 	}
+
+}
+
+void World::generateRandomWorld(){
 
 	//Now, we create the "ants"
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,11 +96,10 @@ int World::indexAtTile(Tile& _tile){
 	return indexAtMouseCoords(sf::Vector2i{_tile.left(), _tile.top()});
 }
 
-//This function takes the coordinates (5,2) and gives you the index:
+//This function takes the TRUE coordinates (5,2) and gives you the index:
 sf::Vector2i World::cartesianCoordsAtIndex(int _index){
 	return{_index % dimensions.x, _index/dimensions.x};
 }
-
 
 //Returns true if unit is succesfully placed
 bool World::placeAt(sf::Vector2i _pos, UnitTile::unitPtr ptr){

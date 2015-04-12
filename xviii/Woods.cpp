@@ -2,7 +2,7 @@
 #include "Woods.h"
 
 
-Woods::Woods(TextureManager& tm, sf::Vector2f _pos) :
-TerrainTile(tm, TextureManager::Terrain::WOODS, TerrainType::WOODS, _pos)
+Woods::Woods(World* _world, TextureManager& tm, sf::Vector2f _pos) :
+TerrainTile(_world, tm, TextureManager::Terrain::WOODS, TerrainType::WOODS, _pos)
 {
 }

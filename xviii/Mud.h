@@ -5,6 +5,6 @@
 class Mud : public TerrainTile
 {
 public:
-	Mud(TextureManager& tm, sf::Vector2f _pos);
+	Mud(World* _world, TextureManager& tm, sf::Vector2f _pos);
 };
 

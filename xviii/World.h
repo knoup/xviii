@@ -19,11 +19,14 @@ class World : public sf::Drawable, public sf::NonCopyable
 {
 	friend class Ant;
 	friend class RiverAnt;
+	friend class SaveGame;
+	//For easier access to the vertex array
+	friend class TerrainTile;
 public:
 	World(TextureManager& _tm, sf::Vector2i _dimensions, std::mt19937& _mt19937);
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
-	void generate();
+	void generateRandomWorld();
 
 	int indexAtMouseCoords(sf::Vector2i _pos);
 	int indexAtCartesianCoords(sf::Vector2i _pos);
