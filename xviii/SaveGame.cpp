@@ -115,7 +115,7 @@ bool SaveGame::create(){
 	int worldSizeIndex = game->mWorld.terrainLayer.size();
 
 	for (int i{0}; i < worldSizeIndex; ++i){
-		save << "terrain" + std::to_string(i) << "=";
+		save << std::to_string(i) << "=";
 		TerrainTile::TerrainType currentType = game->mWorld.terrainLayer[i]->getTerrainType();
 
 		switch (currentType){
@@ -234,16 +234,11 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			std::getline(save, line);
 
 			while (line.find("}w") == std::string::npos){
-				//Get the type of terrain from the save file
-
-				//remove the "terrain" part
-				std::string currentLine = line.substr(7);
-
 				//At this point, our string is something like
 				//3124=meadow
 
-				int currentIndex = std::stoi(currentLine.substr(0, line.find("=")));
-				std::string currentTypeStr = currentLine.substr(currentLine.find("=") + 1, currentLine.size()-1);
+				int currentIndex = std::stoi(line.substr(0, line.find("=")));
+				std::string currentTypeStr = line.substr(line.find("=") + 1, line.size() - 1);
 				
 				sf::Vector2f currentPos = game->mWorld.posAtIndex(currentIndex);
 			
