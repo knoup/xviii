@@ -359,22 +359,6 @@ std::string UnitTile::meleeAttack(Infantry* inf){
 std::string UnitTile::meleeAttack(Cavalry* cav){
 	return{};
 }
-
-//Virtual
-std::string UnitTile::meleeAttack(Cuirassier* cuir){
-	return{};
-}
-
-//Virtual
-std::string UnitTile::meleeAttack(Dragoon* drag){
-	return{};
-}
-
-//Virtual
-std::string UnitTile::meleeAttack(LightCav* lcav){
-	return{};
-}
-
 //Virtual
 std::string UnitTile::meleeAttack(Artillery* art){
 	return{};
@@ -384,25 +368,9 @@ std::string UnitTile::meleeAttack(Mortar* mor){
 	return{};
 }
 //Virtual
-std::string UnitTile::meleeAttack(General* gen){
-	return{};
-}
-//Virtual
-std::string UnitTile::meleeAttack(Akinci* aki){
-	return{};
-}
-
-//Virtual
-std::string UnitTile::meleeAttack(Deli* deli){
-	return{};
-}
-
-
-//Virtual
 std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	return{};
 }
-
 //Virtual
 float UnitTile::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	return 0;

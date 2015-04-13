@@ -142,14 +142,8 @@ public:
 
 	virtual std::string meleeAttack(Infantry* inf);
 	virtual std::string meleeAttack(Cavalry* cav);
-	virtual std::string meleeAttack(Cuirassier* cuir);
-	virtual std::string meleeAttack(Dragoon* drag);
-	virtual std::string meleeAttack(LightCav* lcav);
 	virtual std::string meleeAttack(Artillery* art);
 	virtual std::string meleeAttack(Mortar* mor);
-	virtual std::string meleeAttack(General* gen);
-	virtual std::string meleeAttack(Akinci* aki);
-	virtual std::string meleeAttack(Deli* deli);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 

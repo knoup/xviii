@@ -21,7 +21,7 @@ terrainType{terrainType}
 
 	//Update the vertex array at this tile:
 	const sf::Vector2i currentCartesianPos{int(_pos.x / tm.getSize().x), int(_pos.y / tm.getSize().y)};
-	sf::IntRect currentRekt{tm.getTerrainRekt(textType)};
+	sf::IntRect currentRekt{sprite.getTextureRect()};
 
 	sf::Vertex* quad = &_world->mVertices[(currentCartesianPos.x + currentCartesianPos.y*_world->getDimensions().x) * 4];
 

@@ -20,9 +20,8 @@ public:
 	sf::Vector2i getSize() const;
 	sf::Vector2i getCounterSize() const;
 
-    //Used for the vertex array (for terrain tiles)
+    //Used for the vertex array (for terrain tiles)	
 	sf::Texture& getTerrainTexture() const;
-	sf::IntRect getTerrainRekt(Terrain type);
 
 private:
 	//The unit sprites
