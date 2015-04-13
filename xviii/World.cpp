@@ -180,12 +180,12 @@ UnitTile* World::unitAtMouseCoords(sf::Vector2i _pos){
 	return nullptr;
 }
 
-//TODO: find a more optimal way of doing this?
+
 UnitTile* World::unitAt(TerrainTile* _terrain){
-	for (auto& unit : unitLayer){
-		if (unit->getTilePos() == _terrain){
-			return unit.get();
-		}
+	UnitTile* unit = unitAtMouseCoords(sf::Vector2i(_terrain->getPos()));
+
+	if (unit != nullptr){
+		return unit;
 	}
 
 	return nullptr;

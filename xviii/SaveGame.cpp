@@ -162,11 +162,6 @@ bool SaveGame::create(){
 
 }
 
-
-/*
-TODO
-Make formatting less rigid so that e.g. a space doesn't break everything
-*/
 void SaveGame::parse(boost::filesystem::path _dir){
 	std::ifstream save;
 	save.open(_dir.string());

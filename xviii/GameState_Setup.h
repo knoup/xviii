@@ -54,9 +54,6 @@ public:
 	virtual void draw();
 
 private:
-	//UI ELEMENTS
-	//TODO: perhaps make a seperate UI class?
-
 	sf::Text numbRemaining;
 	sf::Text currentPlayerText;
 	sf::Text deploymentPointsRemaining;

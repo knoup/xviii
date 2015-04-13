@@ -39,9 +39,7 @@ public:
 
 	//Returns a [regular] pointer to the unit at this mouse coordinate position, if there is any
 	UnitTile* unitAtMouseCoords(sf::Vector2i _pos);
-
-	//Overloaded version that takes in a terrain pointer:
-	//TODO: some optimising of this would be nice
+	//Version that takes in a terrain pointer:
 	UnitTile* unitAt(TerrainTile* _terrain);
 
 	TerrainTile* terrainAtMouseCoords(sf::Vector2i _pos);
