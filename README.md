@@ -29,7 +29,7 @@ General
 
  
 *Incremental modifiers always come after multiplicational ones; a Cuirassier 4 rolling
- against a Dragoon will get a resultant roll of 9 [(2x4) + 1], not 10 [2*(4+1)].
+ against a Dragoon will get a resultant roll of 9 [(2x4) + 1], not 10 [2x(4+1)].
 
 
 *When a player's GENERAL dies, inflict 2 DMG to all friendly units. General may 

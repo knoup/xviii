@@ -32,6 +32,7 @@ public:
 	int indexAtCartesianCoords(sf::Vector2i _pos);
 	int indexAtTile(Tile& _tile);
 	sf::Vector2i cartesianCoordsAtIndex(int _index);
+	sf::Vector2f posAtIndex(int _index);
 
 	//Places a unit at the specified tile, if it is unoccupied
 	bool placeAt(sf::Vector2i _pos, UnitTile::unitPtr ptr);

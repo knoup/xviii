@@ -245,9 +245,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				int currentIndex = std::stoi(currentLine.substr(0, line.find("=")));
 				std::string currentTypeStr = currentLine.substr(currentLine.find("=") + 1, currentLine.size()-1);
 				
-				sf::Vector2f currentPos = game->mWorld.terrainLayer[currentIndex]->getPos();
-
-				
+				sf::Vector2f currentPos = game->mWorld.posAtIndex(currentIndex);
+			
 				#define X(_type, cl, texture, str)\
 					if(currentTypeStr == str)\
 						game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(&game->mWorld, game->mTextureManager, currentPos)));

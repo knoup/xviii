@@ -19,19 +19,26 @@ mTexture{tm.getTerrainTexture()}
 	sf::IntRect terrainRekt = tm.getTerrainRekt(TextureManager::Terrain::MEADOW);
 
 	
-	//Here, we create the tiles
-
+	//Initialise an "empty" world
 	for (int c{0}; c < dimensions.y; ++c){
 		for (int r{0}; r < dimensions.x; ++r){
-			TerrainTile::terrainPtr tile(new Meadow(this, tm, {float(r * tm.getSize().x), float(c * tm.getSize().y)}));
-			terrainLayer.push_back(std::move(tile));
-
+			terrainLayer.push_back(nullptr);
 		}
 	}
 
 }
 
 void World::generateRandomWorld(){
+
+	terrainLayer.clear();
+
+	//Do a first pass, filling the world with meadows
+	for (int c{0}; c < dimensions.y; ++c){
+		for (int r{0}; r < dimensions.x; ++r){
+			TerrainTile::terrainPtr tile(new Meadow(this, tm, {float(r * tm.getSize().x), float(c * tm.getSize().y)}));
+			terrainLayer.push_back(std::move(tile));
+		}
+	}
 
 	//Now, we create the "ants"
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,6 +106,13 @@ int World::indexAtTile(Tile& _tile){
 //This function takes the TRUE coordinates (5,2) and gives you the index:
 sf::Vector2i World::cartesianCoordsAtIndex(int _index){
 	return{_index % dimensions.x, _index/dimensions.x};
+}
+
+//Takes in an index and returns the theoretical position of this object, whether it exists or not.
+//Does not access terrainLayer, therefore making it useful when you want to find what the position
+//of an uninitialised terrain tile tile would be
+sf::Vector2f World::posAtIndex(int _index){
+	return {sf::Vector2f(cartesianCoordsAtIndex(_index).x * tm.getSize().x, cartesianCoordsAtIndex(_index).y * tm.getSize().y)};
 }
 
 //Returns true if unit is succesfully placed

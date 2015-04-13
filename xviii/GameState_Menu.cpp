@@ -43,6 +43,7 @@ void GameState_Menu::getInput(){
 			if (event.key.code == CONFIRM_KEY){
 				switch (menuIterator->action){
 					case Action::NEW:
+						game->mWorld.generateRandomWorld();
 						game->setGameStateSelectNations();
 						break;
 

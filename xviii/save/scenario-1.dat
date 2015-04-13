@@ -1,6 +1,6 @@
 turn=23
-player1=Austria
-player2=Prussia
+player1=France
+player2=Great Britain
 player1Cam=1663 2934
 player2Cam=1913 2934
 currentPlayer=player2
@@ -6910,7 +6910,7 @@ terrain6899=meadow
 
 u{
 type=inf
-faction=Austria
+faction=France
 pos=32 55
 dir=N
 hp=18
@@ -6923,7 +6923,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Austria
+faction=France
 pos=33 53
 dir=N
 hp=18
@@ -6936,7 +6936,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Austria
+faction=France
 pos=34 50
 dir=E
 hp=17
@@ -6949,7 +6949,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Austria
+faction=France
 pos=35 53
 dir=N
 hp=18
@@ -6962,7 +6962,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Austria
+faction=France
 pos=37 51
 dir=N
 hp=12
@@ -6975,7 +6975,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Austria
+faction=France
 pos=44 45
 dir=N
 hp=12
@@ -6988,7 +6988,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Austria
+faction=France
 pos=23 59
 dir=W
 hp=11
@@ -7001,7 +7001,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Austria
+faction=France
 pos=25 55
 dir=W
 hp=10
@@ -7014,7 +7014,7 @@ hasRangedAttacked=0
 
 u{
 type=art
-faction=Austria
+faction=France
 pos=30 59
 dir=E
 hp=3
@@ -7027,7 +7027,7 @@ hasRangedAttacked=0
 
 u{
 type=art
-faction=Austria
+faction=France
 pos=35 58
 dir=E
 hp=3
@@ -7040,7 +7040,7 @@ hasRangedAttacked=0
 
 u{
 type=art
-faction=Austria
+faction=France
 pos=38 55
 dir=N
 hp=3
@@ -7053,7 +7053,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Austria
+faction=France
 pos=45 54
 dir=E
 hp=12
@@ -7066,7 +7066,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Austria
+faction=France
 pos=30 54
 dir=S
 hp=18
@@ -7079,7 +7079,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Austria
+faction=France
 pos=29 54
 dir=W
 hp=18
@@ -7092,7 +7092,7 @@ hasRangedAttacked=0
 
 u{
 type=gen
-faction=Austria
+faction=France
 pos=34 54
 dir=S
 hp=4
@@ -7106,7 +7106,7 @@ hasHealed=0
 
 u{
 type=gen
-faction=Prussia
+faction=Great Britain
 pos=38 48
 dir=E
 hp=1
@@ -7120,7 +7120,7 @@ hasHealed=0
 
 u{
 type=inf
-faction=Prussia
+faction=Great Britain
 pos=41 49
 dir=S
 hp=18
@@ -7133,7 +7133,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Prussia
+faction=Great Britain
 pos=40 50
 dir=S
 hp=18
@@ -7146,7 +7146,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Prussia
+faction=Great Britain
 pos=39 50
 dir=S
 hp=18
@@ -7159,7 +7159,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Prussia
+faction=Great Britain
 pos=27 52
 dir=S
 hp=12
@@ -7172,7 +7172,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Prussia
+faction=Great Britain
 pos=34 55
 dir=N
 hp=11
@@ -7185,7 +7185,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Prussia
+faction=Great Britain
 pos=24 55
 dir=E
 hp=12
@@ -7198,7 +7198,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Prussia
+faction=Great Britain
 pos=37 50
 dir=S
 hp=13
@@ -7211,7 +7211,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Prussia
+faction=Great Britain
 pos=36 50
 dir=S
 hp=18
@@ -7224,7 +7224,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Prussia
+faction=Great Britain
 pos=36 51
 dir=E
 hp=16
@@ -7237,7 +7237,7 @@ hasRangedAttacked=0
 
 u{
 type=art
-faction=Prussia
+faction=Great Britain
 pos=31 48
 dir=S
 hp=3
@@ -7250,7 +7250,7 @@ hasRangedAttacked=0
 
 u{
 type=art
-faction=Prussia
+faction=Great Britain
 pos=39 49
 dir=S
 hp=3
@@ -7263,7 +7263,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Prussia
+faction=Great Britain
 pos=22 59
 dir=E
 hp=10
