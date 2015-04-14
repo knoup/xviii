@@ -194,16 +194,13 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 
 
 	bool canAfford = deploymentPoints - cost >= 0;
-	bool overLimit{true};
+	bool overLimit{false};
 
 	//If the limit is 0 (i.e. limitless), overLimit is always false.
 	//Otherwise, count all the current units of the same type
 	//and make sure they aren't over the limit.
 
-	if (limit == 0){
-		overLimit = false;
-	}
-	else{
+	if(limit != 0){
 		auto unitType = ptr->getUnitType();
 		int unitsOfType{0};
 
@@ -217,13 +214,10 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 	}
 
 
-	
-	if (canAfford){
-		if (!overLimit){
-			if (world.placeAt(_worldCoords, std::move(ptr))){
-				deploymentPoints -= cost;
-				return true;
-			}
+	if (canAfford && !overLimit){
+		if (world.placeAt(_worldCoords, std::move(ptr))){
+			deploymentPoints -= cost;
+			return true;
 		}
 	}
 

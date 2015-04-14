@@ -161,13 +161,6 @@ bool World::placeAt(sf::Vector2i _pos, UnitTile::unitPtr ptr){
 }
 
 UnitTile* World::unitAtMouseCoords(sf::Vector2i _pos){
-	//If out of bounds, return nullptr immediately
-	if (_pos.x >= getDimensionsInPixels().x || _pos.y >= getDimensionsInPixels().y ||
-		_pos.x <= 0 || _pos.y <= 0){
-
-		return nullptr;
-	}
-
 	UnitTile* unitHere = terrainLayer[indexAtMouseCoords(_pos)].get()->getUnit();
 
 	if (unitHere != nullptr){
@@ -183,12 +176,6 @@ UnitTile* World::unitAt(TerrainTile* _terrain){
 }
 
 TerrainTile* World::terrainAtMouseCoords(sf::Vector2i _pos){
-	if (_pos.x >= getDimensionsInPixels().x || _pos.y >= getDimensionsInPixels().y ||
-		_pos.x <= 0 || _pos.y <= 0){
-
-		return nullptr;
-	}
-
 	return terrainLayer[indexAtMouseCoords(_pos)].get();
 }
 

@@ -70,7 +70,7 @@ void GameState_Setup::getInput(){
 							&&
 							uiCoords.y > current[i].top() && uiCoords.y < current[i].bottom()){
 
-							selectedSpawnableUnit = new Player::SpawnableUnit(current[i]);
+							selectedSpawnableUnit = std::move(std::unique_ptr<Player::SpawnableUnit>(new Player::SpawnableUnit(current[i])));
 							break;
 
 						}
@@ -105,7 +105,6 @@ void GameState_Setup::getInput(){
 					}
 
 					selectedSpawnableUnit = nullptr;
-					delete selectedSpawnableUnit;
 					break;
 				}
 			}
@@ -116,9 +115,7 @@ void GameState_Setup::getInput(){
 				//Deselect the currently selectedSpawnableUnit icon:
 
 				if (selectedSpawnableUnit != nullptr){
-					
 					selectedSpawnableUnit = nullptr;
-					delete selectedSpawnableUnit;
 					break;
 				}
 

@@ -172,6 +172,11 @@ void GameState_Play::getInput(){
 				sf::Vector2i worldCoords{game->mWindow.mapPixelToCoords(mouseCoords, *game->currentView)};
 				sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, game->uiView)};
 
+				if (worldCoords.x >= game->mWorld.getDimensionsInPixels().x || worldCoords.y >= game->mWorld.getDimensionsInPixels().y ||
+					worldCoords.x <= 0 || worldCoords.y <= 0){
+					return;
+				}
+
 				auto unit = game->mWorld.unitAtMouseCoords(worldCoords);
 				auto terrain = game->mWorld.terrainAtMouseCoords(worldCoords);
 				bool friendly{true};
@@ -326,7 +331,6 @@ void GameState_Play::update(){
 		bool obstructionPresent{false};
 		bool inMovementRange{false};
 		bool inRangedAttackRange{false};
-
 
 		int dist = selected->distanceFrom(terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
 

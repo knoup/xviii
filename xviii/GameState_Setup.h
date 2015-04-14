@@ -61,7 +61,7 @@ private:
 	Button readyButton;
 
 	std::vector<sf::Text> keyShortcuts;
-	Player::SpawnableUnit* selectedSpawnableUnit;
+	std::unique_ptr<Player::SpawnableUnit> selectedSpawnableUnit;
 
 };
 
