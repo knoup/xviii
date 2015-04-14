@@ -9,7 +9,10 @@ public:
 
 	virtual int getMaxHp() const;
 	virtual int getMaxMov() const;
-	virtual int getMaxRange() const;
+	virtual int getMaxRange() const; 
+	
+	//Overloaded for the cone width of 3
+	virtual int distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 

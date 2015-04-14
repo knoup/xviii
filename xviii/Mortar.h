@@ -2,7 +2,6 @@
 
 #include "UnitTile.h"
 
-
 class Mortar : public UnitTile
 {
 public:
