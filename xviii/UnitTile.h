@@ -28,7 +28,10 @@
 	X(UnitTile::UnitType::LINF, LightInf, "linf")\
 	X(UnitTile::UnitType::SAP, Sapper, "sap")\
 	X(UnitTile::UnitType::CRICAV, CrimeanCav, "cr. cav")\
-	X(UnitTile::UnitType::COSINF, CossackInf, "cos. inf")
+	X(UnitTile::UnitType::COSINF, CossackInf, "cos. inf")\
+	X(UnitTile::UnitType::MKH, KhevMkhedrebi, "khev. mkh.")\
+	X(UnitTile::UnitType::PIT, PitsisKatsebi, "pit. kat.")\
+	X(UnitTile::UnitType::DON, DonCossack, "don cos.")
 	
 
 class Player;
@@ -53,6 +56,9 @@ class LightInf;
 class Sapper;
 class CrimeanCav;
 class CossackInf;
+class KhevMkhedrebi;
+class PitsisKatsebi;
+class DonCossack;
 
 /*
 	Note: due to the fact that static/const variables cannot be modified in derived classes,
@@ -75,7 +81,7 @@ public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, ADDITIONAL, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, MKH, PIT, DON};
 	enum class UnitFamily{INF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information

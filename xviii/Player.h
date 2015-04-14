@@ -24,6 +24,9 @@
 #include "Sapper.h"
 #include "CrimeanCav.h"
 #include "CossackInf.h"
+#include "KhevMkhedrebi.h"
+#include "PitsisKatsebi.h"
+#include "DonCossack.h"
 
 #include "global.h"
 
