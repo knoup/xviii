@@ -85,7 +85,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 	else if (validMovDirection && inMovementRange){
 		hasMoved = true;
-		terrainTile->resetUnit();
+		terrain->resetUnit();
 		terrain = terrainTile;
 		terrainTile->setUnit(this);
 		mov -= movExpended;

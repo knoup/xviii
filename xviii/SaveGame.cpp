@@ -139,7 +139,16 @@ bool SaveGame::create(){
 		save << "u{" << std::endl;
 
 		save << "type=" << unit->typeToString() << std::endl;
-		save << "faction=" << unit->getPlayer()->getName() << std::endl;
+		save << "faction=";
+
+		if (game->currentPlayer == game->Player1){
+			save << "player1";
+		}
+		else if (game->currentPlayer == game->Player2){
+			save << "player2";
+		}
+
+		save << std::endl;
 		save << "pos=" << coords.x + 1 << " " << coords.y + 1 << std::endl;
 		save << "dir=" << unit->dirToString() << std::endl;
 		save << "hp=" << unit->roundFloat(unit->gethp()) << std::endl;
@@ -272,17 +281,13 @@ void SaveGame::parse(boost::filesystem::path _dir){
 					type = stringToUnitType(line.substr(5));
 				}
 
-				/*In the interest of keeping the save files easily readable, rather than saving each unit's 
-				faction as simply player1 or player2, we save it as the faction name and then, after the players
-				are loaded, check which player it belongs to*/
-
 				else if (line.find("faction=") != std::string::npos){
-					Player::Nation nation{stringToNation(line.substr(8))};
+					std::string nation{(line.substr(8))};
 
-					if (nation == game->Player1->getNation()){
+					if (nation == "player1"){
 						player = game->Player1;
 					}
-					else if (nation == game->Player2->getNation()){
+					else if (nation == "player2"){
 						player = game->Player2;
 					}
 				}

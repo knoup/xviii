@@ -189,7 +189,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	}
 
 	else if (validMovDirection && inMovementRange){
-		_terrainTile->resetUnit();
+		terrain->resetUnit();
 		terrain = _terrainTile;
 		_terrainTile->setUnit(this);
 		mov -= movExpended;
