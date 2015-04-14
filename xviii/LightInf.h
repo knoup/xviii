@@ -5,7 +5,7 @@
 class LightInf : public Infantry
 {
 public:
-	LightInf(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
+	LightInf(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType = TextureManager::Unit::LINF, UnitType uType = UnitType::LINF);
 
 	virtual int getMaxHp() const;
 	virtual int getMaxMov() const;

@@ -34,8 +34,9 @@
 	X(UnitTile::UnitType::KMKH, KhevMkhedrebi, "khev mkh")\
 	X(UnitTile::UnitType::PIT, PitsisKatsebi, "pit kat")\
 	X(UnitTile::UnitType::DON, DonCossack, "don cos")\
-	X(UnitTile::UnitType::AMKH, AbrMkhedrebi, "abr mkh")
-	
+	X(UnitTile::UnitType::AMKH, AbrMkhedrebi, "abr mkh")\
+	X(UnitTile::UnitType::METTOP, MetTop, "met top")\
+	X(UnitTile::UnitType::KACI, KudzeKaci, "kud kaci")
 
 class Player;
 class World;
@@ -63,6 +64,8 @@ class KhevMkhedrebi;
 class PitsisKatsebi;
 class DonCossack;
 class AbrMkhedrebi;
+class MetTop;
+class KudzeKaci;
 
 /*
 	Note: due to the fact that static/const variables cannot be modified in derived classes,
@@ -85,7 +88,7 @@ public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, ADDITIONAL, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI};
 	enum class UnitFamily{INF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information

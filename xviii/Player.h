@@ -28,6 +28,8 @@
 #include "PitsisKatsebi.h"
 #include "DonCossack.h"
 #include "AbrMkhedrebi.h"
+#include "MetTop.h"
+#include "KudzeKaci.h"
 
 #include "global.h"
 
