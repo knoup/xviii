@@ -1,6 +1,6 @@
 turn=23
 player1=France
-player2=Great Britain
+player2=GBR
 player1Cam=1663 2934
 player2Cam=1913 2934
 currentPlayer=player2
@@ -7106,7 +7106,7 @@ hasHealed=0
 
 u{
 type=gen
-faction=Great Britain
+faction=GBR
 pos=38 48
 dir=E
 hp=1
@@ -7120,7 +7120,7 @@ hasHealed=0
 
 u{
 type=inf
-faction=Great Britain
+faction=GBR
 pos=41 49
 dir=S
 hp=18
@@ -7133,7 +7133,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Great Britain
+faction=GBR
 pos=40 50
 dir=S
 hp=18
@@ -7146,7 +7146,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Great Britain
+faction=GBR
 pos=39 50
 dir=S
 hp=18
@@ -7159,7 +7159,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Great Britain
+faction=GBR
 pos=27 52
 dir=S
 hp=12
@@ -7172,7 +7172,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Great Britain
+faction=GBR
 pos=34 55
 dir=N
 hp=11
@@ -7185,7 +7185,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Great Britain
+faction=GBR
 pos=24 55
 dir=E
 hp=12
@@ -7198,7 +7198,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Great Britain
+faction=GBR
 pos=37 50
 dir=S
 hp=13
@@ -7211,7 +7211,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Great Britain
+faction=GBR
 pos=36 50
 dir=S
 hp=18
@@ -7224,7 +7224,7 @@ hasRangedAttacked=0
 
 u{
 type=inf
-faction=Great Britain
+faction=GBR
 pos=36 51
 dir=E
 hp=16
@@ -7237,7 +7237,7 @@ hasRangedAttacked=0
 
 u{
 type=art
-faction=Great Britain
+faction=GBR
 pos=31 48
 dir=S
 hp=3
@@ -7250,7 +7250,7 @@ hasRangedAttacked=0
 
 u{
 type=art
-faction=Great Britain
+faction=GBR
 pos=39 49
 dir=S
 hp=3
@@ -7263,7 +7263,7 @@ hasRangedAttacked=0
 
 u{
 type=cav
-faction=Great Britain
+faction=GBR
 pos=22 59
 dir=E
 hp=10

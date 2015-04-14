@@ -177,6 +177,14 @@ sf::Sprite TextureManager::getSprite(Flag type){
 	case Flag::SWE:
 		rekt = {162, 68, counterSize.x, counterSize.y};
 		break;
+
+	case Flag::OTO:
+		rekt = {0, 102, counterSize.x, counterSize.y};
+		break;
+
+	case Flag::CRI:
+		rekt = {54, 102, counterSize.x, counterSize.y};
+		break;
 	}
 
 	return{*flags, rekt};

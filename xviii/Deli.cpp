@@ -49,7 +49,7 @@ float Deli::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 }
 
 Deli::Deli(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm,_dir, TextureManager::Unit::DELI, UnitType::DELI)
+Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm,_dir, TextureManager::Unit::LCAV, UnitType::DELI)
 {
 	deploymentCost = 3;
 	limit = 5;

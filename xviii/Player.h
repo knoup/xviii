@@ -23,6 +23,7 @@
 #include "LightInf.h"
 #include "Sapper.h"
 #include "CrimeanCav.h"
+#include "CossackInf.h"
 
 #include "global.h"
 
@@ -34,7 +35,7 @@
 	X(Player::Nation::AUS, TextureManager::Flag::AUS, "Austria")\
 	X(Player::Nation::PRU, TextureManager::Flag::PRU, "Prussia")\
 	X(Player::Nation::FRA, TextureManager::Flag::FRA, "France")\
-	X(Player::Nation::GBR, TextureManager::Flag::GBR, "Great Britain")\
+	X(Player::Nation::GBR, TextureManager::Flag::GBR, "GBR")\
 	X(Player::Nation::RUS, TextureManager::Flag::RUS, "Russia")\
 	X(Player::Nation::BAV, TextureManager::Flag::BAV, "Bavaria")\
 	X(Player::Nation::COM, TextureManager::Flag::COM, "Commonwealth")\
