@@ -6,7 +6,7 @@
 class Cuirassier : public Cavalry
 {
 public:
-	Cuirassier(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
+	Cuirassier(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType = TextureManager::Unit::CUIR, UnitType uType = UnitType::CUIR);
 
 	virtual int getMaxHp() const;
 	virtual int getMaxMov() const;

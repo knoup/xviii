@@ -49,8 +49,8 @@ float Cuirassier::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 }
 
 
-Cuirassier::Cuirassier(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::CUIR, UnitType::CUIR)
+Cuirassier::Cuirassier(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType, UnitType uType) :
+Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 {
 	deploymentCost = 3;
 	limit = 5;

@@ -5,7 +5,7 @@
 class Grenadier : public Infantry
 {
 public:
-	Grenadier(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
+	Grenadier(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType = TextureManager::Unit::GRE, UnitType uType = UnitType::GRE);
 
 	virtual int getMaxHp() const;
 	virtual int getMaxMov() const;

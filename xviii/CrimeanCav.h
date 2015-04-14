@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Cavalry.h"
+#include "LightCav.h"
 
-class CrimeanCav : public Cavalry
+class CrimeanCav : public LightCav
 {
 public:
 	CrimeanCav(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
@@ -15,8 +15,6 @@ public:
 	virtual int getMaxRange() const;
 
 	virtual std::string CrimeanCav::rangedAttack(UnitTile* unit, int distance);
-
-	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
 
 private:
 	static const int maxhp{7};
