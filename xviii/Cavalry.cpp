@@ -64,13 +64,13 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily:
 
 std::string Cavalry::rotate(UnitTile::Direction _dir){
 	if (hasMeleeAttacked || hasRangedAttacked){
-		return "Cannot rotate after attacking";
+		return NO_ROTATE_AFTER_ATTACK;
 	}
 	else if (hasRotated){
-		return "Already rotated this turn";
+		return ALREADY_ROTATED;
 	}
 	else if (dir == _dir){
-		return "Already facing " + UnitTile::dirToString();
+		return ALREADY_FACING + UnitTile::dirToString();
 	}
 	//If it was a full rotation
 	if (_dir == opposite(dir)){
@@ -85,7 +85,7 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 	dir = _dir;
 	updateStats();
 
-	return "Successfully rotated to " + UnitTile::dirToString();
+	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
 
 std::string Cavalry::interactWithFriendly(UnitTile* _unit){

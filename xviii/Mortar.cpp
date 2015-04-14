@@ -15,20 +15,20 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::MOR, 
 
 std::string Mortar::rotate(UnitTile::Direction _dir){
 	if (hasRangedAttacked){
-		return "Cannot rotate after attacking";
+		return NO_ROTATE_AFTER_ATTACK;
 	}
 	else if (hasRotated){
-		return "Already rotated this turn";
+		return ALREADY_ROTATED;
 	}
 	else if (dir == _dir){
-		return "Already facing " + UnitTile::dirToString();
+		return ALREADY_FACING + UnitTile::dirToString();
 	}
 
 	hasRotated = true;
 	dir = _dir;
 	updateStats();
 
-	return "Successfully rotated to " + UnitTile::dirToString();
+	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
 
 std::string Mortar::interactWithFriendly(UnitTile* _unit){

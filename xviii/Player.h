@@ -27,6 +27,7 @@
 #include "KhevMkhedrebi.h"
 #include "PitsisKatsebi.h"
 #include "DonCossack.h"
+#include "AbrMkhedrebi.h"
 
 #include "global.h"
 

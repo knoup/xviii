@@ -14,13 +14,13 @@ LightCav(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 
 std::string CrimeanCav::rotate(UnitTile::Direction _dir){
 	if (hasMeleeAttacked){
-		return "Cannot rotate after melee attacking";
+		return NO_ROTATE_AFTER_MELEE;
 	}
 	else if (hasRotated){
-		return "Already rotated this turn";
+		return ALREADY_ROTATED;
 	}
 	else if (dir == _dir){
-		return "Already facing " + UnitTile::dirToString();
+		return ALREADY_FACING + UnitTile::dirToString();
 	}
 	//If it was a full rotation
 	if (_dir == opposite(dir)){
@@ -34,8 +34,8 @@ std::string CrimeanCav::rotate(UnitTile::Direction _dir){
 	hasRotated = true;
 	dir = _dir;
 	updateStats();
-
-	return "Successfully rotated to " + UnitTile::dirToString();
+	
+	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
 
 

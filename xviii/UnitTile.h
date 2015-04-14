@@ -9,6 +9,8 @@
 #include <iomanip>
 #include <math.h>
 
+#include "global.h"
+
 #define UNITPROPERTIES\
 	X(UnitTile::UnitType::ART, Artillery, "art")\
 	X(UnitTile::UnitType::CAV, Cavalry, "cav")\
@@ -24,14 +26,15 @@
 	X(UnitTile::UnitType::KAP, Kapikulu, "kap")\
 	X(UnitTile::UnitType::GRE, Grenadier, "gre")\
 	X(UnitTile::UnitType::JAN, Janissary, "jan")\
-	X(UnitTile::UnitType::OINF, OttoInf, "o. inf")\
+	X(UnitTile::UnitType::OINF, OttoInf, "o inf")\
 	X(UnitTile::UnitType::LINF, LightInf, "linf")\
 	X(UnitTile::UnitType::SAP, Sapper, "sap")\
-	X(UnitTile::UnitType::CRICAV, CrimeanCav, "cr. cav")\
-	X(UnitTile::UnitType::COSINF, CossackInf, "cos. inf")\
-	X(UnitTile::UnitType::MKH, KhevMkhedrebi, "khev. mkh.")\
-	X(UnitTile::UnitType::PIT, PitsisKatsebi, "pit. kat.")\
-	X(UnitTile::UnitType::DON, DonCossack, "don cos.")
+	X(UnitTile::UnitType::CRICAV, CrimeanCav, "cr cav")\
+	X(UnitTile::UnitType::COSINF, CossackInf, "cos inf")\
+	X(UnitTile::UnitType::KMKH, KhevMkhedrebi, "khev mkh")\
+	X(UnitTile::UnitType::PIT, PitsisKatsebi, "pit kat")\
+	X(UnitTile::UnitType::DON, DonCossack, "don cos")\
+	X(UnitTile::UnitType::AMKH, AbrMkhedrebi, "abr mkh")
 	
 
 class Player;
@@ -59,6 +62,7 @@ class CossackInf;
 class KhevMkhedrebi;
 class PitsisKatsebi;
 class DonCossack;
+class AbrMkhedrebi;
 
 /*
 	Note: due to the fact that static/const variables cannot be modified in derived classes,
@@ -81,7 +85,7 @@ public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, ADDITIONAL, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, MKH, PIT, DON};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON};
 	enum class UnitFamily{INF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information

@@ -25,17 +25,17 @@ void General::reset(){
 
 std::string General::interactWithFriendly(UnitTile* _unit){
 	if (_unit == this){
-		return "Cannot heal self";
+		return CANNOT_HEAL_SELF;
 	}
 	if (_unit->gethp() != _unit->getMaxHp() && !hasHealed){
 		hasHealed = true;
 		return _unit->heal();
 	}
 	else if (hasHealed){
-		return "Already healed";
+		return ALREADY_HEALED;
 	}
 	else if (_unit->gethp() == _unit->getMaxHp()){
-		return "Unit is at max HP";
+		return AT_MAX_HP;
 	}
 
 	return{};

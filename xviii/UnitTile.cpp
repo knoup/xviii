@@ -185,7 +185,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	movExpended = distanceFrom(_terrainTile, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
 
 	if (obstructionPresent){
-		return "Invalid move order: line of sight not clear";
+		return OBSTRUCTION_PRESENT_MOV;
 	}
 
 	else if (validMovDirection && inMovementRange){
@@ -198,15 +198,15 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 		yellowOutline.setPosition(_terrainTile->getPos());
 		redOutline.setPosition(_terrainTile->getPos());
 		updateStats();
-		return "Successfully moved to (" + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1) + ")";
+		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
 	}
 
 	else if (validMovDirection && !inMovementRange){
-		return{"Invalid move order: not enough mov"};
+		return{NO_MOV};
 	}
 
 	else if (!validMovDirection){
-		return{"Invalid move order: hrzntl or wrong dir"};
+		return{INVALID_DIR_MOV};
 	}
 
 }
@@ -233,21 +233,19 @@ std::string UnitTile::interactWithFriendly(UnitTile* _unit){
 
 //Virtual
 std::string UnitTile::heal(){
+	std::string str;
 	if (hp <= getMaxHp() - 2){
 		hp += 2;
 		updateStats();
-		return{"Successfully healed for 2"};
+		str = HEAL_SUCCESS + std::to_string(2);
 	}
 	else{
 		float amountToHeal{getMaxHp() - hp};
 		hp += amountToHeal;
 		updateStats();
-		//Error in compiler if I don't do it this way
-		std::string result{"Successfully healed for " + roundFloat(amountToHeal)};
-		return result;
+		str = HEAL_SUCCESS + roundFloat(amountToHeal);
 	}
-
-	return{};
+	return str;
 }
 
 //Virtual
@@ -275,19 +273,19 @@ std::string UnitTile::attack(UnitTile* unit){
 	int dist{distanceFrom(unit->terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange)};
 
 	if (hasMeleeAttacked || hasRangedAttacked){
-		return{"Already attacked this turn"};
+		return{ALREADY_ATTACKED};
 	}
 
 	if (obstructionPresent){
-		return{"Invalid attack order: line of sight not clear"};
+		return{OBSTRUCTION_PRESENT_ATK};
 	}
 
 	if (!validAttackDirection){
-		return{"Invalid attack order: hrzntl or wrong dir"};
+		return{INVALID_DIR_ATK};
 	}
 
 	if (dist > 1 && dist > getMaxRange()){
-		std::string result{"Out of max range (" + std::to_string(getMaxRange()) + ")"};
+		std::string result{OUT_OF_RANGE + std::to_string(getMaxRange())};
 		return result;
 	}
 
@@ -360,11 +358,11 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	if (this->getUnitType() == UnitType::MKH && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+	if (this->getUnitType() == UnitType::KMKH && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
 	}
 
-	if (unit->getUnitType() == UnitType::MKH && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+	if (unit->getUnitType() == UnitType::KMKH && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		unit->modVector.emplace_back(Modifier::ADDITIONAL, 1);
 	}
 
@@ -917,7 +915,7 @@ void UnitTile::multRollByModifiers(float &originalRoll){
 }
 
 std::string UnitTile::outOfRange(){
-	std::string result{"Out of max range {" + std::to_string(getMaxRange()) + "}"};
+	std::string result{OUT_OF_RANGE + std::to_string(getMaxRange())};
 	return result;
 }
 

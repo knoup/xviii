@@ -80,7 +80,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 	movExpended = distanceFrom(terrainTile, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
 
 	if (obstructionPresent){
-		return "Invalid move order: line of sight not clear";
+		return OBSTRUCTION_PRESENT_MOV;
 	}
 
 	else if (validMovDirection && inMovementRange){
@@ -94,15 +94,15 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 		yellowOutline.setPosition(terrainTile->getPos());
 		redOutline.setPosition(terrainTile->getPos());
 		updateStats();
-		return "Successfully moved to (" + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1) + ")";
+		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
 	}
 
 	else if (validMovDirection && !inMovementRange){
-		return{"Invalid move order: not enough mov"};
+		return{NO_MOV};
 	}
 
 	else if (!validMovDirection){
-		return{"Invalid move order: hrzntl or wrong dir"};
+		return{INVALID_DIR_MOV};
 	}
 
 }
@@ -113,13 +113,13 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 		return "Can't rotate after attacking";
 	}
 	if (hasRotated){
-		return "Already rotated this turn";
+		return ALREADY_ROTATED;
 	}
 	else if (hasMoved){
 		return "Can't rotate after moving";
 	}
 	else if (dir == _dir){
-		return "Already facing " + UnitTile::dirToString();
+		return ALREADY_FACING + UnitTile::dirToString();
 	}
 
 	hasRotated = true;
@@ -127,7 +127,7 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 	dir = _dir;
 	updateStats();
 
-	return "Successfully rotated to " + UnitTile::dirToString();
+	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
 
 std::string Infantry::interactWithFriendly(UnitTile* _unit){
