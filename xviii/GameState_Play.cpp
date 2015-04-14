@@ -172,6 +172,14 @@ void GameState_Play::getInput(){
 				sf::Vector2i worldCoords{game->mWindow.mapPixelToCoords(mouseCoords, *game->currentView)};
 				sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, game->uiView)};
 
+				if (uiCoords.x >= nextTurnButton.left() && uiCoords.x <= nextTurnButton.right()
+					&&
+					uiCoords.y >= nextTurnButton.top() && uiCoords.y <= nextTurnButton.bottom()){
+
+					game->currentPlayer->setReady(true);
+
+				}
+
 				if (worldCoords.x >= game->mWorld.getDimensionsInPixels().x || worldCoords.y >= game->mWorld.getDimensionsInPixels().y ||
 					worldCoords.x <= 0 || worldCoords.y <= 0){
 					return;
@@ -245,15 +253,9 @@ void GameState_Play::getInput(){
 						selected->setHighlighted(true);
 					}
 
-					if (uiCoords.x >= nextTurnButton.left() && uiCoords.x <= nextTurnButton.right()
-						&&
-						uiCoords.y >= nextTurnButton.top() && uiCoords.y <= nextTurnButton.bottom()){
-
-						game->currentPlayer->setReady(true);
-
-					}
 				}
 			}
+
 			else if (event.mouseButton.button == sf::Mouse::Right){
 				
 				if (selected != nullptr){
