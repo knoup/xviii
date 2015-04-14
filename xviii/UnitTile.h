@@ -152,7 +152,7 @@ public:
 	//its own implementation of essentially the same function.
 	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
 
-	TerrainTile* getTilePos() const;
+	TerrainTile* getTerrain() const;
 	Player* getPlayer() const;
 	
 	bool isHostile(UnitTile* _tile);
@@ -214,7 +214,7 @@ protected:
 	
 	//Pointer to the terrain tile that the unit is on. This is only to be used for units, to indicate
 	//where they are easily and efficiently, since a unit must always be on a terrain tile
-	TerrainTile* at;
+	TerrainTile* terrain;
 
 	UnitType unitType;
 	UnitFamily unitFamilyType;

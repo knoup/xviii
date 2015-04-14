@@ -72,7 +72,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 	int movExpended{0};
 
 	//Get the coordinates of the current tile the unit is at
-	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*at))};
+	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*terrain))};
 
 	//Get the coordinates of the tile to be moved to
 	sf::Vector2i toMoveToCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*terrainTile))};
@@ -85,7 +85,9 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 	else if (validMovDirection && inMovementRange){
 		hasMoved = true;
-		at = terrainTile;
+		terrainTile->resetUnit();
+		terrain = terrainTile;
+		terrainTile->setUnit(this);
 		mov -= movExpended;
 		sprite.setPosition(terrainTile->getPos());
 		unitFlag.setPosition(terrainTile->getPos());

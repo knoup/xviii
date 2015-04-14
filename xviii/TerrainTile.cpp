@@ -15,7 +15,8 @@ It makes sense for terrain tiles though since they never move.
 
 TerrainTile::TerrainTile(World* _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos) :
 Tile{tm, textType},
-terrainType{terrainType}
+terrainType{terrainType},
+unit{nullptr}
 {
 	sprite.setPosition(_pos);
 
@@ -47,6 +48,18 @@ sf::Vector2f TerrainTile::getPos() const{
 
 TerrainTile::TerrainType TerrainTile::getTerrainType() const{
 	return terrainType;
+}
+
+void TerrainTile::setUnit(UnitTile* _unit){
+	unit = _unit;
+}
+
+UnitTile* TerrainTile::getUnit(){
+	return unit;
+}
+
+void TerrainTile::resetUnit(){
+	unit = nullptr;
 }
 
 void TerrainTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{

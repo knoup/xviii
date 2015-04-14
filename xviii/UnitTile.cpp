@@ -125,7 +125,7 @@ player{_belongsToPlayer},
 dir{_dir},
 hp{0},
 mov{0},
-at{nullptr}
+terrain{nullptr}
 
 {
 	unitFlag = player->getFlag();
@@ -158,7 +158,8 @@ at{nullptr}
 }
 
 void UnitTile::spawn(TerrainTile* terrainTile){
-	at = terrainTile;
+	terrain = terrainTile;
+	terrainTile->setUnit(this);
 	sprite.setPosition(terrainTile->getPos());
 	unitFlag.setPosition(terrainTile->getPos());
 	yellowOutline.setPosition(terrainTile->getPos());
@@ -176,7 +177,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	int movExpended{0};
 
 	//Get the coordinates of the current tile the unit is at
-	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*at))};
+	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*terrain))};
 
 	//Get the coordinates of the tile to be moved to
 	sf::Vector2i toMoveToCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*_terrainTile))};
@@ -188,7 +189,9 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	}
 
 	else if (validMovDirection && inMovementRange){
-		at = _terrainTile;
+		_terrainTile->resetUnit();
+		terrain = _terrainTile;
+		_terrainTile->setUnit(this);
 		mov -= movExpended;
 		sprite.setPosition(_terrainTile->getPos());
 		unitFlag.setPosition(_terrainTile->getPos());
@@ -269,7 +272,7 @@ std::string UnitTile::attack(UnitTile* unit){
 	bool inMovementRange{false};
 	bool inRangedAttackRange{false};
 
-	int dist{distanceFrom(unit->at, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange)};
+	int dist{distanceFrom(unit->terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange)};
 
 	if (hasMeleeAttacked || hasRangedAttacked){
 		return{"Already attacked this turn"};
@@ -376,8 +379,8 @@ float UnitTile::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	return 0;
 }
 
-TerrainTile* UnitTile::getTilePos() const{
-	return at;
+TerrainTile* UnitTile::getTerrain() const{
+	return terrain;
 }
 
 Player* UnitTile::getPlayer() const{
@@ -504,7 +507,7 @@ int UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool
 	//Excluding the center, obviously
 	coneWidth /= 2;
 
-	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*at))};
+	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*terrain))};
 	sf::Vector2i toMoveToCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*_terrain))};
 
 	//Check if there is a unit at the terrain tile;
@@ -720,7 +723,7 @@ int UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool
 }
 
 int UnitTile::distanceFrom(Tile* _tile){
-	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*at))};
+	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*terrain))};
 	sf::Vector2i toMoveToCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*_tile))};
 
 	switch (dir){

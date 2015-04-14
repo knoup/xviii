@@ -193,7 +193,7 @@ void GameState_Play::getInput(){
 						bool occupied{false};
 
 						for (auto& unitInLayer : game->mWorld.getCombatLayer()){
-							if (unitInLayer->getTilePos() == terrain){
+							if (unitInLayer->getTerrain() == terrain){
 								occupied = true;
 							}
 						}

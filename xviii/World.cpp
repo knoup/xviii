@@ -138,7 +138,7 @@ bool World::placeAt(sf::Vector2i _pos, UnitTile::unitPtr ptr){
 
         for (auto& unit : unitLayer){
             //If the tile is occupied by a unit
-            if (unit->getTilePos() == here){
+            if (unit->getTerrain() == here){
                 vacant = false;
                 }
             }
@@ -168,13 +168,10 @@ UnitTile* World::unitAtMouseCoords(sf::Vector2i _pos){
 		return nullptr;
 	}
 
+	UnitTile* unitHere = terrainLayer[indexAtMouseCoords(_pos)].get()->getUnit();
 
-	TerrainTile* here = terrainLayer[indexAtMouseCoords(_pos)].get();
-
-	for (auto& unit : unitLayer){
-		if (unit->getTilePos() == here){
-			return unit.get();
-		}
+	if (unitHere != nullptr){
+		return unitHere;
 	}
 
 	return nullptr;
@@ -182,13 +179,7 @@ UnitTile* World::unitAtMouseCoords(sf::Vector2i _pos){
 
 
 UnitTile* World::unitAt(TerrainTile* _terrain){
-	UnitTile* unit = unitAtMouseCoords(sf::Vector2i(_terrain->getPos()));
-
-	if (unit != nullptr){
-		return unit;
-	}
-
-	return nullptr;
+	return unitAtMouseCoords(sf::Vector2i(_terrain->getPos()));
 }
 
 TerrainTile* World::terrainAtMouseCoords(sf::Vector2i _pos){
@@ -210,7 +201,6 @@ TerrainTile* World::terrainAtCartesianCoords(sf::Vector2i _pos){
 //Returns a pointer to the unit deleted; nullptr if nothing was deleted
 
 UnitTile::unitPtr World::removeUnit(sf::Vector2i _pos){
-
 	//If out of bounds, return nullptr immediately
 	if (_pos.x >= getDimensionsInPixels().x || _pos.y >= getDimensionsInPixels().y ||
 		_pos.x <= 0 || _pos.y <= 0){
@@ -222,13 +212,14 @@ UnitTile::unitPtr World::removeUnit(sf::Vector2i _pos){
 
         for(auto& unit : unitLayer){
 
-            if(unit->getTilePos() == here){
+            if(unit->getTerrain() == here){
 
                 //If a unit is found, temporarily move that unit out of combatLayer (so that
                 //it does not get instantly deleted as it goes out of scope), erase it from
                 //unitLayer, and return it.
                 auto result = std::move(unit);
                 unitLayer.erase(std::remove(unitLayer.begin(), unitLayer.end(), unit), unitLayer.end());
+				here->resetUnit();
                 return result;
 
             }
@@ -244,7 +235,7 @@ UnitTile::unitPtr World::removeUnit(UnitTile* _ptr){
 			//If a unit is found, temporarily move that unit out of combatLayer (so that
 			//it does not get instantly deleted as it goes out of scope), erase it from
 			//unitLayer, and return it.
-
+			unit->getTerrain()->resetUnit();
 			auto result = std::move(unit);
 			unitLayer.erase(std::remove(unitLayer.begin(), unitLayer.end(), unit), unitLayer.end());
 			return result;
