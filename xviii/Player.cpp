@@ -3,6 +3,7 @@
 
 static const sf::View bottomView{sf::View{sf::FloatRect(1183, 4800, xResolution, yResolution)}};
 static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yResolution)}};
+static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution, yResolution)}};
 
 Player::Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom) :
 world{_world},
@@ -14,16 +15,6 @@ deploymentPoints{30},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
-	/*
-	INF = 1
-	ART = 2
-	CAV = 3
-	MOR = 4
-	GEN = 5
-	LCAV = 6
-	CUIRASSIER = 7 
-	DRAGOON = 8
-	*/
 	if (nation == Player::Nation::OTO){
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AKINCI, {1, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DELI, {2, 1}));
@@ -83,12 +74,16 @@ spawnedAtBottom{_spawnedAtBottom}
 	#undef X
 	}
 
+	//DISABLED FOR TESTING PURPOSES
+	/*
 	if (spawnedAtBottom){
 		view = bottomView;
 	}
 	else{
 		view = topView;
-	}
+	*/
+
+	view = centerView;
 }
 
 bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
@@ -102,17 +97,22 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 	if (spawnedAtBottom){
 		//Because coordinates start at [0,0], in order for the bottom spawner to have the same length of spawning
 		//as the top spawner does, we need to subtract 1
+
+		//DISABLED FOR TESTING PURPOSES
+		/*
 		if (cartesianCoords.y <= (world.getDimensions().y - (world.getDimensions().y/8)) - 1){
 			return false;
 		}
-
+		*/
 		dir = UnitTile::Direction::N;
 	}
 	else{
+		//DISABLED FOR TESTING PURPOSES
+		/*
 		if (cartesianCoords.y >= (world.getDimensions().y / 8)){
 			return false;
 		}
-
+		*/
 		dir = UnitTile::Direction::S;
 	}
 

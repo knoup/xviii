@@ -48,7 +48,7 @@ selected{nullptr}
 	currentMessageText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	currentMessageText.setColor(sf::Color::Cyan);
 	currentMessageText.setCharacterSize(22);
-	currentMessageText.setPosition(310, -150);
+	currentMessageText.setPosition(220, -150);
 
 
 	elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
