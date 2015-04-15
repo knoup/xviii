@@ -141,10 +141,10 @@ bool SaveGame::create(){
 		save << "type=" << unit->typeToString() << std::endl;
 		save << "faction=";
 
-		if (game->currentPlayer == game->Player1){
+		if (unit->getPlayer() == game->Player1){
 			save << "player1";
 		}
-		else if (game->currentPlayer == game->Player2){
+		else if (unit->getPlayer() == game->Player2){
 			save << "player2";
 		}
 

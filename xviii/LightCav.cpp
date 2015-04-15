@@ -10,7 +10,7 @@ static const float cavSideFlankModifier = 2;
 static const float cavRearFlankModifier = 2;
 
 float LightCav::getFlankModifier(UnitFamily _family, Modifier _flank) const{
-	if (_family == UnitFamily::INF_FAMILY){
+	if (_family == UnitFamily::INF_FAMILY || _family == UnitFamily::HINF_FAMILY){
 		switch (_flank){
 		case Modifier::FRONT_FLANK:
 			return infFrontFlankModifier;

@@ -753,8 +753,6 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 }
 
 void UnitTile::multRollByModifiers(float &originalRoll){
-	//Anything besides the VSCAV modifier is a multiplication modifier; apply them first. Also,
-	//ignore any modifier with a value of 0.
 	for (auto& mod : modVector){
 		if (mod.modFloat != 0){
 			if (mod.modType != Modifier::ADDITIONAL){
@@ -763,13 +761,18 @@ void UnitTile::multRollByModifiers(float &originalRoll){
 		}
 	}
 
-	//Then add the value to the final resultant roll
+
 	for (auto& mod : modVector){
 		if (mod.modFloat != 0){
 			if (mod.modType == Modifier::ADDITIONAL){
-				originalRoll += mod.modFloat;
+			originalRoll += mod.modFloat;
 			}
 		}
+	}
+
+	//If the roll goes below 1, pop it up back to 1
+	if (originalRoll < 1.001){
+		originalRoll = 1;
 	}
 }
 
