@@ -565,7 +565,14 @@ int UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool
 				break;
 			}
 
-			auto unit = world.unitAt(world.terrainAtCartesianCoords({SECONDARYAXIS_POSITIVE, i}));
+			UnitTile* unit;
+
+			if (dir == Direction::N || dir == Direction::S){
+				unit = world.unitAt(world.terrainAtCartesianCoords({SECONDARYAXIS_POSITIVE, i}));
+			}
+			else{
+				unit = world.unitAt(world.terrainAtCartesianCoords({i, SECONDARYAXIS_POSITIVE}));
+			}
 
 			if (unit != nullptr){
 				bool unitIsFriendly{unit->getPlayer() == this->getPlayer()};
