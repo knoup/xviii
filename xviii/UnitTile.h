@@ -34,7 +34,7 @@
 	X(UnitTile::UnitType::CRICAV, CrimeanCav, "cr cav", TextureManager::Unit::LCAV)\
 	X(UnitTile::UnitType::COSINF, CossackInf, "cos inf", TextureManager::Unit::INF)\
 	X(UnitTile::UnitType::KMKH, KhevMkhedrebi, "khev mkh", TextureManager::Unit::CUIR)\
-	X(UnitTile::UnitType::PIT, PitsisKatsebi, "pit kat", TextureManager::Unit::CUIR)\
+	X(UnitTile::UnitType::PIT, PitsisKatsebi, "pit kat", TextureManager::Unit::CAV)\
 	X(UnitTile::UnitType::DON, DonCossack, "don cos", TextureManager::Unit::LCAV)\
 	X(UnitTile::UnitType::AMKH, AbrMkhedrebi, "abr mkh", TextureManager::Unit::DRAG)\
 	X(UnitTile::UnitType::METTOP, MetTop, "met top", TextureManager::Unit::INF)\

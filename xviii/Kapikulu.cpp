@@ -197,3 +197,11 @@ std::string Kapikulu::meleeAttack(Cavalry* cav){
 
 	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 }
+
+bool Kapikulu::getHasHealed() const{
+	return attackBonusReady;
+}
+
+void Kapikulu::setHasHealed(bool _value){
+	attackBonusReady = _value;
+}
