@@ -40,9 +40,7 @@ int Mortar::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& 
 }
 
 std::string Mortar::meleeAttack(UnitTile* _unit){
-	//rangedAttack() is called in UnitTile's initial meleeAttack(UnitTile*) function;
-	//we don't need to do anything here, since this unit cannot melee
-	return {};
+	return _unit->meleeAttack(this);
 }
 
 std::string Mortar::rangedAttack(UnitTile* unit, int distance){

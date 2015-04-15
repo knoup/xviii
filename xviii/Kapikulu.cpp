@@ -46,7 +46,8 @@ std::string Kapikulu::meleeAttack(Infantry* inf){
 
 	//If original roll is 6 and attack bonus is ready...
 	if (thisRoll_int == 6 && attackBonusReady){
-		inf->takeDamage(4);
+		damageDealt = 4;
+		inf->takeDamage(damageDealt);
 	}
 	else{
 		multRollByModifiers(thisRoll);
@@ -98,7 +99,8 @@ std::string Kapikulu::meleeAttack(FootGuard* foot){
 
 	//If original roll is 6 and attack bonus is ready...
 	if (thisRoll_int == 6 && attackBonusReady){
-		foot->takeDamage(4);
+		damageDealt = 4;
+		foot->takeDamage(damageDealt);
 	}
 	else{
 		multRollByModifiers(thisRoll);
@@ -150,7 +152,8 @@ std::string Kapikulu::meleeAttack(Cavalry* cav){
 
 	//If original roll is 6 and attack bonus is ready...
 	if (thisRoll_int == 6 && attackBonusReady){
-		cav->takeDamage(3);
+		damageDealt = 3;
+		cav->takeDamage(damageDealt);
 	}
 	else{
 		multRollByModifiers(thisRoll);

@@ -17,6 +17,7 @@ public:
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
 	inline virtual int getMaxRange() const{ return maxRange; };
+	inline virtual bool getCanMelee() const{ return false; };
 
 	virtual std::string meleeAttack(UnitTile* _unit);
 

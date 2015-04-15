@@ -40,9 +40,7 @@ int Artillery::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, boo
 }
 
 std::string Artillery::meleeAttack(UnitTile* _unit){
-	//rangedAttack() is called in UnitTile's initial meleeAttack(UnitTile*) function;
-	//we don't need to do anything here, since this unit cannot melee
-	return{};
+	return _unit->meleeAttack(this);
 }
 
 std::string Artillery::rangedAttack(UnitTile* unit, int distance){

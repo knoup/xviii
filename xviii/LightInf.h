@@ -12,7 +12,7 @@ public:
 	inline virtual int getMaxRange() const{ return maxRange; };
 	
 	//Overloaded for the cone width of 3
-	virtual int distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth);
+	virtual int distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 

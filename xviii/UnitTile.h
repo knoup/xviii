@@ -139,6 +139,7 @@ public:
 	virtual int getMaxHp() const;
 	virtual int getMaxMov() const;
 	virtual int getMaxRange() const;
+	inline virtual bool getCanMelee() const{ return true; };
 
 	//This function is in charge of initiating combat by determining distance, flank, etc. and calling either
 	//meleeAttack() or rangedAttack()

@@ -282,7 +282,7 @@ std::string UnitTile::attack(UnitTile* unit){
 	}
 
 	// Ranged	////////////////////////////////////////////////////
-	if (dist > 1){
+	if (dist > 1 || !getCanMelee()){
 		return this->rangedAttack(unit, dist);
 	}
 
@@ -449,12 +449,16 @@ Because this is one of the most important functions, and looks intimidating, I f
 
 N.B.: This function assumes the reference variables are initialised as false!!
 
-This function does slightly different things depending on your direction, but the idea is as follows:
+This function, first of all, determines your main and secondary axes and their positive and negative parts. It then:
 
 -Checks if your destination tile is a valid attacking direction (valid movement dirs are always valid attack dirs, but not vice 
 versa),
 
 -If so, continues forward and sets _validAttackingDirection as true; if not, return the distance and don't touch any variables
+
+-Checks if your distance is 1 and you cannot shoot at close range; if that is so,
+	-Check if your target is diagonal in relation to you,
+		-If so, set _validAttackingDirection to false
 
 -Checks if you are within ranged attacking range, and set _inRangedAttackRange as true if so
 
@@ -463,12 +467,13 @@ versa),
 
 -Checks if there are obstructions in the way, and sets _obstructionPresent as true if so
 
-In addition, this function takes two optional parameters: canShootOverUnits and coneWidth, which default to false and 1, respectively
+In addition, this function takes three optional parameters: canShootOverUnits, canShootAtCloseRange, coneWidth, which default to false,
+false, and 1, respectively
 
-canShootOverUnits determines whether this unit has the ability to bypass LoS with regards to ranged attacking, and coneWidth specifies
+canShootOverUnits specifies whether this unit has the ability to bypass LoS with regards to ranged attacking, and coneWidth specifies
 the horizontal ranged attacking range this distance has. Most units (such as infantry) cannot shoot "past" other units, and can only
 shoot straight forward. Artillery and mortar are excellent contrasting examples; they can shoot over units and have a 3-wide attacking
-range
+range.
 */
 
 //virtual
@@ -486,210 +491,100 @@ int UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool
 
 	bool destinationIsUnit = (unitAtTile != nullptr);
 
+	int dist{0};
+
+	int PRIMARYAXIS_POSITIVE;
+	int PRIMARYAXIS_NEGATIVE;
+	int SECONDARYAXIS_POSITIVE;
+	int SECONDARYAXIS_NEGATIVE;
+
 	switch (dir){
 	case UnitTile::Direction::N:
-		if (toMoveToCoords.y < currentCoords.y
-			&& ((toMoveToCoords.x >= currentCoords.x-coneWidth) && (toMoveToCoords.x <=currentCoords.x + coneWidth))){
-
-			_validAttackDirection = true;
-
-			if (currentCoords.y - toMoveToCoords.y <= getMaxRange()){
-				_inRangedAttackRange = true;
-			}
-
-			if (toMoveToCoords.x == currentCoords.x){
-				_validMovDirection = true;
-
-				//There is no point in having _inMovementRange true if the direction isn't valid, so the check
-				//is nested within the directional check
-				if (currentCoords.y - toMoveToCoords.y <= mov){
-					_inMovementRange = true;
-				}
-			}
-
-			//For loop is for checking if the LoS is clear
-			for (int i{currentCoords.y - 1}; i > toMoveToCoords.y; --i){
-
-				//If an obstruction has already been found, no need to keep searching, just exit loop
-				if (_obstructionPresent){
-					break;
-				}
-
-				auto unit = world.unitAt(world.terrainAtCartesianCoords({currentCoords.x, i}));
-
-				if (unit != nullptr){
-					bool unitIsFriendly{unit->getPlayer() == this->getPlayer()};
-
-					if (destinationIsUnit){
-						if (!canShootOverUnits){
-							_obstructionPresent = true;
-						}
-					}
-					else if (!destinationIsUnit){
-						if (!unitIsFriendly){
-							_obstructionPresent = true;
-						}
-					}
-				}
-			}
-		}
-
-		return (currentCoords.y - toMoveToCoords.y);
+		PRIMARYAXIS_POSITIVE = currentCoords.y;
+		PRIMARYAXIS_NEGATIVE = toMoveToCoords.y;
+		SECONDARYAXIS_POSITIVE = toMoveToCoords.x;
+		SECONDARYAXIS_NEGATIVE = currentCoords.x;
 		break;
 
 	case UnitTile::Direction::E:
-		if (toMoveToCoords.x > currentCoords.x
-			&& (toMoveToCoords.y >= currentCoords.y - coneWidth) &&(toMoveToCoords.y <= currentCoords.y + coneWidth)){
-
-			_validAttackDirection = true;
-
-			if (toMoveToCoords.x - currentCoords.x <= getMaxRange()){
-				_inRangedAttackRange = true;
-			}
-
-			if (toMoveToCoords.y == currentCoords.y){
-				_validMovDirection = true;
-
-				//There is no point in having _inMovementRange true if the direction isn't valid, so the check
-				//is nested within the directional check
-				if (toMoveToCoords.x - currentCoords.x <= mov){
-					_inMovementRange = true;
-				}
-			}
-
-			//For loop is for checking if the LoS is clear
-			for (int i{currentCoords.x + 1}; i < toMoveToCoords.x; ++i){
-
-				//If an obstruction has already been found, no need to keep searching, just exit loop
-				if (_obstructionPresent){
-					break;
-				}
-
-				auto unit = world.unitAt(world.terrainAtCartesianCoords({i, currentCoords.y}));
-
-				if (unit != nullptr){
-					bool unitIsFriendly{unit->getPlayer() == this->getPlayer()};
-
-					if (destinationIsUnit){
-						if (!canShootOverUnits){
-							_obstructionPresent = true;
-						}
-					}
-					else if (!destinationIsUnit){
-						if (!unitIsFriendly){
-							_obstructionPresent = true;
-						}
-					}
-				}
-			}
-		}
-
-		return (toMoveToCoords.x - currentCoords.x);
+		PRIMARYAXIS_POSITIVE = toMoveToCoords.x;
+		PRIMARYAXIS_NEGATIVE = currentCoords.x;
+		SECONDARYAXIS_POSITIVE = toMoveToCoords.y;
+		SECONDARYAXIS_NEGATIVE = currentCoords.y;
 		break;
 
 	case UnitTile::Direction::S:
-		if (toMoveToCoords.y > currentCoords.y
-			&& (toMoveToCoords.x >= currentCoords.x - coneWidth) && (toMoveToCoords.x <= currentCoords.x + coneWidth)){
-
-			_validAttackDirection = true;
-
-			if (toMoveToCoords.y - currentCoords.y <= getMaxRange()){
-				_inRangedAttackRange = true;
-			}
-
-			if (toMoveToCoords.x == currentCoords.x){
-				_validMovDirection = true;
-
-				//There is no point in having _inMovementRange true if the direction isn't valid, so the check
-				//is nested within the directional check
-				if (toMoveToCoords.y - currentCoords.y <= mov){
-					_inMovementRange = true;
-				}
-			}
-
-			//For loop is for checking if the LoS is clear
-			for (int i{currentCoords.y + 1}; i < toMoveToCoords.y; ++i){
-
-				//If an obstruction has already been found, no need to keep searching, just exit loop
-				if (_obstructionPresent){
-					break;
-				}
-
-				auto unit = world.unitAt(world.terrainAtCartesianCoords({currentCoords.x, i}));
-
-				if (unit != nullptr){
-					bool unitIsFriendly{unit->getPlayer() == this->getPlayer()};
-
-					if (destinationIsUnit){
-						if (!canShootOverUnits){
-							_obstructionPresent = true;
-						}
-					}
-					else if (!destinationIsUnit){
-						if (!unitIsFriendly){
-							_obstructionPresent = true;
-						}
-					}
-				}
-			}
-
-		}
-
-		return (toMoveToCoords.y - currentCoords.y);
+		PRIMARYAXIS_POSITIVE = toMoveToCoords.y;
+		PRIMARYAXIS_NEGATIVE = currentCoords.y;
+		SECONDARYAXIS_POSITIVE = toMoveToCoords.x;
+		SECONDARYAXIS_NEGATIVE = currentCoords.x;
 		break;
+
 
 	case UnitTile::Direction::W:
-		if (toMoveToCoords.x < currentCoords.x
-			&& (toMoveToCoords.y >= currentCoords.y - coneWidth) && (toMoveToCoords.y <= currentCoords.y + coneWidth)){
-
-			_validAttackDirection = true;
-
-			if (currentCoords.x - toMoveToCoords.x <= getMaxRange()){
-				_inRangedAttackRange = true;
-			}
-
-			if (toMoveToCoords.y == currentCoords.y){
-				_validMovDirection = true;
-
-				//There is no point in having _inMovementRange true if the direction isn't valid, so the check
-				//is nested within the directional check
-				if (currentCoords.x - toMoveToCoords.x <= mov){
-					_inMovementRange = true;
-				}
-			}
-
-			//For loop is for checking if the LoS is clear
-			for (int i{currentCoords.x - 1}; i > toMoveToCoords.x; --i){
-
-
-				//If an obstruction has already been found, no need to keep searching, just exit loop
-				if (_obstructionPresent){
-					break;
-				}
-
-				auto unit = world.unitAt(world.terrainAtCartesianCoords({i, currentCoords.y}));
-
-				if (unit != nullptr){
-					bool unitIsFriendly{unit->getPlayer() == this->getPlayer()};
-
-					if (destinationIsUnit){
-						if (!canShootOverUnits){
-							_obstructionPresent = true;
-						}
-					}
-					else if (!destinationIsUnit){
-						if (!unitIsFriendly){
-							_obstructionPresent = true;
-						}
-					}
-				}
-			}
-
-		}
-
-		return (currentCoords.x - toMoveToCoords.x);
+		PRIMARYAXIS_POSITIVE = currentCoords.x;
+		PRIMARYAXIS_NEGATIVE = toMoveToCoords.x;
+		SECONDARYAXIS_POSITIVE = toMoveToCoords.y;
+		SECONDARYAXIS_NEGATIVE = currentCoords.y;
 		break;
 	}
+
+
+	dist = (PRIMARYAXIS_POSITIVE - PRIMARYAXIS_NEGATIVE);
+
+	if (PRIMARYAXIS_NEGATIVE < PRIMARYAXIS_POSITIVE
+		&& ((SECONDARYAXIS_POSITIVE >= SECONDARYAXIS_NEGATIVE - coneWidth) && (SECONDARYAXIS_POSITIVE <= SECONDARYAXIS_NEGATIVE + coneWidth))){
+
+		_validAttackDirection = true;
+
+		if (dist == 1 && getCanMelee()){
+			if (!((SECONDARYAXIS_POSITIVE >= SECONDARYAXIS_NEGATIVE) && (SECONDARYAXIS_POSITIVE <= SECONDARYAXIS_NEGATIVE))){
+				_validAttackDirection = false;
+			}
+		}
+
+		if (PRIMARYAXIS_POSITIVE - PRIMARYAXIS_NEGATIVE <= getMaxRange()){
+			_inRangedAttackRange = true;
+		}
+
+		if (SECONDARYAXIS_POSITIVE == SECONDARYAXIS_NEGATIVE){
+			_validMovDirection = true;
+
+			//There is no point in having _inMovementRange true if the direction isn't valid, so the check
+			//is nested within the directional check
+			if (PRIMARYAXIS_POSITIVE - PRIMARYAXIS_NEGATIVE <= mov){
+				_inMovementRange = true;
+			}
+		}
+
+		//For loop is for checking if the LoS is clear
+		for (int i{PRIMARYAXIS_POSITIVE - 1}; i > PRIMARYAXIS_NEGATIVE; --i){
+
+			//If an obstruction has already been found, no need to keep searching, just exit loop
+			if (_obstructionPresent){
+				break;
+			}
+
+			auto unit = world.unitAt(world.terrainAtCartesianCoords({SECONDARYAXIS_POSITIVE, i}));
+
+			if (unit != nullptr){
+				bool unitIsFriendly{unit->getPlayer() == this->getPlayer()};
+
+				if (destinationIsUnit){
+					if (!canShootOverUnits){
+						_obstructionPresent = true;
+					}
+				}
+				else if (!destinationIsUnit){
+					if (!unitIsFriendly){
+						_obstructionPresent = true;
+					}
+				}
+			}
+		}
+	}
+
+	return dist;
 
 }
 
@@ -822,7 +717,8 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	for (auto& mod : attackerModifiers){
 		if (mod.modFloat != 0){
 			if (mod.modType == UnitTile::Modifier::ADDITIONAL){
-				result << "[" + modToString(mod) + ": +" + roundFloat(mod.modFloat) + "]";
+				std::string append{mod.modFloat >= 0 ? "+" : ""};
+				result << "[" + modToString(mod) + ": " + append + roundFloat(mod.modFloat) + "]";
 			}
 			else{
 				result << "[" + modToString(mod) + ": " + roundFloat(mod.modFloat) + "d]";
@@ -837,7 +733,8 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	for (auto& mod : defenderModifiers){
 		if (mod.modFloat != 0){
 			if (mod.modType == UnitTile::Modifier::ADDITIONAL){
-				result << "[" + modToString(mod) + ": +" + roundFloat(mod.modFloat) + "]";
+				std::string append{mod.modFloat >= 0 ? "+" : ""};
+				result << "[" + modToString(mod) + ": " + append + roundFloat(mod.modFloat) + "]";
 			}
 			else{
 				result << "[" + modToString(mod) + ": " + roundFloat(mod.modFloat) + "d]";
