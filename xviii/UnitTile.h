@@ -37,7 +37,8 @@
 	X(UnitTile::UnitType::AMKH, AbrMkhedrebi, "abr mkh")\
 	X(UnitTile::UnitType::METTOP, MetTop, "met top")\
 	X(UnitTile::UnitType::KACI, KudzeKaci, "kud kaci")\
-	X(UnitTile::UnitType::FOOT, FootGuard, "footguard")
+	X(UnitTile::UnitType::FOOT, FootGuard, "footguard")\
+	X(UnitTile::UnitType::KKV, KhevKveitebi, "khev kvei")
 
 class Player;
 class World;
@@ -68,6 +69,7 @@ class AbrMkhedrebi;
 class MetTop;
 class KudzeKaci;
 class FootGuard;
+class KhevKveitebi;
 
 
 class UnitTile : public Tile
@@ -76,7 +78,7 @@ public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, ADDITIONAL, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI, FOOT};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI, FOOT, KKV};
 	enum class UnitFamily{INF_FAMILY, HINF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information
