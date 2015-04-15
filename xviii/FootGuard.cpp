@@ -1,4 +1,8 @@
 #include "stdafx.h"
+#include "FootGuard.h"
+
+
+#include "stdafx.h"
 #include "Infantry.h"
 
 #include "Player.h"
@@ -11,7 +15,7 @@ static const float cavFrontFlankModifier = 1;
 static const float cavSideFlankModifier = 1.5;
 static const float cavRearFlankModifier = 2;
 
-float Infantry::getFlankModifier(UnitFamily _family, Modifier _flank) const{
+float FootGuard::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	if (_family == UnitFamily::INF_FAMILY){
 		switch (_flank){
 		case Modifier::FRONT_FLANK:
@@ -50,9 +54,44 @@ float Infantry::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	}
 }
 
+std::string FootGuard::interactWithFriendly(UnitTile* _unit){
+	if (_unit == this){
+		return CANNOT_HEAL_SELF;
+	}
+	else if (hasHealed){
+		return ALREADY_HEALED;
+	}
+	else if (_unit->gethp() == _unit->getMaxHp()){
+		return AT_MAX_HP;
+	}
+	else {
+		float hp = _unit->gethp();
+		float max = _unit->getMaxHp();
+		float diff = max - hp;
 
-Infantry::Infantry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType, UnitType uType) :
-UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily::INF_FAMILY, _dir)
+		hasHealed = true;
+
+		if (diff >= 1){
+			return _unit->heal(1);
+		}
+		else{
+			return _unit->heal(diff);
+		}
+	}
+
+	return{};
+}
+
+bool FootGuard::getHasHealed() const{
+	return hasHealed;
+}
+
+void FootGuard::setHasHealed(bool _hasHealed){
+	hasHealed = _hasHealed;
+}
+
+FootGuard::FootGuard(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType, UnitType uType) :
+UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily::HINF_FAMILY, _dir)
 {
 	deploymentCost = 1;
 	limit = 0;
@@ -62,7 +101,7 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily:
 	hp = maxhp;
 }
 
-std::string Infantry::moveTo(TerrainTile* terrainTile){
+std::string FootGuard::moveTo(TerrainTile* terrainTile){
 
 	bool validMovDirection{false};
 	bool validAttackDirection{false};
@@ -108,7 +147,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 }
 
 
-std::string Infantry::rotate(UnitTile::Direction _dir){
+std::string FootGuard::rotate(UnitTile::Direction _dir){
 	if (hasMeleeAttacked || hasRangedAttacked){
 		return "Can't rotate after attacking";
 	}
@@ -130,27 +169,23 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
 
-std::string Infantry::interactWithFriendly(UnitTile* _unit){
-	return{};
-}
-
-int Infantry::getMaxHp() const{
+int FootGuard::getMaxHp() const{
 	return maxhp;
 }
 
-int Infantry::getMaxMov() const{
+int FootGuard::getMaxMov() const{
 	return maxMov;
 }
 
-int Infantry::getMaxRange() const{
+int FootGuard::getMaxRange() const{
 	return maxRange;
 }
 
-std::string Infantry::meleeAttack(UnitTile* _unit){
+std::string FootGuard::meleeAttack(UnitTile* _unit){
 	return _unit->meleeAttack(this);
 }
 
-std::string Infantry::meleeAttack(Infantry* inf){
+std::string FootGuard::meleeAttack(Infantry* inf){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -206,10 +241,9 @@ std::string Infantry::meleeAttack(Infantry* inf){
 	hasMeleeAttacked = true;
 
 	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
-
 }
 
-std::string Infantry::meleeAttack(FootGuard* foot){
+std::string FootGuard::meleeAttack(FootGuard* foot){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -265,9 +299,10 @@ std::string Infantry::meleeAttack(FootGuard* foot){
 	hasMeleeAttacked = true;
 
 	return attackReport(1, this, foot, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, foot->modVector);
+
 }
 
-std::string Infantry::meleeAttack(Cavalry* cav){
+std::string FootGuard::meleeAttack(Cavalry* cav){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -311,10 +346,10 @@ std::string Infantry::meleeAttack(Cavalry* cav){
 	hasMeleeAttacked = true;
 
 	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
-	
+
 }
 
-std::string Infantry::meleeAttack(Artillery* art){
+std::string FootGuard::meleeAttack(Artillery* art){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -326,7 +361,7 @@ std::string Infantry::meleeAttack(Artillery* art){
 
 	float thisRoll = thisRoll_int;
 
-	
+
 	multRollByModifiers(thisRoll);
 
 	if (thisRoll > 3 || abs(thisRoll - 3) < 0.01){
@@ -352,7 +387,7 @@ std::string Infantry::meleeAttack(Artillery* art){
 
 }
 
-std::string Infantry::meleeAttack(Mortar* mor){
+std::string FootGuard::meleeAttack(Mortar* mor){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -389,7 +424,7 @@ std::string Infantry::meleeAttack(Mortar* mor){
 
 }
 
-std::string Infantry::rangedAttack(UnitTile* unit, int distance){
+std::string FootGuard::rangedAttack(UnitTile* unit, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 

@@ -152,7 +152,52 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 	hasMeleeAttacked = true;
 	
 	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
+}
 
+std::string Cavalry::meleeAttack(FootGuard* foot){
+
+	std::uniform_int_distribution<int> distribution(1, 6);
+
+	int thisRoll_int{distribution(mt19937)};
+	int enemyRoll_int{distribution(mt19937)};
+
+	float thisRoll = thisRoll_int;
+	float enemyRoll = enemyRoll_int;
+
+	float damageDealt{0};
+	float damageReceived{0};
+
+	multRollByModifiers(thisRoll);
+	foot->multRollByModifiers(enemyRoll);
+
+	if (abs(thisRoll - enemyRoll) < 0.01){
+		damageDealt = 0.5;
+		damageReceived = 1;
+
+		foot->takeDamage(damageDealt);
+		this->takeDamage(damageReceived);
+	}
+	else if (thisRoll > enemyRoll){
+		damageDealt = 4;
+
+		foot->takeDamage(damageDealt);
+
+	}
+	else if (enemyRoll > thisRoll){
+		damageDealt = 1;
+		damageReceived = 2;
+
+		foot->takeDamage(damageDealt);
+		this->takeDamage(damageReceived);
+
+	}
+
+	mov = 0;
+	this->updateStats();
+	foot->updateStats();
+	hasMeleeAttacked = true;
+
+	return attackReport(1, this, foot, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, foot->modVector);
 }
 
 std::string Cavalry::meleeAttack(Cavalry* cav){

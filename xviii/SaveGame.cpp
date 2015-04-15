@@ -158,7 +158,7 @@ bool SaveGame::create(){
 		save << "hasMeleeAttacked=" << unit->getHasMeleeAttacked() << std::endl;
 		save << "hasRangedAttacked=" << unit->getHasRangedAttacked() << std::endl;
 
-		if (unit->getUnitType() == UnitTile::UnitType::GEN){
+		if (unit->getUnitType() == UnitTile::UnitType::GEN || unit->getUnitType() == UnitTile::UnitType::FOOT){
 			save << "hasHealed=" << unit->getHasHealed() << std::endl;
 		}
 

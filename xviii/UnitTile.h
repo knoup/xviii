@@ -36,7 +36,8 @@
 	X(UnitTile::UnitType::DON, DonCossack, "don cos")\
 	X(UnitTile::UnitType::AMKH, AbrMkhedrebi, "abr mkh")\
 	X(UnitTile::UnitType::METTOP, MetTop, "met top")\
-	X(UnitTile::UnitType::KACI, KudzeKaci, "kud kaci")
+	X(UnitTile::UnitType::KACI, KudzeKaci, "kud kaci")\
+	X(UnitTile::UnitType::FOOT, FootGuard, "footguard")
 
 class Player;
 class World;
@@ -66,20 +67,7 @@ class DonCossack;
 class AbrMkhedrebi;
 class MetTop;
 class KudzeKaci;
-
-/*
-	Note: due to the fact that static/const variables cannot be modified in derived classes,
-	many functions that would otherwise have just inherited one clean function from UnitTile
-	have to be redefined in each derived class. I found no other cleaner way around this;
-	however, it is also useful in that it lets me give slightly different definitions
-	to accomodate each class. 
-	
-	For example, the heal() function would be identical for all; it would, however, be
-	unneccessary to have a body that does anything for the General class, since there can
-	only ever be one general per player and he cannot heal himself. Also, not all the 
-	derived classes need the same bools (only General needs hasHealed, only Infantry needs
-	hasMoved, and so on).
-*/
+class FootGuard;
 
 
 class UnitTile : public Tile
@@ -88,8 +76,8 @@ public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, ADDITIONAL, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI};
-	enum class UnitFamily{INF_FAMILY, CAV_FAMILY, ART_FAMILY};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI, FOOT};
+	enum class UnitFamily{INF_FAMILY, HINF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information
 
@@ -142,7 +130,7 @@ public:
 	//Mainly used for the general to invoke the heal() function, but could be used for other things as well
 	//hence the name
 	virtual std::string interactWithFriendly(UnitTile* _unit);
-	virtual std::string heal();
+	virtual std::string heal(float num);
 
 	virtual int getMaxHp() const;
 	virtual int getMaxMov() const;
@@ -156,6 +144,7 @@ public:
 	virtual std::string meleeAttack(UnitTile* _unit) = 0;
 
 	virtual std::string meleeAttack(Infantry* inf);
+	virtual std::string meleeAttack(FootGuard* foot);
 	virtual std::string meleeAttack(Cavalry* cav);
 	virtual std::string meleeAttack(Artillery* art);
 	virtual std::string meleeAttack(Mortar* mor);

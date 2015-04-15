@@ -232,19 +232,11 @@ std::string UnitTile::interactWithFriendly(UnitTile* _unit){
 }
 
 //Virtual
-std::string UnitTile::heal(){
+std::string UnitTile::heal(float num){
+	hp += num;
+	updateStats();
 	std::string str;
-	if (hp <= getMaxHp() - 2){
-		hp += 2;
-		updateStats();
-		str = HEAL_SUCCESS + std::to_string(2);
-	}
-	else{
-		float amountToHeal{getMaxHp() - hp};
-		hp += amountToHeal;
-		updateStats();
-		str = HEAL_SUCCESS + roundFloat(amountToHeal);
-	}
+	str = HEAL_SUCCESS + roundFloat(num);
 	return str;
 }
 
@@ -385,6 +377,10 @@ std::string UnitTile::attack(UnitTile* unit){
 
 //Virtual
 std::string UnitTile::meleeAttack(Infantry* inf){
+	return{};
+}
+//Virtual
+std::string UnitTile::meleeAttack(FootGuard* foot){
 	return{};
 }
 //Virtual

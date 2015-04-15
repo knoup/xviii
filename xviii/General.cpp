@@ -27,15 +27,25 @@ std::string General::interactWithFriendly(UnitTile* _unit){
 	if (_unit == this){
 		return CANNOT_HEAL_SELF;
 	}
-	if (_unit->gethp() != _unit->getMaxHp() && !hasHealed){
-		hasHealed = true;
-		return _unit->heal();
-	}
 	else if (hasHealed){
 		return ALREADY_HEALED;
 	}
 	else if (_unit->gethp() == _unit->getMaxHp()){
 		return AT_MAX_HP;
+	}
+	else {
+		float hp = _unit->gethp();
+		float max = _unit->getMaxHp();
+		float diff = max - hp;
+
+		hasHealed = true;
+
+		if (diff >= 2){
+			return _unit->heal(2);
+		}
+		else{
+			return _unit->heal(diff);
+		}
 	}
 
 	return{};
