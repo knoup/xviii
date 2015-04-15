@@ -307,73 +307,19 @@ std::string UnitTile::attack(UnitTile* unit){
 	//Add the flank modifier to this unit's modVector. See particular unit's getFlankModifier() for details.
 	this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitFamilyType(), flank));
 
-
 	
-	//Apply unit-specific modifiers. Implementation will be revised once modifier values and types are finalised.
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if ((this->getUnitType() == UnitType::CUIR || this->getUnitType() == UnitType::DELI || this->getUnitType() == UnitType::KAP) && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
-	}
-
-	if ((unit->getUnitType() == UnitType::CUIR || unit->getUnitType() == UnitType::DELI || unit->getUnitType() == UnitType::KAP) && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		unit->modVector.emplace_back(Modifier::ADDITIONAL, 1);
-	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	if (this->getUnitType() == UnitType::OINF && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);
-	}
-
-	if (unit->getUnitType() == UnitType::OINF && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		unit->modVector.emplace_back(Modifier::ADDITIONAL, -1);
-	}
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	if (this->getUnitType() == UnitType::LINF){
-		this->modVector.emplace_back(Modifier::ADDITIONAL, -2);
-	}
-
-	if (unit->getUnitType() == UnitType::LINF){
-		unit->modVector.emplace_back(Modifier::ADDITIONAL, -2);
-	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	if (this->getUnitType() == UnitType::COSINF && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);
-	}
-
-	if (unit->getUnitType() == UnitType::COSINF && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		unit->modVector.emplace_back(Modifier::ADDITIONAL, -1);
-	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	if (this->getUnitType() == UnitType::KMKH && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
-	}
-
-	if (unit->getUnitType() == UnitType::KMKH && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		unit->modVector.emplace_back(Modifier::ADDITIONAL, 1);
-	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	if (this->getUnitType() == UnitType::METTOP && unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);
-	}
-
-	if (unit->getUnitType() == UnitType::METTOP && this->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		unit->modVector.emplace_back(Modifier::ADDITIONAL, -1);
-	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	//Apply unit-specific modifiers
+	this->preAttack(unit, true);
+	unit->preAttack(this, false);
 
 	//Double dispatch, hence the reverse order
 	return unit->meleeAttack(this);
 }	
+
+//Virtual
+void UnitTile::preAttack(UnitTile* unit, bool attacking){
+
+}
 
 //Virtual
 std::string UnitTile::meleeAttack(Infantry* inf){

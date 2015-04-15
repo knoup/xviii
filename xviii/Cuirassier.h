@@ -14,6 +14,8 @@ public:
 
 	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
 
+	virtual void preAttack(UnitTile* unit, bool attacking);
+
 private:
 	static const int maxhp{15};
 	static const int maxMov{9};

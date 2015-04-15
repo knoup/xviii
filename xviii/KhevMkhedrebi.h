@@ -11,6 +11,9 @@ public:
 	virtual int getMaxMov() const;
 	virtual int getMaxRange() const;
 
+	
+	virtual void preAttack(UnitTile* unit, bool attacking);
+
 private:
 	static const int maxhp{12};
 	static const int maxMov{12};

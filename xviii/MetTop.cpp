@@ -24,3 +24,9 @@ int MetTop::getMaxMov() const{
 int MetTop::getMaxRange() const{
 	return maxRange;
 }
+
+void MetTop::preAttack(UnitTile* unit, bool attacking){
+	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);
+	}
+}

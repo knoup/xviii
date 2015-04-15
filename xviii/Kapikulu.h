@@ -11,6 +11,8 @@ public:
 	virtual int getMaxMov() const;
 	virtual int getMaxRange() const;
 
+	//Inherits preAttack() from Cuirassier
+
 private:
 	static const int maxhp{16};
 	static const int maxMov{9};

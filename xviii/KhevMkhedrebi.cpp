@@ -23,3 +23,9 @@ int KhevMkhedrebi::getMaxMov() const{
 int KhevMkhedrebi::getMaxRange() const{
 	return maxRange;
 }
+
+void KhevMkhedrebi::preAttack(UnitTile* unit, bool attacking){
+	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
+	}
+}

@@ -16,6 +16,8 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
+	virtual void preAttack(UnitTile* unit, bool attacking);
+
 private:
 	static const int maxhp{9};
 	static const int maxMov{9};

@@ -63,3 +63,7 @@ std::string LightInf::rangedAttack(UnitTile* unit, int distance){
 int LightInf::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth){
 	return UnitTile::distanceFrom(_terrain, _validMovDirection, _validAttackDirection, _obstructionPresent, _inMovementRange, _inRangedAttackRange, false, 3);
 }
+
+void LightInf::preAttack(UnitTile* unit, bool attacking){
+	this->modVector.emplace_back(Modifier::ADDITIONAL, -2);
+}

@@ -24,3 +24,9 @@ int CossackInf::getMaxMov() const{
 int CossackInf::getMaxRange() const{
 	return maxRange;
 }
+
+void CossackInf::preAttack(UnitTile* unit, bool attacking){
+	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);
+	}
+}

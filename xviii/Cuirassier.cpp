@@ -71,3 +71,9 @@ int Cuirassier::getMaxMov() const{
 int Cuirassier::getMaxRange() const{
 	return maxRange;
 }
+
+void Cuirassier::preAttack(UnitTile* unit, bool attacking){
+	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
+	}
+}
