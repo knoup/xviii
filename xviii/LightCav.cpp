@@ -58,16 +58,3 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 	mov = maxMov;
 	hp = maxhp;
 }
-
-
-int LightCav::getMaxHp() const{
-	return maxhp;
-}
-
-int LightCav::getMaxMov() const{
-	return maxMov;
-}
-
-int LightCav::getMaxRange() const{
-	return maxRange;
-}

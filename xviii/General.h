@@ -15,9 +15,9 @@ public:
 	//General's interactWithFriendly() is overloaded for his healing ability
 	virtual std::string interactWithFriendly(UnitTile* _unit);
 
-	virtual int getMaxHp() const;
-	virtual int getMaxMov() const;
-	virtual int getMaxRange() const;
+	inline virtual int getMaxHp() const{ return maxhp; };
+	inline virtual int getMaxMov() const{ return maxMov; };
+	inline virtual int getMaxRange() const{ return maxRange; };
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 

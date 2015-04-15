@@ -38,19 +38,6 @@ std::string CrimeanCav::rotate(UnitTile::Direction _dir){
 	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
 
-
-int CrimeanCav::getMaxHp() const{
-	return maxhp;
-}
-
-int CrimeanCav::getMaxMov() const{
-	return maxMov;
-}
-
-int CrimeanCav::getMaxRange() const{
-	return maxRange;
-}
-
 std::string CrimeanCav::rangedAttack(UnitTile* unit, int distance){
 	std::uniform_int_distribution<int> distribution(1, 6);
 

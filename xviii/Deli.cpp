@@ -12,18 +12,6 @@ LightCav(_world, _mt19937, _belongsToPlayer, tm, fm,_dir, TextureManager::Unit::
 	hp = maxhp;
 }
 
-int Deli::getMaxHp() const{
-	return maxhp;
-}
-
-int Deli::getMaxMov() const{
-	return maxMov;
-}
-
-int Deli::getMaxRange() const{
-	return maxRange;
-}
-
 void Deli::preAttack(UnitTile* unit, bool attacking){
 	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);

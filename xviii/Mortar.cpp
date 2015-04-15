@@ -35,18 +35,6 @@ std::string Mortar::interactWithFriendly(UnitTile* _unit){
 	return{};
 }
 
-int Mortar::getMaxHp() const{
-	return maxhp;
-}
-
-int Mortar::getMaxMov() const{
-	return maxMov;
-}
-
-int Mortar::getMaxRange() const{
-	return maxRange;
-}
-
 int Mortar::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth){
 	return UnitTile::distanceFrom(_terrain, _validMovDirection, _validAttackDirection, _obstructionPresent, _inMovementRange, _inRangedAttackRange, true, 5);
 }

@@ -134,18 +134,6 @@ std::string Infantry::interactWithFriendly(UnitTile* _unit){
 	return{};
 }
 
-int Infantry::getMaxHp() const{
-	return maxhp;
-}
-
-int Infantry::getMaxMov() const{
-	return maxMov;
-}
-
-int Infantry::getMaxRange() const{
-	return maxRange;
-}
-
 std::string Infantry::meleeAttack(UnitTile* _unit){
 	return _unit->meleeAttack(this);
 }

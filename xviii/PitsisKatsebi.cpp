@@ -12,19 +12,6 @@ Cuirassier(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Uni
 	hp = maxhp;
 }
 
-
-int PitsisKatsebi::getMaxHp() const{
-	return maxhp;
-}
-
-int PitsisKatsebi::getMaxMov() const{
-	return maxMov;
-}
-
-int PitsisKatsebi::getMaxRange() const{
-	return maxRange;
-}
-
 std::string PitsisKatsebi::rangedAttack(UnitTile* unit, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);

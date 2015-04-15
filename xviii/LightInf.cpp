@@ -13,18 +13,6 @@ Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 	hp = maxhp;
 }
 
-int LightInf::getMaxHp() const{
-	return maxhp;
-}
-
-int LightInf::getMaxMov() const{
-	return maxMov;
-}
-
-int LightInf::getMaxRange() const{
-	return maxRange;
-}
-
 std::string LightInf::rangedAttack(UnitTile* unit, int distance){
 	std::uniform_int_distribution<int> distribution(1, 6);
 

@@ -10,9 +10,9 @@ public:
 	//Overloaded due to Abragi Mkhedrebi's ability to fully rotate after firing, and have 2 movement points left over
 	virtual std::string AbrMkhedrebi::rotate(UnitTile::Direction _dir);
 
-	virtual int getMaxHp() const;
-	virtual int getMaxMov() const;
-	virtual int getMaxRange() const;
+	inline virtual int getMaxHp() const{ return maxhp;};
+	inline virtual int getMaxMov() const{ return maxMov;};
+	inline virtual int getMaxRange() const{return maxRange;};
 
 private:
 	static const int maxhp{8};

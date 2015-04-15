@@ -13,18 +13,6 @@ Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	hp = maxhp;
 }
 
-int Sapper::getMaxHp() const{
-	return maxhp;
-}
-
-int Sapper::getMaxMov() const{
-	return maxMov;
-}
-
-int Sapper::getMaxRange() const{
-	return maxRange;
-}
-
 std::string Sapper::rangedAttack(UnitTile* unit, int distance){
 	std::uniform_int_distribution<int> distribution(1, 6);
 

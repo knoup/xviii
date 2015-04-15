@@ -11,15 +11,3 @@ Grenadier(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit
 	mov = maxMov;
 	hp = maxhp;
 }
-
-int Janissary::getMaxHp() const{
-	return maxhp;
-}
-
-int Janissary::getMaxMov() const{
-	return maxMov;
-}
-
-int Janissary::getMaxRange() const{
-	return maxRange;
-}

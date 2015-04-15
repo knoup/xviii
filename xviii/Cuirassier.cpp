@@ -60,18 +60,6 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 	hp = maxhp;
 }
 
-int Cuirassier::getMaxHp() const{
-	return maxhp;
-}
-
-int Cuirassier::getMaxMov() const{
-	return maxMov;
-}
-
-int Cuirassier::getMaxRange() const{
-	return maxRange;
-}
-
 void Cuirassier::preAttack(UnitTile* unit, bool attacking){
 	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);

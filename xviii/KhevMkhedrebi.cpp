@@ -12,18 +12,6 @@ Cuirassier(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Uni
 	hp = maxhp;
 }
 
-int KhevMkhedrebi::getMaxHp() const{
-	return maxhp;
-}
-
-int KhevMkhedrebi::getMaxMov() const{
-	return maxMov;
-}
-
-int KhevMkhedrebi::getMaxRange() const{
-	return maxRange;
-}
-
 void KhevMkhedrebi::preAttack(UnitTile* unit, bool attacking){
 	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);

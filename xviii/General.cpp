@@ -63,18 +63,6 @@ void General::takeDamage(float _dmg){
 	UnitTile::takeDamage(_dmg);
 }
 
-int General::getMaxHp() const{
-	return maxhp;
-}
-
-int General::getMaxMov() const{
-	return maxMov;
-}
-
-int General::getMaxRange() const{
-	return maxRange;
-}
-
 std::string General::rangedAttack(UnitTile* unit, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);

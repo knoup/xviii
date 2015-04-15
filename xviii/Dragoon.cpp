@@ -59,18 +59,6 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 	hp = maxhp;
 }
 
-int Dragoon::getMaxHp() const{
-	return maxhp;
-}
-
-int Dragoon::getMaxMov() const{
-	return maxMov;
-}
-
-int Dragoon::getMaxRange() const{
-	return maxRange;
-}
-
 std::string Dragoon::rangedAttack(UnitTile* unit, int distance){
 
 	std::uniform_int_distribution<int> distribution(1, 6);

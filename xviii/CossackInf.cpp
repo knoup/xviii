@@ -13,18 +13,6 @@ Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	hp = maxhp;
 }
 
-int CossackInf::getMaxHp() const{
-	return maxhp;
-}
-
-int CossackInf::getMaxMov() const{
-	return maxMov;
-}
-
-int CossackInf::getMaxRange() const{
-	return maxRange;
-}
-
 void CossackInf::preAttack(UnitTile* unit, bool attacking){
 	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);

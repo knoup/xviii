@@ -13,19 +13,6 @@ Dragoon(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::
 	hp = maxhp;
 }
 
-int AbrMkhedrebi::getMaxHp() const{
-	return maxhp;
-}
-
-int AbrMkhedrebi::getMaxMov() const{
-	return maxMov;
-}
-
-int AbrMkhedrebi::getMaxRange() const{
-	return maxRange;
-}
-
-
 std::string AbrMkhedrebi::rotate(UnitTile::Direction _dir){
 	if (hasMeleeAttacked){
 		return NO_ROTATE_AFTER_MELEE;

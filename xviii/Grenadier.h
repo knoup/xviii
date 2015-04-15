@@ -7,9 +7,9 @@ class Grenadier : public Infantry
 public:
 	Grenadier(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType = TextureManager::Unit::GRE, UnitType uType = UnitType::GRE);
 
-	virtual int getMaxHp() const;
-	virtual int getMaxMov() const;
-	virtual int getMaxRange() const;
+	inline virtual int getMaxHp() const{ return maxhp; };
+	inline virtual int getMaxMov() const{ return maxMov; };
+	inline virtual int getMaxRange() const{ return maxRange; };
 
 private:
 	static const int maxhp{20};

@@ -11,16 +11,3 @@ LightCav(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	mov = maxMov;
 	hp = maxhp;
 }
-
-
-int DonCossack::getMaxHp() const{
-	return maxhp;
-}
-
-int DonCossack::getMaxMov() const{
-	return maxMov;
-}
-
-int DonCossack::getMaxRange() const{
-	return maxRange;
-}

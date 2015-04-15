@@ -169,18 +169,6 @@ std::string FootGuard::rotate(UnitTile::Direction _dir){
 	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
 
-int FootGuard::getMaxHp() const{
-	return maxhp;
-}
-
-int FootGuard::getMaxMov() const{
-	return maxMov;
-}
-
-int FootGuard::getMaxRange() const{
-	return maxRange;
-}
-
 std::string FootGuard::meleeAttack(UnitTile* _unit){
 	return _unit->meleeAttack(this);
 }

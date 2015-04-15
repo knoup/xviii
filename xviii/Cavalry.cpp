@@ -92,18 +92,6 @@ std::string Cavalry::interactWithFriendly(UnitTile* _unit){
 	return{};
 }
 	
-int Cavalry::getMaxHp() const{
-	return maxhp;
-}
-
-int Cavalry::getMaxMov() const{
-	return maxMov;
-}
-
-int Cavalry::getMaxRange() const{
-	return maxRange;
-}
-
 std::string Cavalry::meleeAttack(UnitTile* _unit){
 	return _unit->meleeAttack(this);
 }

@@ -13,19 +13,6 @@ LightCav(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	hp = maxhp;
 }
 
-int Akinci::getMaxHp() const{
-	return maxhp;
-}
-
-int Akinci::getMaxMov() const{
-	return maxMov;
-}
-
-int Akinci::getMaxRange() const{
-	return maxRange;
-}
-
-
 std::string Akinci::rangedAttack(UnitTile* unit, int distance){
 	std::uniform_int_distribution<int> distribution(1, 6);
 

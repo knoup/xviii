@@ -11,15 +11,3 @@ Cuirassier(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Uni
 	mov = maxMov;
 	hp = maxhp;
 }
-
-int Kapikulu::getMaxHp() const{
-	return maxhp;
-}
-
-int Kapikulu::getMaxMov() const{
-	return maxMov;
-}
-
-int Kapikulu::getMaxRange() const{
-	return maxRange;
-}

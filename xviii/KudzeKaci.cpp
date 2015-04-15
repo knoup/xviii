@@ -13,18 +13,6 @@ LightInf(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	hp = maxhp;
 }
 
-int KudzeKaci::getMaxHp() const{
-	return maxhp;
-}
-
-int KudzeKaci::getMaxMov() const{
-	return maxMov;
-}
-
-int KudzeKaci::getMaxRange() const{
-	return maxRange;
-}
-
 std::string KudzeKaci::rangedAttack(UnitTile* unit, int distance){
 	std::uniform_int_distribution<int> distribution(1, 6);
 

@@ -10,9 +10,9 @@ public:
 	//Overloaded due to Crimean Cav's ability to fully rotate after firing, and have 2 movement points left over
 	virtual std::string CrimeanCav::rotate(UnitTile::Direction _dir);
 
-	virtual int getMaxHp() const;
-	virtual int getMaxMov() const;
-	virtual int getMaxRange() const;
+	inline virtual int getMaxHp() const{ return maxhp; };
+	inline virtual int getMaxMov() const{ return maxMov; };
+	inline virtual int getMaxRange() const{ return maxRange; };
 
 	virtual std::string CrimeanCav::rangedAttack(UnitTile* unit, int distance);
 

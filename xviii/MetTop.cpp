@@ -13,18 +13,6 @@ Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	hp = maxhp;
 }
 
-int MetTop::getMaxHp() const{
-	return maxhp;
-}
-
-int MetTop::getMaxMov() const{
-	return maxMov;
-}
-
-int MetTop::getMaxRange() const{
-	return maxRange;
-}
-
 void MetTop::preAttack(UnitTile* unit, bool attacking){
 	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);

@@ -12,15 +12,3 @@ Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 	mov = maxMov;
 	hp = maxhp;
 }
-
-int Grenadier::getMaxHp() const{
-	return maxhp;
-}
-
-int Grenadier::getMaxMov() const{
-	return maxMov;
-}
-
-int Grenadier::getMaxRange() const{
-	return maxRange;
-}

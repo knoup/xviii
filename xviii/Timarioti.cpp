@@ -13,19 +13,6 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::
 	hp = maxhp;
 }
 
-int Timarioti::getMaxHp() const{
-	return maxhp;
-}
-
-int Timarioti::getMaxMov() const{
-	return maxMov;
-}
-
-int Timarioti::getMaxRange() const{
-	return maxRange;
-}
-
-
 std::string Timarioti::rangedAttack(UnitTile* unit, int distance){
 	std::uniform_int_distribution<int> distribution(1, 6);
 
