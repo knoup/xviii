@@ -54,6 +54,15 @@ float FootGuard::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	}
 }
 
+void FootGuard::reset(){
+	mov = maxMov;
+	hasRotated = false;
+	hasMeleeAttacked = false;
+	hasRangedAttacked = false;
+	hasHealed = false;
+	updateStats();
+}
+
 std::string FootGuard::interactWithFriendly(UnitTile* _unit){
 	if (_unit == this){
 		return CANNOT_HEAL_SELF;

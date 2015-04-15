@@ -201,9 +201,6 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 	float damageDealt{0};
 	float damageReceived{0};
 
-	float flankModifier;
-	Modifier flankType;
-
 	multRollByModifiers(thisRoll);
 	cav->multRollByModifiers(enemyRoll);
 
