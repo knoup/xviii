@@ -62,14 +62,38 @@ class Player
 		struct SpawnableUnit{
 			sf::Text unitName;
 			sf::Sprite unitSprite;
+			Player* player;
 			UnitTile::UnitType type;
 
-			SpawnableUnit(UnitTile::UnitType _type) :
-				//Just the type used before it is properly loaded
+			SpawnableUnit(Player* _player, UnitTile::UnitType _type, sf::Vector2i _coords) :
+				player{_player},
 				type{_type}
 			{
+				unitName.setFont(player->fm.getFont(FontManager::Type::Lucon));
+				unitName.setColor(sf::Color::White);
+				unitName.setCharacterSize(12);
+
+				//set sprite and string with macro
+				switch (type){
+					//type, class, str, texture
+					#define X(_type, cl, str, text)\
+					case(_type):\
+						unitSprite = player->tm.getSprite(text);\
+						unitName.setString(str);\
+						break;
+					UNITPROPERTIES
+				#undef X
+				}
+
+				unitSprite.setOrigin(unitSprite.getGlobalBounds().width / 2, unitSprite.getGlobalBounds().height / 2);
+				unitName.setOrigin(unitName.getLocalBounds().width / 2, unitName.getLocalBounds().height / 2);
+				unitSprite.setPosition(getSelectablePos(_coords));
+				unitName.setPosition({unitSprite.getPosition().x, unitSprite.getPosition().y - 30});
 			}
 
+
+
+			/////////////////////////////////////////////////
 			int top() const{
 				return unitSprite.getPosition().y - unitSprite.getLocalBounds().height / 2;
 			}
@@ -81,6 +105,11 @@ class Player
 			}
 			int right() const{
 				return unitSprite.getPosition().x + unitSprite.getGlobalBounds().width / 2;
+			}
+
+			private:
+			sf::Vector2f getSelectablePos(sf::Vector2i coords){
+				return{float(400 + ((coords.x - 1) * 100)), float(-130 + ((coords.y - 1) * 70))};
 			}
 		};
 

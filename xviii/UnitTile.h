@@ -11,34 +11,36 @@
 
 #include "global.h"
 
+//The last entry, the texture enum, is used only for the selectable units at selection menu. They are NOT used to determine
+//actual unit sprites past that point.
 #define UNITPROPERTIES\
-	X(UnitTile::UnitType::ART, Artillery, "art")\
-	X(UnitTile::UnitType::CAV, Cavalry, "cav")\
-	X(UnitTile::UnitType::CUIR, Cuirassier, "cuir")\
-	X(UnitTile::UnitType::DRAG, Dragoon, "drag")\
-	X(UnitTile::UnitType::GEN, General, "gen")\
-	X(UnitTile::UnitType::INF, Infantry, "inf")\
-	X(UnitTile::UnitType::LCAV, LightCav, "lcav")\
-	X(UnitTile::UnitType::MOR, Mortar, "mor")\
-	X(UnitTile::UnitType::AKINCI, Akinci, "akinci")\
-	X(UnitTile::UnitType::DELI, Deli, "deli")\
-	X(UnitTile::UnitType::TIM, Timarioti, "tim")\
-	X(UnitTile::UnitType::KAP, Kapikulu, "kap")\
-	X(UnitTile::UnitType::GRE, Grenadier, "gre")\
-	X(UnitTile::UnitType::JAN, Janissary, "jan")\
-	X(UnitTile::UnitType::OINF, OttoInf, "o inf")\
-	X(UnitTile::UnitType::LINF, LightInf, "linf")\
-	X(UnitTile::UnitType::SAP, Sapper, "sap")\
-	X(UnitTile::UnitType::CRICAV, CrimeanCav, "cr cav")\
-	X(UnitTile::UnitType::COSINF, CossackInf, "cos inf")\
-	X(UnitTile::UnitType::KMKH, KhevMkhedrebi, "khev mkh")\
-	X(UnitTile::UnitType::PIT, PitsisKatsebi, "pit kat")\
-	X(UnitTile::UnitType::DON, DonCossack, "don cos")\
-	X(UnitTile::UnitType::AMKH, AbrMkhedrebi, "abr mkh")\
-	X(UnitTile::UnitType::METTOP, MetTop, "met top")\
-	X(UnitTile::UnitType::KACI, KudzeKaci, "kud kaci")\
-	X(UnitTile::UnitType::FOOT, FootGuard, "footguard")\
-	X(UnitTile::UnitType::KKV, KhevKveitebi, "khev kvei")
+	X(UnitTile::UnitType::ART, Artillery, "art", TextureManager::Unit::ART)\
+	X(UnitTile::UnitType::CAV, Cavalry, "cav", TextureManager::Unit::CAV)\
+	X(UnitTile::UnitType::CUIR, Cuirassier, "cuir", TextureManager::Unit::CUIR )\
+	X(UnitTile::UnitType::DRAG, Dragoon, "drag", TextureManager::Unit::DRAG)\
+	X(UnitTile::UnitType::GEN, General, "gen", TextureManager::Unit::GEN)\
+	X(UnitTile::UnitType::INF, Infantry, "inf", TextureManager::Unit::INF)\
+	X(UnitTile::UnitType::LCAV, LightCav, "lcav", TextureManager::Unit::LCAV)\
+	X(UnitTile::UnitType::MOR, Mortar, "mor", TextureManager::Unit::MOR)\
+	X(UnitTile::UnitType::AKINCI, Akinci, "akinci", TextureManager::Unit::DRAG)\
+	X(UnitTile::UnitType::DELI, Deli, "deli", TextureManager::Unit::LCAV)\
+	X(UnitTile::UnitType::TIM, Timarioti, "tim", TextureManager::Unit::CAV)\
+	X(UnitTile::UnitType::KAP, Kapikulu, "kap", TextureManager::Unit::CUIR)\
+	X(UnitTile::UnitType::GRE, Grenadier, "gre", TextureManager::Unit::GRE)\
+	X(UnitTile::UnitType::JAN, Janissary, "jan", TextureManager::Unit::GRE)\
+	X(UnitTile::UnitType::OINF, OttoInf, "o inf", TextureManager::Unit::INF)\
+	X(UnitTile::UnitType::LINF, LightInf, "linf", TextureManager::Unit::LINF)\
+	X(UnitTile::UnitType::SAP, Sapper, "sap", TextureManager::Unit::SAP)\
+	X(UnitTile::UnitType::CRICAV, CrimeanCav, "cr cav", TextureManager::Unit::LCAV)\
+	X(UnitTile::UnitType::COSINF, CossackInf, "cos inf", TextureManager::Unit::INF)\
+	X(UnitTile::UnitType::KMKH, KhevMkhedrebi, "khev mkh", TextureManager::Unit::CUIR)\
+	X(UnitTile::UnitType::PIT, PitsisKatsebi, "pit kat", TextureManager::Unit::CUIR)\
+	X(UnitTile::UnitType::DON, DonCossack, "don cos", TextureManager::Unit::LCAV)\
+	X(UnitTile::UnitType::AMKH, AbrMkhedrebi, "abr mkh", TextureManager::Unit::DRAG)\
+	X(UnitTile::UnitType::METTOP, MetTop, "met top", TextureManager::Unit::INF)\
+	X(UnitTile::UnitType::KACI, KudzeKaci, "kud kaci", TextureManager::Unit::LINF)\
+	X(UnitTile::UnitType::FOOT, FootGuard, "footguard", TextureManager::Unit::HINF)\
+	X(UnitTile::UnitType::KKV, KhevKveitebi, "khev kvei", TextureManager::Unit::HINF)
 
 class Player;
 class World;

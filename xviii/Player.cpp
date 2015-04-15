@@ -14,121 +14,61 @@ deploymentPoints{30},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
-	if (nation != Player::Nation::OTO){
+	/*
+	INF = 1
+	ART = 2
+	CAV = 3
+	MOR = 4
+	GEN = 5
+	LCAV = 6
+	CUIRASSIER = 7 
+	DRAGOON = 8
+	*/
+	if (nation == Player::Nation::OTO){
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AKINCI, {1, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DELI, {2, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::TIM, {3, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {4, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {5, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KAP, {1, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::JAN, {2, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::OINF, {3, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {4, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {5, 2}));
+	}
+	else if (nation == Player::Nation::CRI){
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CRICAV, {1, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KAP, {2, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::COSINF, {3, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {1, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {2, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {3, 2}));
+	}
+	else if (nation == Player::Nation::IME){
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KMKH, {1, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::PIT, {2, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DON, {3, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AMKH, {4, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KKV, {5, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::METTOP, {1, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KACI, {2, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {3, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {4, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {5, 2}));
+	}
+	else{
 
-		SpawnableUnit INF(UnitTile::UnitType::INF);
-		INF.unitName.setFont(fm.getFont(FontManager::Type::Lucon));
-		INF.unitName.setColor(sf::Color::White);
-		INF.unitName.setString("INFANTRY");
-		INF.unitName.setCharacterSize(12);
-		INF.unitName.setOrigin(INF.unitName.getLocalBounds().width / 2, INF.unitName.getLocalBounds().height / 2);
-
-		INF.unitSprite = tm.getSprite(TextureManager::Unit::INF);
-		INF.unitSprite.setOrigin(INF.unitSprite.getGlobalBounds().width / 2, INF.unitSprite.getGlobalBounds().height / 2);
-
-		INF.unitSprite.setPosition({430, -130});
-		INF.unitName.setPosition({INF.unitSprite.getPosition().x, INF.unitSprite.getPosition().y - 30});
-
-		SpawnableUnit CAV(UnitTile::UnitType::CAV);
-		CAV.unitName.setFont(fm.getFont(FontManager::Type::Lucon));
-		CAV.unitName.setColor(sf::Color::White);
-		CAV.unitName.setString("CAVALRY(5)");
-		CAV.unitName.setCharacterSize(12);
-		CAV.unitName.setOrigin(CAV.unitName.getLocalBounds().width / 2, CAV.unitName.getLocalBounds().height / 2);
-
-		CAV.unitSprite = tm.getSprite(TextureManager::Unit::CAV);
-		CAV.unitSprite.setOrigin(CAV.unitSprite.getGlobalBounds().width / 2, CAV.unitSprite.getGlobalBounds().height / 2);
-
-		CAV.unitSprite.setPosition({530, -130});
-		CAV.unitName.setPosition({CAV.unitSprite.getPosition().x, CAV.unitSprite.getPosition().y - 30});
-
-		SpawnableUnit CUIR(UnitTile::UnitType::CUIR);
-		CUIR.unitName.setFont(fm.getFont(FontManager::Type::Lucon));
-		CUIR.unitName.setColor(sf::Color::White);
-		CUIR.unitName.setString("CUIRASSIER(5)");
-		CUIR.unitName.setCharacterSize(12);
-		CUIR.unitName.setOrigin(CUIR.unitName.getLocalBounds().width / 2, CUIR.unitName.getLocalBounds().height / 2);
-
-		CUIR.unitSprite = tm.getSprite(TextureManager::Unit::CUIR);
-		CUIR.unitSprite.setOrigin(CUIR.unitSprite.getGlobalBounds().width / 2, CUIR.unitSprite.getGlobalBounds().height / 2);
-
-		CUIR.unitSprite.setPosition({730, -130});
-		CUIR.unitName.setPosition({CUIR.unitSprite.getPosition().x, CUIR.unitSprite.getPosition().y - 30});
-
-		SpawnableUnit DRAG(UnitTile::UnitType::DRAG);
-		DRAG.unitName.setFont(fm.getFont(FontManager::Type::Lucon));
-		DRAG.unitName.setColor(sf::Color::White);
-		DRAG.unitName.setString("DRAGOON(5)");
-		DRAG.unitName.setCharacterSize(12);
-		DRAG.unitName.setOrigin(DRAG.unitName.getLocalBounds().width / 2, DRAG.unitName.getLocalBounds().height / 2);
-
-		DRAG.unitSprite = tm.getSprite(TextureManager::Unit::DRAG);
-		DRAG.unitSprite.setOrigin(DRAG.unitSprite.getGlobalBounds().width / 2, DRAG.unitSprite.getGlobalBounds().height / 2);
-
-		DRAG.unitSprite.setPosition({730, -60});
-		DRAG.unitName.setPosition({DRAG.unitSprite.getPosition().x, DRAG.unitSprite.getPosition().y - 30});
-
-		SpawnableUnit LCAV(UnitTile::UnitType::LCAV);
-		LCAV.unitName.setFont(fm.getFont(FontManager::Type::Lucon));
-		LCAV.unitName.setColor(sf::Color::White);
-		LCAV.unitName.setString("LCAV(3)");
-		LCAV.unitName.setCharacterSize(12);
-		LCAV.unitName.setOrigin(LCAV.unitName.getLocalBounds().width / 2, LCAV.unitName.getLocalBounds().height / 2);
-
-		LCAV.unitSprite = tm.getSprite(TextureManager::Unit::LCAV);
-		LCAV.unitSprite.setOrigin(LCAV.unitSprite.getGlobalBounds().width / 2, LCAV.unitSprite.getGlobalBounds().height / 2);
-
-		LCAV.unitSprite.setPosition({630, -60});
-		LCAV.unitName.setPosition({LCAV.unitSprite.getPosition().x, LCAV.unitSprite.getPosition().y - 30});
-
-		SpawnableUnit ART(UnitTile::UnitType::ART);
-		ART.unitName.setFont(fm.getFont(FontManager::Type::Lucon));
-		ART.unitName.setColor(sf::Color::White);
-		ART.unitName.setString("ARTILLERY(5)");
-		ART.unitName.setCharacterSize(12);
-		ART.unitName.setOrigin(ART.unitName.getLocalBounds().width / 2, ART.unitName.getLocalBounds().height / 2);
-
-
-		ART.unitSprite = tm.getSprite(TextureManager::Unit::ART);
-		ART.unitSprite.setOrigin(ART.unitSprite.getGlobalBounds().width / 2, ART.unitSprite.getGlobalBounds().height / 2);
-
-		ART.unitSprite.setPosition({430, -60});
-		ART.unitName.setPosition({ART.unitSprite.getPosition().x, ART.unitSprite.getPosition().y - 30});
-
-		SpawnableUnit MOR(UnitTile::UnitType::MOR);
-		MOR.unitName.setFont(fm.getFont(FontManager::Type::Lucon));
-		MOR.unitName.setColor(sf::Color::White);
-		MOR.unitName.setString("MORTAR(5)");
-		MOR.unitName.setCharacterSize(12);
-		MOR.unitName.setOrigin(MOR.unitName.getLocalBounds().width / 2, MOR.unitName.getLocalBounds().height / 2);
-
-		MOR.unitSprite = tm.getSprite(TextureManager::Unit::MOR);
-		MOR.unitSprite.setOrigin(MOR.unitSprite.getGlobalBounds().width / 2, MOR.unitSprite.getGlobalBounds().height / 2);
-
-		MOR.unitSprite.setPosition({530, -60});
-		MOR.unitName.setPosition({MOR.unitSprite.getPosition().x, MOR.unitSprite.getPosition().y - 30});
-
-		SpawnableUnit GEN(UnitTile::UnitType::GEN);
-		GEN.unitName.setFont(fm.getFont(FontManager::Type::Lucon));
-		GEN.unitName.setColor(sf::Color::White);
-		GEN.unitName.setString("GENERAL(1)");
-		GEN.unitName.setCharacterSize(12);
-		GEN.unitName.setOrigin(GEN.unitName.getLocalBounds().width / 2, GEN.unitName.getLocalBounds().height / 2);
-
-		GEN.unitSprite = tm.getSprite(TextureManager::Unit::GEN);
-		GEN.unitSprite.setOrigin(GEN.unitSprite.getGlobalBounds().width / 2, GEN.unitSprite.getGlobalBounds().height / 2);
-
-		GEN.unitSprite.setPosition({630, -130});
-		GEN.unitName.setPosition({GEN.unitSprite.getPosition().x, GEN.unitSprite.getPosition().y - 30});
-
-		spawnableUnits.emplace_back(INF);
-		spawnableUnits.emplace_back(CAV);
-		spawnableUnits.emplace_back(CUIR);
-		spawnableUnits.emplace_back(DRAG);
-		spawnableUnits.emplace_back(LCAV);
-		spawnableUnits.emplace_back(ART);
-		spawnableUnits.emplace_back(MOR);
-		spawnableUnits.emplace_back(GEN);
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::INF, {1, 1}));		
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CAV, {2, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CUIR, {3, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DRAG, {4, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GRE, {5, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {6, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LCAV, {1, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {2, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {3, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {4, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LINF, {5, 2}));
 	}
 
 

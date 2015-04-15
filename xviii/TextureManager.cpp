@@ -61,6 +61,22 @@ sf::Sprite TextureManager::getSprite(Unit type){
 	case Unit::GEN:
 		rekt = {0, 102, counterSize.x, counterSize.y};
 		break;
+
+	case Unit::GRE:
+		rekt = {108, 68, counterSize.x, counterSize.y};
+		break;
+		
+	case Unit::LINF:
+		rekt = {108, 102, counterSize.x, counterSize.y};
+		break;
+
+	case Unit::SAP:
+		rekt = {0, 68, counterSize.x, counterSize.y};
+		break;
+
+	case Unit::HINF:
+		rekt = {54, 102, counterSize.x, counterSize.y};
+		break;
 	}
 
 	return{*units, rekt};
@@ -184,6 +200,10 @@ sf::Sprite TextureManager::getSprite(Flag type){
 
 	case Flag::CRI:
 		rekt = {54, 102, counterSize.x, counterSize.y};
+		break;
+
+	case Flag::IME:
+		rekt = {108, 102, counterSize.x, counterSize.y};
 		break;
 	}
 
