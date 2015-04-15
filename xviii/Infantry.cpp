@@ -193,7 +193,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 	inf->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
+	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 
 }
 
@@ -252,7 +252,7 @@ std::string Infantry::meleeAttack(FootGuard* foot){
 	foot->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, foot, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, foot->modVector);
+	return attackReport(1, this, foot, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 }
 
 std::string Infantry::meleeAttack(Cavalry* cav){
@@ -298,7 +298,7 @@ std::string Infantry::meleeAttack(Cavalry* cav){
 	cav->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
+	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 	
 }
 
@@ -336,7 +336,7 @@ std::string Infantry::meleeAttack(Artillery* art){
 	art->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
+	return attackReport(1, this, art, thisRoll_int, 0, damageDealt, damageReceived);
 
 }
 
@@ -373,7 +373,7 @@ std::string Infantry::meleeAttack(Mortar* mor){
 	mor->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
+	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived);
 
 }
 
@@ -410,5 +410,5 @@ std::string Infantry::rangedAttack(UnitTile* unit, int distance){
 	unit->updateStats();
 	hasRangedAttacked = true;
 
-	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0, modVector, unit->modVector);
+	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
 }

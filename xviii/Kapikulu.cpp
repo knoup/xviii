@@ -80,7 +80,7 @@ std::string Kapikulu::meleeAttack(Infantry* inf){
 	inf->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
+	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 }
 
 std::string Kapikulu::meleeAttack(FootGuard* foot){
@@ -132,7 +132,7 @@ std::string Kapikulu::meleeAttack(FootGuard* foot){
 	foot->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, foot, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, foot->modVector);
+	return attackReport(1, this, foot, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 }
 
 std::string Kapikulu::meleeAttack(Cavalry* cav){
@@ -195,5 +195,5 @@ std::string Kapikulu::meleeAttack(Cavalry* cav){
 	cav->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
+	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 }

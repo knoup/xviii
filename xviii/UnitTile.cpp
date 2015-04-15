@@ -718,8 +718,11 @@ int UnitTile::distanceFrom(Tile* _tile){
 }
 
 
-std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted, std::vector<UnitTile::ModifierReport>& attackerModifiers, std::vector<UnitTile::ModifierReport>& defenderModifiers){
+std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted){
 	std::stringstream result;
+
+	std::vector<ModifierReport>& attackerModifiers = attacker->modVector;
+	std::vector<ModifierReport>& defenderModifiers = defender->modVector;
 
 	std::string attackerRollString{};
 

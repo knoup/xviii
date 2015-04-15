@@ -139,7 +139,7 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 	inf->updateStats();
 	hasMeleeAttacked = true;
 	
-	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, inf->modVector);
+	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 }
 
 std::string Cavalry::meleeAttack(FootGuard* foot){
@@ -185,7 +185,7 @@ std::string Cavalry::meleeAttack(FootGuard* foot){
 	foot->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, foot, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, foot->modVector);
+	return attackReport(1, this, foot, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 }
 
 std::string Cavalry::meleeAttack(Cavalry* cav){
@@ -242,7 +242,7 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 	cav->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, modVector, cav->modVector);
+	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 	
 }
 
@@ -279,7 +279,7 @@ std::string Cavalry::meleeAttack(Artillery* art){
 	art->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, art, thisRoll_int, 0, damageDealt, damageReceived, modVector, art->modVector);
+	return attackReport(1, this, art, thisRoll_int, 0, damageDealt, damageReceived);
 }
 
 std::string Cavalry::meleeAttack(Mortar* mor){
@@ -315,7 +315,7 @@ std::string Cavalry::meleeAttack(Mortar* mor){
 	mor->updateStats();
 	hasMeleeAttacked = true;
 
-	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived, modVector, mor->modVector);
+	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived);
 }
 
 std::string Cavalry::rangedAttack(UnitTile* unit, int distance){

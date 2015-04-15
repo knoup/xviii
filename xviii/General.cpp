@@ -87,7 +87,7 @@ std::string General::rangedAttack(UnitTile* unit, int distance){
 	unit->updateStats();
 	hasRangedAttacked = true;
 
-	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0, modVector, unit->modVector);
+	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
 }
 
 bool General::getHasHealed() const{

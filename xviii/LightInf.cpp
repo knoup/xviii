@@ -45,7 +45,7 @@ std::string LightInf::rangedAttack(UnitTile* unit, int distance){
 	unit->updateStats();
 	hasRangedAttacked = true;
 
-	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0, modVector, unit->modVector);
+	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
 }
 
 int LightInf::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth){
