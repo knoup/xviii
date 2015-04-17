@@ -74,10 +74,10 @@ std::string Dragoon::rangedAttack(UnitTile* unit, int distance){
 	if (distance >= 4 && distance <= 5){
 		distanceModifier = 0.5;
 	}
-	else if (distance >= 2 && distance <= 4){
+	else if (distance >= 3 && distance <= 4){
 		distanceModifier = 1;
 	}
-	else if (distance == 1){
+	else if (distance == 2){
 		distanceModifier = 1.5;
 	}
 

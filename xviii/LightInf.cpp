@@ -30,7 +30,7 @@ std::string LightInf::rangedAttack(UnitTile* unit, int distance){
 	else if (distance >= 3 && distance <= 6){
 		distanceModifier = 1;
 	}
-	else if (distance >= 2 && distance <= 1){
+	else if (distance == 2){
 		distanceModifier = 1.5;
 	}
 

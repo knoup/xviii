@@ -27,7 +27,7 @@ std::string Sapper::rangedAttack(UnitTile* unit, int distance){
 	if (distance >= 3 && distance <= 4){
 		distanceModifier = 0.5;
 	}
-	else if (distance >= 1 && distance <= 2){
+	else if (distance == 2){
 		distanceModifier = 1;
 	}
 

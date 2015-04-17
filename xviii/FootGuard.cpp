@@ -439,7 +439,7 @@ std::string FootGuard::rangedAttack(UnitTile* unit, int distance){
 	else if (distance >= 3 && distance <= 5){
 		distanceModifier = 1;
 	}
-	else if (distance == 2 || distance == 1){
+	else if (distance == 2){
 		distanceModifier = 2;
 	}
 

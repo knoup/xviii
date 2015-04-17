@@ -93,22 +93,22 @@ Unit Types & Stats
 	INF
 		*6: 	0.5d
 		*5-3: 	1d
-		*2-1: 	2d
+		*2: 	2d
 
 	ART [ONLY IF ROLL IS 4-6]
 		*20-10:	2 DMG 
-		*9-1:	4 DMG 
+		*9-2:	4 DMG 
 		
 	MOR [ONLY IF ROLL IS 4-6]	
-		*15-1:	3 DMG 
+		*15-2:	3 DMG 
 
 	DRAG
 		*5-9: 0.5d
-		*2-4: 1d
-		*1: 1.5d
+		*3-4: 1d
+		*2: 1.5d
 
 	GEN
-		*2-1:	0.5d
+		*2:	0.5d
 		
 ---Charge Dir. Modifiers (CAV)---	
 

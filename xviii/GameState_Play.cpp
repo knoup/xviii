@@ -289,7 +289,9 @@ void GameState_Play::update(){
 		currentMessage.clear();
 
 		for (auto& unit : game->mWorld.getCombatLayer()){
-			unit->reset();
+			if (unit->getPlayer() == game->currentPlayer){
+				unit->reset();
+			}
 		}
 
 		game->nextPlayer();
