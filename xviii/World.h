@@ -19,6 +19,8 @@ class World : public sf::Drawable, public sf::NonCopyable
 {
 	friend class Ant;
 	friend class RiverAnt;
+	friend class SlopeAnt;
+	friend class HillAnt;
 	friend class SaveGame;
 	//For easier access to the vertex array
 	friend class TerrainTile;

@@ -14,8 +14,8 @@ public:
 	virtual void preAttack(UnitTile* unit, bool attacking);
 
 private:
-	static const int maxhp{17};
-	static const int maxMov{7};
+	static const int maxhp{14};
+	static const int maxMov{8};
 	static const int maxRange{6};
 };
 

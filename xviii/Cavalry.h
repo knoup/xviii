@@ -27,7 +27,7 @@ public:
 	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
 
 private:
-	static const int maxhp{12};
+	static const int maxhp{13};
 	static const int maxMov{12};
 	static const int maxRange{0};
 };

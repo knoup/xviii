@@ -63,7 +63,7 @@ Unit Types & Stats
 		*MAX RANGED DIST: 15
 		
 	Cavalry (CAV)
-		*HP: 12
+		*HP: 13
 		*MOV: 12
 		*MAX RANGED DIST: -
 
@@ -79,7 +79,7 @@ Unit Types & Stats
 		*MAX RANGED DIST: 5
 
 	Light Cavalry (LCAV)
-		*HP: 9
+		*HP: 8
 		*MOV: 15
 		*MAX RANGED DIST: -
 		
