@@ -14,6 +14,9 @@ public:
 	inline virtual int getMaxMov() const{ return maxMov; };
 	inline virtual int getMaxRange() const{ return maxRange; };
 
+	inline virtual int getCost() const{ return 3; };
+	inline virtual int getLimit() const{ return 5; };
+
 	virtual std::string meleeAttack(UnitTile* _unit);
 
 	virtual std::string meleeAttack(Infantry* inf);

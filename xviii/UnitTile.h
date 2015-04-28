@@ -120,8 +120,8 @@ public:
 	UnitType getUnitType() const;
 	UnitFamily getUnitFamilyType() const;
 
-	int getCost() const;
-	int getLimit() const;
+	virtual int getCost() const;
+	virtual int getLimit() const;
 
 	float gethp() const;
 	int getMov() const;
@@ -243,11 +243,6 @@ protected:
 
 	UnitType unitType;
 	UnitFamily unitFamilyType;
-
-	int deploymentCost;
-
-	//0 represents no limit
-	int limit;
 
 	float hp;
 	int mov;

@@ -52,11 +52,7 @@ float Cavalry::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 
 Cavalry::Cavalry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType, UnitType uType) :
 UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily::CAV_FAMILY, _dir)
-{	
-	deploymentCost = 3;
-	limit = 5;
-
-	
+{
 	mov = maxMov;
 	hp = maxhp;
 }

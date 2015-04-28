@@ -5,10 +5,6 @@
 Artillery::Artillery(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
 UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::ART, UnitType::ART, UnitFamily::ART_FAMILY, _dir)
 {
-	deploymentCost = 3;
-	limit = 5;
-	
-	
 	mov = maxMov;
 	hp = maxhp;
 }

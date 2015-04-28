@@ -19,6 +19,9 @@ public:
 	inline virtual int getMaxRange() const{ return maxRange; };
 	inline virtual bool getCanMelee() const{ return false; };
 
+	inline virtual int getCost() const{ return 3; };
+	inline virtual int getLimit() const{ return 5; };
+
 	virtual std::string meleeAttack(UnitTile* _unit);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);

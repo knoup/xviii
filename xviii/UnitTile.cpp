@@ -378,12 +378,14 @@ UnitTile::UnitFamily UnitTile::getUnitFamilyType() const{
 	return unitFamilyType;
 }
 
+//Virtual
 int UnitTile::getCost() const{
-	return deploymentCost;
+	return 100;
 }
 
+//Virtual
 int UnitTile::getLimit() const{
-	return limit;
+	return 1;
 }
 
 float UnitTile::gethp() const{

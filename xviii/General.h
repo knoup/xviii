@@ -19,6 +19,9 @@ public:
 	inline virtual int getMaxMov() const{ return maxMov; };
 	inline virtual int getMaxRange() const{ return maxRange; };
 
+	inline virtual int getCost() const{ return 0; };
+	inline virtual int getLimit() const{ return 1; };
+
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
 	virtual bool getHasHealed() const;

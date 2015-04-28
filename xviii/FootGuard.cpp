@@ -102,10 +102,6 @@ void FootGuard::setHasHealed(bool _hasHealed){
 FootGuard::FootGuard(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType, UnitType uType) :
 UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily::HINF_FAMILY, _dir)
 {
-	deploymentCost = 1;
-	limit = 0;
-
-	
 	mov = maxMov;
 	hp = maxhp;
 }
