@@ -1,4 +1,9 @@
-Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and <a href="http://www.boost.org/">Boost's</a> filesystem module.  Any units not mentioned in the rules are not fully implemented/ready yet. This is my first real project, hence the generally amateurish code. Inspired by the ideas of a friend.
+Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and <a href="http://www.boost.org/">Boost's</a> filesystem module. This is my first real project, hence the generally amateurish code. Inspired by, and continutally developed with, the ideas and input of a friend.
+
+IMPORTANT NOTE ON UNITS
+-----------------------
+
+ Currently, a vast amount of new units, nations, and some mechanics are being added. Updating this file after every minor adjustment would be very cumbersome. Therefore, until all units are in, expect this file to be temporarily "outdated"
 
 General
 -------

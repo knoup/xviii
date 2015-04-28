@@ -115,16 +115,23 @@ bool SaveGame::create(){
 	int worldSizeIndex = game->mWorld.terrainLayer.size();
 
 	for (int i{0}; i < worldSizeIndex; ++i){
-		save << std::to_string(i) << "=";
 		TerrainTile::TerrainType currentType = game->mWorld.terrainLayer[i]->getTerrainType();
 
+		//Don't write MEADOW files. Since a lot of tiles will be meadows, this significantly reduces
+		//the save file size (and there's less to load)
+		if (currentType == TerrainTile::TerrainType::MEADOW){
+			continue;
+		}
+
+		save << std::to_string(i) << "=";
+
 		switch (currentType){
-		#define X(_type, cl, texture, str)\
+			#define X(_type, cl, texture, str)\
 			case(_type):\
 			save << str;\
 			break;
-		TERRAINPROPERTIES
-		#undef X
+			TERRAINPROPERTIES
+			#undef X
 		}
 
 		save << std::endl;
@@ -180,22 +187,22 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 	std::string line;
 
+	#define AFTEREQUALS line.substr(line.find("=") + 1, line.size() - 1)
 
 	while (save && std::getline(save, line)){
 		if (line.find("turn=") != std::string::npos){
-			int turn{std::stoi(line.substr(5))};
+			int turn{std::stoi(AFTEREQUALS)};
 			game->elapsedTurns = turn;
 		}
 
 		else if (line.find("player1=") != std::string::npos){
-			Player::Nation nation{stringToNation(line.substr(8))};
+			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
 			game->Player1 = new Player({game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, true});
 		}
 
 		else if (line.find("player1Cam=") != std::string::npos){
-			std::stringstream temp(line);
-			temp.ignore(11);
+			std::stringstream temp(AFTEREQUALS);
 
 			sf::Vector2f view;
 
@@ -205,14 +212,13 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		}
 
 		else if (line.find("player2=") != std::string::npos){
-			Player::Nation nation{stringToNation(line.substr(8))};
+			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
 			game->Player2 = new Player({game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, false});
 		}
 
 		else if (line.find("player2Cam=") != std::string::npos){
-			std::stringstream temp(line);
-			temp.ignore(11);
+			std::stringstream temp(AFTEREQUALS);
 
 			sf::Vector2f view;
 
@@ -223,7 +229,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		}
 
 		else if (line.find("currentPlayer=") != std::string::npos){
-			std::string playerStr{line.substr(14)};
+			std::string playerStr{AFTEREQUALS};
 
 			if (playerStr == "player1"){
 				game->currentPlayer = game->Player1;
@@ -236,27 +242,53 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		}
 
 
+		//This algorithm fills in unreported tiles with MEADOWS automatically; for example, if we have in the save file
+		//423=woods
+		//479=water
+		//522=urban
+		//Tiles 424-478 and 480-521 will be filled with MEADOWS.
+		//Furthermore, a check is made at the end to ensure there are no missing final tiles
+
 		else if (line.find("w{") != std::string::npos){
 
 			std::getline(save, line);
 
+			//trueIndex starts at 0 and is incremented whenever a tile is created
+			int trueIndex{0};
+			//currentIndex simply stores the index of the current tile being read from the save file
+			int currentIndex{0};
+			
+			sf::Vector2f currentPos{};
+
 			while (line.find("}w") == std::string::npos){
 				//At this point, our string is something like
-				//3124=meadow
+				//3124=woods
 
-				int currentIndex = std::stoi(line.substr(0, line.find("=")));
-				std::string currentTypeStr = line.substr(line.find("=") + 1, line.size() - 1);
+				currentIndex = std::stoi(line.substr(0, line.find("=")));
+				std::string currentTypeStr = AFTEREQUALS;
+
+				while (trueIndex < currentIndex){
+					currentPos = game->mWorld.posAtIndex(trueIndex);
+					game->mWorld.terrainLayer[trueIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(&game->mWorld, game->mTextureManager, currentPos)));
+					trueIndex++;
+				}
 				
-				sf::Vector2f currentPos = game->mWorld.posAtIndex(currentIndex);
-			
+				currentPos = game->mWorld.posAtIndex(currentIndex);
+
 				#define X(_type, cl, texture, str)\
 					if(currentTypeStr == str)\
 						game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(&game->mWorld, game->mTextureManager, currentPos)));
-					TERRAINPROPERTIES
+				TERRAINPROPERTIES
 				#undef X
 
-
+					trueIndex++;
 				std::getline(save, line);
+			}
+
+			while (currentIndex <= ((game->mWorld.getDimensions().x * game->mWorld.getDimensions().y) -1 )){
+				currentPos = game->mWorld.posAtIndex(currentIndex);
+				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(&game->mWorld, game->mTextureManager, currentPos)));
+				currentIndex++;
 			}
 
 		}
@@ -281,11 +313,11 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 
 				if (line.find("type=") != std::string::npos){
-					type = stringToUnitType(line.substr(5));
+					type = stringToUnitType(AFTEREQUALS);
 				}
 
 				else if (line.find("faction=") != std::string::npos){
-					std::string nation{(line.substr(8))};
+					std::string nation{(AFTEREQUALS)};
 
 					if (nation == "player1"){
 						player = game->Player1;
@@ -296,8 +328,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				}
 
 				else if (line.find("pos=") != std::string::npos){
-					std::stringstream temp(line);
-					temp.ignore(4);
+					std::stringstream temp(AFTEREQUALS);
 
 					temp >> pos.x >> pos.y;
 
@@ -309,43 +340,42 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				}
 
 				else if (line.find("dir=") != std::string::npos){
-					dir = stringToDir(line.substr(4));
+					dir = stringToDir(AFTEREQUALS);
 				}
 
 				else if (line.find("hp=") != std::string::npos){
 					//Have to use the same method as for pos, otherwise floats get rounded...
-					std::stringstream temp(line);
-					temp.ignore(3);
+					std::stringstream temp(AFTEREQUALS);
 
 					temp >> hp;
 				}
 
 				else if (line.find("mov=") != std::string::npos){
-					mov = std::stoi(line.substr(4));
+					mov = std::stoi(AFTEREQUALS);
 				}
 
 				else if (line.find("hasMoved=") != std::string::npos){
-					hasMoved = std::stoi(line.substr(9));
+					hasMoved = std::stoi(AFTEREQUALS);
 				}
 
 				else if (line.find("hasRotated=") != std::string::npos){
-					hasRotated = std::stoi(line.substr(11));
+					hasRotated = std::stoi(AFTEREQUALS);
 				}
 
 				else if (line.find("hasMeleeAttacked=") != std::string::npos){
-					hasMeleeAttacked = std::stoi(line.substr(17));
+					hasMeleeAttacked = std::stoi(AFTEREQUALS);
 				}
 
 				else if (line.find("hasRangedAttacked=") != std::string::npos){
-					hasRangedAttacked = std::stoi(line.substr(18));
+					hasRangedAttacked = std::stoi(AFTEREQUALS);
 				}
 
 				else if (line.find("hasHealed=") != std::string::npos){
-					hasHealed = std::stoi(line.substr(10));
+					hasHealed = std::stoi(AFTEREQUALS);
 				}
 
 				else if (line.find("attackBonusReady=") != std::string::npos){
-					hasHealed = std::stoi(line.substr(17));
+					hasHealed = std::stoi(AFTEREQUALS);
 				}
 
 
@@ -362,3 +392,30 @@ void SaveGame::parse(boost::filesystem::path _dir){
 	}
 
 }
+
+//Older version of the world parsing algorithm that requires every tile's type be reported
+/*
+else if (line.find("w{") != std::string::npos){
+
+	std::getline(save, line);
+
+	while (line.find("}w") == std::string::npos){
+		//At this point, our string is something like
+		//3124=meadow
+
+		int currentIndex = std::stoi(line.substr(0, line.find("=")));
+		std::string currentTypeStr = AFTEREQUALS;
+
+		sf::Vector2f currentPos = game->mWorld.posAtIndex(currentIndex);
+
+		#define X(_type, cl, texture, str)\
+		if(currentTypeStr == str)\
+				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(&game->mWorld, game->mTextureManager, currentPos)));
+			TERRAINPROPERTIES
+			#undef X
+
+			std::getline(save, line);
+	}
+
+}
+*/

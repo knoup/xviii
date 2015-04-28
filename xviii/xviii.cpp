@@ -7,8 +7,6 @@
 TODO:
 	-Implement specialised MudAnt and HillAnt classes
 	-Seperate UI from implementation
-	-Make save text formatting less rigid so that a space doesn't break everything
-	-Limits should be made static members
 */
 
 /*
