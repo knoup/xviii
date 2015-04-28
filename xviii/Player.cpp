@@ -20,7 +20,7 @@ spawnedAtBottom{_spawnedAtBottom}
 	spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {2, 1}));
 	spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {3, 1}));
 
-	if (nation == Player::Nation::MOL){
+	if (nation == Player::Nation::MOL || nation == Player::Nation::WAL){
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DOR, {4, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::VIT, {5, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ARN, {6, 1}));

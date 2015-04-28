@@ -209,6 +209,10 @@ sf::Sprite TextureManager::getSprite(Flag type){
 	case Flag::MOL:
 		rekt = {162, 102, counterSize.x, counterSize.y};
 		break;
+
+	case Flag::WAL:
+		rekt = {0, 136, counterSize.x, counterSize.y};
+		break;
 	}
 
 	return{*flags, rekt};
