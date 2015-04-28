@@ -54,7 +54,7 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 	deploymentCost = 3;
 	limit = 5;
 
-	waterCrosser = true;
+	
 	mov = maxMov;
 	hp = maxhp;
 }

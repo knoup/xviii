@@ -8,7 +8,7 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::ART, 
 	deploymentCost = 3;
 	limit = 5;
 	
-	waterCrosser = false;
+	
 	mov = maxMov;
 	hp = maxhp;
 }

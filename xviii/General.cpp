@@ -9,7 +9,7 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::
 	deploymentCost = 0;
 	limit = 1;
 
-	waterCrosser = false;
+	
 	mov = maxMov;
 	hp = maxhp;
 }

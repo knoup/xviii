@@ -255,7 +255,5 @@ protected:
 	bool hasRotated{false};
 	bool hasMeleeAttacked{false};
 	bool hasRangedAttacked{false};
-
-	bool waterCrosser{false};
 };
 

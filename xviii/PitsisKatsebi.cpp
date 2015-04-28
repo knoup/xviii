@@ -7,7 +7,7 @@ Cuirassier(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Uni
 	deploymentCost = 3;
 	limit = 5;
 
-	waterCrosser = true;
+	
 	mov = maxMov;
 	hp = maxhp;
 }
