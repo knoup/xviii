@@ -40,7 +40,8 @@
 	X(UnitTile::UnitType::METTOP, MetTop, "met top", TextureManager::Unit::INF)\
 	X(UnitTile::UnitType::KACI, KudzeKaci, "kud kaci", TextureManager::Unit::LINF)\
 	X(UnitTile::UnitType::FOOT, FootGuard, "footguard", TextureManager::Unit::HINF)\
-	X(UnitTile::UnitType::KKV, KhevKveitebi, "khev kvei", TextureManager::Unit::HINF)
+	X(UnitTile::UnitType::KKV, KhevKveitebi, "khev kvei", TextureManager::Unit::HINF)\
+	X(UnitTile::UnitType::HUS, Hussar, "hussar", TextureManager::Unit::LCAV)
 
 class Player;
 class World;
@@ -72,6 +73,7 @@ class MetTop;
 class KudzeKaci;
 class FootGuard;
 class KhevKveitebi;
+class Hussar;
 
 
 class UnitTile : public Tile
@@ -79,8 +81,8 @@ class UnitTile : public Tile
 public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
-	enum class Modifier{NONE, ADDITIONAL, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI, FOOT, KKV};
+	enum class Modifier{NONE, ADDITIONAL, ATK, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI, FOOT, KKV, HUS};
 	enum class UnitFamily{INF_FAMILY, HINF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information

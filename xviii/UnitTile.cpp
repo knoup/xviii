@@ -84,7 +84,10 @@ std::string UnitTile::modToString(ModifierReport _mod){
 		else{
 			return{"malus"};
 		}
+		break;
 
+	case Modifier::ATK:
+		return{"ATKing"};
 		break;
 	case Modifier::DISTANCE:
 		return{"distance"};

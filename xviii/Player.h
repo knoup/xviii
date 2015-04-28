@@ -32,6 +32,7 @@
 #include "KudzeKaci.h"
 #include "FootGuard.h"
 #include "KhevKveitebi.h"
+#include "Hussar.h"
 
 #include "global.h"
 
