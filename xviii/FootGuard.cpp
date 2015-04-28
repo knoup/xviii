@@ -16,7 +16,7 @@ static const float cavSideFlankModifier = 1.5;
 static const float cavRearFlankModifier = 2;
 
 float FootGuard::getFlankModifier(UnitFamily _family, Modifier _flank) const{
-	if (_family == UnitFamily::INF_FAMILY || _family == UnitFamily::HINF_FAMILY){
+	if (_family == UnitFamily::INF_FAMILY || _family == UnitFamily::HINF_FAMILY || _family == UnitFamily::LINF_FAMILY){
 		switch (_flank){
 		case Modifier::FRONT_FLANK:
 			return infFrontFlankModifier;

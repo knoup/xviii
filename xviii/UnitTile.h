@@ -94,7 +94,9 @@ public:
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, ADDITIONAL, ATK, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
 	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI, FOOT, KKV, HUS, COUR, SEG, BOY, DOR, VIT, ARN};
-	enum class UnitFamily{INF_FAMILY, HINF_FAMILY, CAV_FAMILY, ART_FAMILY};
+	//Each UnitFamily generally has its own combat rules. LINF, however, does not, and for the moment, HINF's
+	//is identical to INF.
+	enum class UnitFamily{LINF_FAMILY, INF_FAMILY, HINF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information
 

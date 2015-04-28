@@ -7,6 +7,10 @@ Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 {
 	mov = maxMov;
 	hp = maxhp;
+	
+	//Since Light Inf is somewhat of a special case when it comes to unit families, I will just change its
+	//family type in the constructor
+	unitFamilyType = UnitFamily::LINF_FAMILY;
 }
 
 std::string LightInf::rangedAttack(UnitTile* unit, int distance){

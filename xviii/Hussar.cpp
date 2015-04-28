@@ -12,7 +12,7 @@ void Hussar::preAttack(UnitTile* unit, bool attacking){
 	if (attacking){
 		this->modVector.emplace_back(Modifier::ATK, 1);
 	}
-	if (unit->getUnitType() == UnitType::LINF){
+	if (unit->getUnitFamilyType() == UnitFamily::LINF_FAMILY){
 		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
 	}
 }
