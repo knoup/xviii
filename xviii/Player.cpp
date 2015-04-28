@@ -15,51 +15,53 @@ deploymentPoints{30},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
-	if (nation == Player::Nation::OTO){
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AKINCI, {1, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DELI, {2, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::TIM, {3, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {4, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {5, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KAP, {1, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::JAN, {2, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::OINF, {3, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {4, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {5, 2}));
+	//All nations get these three units
+	spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {1, 1}));
+	spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {2, 1}));
+	spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {3, 1}));
+
+	if (nation == Player::Nation::MOL){
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DOR, {4, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::VIT, {5, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ARN, {6, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::BOY, {1, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::HUS, {2, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::COUR, {3, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SEG, {4, 2}));
+	}
+
+	else if (nation == Player::Nation::OTO){
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::JAN, {4, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::OINF, {5, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {1, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KAP, {2, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DELI, {3, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AKINCI, {4, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::TIM, {5, 2}));
 	}
 	else if (nation == Player::Nation::CRI){
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CRICAV, {1, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KAP, {2, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::COSINF, {3, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {1, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {2, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {3, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::COSINF, {4, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CRICAV, {5, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KAP, {6, 1}));
 	}
 	else if (nation == Player::Nation::IME){
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KMKH, {1, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::PIT, {2, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DON, {3, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AMKH, {4, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KKV, {5, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::METTOP, {1, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KACI, {2, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {3, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {4, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {5, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::METTOP, {4, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KACI, {5, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AMKH, {1, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KKV, {2, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::PIT, {3, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KMKH, {4, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DON, {5, 2}));
 	}
 	else{
-
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::INF, {1, 1}));		
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CAV, {2, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CUIR, {3, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DRAG, {4, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::INF, {4, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GRE, {5, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {6, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LCAV, {1, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {2, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {3, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {4, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LINF, {5, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LINF, {6, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {1, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CAV, {2, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CUIR, {3, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DRAG, {4, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LCAV, {5, 2}));
 	}
 
 

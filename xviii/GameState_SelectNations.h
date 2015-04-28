@@ -12,6 +12,8 @@ public:
 	virtual void draw();
 
 private:
+	void updateNationName();
+
 	struct FlagMenuItem{
 		FlagMenuItem(sf::Sprite _sprite, Player::Nation _nation) :
 			sprite{_sprite},
@@ -44,6 +46,7 @@ private:
 	std::vector<FlagMenuItem>::iterator flagIterator;
 
 	sf::Text currentPlayerText;
+	sf::Text currentNationName;
 	sf::View flagView;
 	sf::View uiView;
 };

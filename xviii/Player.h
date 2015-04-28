@@ -48,20 +48,21 @@
 
 #define NATIONPROPERTIES\
 	X(Player::Nation::AUS, TextureManager::Flag::AUS, "Austria")\
-	X(Player::Nation::PRU, TextureManager::Flag::PRU, "Prussia")\
-	X(Player::Nation::FRA, TextureManager::Flag::FRA, "France")\
-	X(Player::Nation::GBR, TextureManager::Flag::GBR, "GBR")\
-	X(Player::Nation::RUS, TextureManager::Flag::RUS, "Russia")\
 	X(Player::Nation::BAV, TextureManager::Flag::BAV, "Bavaria")\
 	X(Player::Nation::COM, TextureManager::Flag::COM, "Commonwealth")\
-	X(Player::Nation::SPA, TextureManager::Flag::SPA, "Spain")\
-	X(Player::Nation::POR, TextureManager::Flag::POR, "Portugal")\
-	X(Player::Nation::VEN, TextureManager::Flag::VEN, "Venice")\
-	X(Player::Nation::SAX, TextureManager::Flag::SAX, "Saxony")\
-	X(Player::Nation::SWE, TextureManager::Flag::SWE, "Sweden")\
-	X(Player::Nation::OTO, TextureManager::Flag::OTO, "Ottoman Empire")\
 	X(Player::Nation::CRI, TextureManager::Flag::CRI, "Crimea")\
-	X(Player::Nation::IME, TextureManager::Flag::IME, "Imereti")
+	X(Player::Nation::FRA, TextureManager::Flag::FRA, "France")\
+	X(Player::Nation::GBR, TextureManager::Flag::GBR, "GBR")\
+	X(Player::Nation::IME, TextureManager::Flag::IME, "Imereti")\
+	X(Player::Nation::MOL, TextureManager::Flag::MOL, "Moldavia")\
+	X(Player::Nation::OTO, TextureManager::Flag::OTO, "Ottoman Empire")\
+	X(Player::Nation::POR, TextureManager::Flag::POR, "Portugal")\
+	X(Player::Nation::PRU, TextureManager::Flag::PRU, "Prussia")\
+	X(Player::Nation::RUS, TextureManager::Flag::RUS, "Russia")\
+	X(Player::Nation::SAX, TextureManager::Flag::SAX, "Saxony")\
+	X(Player::Nation::SPA, TextureManager::Flag::SPA, "Spain")\
+	X(Player::Nation::SWE, TextureManager::Flag::SWE, "Sweden")\
+	X(Player::Nation::VEN, TextureManager::Flag::VEN, "Venice")
 
 class Player
 {
@@ -121,7 +122,7 @@ class Player
 		};
 
 
-		enum class Nation{ AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME};
+		enum class Nation{ AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL};
 		Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
 		
 		//Returns true if successfully spawned unit

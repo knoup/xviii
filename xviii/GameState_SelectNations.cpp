@@ -1,26 +1,41 @@
 #include "stdafx.h"
 #include "GameState_SelectNations.h"
 
+void GameState_SelectNations::updateNationName(){
+	#define X(nationType, textureType, str)\
+		if(flagIterator->nation == nationType){\
+			currentNationName.setString(str);\
+			}
+	NATIONPROPERTIES
+	#undef X
+
+	sf::FloatRect textRect = currentNationName.getLocalBounds();
+	currentNationName.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	currentNationName.setPosition(xResolution / 2, yResolution / 1.5);
+}
+
 GameState_SelectNations::GameState_SelectNations(Game* _game) :
 GameState{_game},
 flagView{sf::FloatRect({}, {}, xResolution, yResolution)},
 uiView{sf::FloatRect({}, {}, xResolution, yResolution)}
 {
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::PRU), Player::Nation::PRU});
+
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::AUS), Player::Nation::AUS});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::FRA), Player::Nation::FRA});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::GBR), Player::Nation::GBR});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::RUS), Player::Nation::RUS});
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::BAV), Player::Nation::BAV});
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::COM), Player::Nation::COM});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::SPA), Player::Nation::SPA});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::POR), Player::Nation::POR});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::VEN), Player::Nation::VEN});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::SAX), Player::Nation::SAX});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::SWE), Player::Nation::SWE});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::OTO), Player::Nation::OTO});
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::CRI), Player::Nation::CRI});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::FRA), Player::Nation::FRA});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::GBR), Player::Nation::GBR});
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::IME), Player::Nation::IME});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::MOL), Player::Nation::MOL});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::OTO), Player::Nation::OTO});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::POR), Player::Nation::POR});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::PRU), Player::Nation::PRU});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::RUS), Player::Nation::RUS});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::SAX), Player::Nation::SAX});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::SPA), Player::Nation::SPA});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::SWE), Player::Nation::SWE});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::VEN), Player::Nation::VEN});
 
 	for (int i{0}; i < flagMenuItems.size(); ++i){
 		int spriteXPos = (i * 75);
@@ -35,10 +50,16 @@ uiView{sf::FloatRect({}, {}, xResolution, yResolution)}
 
 	currentPlayerText.setFont(game->mFontManager.getFont(FontManager::Arial));
 	currentPlayerText.setString("Player 1");
-	currentPlayerText.setColor(sf::Color::Black);
+	currentPlayerText.setColor(sf::Color::White);
 	currentPlayerText.setCharacterSize(55);;
 	currentPlayerText.setOrigin(currentPlayerText.getLocalBounds().width / 2, currentPlayerText.getLocalBounds().height / 2);
 	currentPlayerText.setPosition(xResolution / 2, yResolution / 4);
+
+	currentNationName.setFont(game->mFontManager.getFont(FontManager::Arial));
+	currentNationName.setColor(sf::Color::Black);
+	currentNationName.setCharacterSize(50);
+
+	updateNationName();
 }
 
 void GameState_SelectNations::getInput(){
@@ -64,6 +85,7 @@ void GameState_SelectNations::getInput(){
 						flagMenuItems[i].rekt.setPosition(spriteXPos, spriteYPos);
 					}
 
+					updateNationName();
 					currentPlayerText.setString("Player 2");
 				}
 				else{
@@ -93,8 +115,10 @@ void GameState_SelectNations::getInput(){
 						++flagIterator;
 					}
 				}
-			}
 
+				updateNationName();
+
+			}
 			break;
 
 		case sf::Event::Closed:
@@ -117,6 +141,7 @@ void GameState_SelectNations::draw(){
 
 	game->mWindow.setView(uiView);
 	game->mWindow.draw(currentPlayerText);
+	game->mWindow.draw(currentNationName);
 
 
 	game->mWindow.setView(flagView);
