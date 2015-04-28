@@ -11,8 +11,7 @@ public:
 	inline virtual int getMaxMov() const{ return maxMov; };
 	inline virtual int getMaxRange() const{ return maxRange; };
 
-	
-	virtual void preAttack(UnitTile* unit, bool attacking);
+	//Inherits preAttack() from Cuirassier
 
 private:
 	static const int maxhp{12};

@@ -41,7 +41,13 @@
 	X(UnitTile::UnitType::KACI, KudzeKaci, "kud kaci", TextureManager::Unit::LINF)\
 	X(UnitTile::UnitType::FOOT, FootGuard, "footguard", TextureManager::Unit::HINF)\
 	X(UnitTile::UnitType::KKV, KhevKveitebi, "khev kvei", TextureManager::Unit::HINF)\
-	X(UnitTile::UnitType::HUS, Hussar, "hussar", TextureManager::Unit::LCAV)
+	X(UnitTile::UnitType::HUS, Hussar, "hussar", TextureManager::Unit::LCAV)\
+	X(UnitTile::UnitType::COUR, Courtin, "courtin", TextureManager::Unit::CAV)\
+	X(UnitTile::UnitType::SEG, Segbans, "segbans", TextureManager::Unit::DRAG)\
+	X(UnitTile::UnitType::BOY, Boyar, "boyar", TextureManager::Unit::CAV)\
+	X(UnitTile::UnitType::DOR, Dorunaby, "dorunaby", TextureManager::Unit::INF)\
+	X(UnitTile::UnitType::VIT, Vitae, "vitae", TextureManager::Unit::LINF)\
+	X(UnitTile::UnitType::ARN, Arnauts, "arnauts", TextureManager::Unit::LINF)\
 
 class Player;
 class World;
@@ -74,7 +80,12 @@ class KudzeKaci;
 class FootGuard;
 class KhevKveitebi;
 class Hussar;
-
+class Courtin;
+class Segbans;
+class Boyar;
+class Dorunaby;
+class Vitae;
+class Arnauts;
 
 class UnitTile : public Tile
 {
@@ -82,7 +93,7 @@ public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, ADDITIONAL, ATK, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI, FOOT, KKV, HUS};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI, FOOT, KKV, HUS, COUR, SEG, BOY, DOR, VIT, ARN};
 	enum class UnitFamily{INF_FAMILY, HINF_FAMILY, CAV_FAMILY, ART_FAMILY};
 
 	//Used for storing modifier information

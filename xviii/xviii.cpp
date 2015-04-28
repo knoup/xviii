@@ -8,8 +8,7 @@ TODO:
 	-Implement specialised MudAnt and HillAnt classes
 	-Seperate UI from implementation
 	-Make save text formatting less rigid so that a space doesn't break everything
-	-Improve mapping system between terrain and unit tiles; both need to be able to easily
-	 reference each other
+	-Limits should be made static members
 */
 
 /*

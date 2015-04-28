@@ -11,9 +11,3 @@ Cuirassier(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Uni
 	mov = maxMov;
 	hp = maxhp;
 }
-
-void KhevMkhedrebi::preAttack(UnitTile* unit, bool attacking){
-	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
-		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
-	}
-}

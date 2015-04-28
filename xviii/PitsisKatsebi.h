@@ -13,9 +13,6 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
-	//Override Cuirassier's bonuses by providing empty body
-	virtual void preAttack(UnitTile* unit, bool attacking){};
-
 private:
 	static const int maxhp{14};
 	static const int maxMov{12};

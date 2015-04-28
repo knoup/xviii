@@ -23,8 +23,8 @@ public:
 	//Inherits preAttack() from Cuirassier
 
 	//These functions will really be used for the attackBonusReady bool
-	virtual bool getHasHealed() const;
-	virtual void setHasHealed(bool _value);
+	virtual bool getHasHealed() const{ return attackBonusReady; };
+	virtual void setHasHealed(bool _value){ attackBonusReady = _value; };
 
 private:
 	//A special Kapikulu bonus; they have to rest for a turn to recharge this, so that they can proc the above mentioned bonus

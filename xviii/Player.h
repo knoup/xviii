@@ -33,6 +33,12 @@
 #include "FootGuard.h"
 #include "KhevKveitebi.h"
 #include "Hussar.h"
+#include "Courtin.h"
+#include "Segbans.h"
+#include "Boyar.h"
+#include "Dorunaby.h"
+#include "Vitae.h"
+#include "Arnauts.h"
 
 #include "global.h"
 
