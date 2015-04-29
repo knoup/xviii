@@ -56,7 +56,7 @@ public:
 	void oneTimeUpdate();
 
 	virtual void getInput();
-	virtual void update();
+	virtual void update(FrameTime mFT);
 	virtual void draw();
 private:
 	//Sets saveText to either say that the user has saved or not
@@ -65,6 +65,7 @@ private:
 	UnitTile* selected;
 
 	//UI stuff
+	sf::Vector2f cameraVelocity;
 
 	Button nextTurnButton;
 	sf::Text currentPlayerText;

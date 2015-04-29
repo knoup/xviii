@@ -3,6 +3,11 @@
 const unsigned int xResolution{1360};
 const unsigned int yResolution{768};
 
+using FrameTime = float;
+
+constexpr FrameTime ftSlice{1.f};
+constexpr FrameTime ftStep{1.f};
+
 const std::string SUCCESSFUL_ROTATION{"Successfully rotated to "};
 const std::string ALREADY_ATTACKED{"Cannot attack any more"};
 const std::string ALREADY_FACING{"Already facing "};

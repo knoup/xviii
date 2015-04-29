@@ -37,7 +37,7 @@ saveCreator{this}
 	uiSprite.setPosition(0, -174);
 
 	//FPS independent logic is not that crucial in a game without physics, but I should probably get around to it eventually anyway
-	mWindow.setFramerateLimit(120);
+	//mWindow.setFramerateLimit(120);
 	
 	MenuState = new GameState_Menu(this);
 	SelectNationsState = new GameState_SelectNations(this);
@@ -52,10 +52,31 @@ saveCreator{this}
 
 
 void Game::gameLoop(){
+	FrameTime lastFT{0.f};
+	FrameTime currentSlice{0.f};
+
 	while (mWindow.isOpen()){
+
+		auto timePoint1(boost::chrono::high_resolution_clock::now());
+
+		//////////////////////////////////////////////////////////
 		getInput();
-		update();
+
+		currentSlice += lastFT;
+
+		while (currentSlice >= ftSlice){
+			currentSlice -= ftSlice;
+			update(ftStep);
+		}
+
 		draw();
+		//////////////////////////////////////////////////////////
+
+		auto timePoint2(boost::chrono::high_resolution_clock::now());
+		auto elapsedTime(timePoint2 - timePoint1);
+
+		FrameTime ft{boost::chrono::duration_cast<boost::chrono::duration<float, boost::milli>>(elapsedTime).count()};
+		lastFT = ft;
 	}
 
 	delete SetupState;
@@ -68,8 +89,8 @@ void Game::getInput(){
 	state->getInput();
 }
 
-void Game::update(){
-	state->update();
+void Game::update(FrameTime mFT){
+	state->update(mFT);
 }
 
 void Game::draw(){

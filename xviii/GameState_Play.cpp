@@ -91,19 +91,19 @@ void GameState_Play::getInput(){
 			switch (event.key.code){
 
 			case UP_KEY:
-				game->currentView->move(0, -50);
+				cameraVelocity = {0.f, -2.f};
 				break;
 
 			case RIGHT_KEY:
-				game->currentView->move(50, 0);
+				cameraVelocity = {2.f, 0.f};
 				break;
 
 			case DOWN_KEY:
-				game->currentView->move(0, 50);
+				cameraVelocity = {0.f, 2.f};
 				break;
 
 			case LEFT_KEY:
-				game->currentView->move(-50, 0);
+				cameraVelocity = {-2.f, 0.f};
 				break;
 
 			case RESETZOOM_KEY:
@@ -280,7 +280,28 @@ void GameState_Play::saveTextString(bool _value){
 	}
 }
 
-void GameState_Play::update(){
+void GameState_Play::update(FrameTime mFT){
+	if (cameraVelocity.x >= -0.1 && cameraVelocity.x <= 0.1 && cameraVelocity.x != 0){
+		cameraVelocity = {0, 0};
+	}
+	else if (cameraVelocity.x > 0){
+		cameraVelocity.x -= 0.01f;
+	}
+	else if (cameraVelocity.x < 0){
+		cameraVelocity.x += 0.01f;
+	}
+
+	if (cameraVelocity.y >= -0.5 && cameraVelocity.y <= 0.5 && cameraVelocity.y != 0){
+		cameraVelocity = {0, 0};
+	}
+	else if (cameraVelocity.y > 0){
+		cameraVelocity.y -= 0.01f;
+	}
+	else if (cameraVelocity.y < 0){
+		cameraVelocity.y += 0.01f;
+	}
+
+	game->currentView->move(cameraVelocity * mFT);
 
 	currentMessageText.setString(currentMessage);
 

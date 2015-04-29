@@ -129,7 +129,7 @@ void GameState_SelectNations::getInput(){
 	}
 }
 
-void GameState_SelectNations::update(){
+void GameState_SelectNations::update(FrameTime mFT){
 	flagView.setCenter(flagIterator->sprite.getPosition().x, flagView.getCenter().y);
 
 	if (!flagIterator->highlighted){

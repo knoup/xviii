@@ -8,7 +8,7 @@ class GameState_SelectNations : public GameState
 public:
 	GameState_SelectNations(Game* game);
 	virtual void getInput();
-	virtual void update();
+	virtual void update(FrameTime mFT);
 	virtual void draw();
 
 private:

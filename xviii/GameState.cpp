@@ -10,7 +10,7 @@ void GameState::getInput(){
 
 }
 
-void GameState::update(){
+void GameState::update(FrameTime mFT){
 
 }
 

@@ -11,7 +11,7 @@ class GameState_Menu : public GameState
 public:
 	GameState_Menu(Game* game);
 	virtual void getInput();
-	virtual void update();
+	virtual void update(FrameTime mFT);
 	virtual void draw();
 private:
 	enum class Action{ NEW, LOAD };

@@ -50,10 +50,12 @@ public:
 
 	GameState_Setup(Game* game);
 	virtual void getInput();
-	virtual void update();
+	virtual void update(FrameTime mFT);
 	virtual void draw();
 
 private:
+	sf::Vector2f cameraVelocity;
+
 	sf::Text numbRemaining;
 	sf::Text currentPlayerText;
 	sf::Text deploymentPointsRemaining;

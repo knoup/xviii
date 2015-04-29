@@ -7,6 +7,7 @@
 #include "SaveGame.h"
 
 #include <random>
+#include <boost/chrono.hpp>
 
 class GameState;
 class GameState_Setup;
@@ -23,7 +24,7 @@ public:
 	void gameLoop();
 
 	void getInput();
-	void update();
+	void update(FrameTime mFT);
 	void draw();
 
 	void setGameStateSelectNations();
