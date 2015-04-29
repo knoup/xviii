@@ -56,11 +56,6 @@ public:
 	Player* currentPlayer;
 	sf::View* currentView;
 
-
-	sf::View uiView;
-
-	sf::Sprite uiSprite;
-
 	sf::Vector2i mousePos;
 
 	int elapsedTurns;

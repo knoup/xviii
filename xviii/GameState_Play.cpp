@@ -12,57 +12,23 @@ std::string boolToString(bool _value){
 
 GameState_Play::GameState_Play(Game* _game) : 
 GameState{_game},
+playUI(game->mTextureManager, game->mFontManager),
 selected{nullptr}
 {
-	nextTurnButton.sprite = game->mTextureManager.getSprite(TextureManager::UI::BUTTON);
-	nextTurnButton.sprite.setOrigin(nextTurnButton.sprite.getLocalBounds().width / 2, nextTurnButton.sprite.getLocalBounds().height / 2);
-	nextTurnButton.sprite.setPosition(1235, -80);
-	nextTurnButton.text.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	nextTurnButton.text.setOrigin(nextTurnButton.text.getLocalBounds().width / 2, nextTurnButton.text.getGlobalBounds().height / 2);
-	nextTurnButton.text.setPosition(nextTurnButton.sprite.getPosition().x, nextTurnButton.sprite.getPosition().y - 10);
-	nextTurnButton.rekt.setSize({nextTurnButton.sprite.getLocalBounds().width, nextTurnButton.sprite.getLocalBounds().height});
-	nextTurnButton.rekt.setOrigin(nextTurnButton.rekt.getLocalBounds().width / 2, nextTurnButton.rekt.getLocalBounds().height / 2);
-	nextTurnButton.rekt.setPosition(nextTurnButton.sprite.getPosition().x + nextTurnButton.rekt.getOutlineThickness()
-		, nextTurnButton.sprite.getPosition().y + nextTurnButton.rekt.getOutlineThickness());
-
-	nextTurnButton.text.setColor(sf::Color::White);
-
-	currentPlayerText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	currentPlayerText.setColor(sf::Color::Yellow);
-	currentPlayerText.setPosition(970, -170);
-
-	elapsedTurnsText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	elapsedTurnsText.setColor(sf::Color::Yellow);
-	elapsedTurnsText.setPosition(20, -170);
+	
 
 	tileDistanceText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
 	tileDistanceText.setString("");
 	tileDistanceText.setCharacterSize(20);
 
-	messageLogText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	messageLogText.setColor(sf::Color::White);
-	messageLogText.setCharacterSize(15);
-	messageLogText.setPosition(580, -170);
-	messageLogText.setString("Messages");
 
-	currentMessageText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	currentMessageText.setColor(sf::Color::Cyan);
-	currentMessageText.setCharacterSize(22);
-	currentMessageText.setPosition(220, -150);
+	//elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
 
-
-	elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
-
-	saveText.setFont(game->mFontManager.getFont(FontManager::Type::Arial));
-	saveText.setCharacterSize(20);
-	saveText.setPosition(20, -80);
-	saveTextString(false);
 }
 
 void GameState_Play::oneTimeUpdate(){
-	currentPlayerText.setString(game->currentPlayer->getName());
-	currentPlayerText.setColor(game->currentPlayer->getColour());
-	elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
+	playUI.setCurrentPlayerText(game->currentPlayer->getName());
+	playUI.setElapsedTurnsText(game->elapsedTurns);
 }
 
 void GameState_Play::getInput(){
@@ -120,35 +86,35 @@ void GameState_Play::getInput(){
 
 			case NORTH_KEY:
 				if (selected != nullptr){
-					currentMessage = selected->rotate(UnitTile::Direction::N);
-					saveTextString(false);
+					playUI.setCurrentMessageText(selected->rotate(UnitTile::Direction::N));
+					playUI.setSaveStatus(false);
 				}
 				break;
 
 			case EAST_KEY:
 				if (selected != nullptr){
-					currentMessage = selected->rotate(UnitTile::Direction::E);
-					saveTextString(false);
+					playUI.setCurrentMessageText(selected->rotate(UnitTile::Direction::E));
+					playUI.setSaveStatus(false);
 				}
 				break;
 
 			case SOUTH_KEY:
 				if (selected != nullptr){
-					currentMessage = selected->rotate(UnitTile::Direction::S);
-					saveTextString(false);
+					playUI.setCurrentMessageText(selected->rotate(UnitTile::Direction::S));
+					playUI.setSaveStatus(false);
 				}
 				break;
 
 			case WEST_KEY:
 				if (selected != nullptr){
-					currentMessage = selected->rotate(UnitTile::Direction::W);
-					saveTextString(false);
+					playUI.setCurrentMessageText(selected->rotate(UnitTile::Direction::W));
+					playUI.setSaveStatus(false);
 				}
 				break;
 
 			case TOGGLE_SAVE:
 				if (game->saveCreator.create()){
-					saveTextString(true);
+					playUI.setSaveStatus(true);
 				}
 				break;
 
@@ -170,11 +136,11 @@ void GameState_Play::getInput(){
 			if (event.mouseButton.button == sf::Mouse::Left){
 				sf::Vector2i mouseCoords{event.mouseButton.x, event.mouseButton.y};
 				sf::Vector2i worldCoords{game->mWindow.mapPixelToCoords(mouseCoords, *game->currentView)};
-				sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, game->uiView)};
+				sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, playUI.uiView)};
 
-				if (uiCoords.x >= nextTurnButton.left() && uiCoords.x <= nextTurnButton.right()
+				if (uiCoords.x >= playUI.getButton().left() && uiCoords.x <= playUI.getButton().right()
 					&&
-					uiCoords.y >= nextTurnButton.top() && uiCoords.y <= nextTurnButton.bottom()){
+					uiCoords.y >= playUI.getButton().top() && uiCoords.y <= playUI.getButton().bottom()){
 
 					game->currentPlayer->setReady(true);
 
@@ -213,14 +179,14 @@ void GameState_Play::getInput(){
 
 						//If vacant, move to the tile
 						if (!occupied){
-							currentMessage = selected->moveTo(terrain);
-							saveTextString(false);
+							playUI.setCurrentMessageText(selected->moveTo(terrain));
+							playUI.setSaveStatus(false);
 						}
 
 						//If the tile is occupied by an enemy unit, attack
 						if (occupied && !friendly){
-							currentMessage = selected->attack(unit);
-							saveTextString(false);
+							playUI.setCurrentMessageText(selected->attack(unit));
+							playUI.setSaveStatus(false);
 
 							selected->modVector.clear();
 							unit->modVector.clear();
@@ -236,8 +202,8 @@ void GameState_Play::getInput(){
 
 						}
 						else if (occupied && friendly){
-							currentMessage = selected->interactWithFriendly(unit);
-							saveTextString(false);
+							playUI.setCurrentMessageText(selected->interactWithFriendly(unit));
+							playUI.setSaveStatus(false);
 							//specially for the general's heal ability
 						}
 					}
@@ -263,20 +229,11 @@ void GameState_Play::getInput(){
 					selected = nullptr;
 				}
 				
-				currentMessage.clear();
+				playUI.clearCurrentMessageText();
 			}
 
 			break;
 		}
-	}
-}
-
-void GameState_Play::saveTextString(bool _value){
-	if (_value){
-		saveText.setString("Saved!");
-	}
-	else{
-		saveText.setString("Not saved");
 	}
 }
 
@@ -303,11 +260,9 @@ void GameState_Play::update(FrameTime mFT){
 
 	game->currentView->move(cameraVelocity * mFT);
 
-	currentMessageText.setString(currentMessage);
-
 	if (game->currentPlayer->isReady()){
 		//Blank the current message
-		currentMessage.clear();
+		playUI.clearCurrentMessageText();
 
 		for (auto& unit : game->mWorld.getUnitLayer()){
 			if (unit->getPlayer() == game->currentPlayer){
@@ -318,23 +273,22 @@ void GameState_Play::update(FrameTime mFT){
 		game->nextPlayer();
 		game->elapsedTurns += 1;
 
-		saveTextString(false);
-		currentPlayerText.setString(game->currentPlayer->getName());
-		currentPlayerText.setColor(game->currentPlayer->getColour());
-		elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
+		playUI.setSaveStatus(false);
+		playUI.setCurrentPlayerText(game->currentPlayer->getName());
+		playUI.setElapsedTurnsText(game->elapsedTurns);
 	}
 
 	//For the highlighting of the next turn button:
-	sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, game->uiView)};
+	sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, playUI.uiView)};
 
-	if (uiCoords.x >= nextTurnButton.left() && uiCoords.x <= nextTurnButton.right()
+	if (uiCoords.x >= playUI.getButton().left() && uiCoords.x <= playUI.getButton().right()
 		&&
-		uiCoords.y >= nextTurnButton.top() && uiCoords.y <= nextTurnButton.bottom()){
+		uiCoords.y >= playUI.getButton().top() && uiCoords.y <= playUI.getButton().bottom()){
 
-		nextTurnButton.highlighted = true;
+		playUI.setButtonHighlighted(true);
 	}
 	else{
-		nextTurnButton.highlighted = false;
+		playUI.setButtonHighlighted(false);
 	}
 
 	//Code for the mouse indicator of distance:
@@ -406,17 +360,7 @@ void GameState_Play::draw(){
 	if (selected != nullptr){
 		game->mWindow.draw(tileDistanceText);
 	}
-
-	game->mWindow.setView(game->uiView);
-	game->mWindow.draw(game->uiSprite);
-	game->mWindow.draw(currentPlayerText);
-	game->mWindow.draw(elapsedTurnsText);
-	game->mWindow.draw(saveText);
-
-	if (!currentMessage.empty()){
-		game->mWindow.draw(currentMessageText);
-	}
-
-	game->mWindow.draw(messageLogText);
-	nextTurnButton.draw(game->mWindow);
+	
+	game->mWindow.setView(playUI.uiView);
+	playUI.draw(game->mWindow);
 }

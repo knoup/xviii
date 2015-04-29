@@ -2,6 +2,8 @@
 #include "GameState.h"
 #include "global.h"
 
+#include "PlayUI.h"
+
 class GameState_Play : public GameState
 {
 public:
@@ -59,26 +61,13 @@ public:
 	virtual void update(FrameTime mFT);
 	virtual void draw();
 private:
-	//Sets saveText to either say that the user has saved or not
-	void saveTextString(bool _value);
-
 	UnitTile* selected;
 
-	//UI stuff
 	sf::Vector2f cameraVelocity;
 
-	Button nextTurnButton;
-	sf::Text currentPlayerText;
-	sf::Text elapsedTurnsText;
-
 	sf::Text tileDistanceText;
-	//Purely aesthetic
-	sf::Text messageLogText;
 
-	sf::Text currentMessageText;
+	PlayUI playUI;
 
-	sf::Text saveText;
-
-	std::string currentMessage;
 };
 

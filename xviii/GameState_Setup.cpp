@@ -4,36 +4,9 @@
 
 GameState_Setup::GameState_Setup(Game* _game) :
 GameState{_game},
+setupUI(game->mTextureManager, game->mFontManager),
 selectedSpawnableUnit{nullptr}
 {
-	numbRemaining.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	numbRemaining.setCharacterSize(70);
-	numbRemaining.setColor(sf::Color::Green);
-	numbRemaining.setPosition(145,-170);
-
-	currentPlayerText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	currentPlayerText.setColor(sf::Color::Yellow);
-	currentPlayerText.setPosition(970, -170);
-
-	deploymentPointsRemaining.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	deploymentPointsRemaining.setCharacterSize(19);
-	deploymentPointsRemaining.setColor(sf::Color::White);
-	deploymentPointsRemaining.setPosition(60, -80);
-
-	deploymentPointsRemaining.setString("deployment points remain");
-
-	readyButton.sprite = game->mTextureManager.getSprite(TextureManager::UI::BUTTON);
-	readyButton.sprite.setOrigin(readyButton.sprite.getLocalBounds().width / 2, readyButton.sprite.getLocalBounds().height / 2);
-	readyButton.sprite.setPosition(1235, -80);
-	readyButton.text.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
-	readyButton.text.setOrigin(readyButton.text.getLocalBounds().width / 2, readyButton.text.getGlobalBounds().height / 2);
-	readyButton.text.setPosition(readyButton.sprite.getPosition().x, readyButton.sprite.getPosition().y - 10);
-	readyButton.rekt.setSize({readyButton.sprite.getLocalBounds().width, readyButton.sprite.getLocalBounds().height});
-	readyButton.rekt.setOrigin(readyButton.rekt.getLocalBounds().width / 2, readyButton.rekt.getLocalBounds().height / 2);
-	readyButton.rekt.setPosition(readyButton.sprite.getPosition().x + readyButton.rekt.getOutlineThickness()
-		, readyButton.sprite.getPosition().y + readyButton.rekt.getOutlineThickness());
-
-	readyButton.text.setColor(sf::Color::White);
 }
 
 void GameState_Setup::getInput(){
@@ -61,7 +34,7 @@ void GameState_Setup::getInput(){
 
 				if (selectedSpawnableUnit == nullptr){
 					sf::Vector2f worldCoords{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
-					sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, game->uiView)};
+					sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, setupUI.uiView)};
 
 					std::vector<Player::SpawnableUnit> current{game->currentPlayer->getSpawnableUnits()};
 
@@ -77,9 +50,9 @@ void GameState_Setup::getInput(){
 					}
 
 
-					if (uiCoords.x >= readyButton.left() && uiCoords.x <= readyButton.right()
+					if (uiCoords.x >= setupUI.getButton().left() && uiCoords.x <= setupUI.getButton().right()
 						&&
-						uiCoords.y >= readyButton.top() && uiCoords.y <= readyButton.bottom()){
+						uiCoords.y >= setupUI.getButton().top() && uiCoords.y <= setupUI.getButton().bottom()){
 						
 						//As long as the player has at least one non-general unit
 						if (game->currentPlayer->getDeploymentPoints() <= 29){
@@ -214,10 +187,9 @@ void GameState_Setup::update(FrameTime mFT){
 
 	game->currentView->move(cameraVelocity * mFT);
 
-	currentPlayerText.setString(game->currentPlayer->getName());
-	currentPlayerText.setColor(game->currentPlayer->getColour());
+	setupUI.setCurrentPlayerText(game->currentPlayer->getName());
 
-	numbRemaining.setString(std::to_string(game->currentPlayer->getDeploymentPoints()));
+	setupUI.setNumbRemaining((game->currentPlayer->getDeploymentPoints()));
 
 	if (game->currentPlayer->isReady()){
 		if (game->currentPlayer == game->Player1){
@@ -228,19 +200,19 @@ void GameState_Setup::update(FrameTime mFT){
 			game->setGameStatePlay();
 		}
 
-		currentPlayerText.setString(game->currentPlayer->getName());
+		setupUI.setCurrentPlayerText(game->currentPlayer->getName());
 
 	}
 
 	//Changes the color of the number depending on how many points you have
 	if (game->currentPlayer->getDeploymentPoints() > 20){
-		numbRemaining.setColor(sf::Color::Green);
+		setupUI.setNumbRemainingColour(sf::Color::Green);
 	}
 	else if (game->currentPlayer->getDeploymentPoints() > 10){
-		numbRemaining.setColor(sf::Color::Yellow);
+		setupUI.setNumbRemainingColour(sf::Color::Yellow);
 	}
 	else{
-		numbRemaining.setColor(sf::Color::Red);
+		setupUI.setNumbRemainingColour(sf::Color::Red);
 	}
 
 	sf::Vector2f worldCoords{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
@@ -250,16 +222,16 @@ void GameState_Setup::update(FrameTime mFT){
 	}
 
 	//For the highlighting of the ready button:
-	sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, game->uiView)};
+	sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, setupUI.uiView)};
 
-	if (uiCoords.x >= readyButton.left() && uiCoords.x <= readyButton.right()
+	if (uiCoords.x >= setupUI.getButton().left() && uiCoords.x <= setupUI.getButton().right()
 		&&
-		uiCoords.y >= readyButton.top() && uiCoords.y <= readyButton.bottom()){
+		uiCoords.y >= setupUI.getButton().top() && uiCoords.y <= setupUI.getButton().bottom()){
 
-		readyButton.highlighted = true;
+		setupUI.setButtonHighlighted(true);
 	}
 	else{
-		readyButton.highlighted = false;
+		setupUI.setButtonHighlighted(false);
 	}
 }
 
@@ -268,14 +240,9 @@ void GameState_Setup::draw(){
 	game->mWorld.draw(game->mWindow);
 
 	//
-	game->mWindow.setView(game->uiView);
-
-	game->mWindow.draw(game->uiSprite);
-	game->mWindow.draw(numbRemaining);
-	game->mWindow.draw(currentPlayerText);
-	game->mWindow.draw(deploymentPointsRemaining);
-
-	readyButton.draw(game->mWindow);
+	game->mWindow.setView(setupUI.uiView);
+	setupUI.draw(game->mWindow);
+	
 
 	for (auto& item : game->currentPlayer->getSpawnableUnits()){
 		game->mWindow.draw(item.unitSprite);
