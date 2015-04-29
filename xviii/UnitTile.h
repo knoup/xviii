@@ -44,10 +44,10 @@
 	X(UnitTile::UnitType::HUS, Hussar, "hussar", TextureManager::Unit::LCAV)\
 	X(UnitTile::UnitType::COUR, Courtin, "courtin", TextureManager::Unit::CAV)\
 	X(UnitTile::UnitType::SEG, Segbans, "segbans", TextureManager::Unit::DRAG)\
-	X(UnitTile::UnitType::BOY, Boyar, "boyar", TextureManager::Unit::CAV)\
-	X(UnitTile::UnitType::DOR, Dorunaby, "dorunaby", TextureManager::Unit::INF)\
+	X(UnitTile::UnitType::BOY, Boyar, "boyar", TextureManager::Unit::CUIR)\
+	X(UnitTile::UnitType::DOR, Dorunaby, "dorunaby", TextureManager::Unit::GRE)\
 	X(UnitTile::UnitType::VIT, Vitae, "vitae", TextureManager::Unit::LINF)\
-	X(UnitTile::UnitType::ARN, Arnauts, "arnauts", TextureManager::Unit::LINF)\
+	X(UnitTile::UnitType::ARN, Arnauts, "arnauts", TextureManager::Unit::INF)\
 
 class Player;
 class World;
