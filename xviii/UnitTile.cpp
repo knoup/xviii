@@ -728,7 +728,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 	for (auto& mod : attackerModifiers){
 		if (mod.modFloat != 0){
-			if (mod.modType == UnitTile::Modifier::ADDITIONAL){
+			if (mod.modType == UnitTile::Modifier::ADDITIONAL || mod.modType == UnitTile::Modifier::ATK){
 				std::string append{mod.modFloat >= 0 ? "+" : ""};
 				result << "[" + modToString(mod) + ": " + append + roundFloat(mod.modFloat) + "]";
 			}
@@ -744,7 +744,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 	for (auto& mod : defenderModifiers){
 		if (mod.modFloat != 0){
-			if (mod.modType == UnitTile::Modifier::ADDITIONAL){
+			if (mod.modType == UnitTile::Modifier::ADDITIONAL || mod.modType == UnitTile::Modifier::ATK){
 				std::string append{mod.modFloat >= 0 ? "+" : ""};
 				result << "[" + modToString(mod) + ": " + append + roundFloat(mod.modFloat) + "]";
 			}
@@ -760,7 +760,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 void UnitTile::multRollByModifiers(float &originalRoll){
 	for (auto& mod : modVector){
 		if (mod.modFloat != 0){
-			if (mod.modType != Modifier::ADDITIONAL){
+			if (mod.modType != Modifier::ADDITIONAL || mod.modType != UnitTile::Modifier::ATK){
 				originalRoll *= mod.modFloat;
 			}
 		}
@@ -769,7 +769,7 @@ void UnitTile::multRollByModifiers(float &originalRoll){
 
 	for (auto& mod : modVector){
 		if (mod.modFloat != 0){
-			if (mod.modType == Modifier::ADDITIONAL){
+			if (mod.modType == Modifier::ADDITIONAL || mod.modType == UnitTile::Modifier::ATK){
 			originalRoll += mod.modFloat;
 			}
 		}
