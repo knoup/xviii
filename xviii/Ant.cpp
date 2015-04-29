@@ -74,6 +74,7 @@ void Ant::crawl(){
 
 		//Create new terrain as needed, type associations defined in TERRAINPROPERTIES (TerrainTile.h)
 		switch (type){
+			//type, class, texture, string
 			#define X(_type, cl, texture, str)\
 					case(_type):\
 						world->terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl{world, world->tm, currentPos}));\

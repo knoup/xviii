@@ -49,7 +49,7 @@ std::string General::interactWithFriendly(UnitTile* _unit){
 
 void General::takeDamage(float _dmg){
 	if (hp - _dmg < 0.4){
-		for (auto& unit : world.getCombatLayer()){
+		for (auto& unit : world.getUnitLayer()){
 			if (unit->getPlayer() == this->getPlayer() && unit.get() != this){
 				unit->takeDamage(2);
 			}

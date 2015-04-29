@@ -13,8 +13,8 @@ Player::Nation stringToNation(std::string _name){
 }
 
 UnitTile::UnitType stringToUnitType(std::string _str){
-	//UnitType, class, shorthand name
-	#define X(type, cl, str)\
+	//type, class, string, texture
+	#define X(type, cl, str, texture)\
 	if(_str == str)\
 		return type;
 	UNITPROPERTIES
@@ -126,6 +126,7 @@ bool SaveGame::create(){
 		save << std::to_string(i) << "=";
 
 		switch (currentType){
+			//type, class, texture, string
 			#define X(_type, cl, texture, str)\
 			case(_type):\
 			save << str;\
@@ -275,6 +276,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				
 				currentPos = game->mWorld.posAtIndex(currentIndex);
 
+				//type, class, texture, string
 				#define X(_type, cl, texture, str)\
 					if(currentTypeStr == str)\
 						game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(&game->mWorld, game->mTextureManager, currentPos)));
@@ -410,6 +412,7 @@ else if (line.find("w{") != std::string::npos){
 
 		sf::Vector2f currentPos = game->mWorld.posAtIndex(currentIndex);
 
+		//type, class, texture, string
 		#define X(_type, cl, texture, str)\
 		if(currentTypeStr == str)\
 				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(&game->mWorld, game->mTextureManager, currentPos)));

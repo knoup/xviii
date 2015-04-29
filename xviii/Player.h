@@ -68,7 +68,11 @@
 class Player
 {
     public:
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		struct SpawnableUnit{
+			
+			//Data members
+
 			sf::Text unitName;
 			sf::Sprite unitSprite;
 			Player* player;
@@ -84,10 +88,10 @@ class Player
 
 				//set sprite and string with macro
 				switch (type){
-					//type, class, str, texture
-					#define X(_type, cl, str, text)\
+					//type, class, string, texture
+					#define X(_type, cl, str, texture)\
 					case(_type):\
-						unitSprite = player->tm.getSprite(text);\
+						unitSprite = player->tm.getSprite(texture);\
 						unitName.setString(str);\
 						break;
 					UNITPROPERTIES
@@ -101,8 +105,8 @@ class Player
 			}
 
 
-
-			/////////////////////////////////////////////////
+			//Member functions
+			
 			int top() const{
 				return unitSprite.getPosition().y - unitSprite.getLocalBounds().height / 2;
 			}
@@ -121,6 +125,7 @@ class Player
 				return{float(400 + ((coords.x - 1) * 100)), float(-130 + ((coords.y - 1) * 70))};
 			}
 		};
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 		enum class Nation{ AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL};
@@ -128,14 +133,15 @@ class Player
 		
 		//Returns true if successfully spawned unit
 		bool spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords);
+		//Returns true if succesfully removed unit
+		bool removeUnit(sf::Vector2i _worldCoords);
 		//For loading from a save game
 		void loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed);
 
-		//Returns true if succesfully removed unit
-		bool removeUnit(sf::Vector2i _worldCoords);
-
         const World& getWorld() const;
+
 		int getDeploymentPoints() const;
+
 		std::string getName() const;
 
 		bool isReady() const;
@@ -155,7 +161,7 @@ class Player
 		sf::Color getColour() const;
 		Nation getNation() const;
 
-		std::vector<SpawnableUnit>& getSpawnableUnits();
+		const std::vector<SpawnableUnit>& getSpawnableUnits() const;
 
     private:
         World& world;

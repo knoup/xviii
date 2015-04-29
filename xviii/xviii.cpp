@@ -7,6 +7,7 @@
 TODO:
 	-Implement specialised MudAnt and HillAnt classes
 	-Seperate UI from implementation
+	-Players need to have pointers to their own units
 */
 
 /*

@@ -30,38 +30,35 @@ public:
 
 	void generateRandomWorld();
 
-	int indexAtMouseCoords(sf::Vector2i _pos);
-	int indexAtCartesianCoords(sf::Vector2i _pos);
-	int indexAtTile(Tile& _tile);
-	sf::Vector2i cartesianCoordsAtIndex(int _index);
-	sf::Vector2f posAtIndex(int _index);
+	int indexAtMouseCoords(sf::Vector2i _pos) const;
+	int indexAtCartesianCoords(sf::Vector2i _pos) const;
+	int indexAtTile(Tile& _tile) const;
+	sf::Vector2i cartesianCoordsAtIndex(int _index) const;
+	sf::Vector2f posAtIndex(int _index) const;
 
 	//Places a unit at the specified tile, if it is unoccupied
 	bool placeAt(sf::Vector2i _pos, UnitTile::unitPtr ptr);
 
 	//Returns a [regular] pointer to the unit at this mouse coordinate position, if there is any
 	UnitTile* unitAtMouseCoords(sf::Vector2i _pos);
-	//Version that takes in a terrain pointer:
+	//Takes in terrain ptr
 	UnitTile* unitAt(TerrainTile* _terrain);
 
 	TerrainTile* terrainAtMouseCoords(sf::Vector2i _pos);
 	TerrainTile* terrainAtCartesianCoords(sf::Vector2i _pos);
 
-	//Deletes and returns a [unique] pointer to the unit at this mouse coordinate position
+	//Deletes and returns a [unique] pointer to the unit
+	//Takes in mouse coordinates
 	UnitTile::unitPtr removeUnit(sf::Vector2i _pos);
-	//Completely removes from play a unit
+	//Takes in unit ptr
 	UnitTile::unitPtr removeUnit(UnitTile* _ptr);
 
-	//Overloaded function that removes a unit if you have a pointer to it already
-	//UnitTile::unitPtr removeUnit(UnitTile* _ptr);
-
-	//Returns a reference to the combat layer
-	const std::vector<UnitTile::unitPtr>& getCombatLayer() const;
+	const std::vector<UnitTile::unitPtr>& getUnitLayer() const;
+	const std::vector<UnitTile*>& getDamagedUnits() const;
 
 	sf::Vector2i getDimensions() const;
 	sf::Vector2i getDimensionsInPixels() const;
 
-	const std::vector<UnitTile*>& getDamagedUnits() const;
 	void addToDamagedUnits(UnitTile* unit);
 	void clearDamagedUnits();
 
@@ -80,7 +77,7 @@ private:
 
 	std::vector<UnitTile::unitPtr> unitLayer;
 
-	//The final vector is reset every turn; it contains the units that have been damaged this attack
+	//This vector stores pointers to the units that have been damaged during an attack. It is reset afterwards
 	std::vector<UnitTile*> damagedUnits;
 
 

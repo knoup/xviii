@@ -109,7 +109,8 @@ std::string UnitTile::modToString(ModifierReport _mod){
 
 std::string UnitTile::typeToString(){
 	switch (unitType){
-	#define X(unitType, cl, str)\
+		//type, class, string, texture
+	#define X(unitType, cl, str, texture)\
 		case (unitType):\
 		return str;\
 		break;
@@ -120,8 +121,8 @@ std::string UnitTile::typeToString(){
 
 UnitTile::UnitTile(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
 Tile(tm, id),
-world{_world},
-mt19937{_mt19937},
+world(_world),
+mt19937(_mt19937),
 unitType{type},
 unitFamilyType{familyType},
 player{_belongsToPlayer},

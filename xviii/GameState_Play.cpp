@@ -205,7 +205,7 @@ void GameState_Play::getInput(){
 					if (terrain != nullptr){
 						bool occupied{false};
 
-						for (auto& unitInLayer : game->mWorld.getCombatLayer()){
+						for (auto& unitInLayer : game->mWorld.getUnitLayer()){
 							if (unitInLayer->getTerrain() == terrain){
 								occupied = true;
 							}
@@ -309,7 +309,7 @@ void GameState_Play::update(FrameTime mFT){
 		//Blank the current message
 		currentMessage.clear();
 
-		for (auto& unit : game->mWorld.getCombatLayer()){
+		for (auto& unit : game->mWorld.getUnitLayer()){
 			if (unit->getPlayer() == game->currentPlayer){
 				unit->reset();
 			}

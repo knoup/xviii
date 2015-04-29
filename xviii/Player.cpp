@@ -6,11 +6,11 @@ static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yRe
 static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution, yResolution)}};
 
 Player::Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom) :
-world{_world},
+world(_world),
 nation{_nation},
-mt19937{_mt19937},
-tm{_tm},
-fm{_fm},
+mt19937(_mt19937),
+tm(_tm),
+fm(_fm),
 deploymentPoints{30},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
@@ -121,7 +121,8 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 	//Create the appropriate unit
 
 	switch (_type){
-	#define X(type, cl, str)\
+		//type, class, string, texture
+	#define X(type, cl, str, texture)\
 		case(type):\
 			ptr = std::move(std::unique_ptr<cl>(new cl(world, mt19937, this, tm, fm, dir)));\
 			break;
@@ -146,7 +147,7 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 		auto unitType = ptr->getUnitType();
 		int unitsOfType{0};
 
-		for (auto& unit : world.getCombatLayer()){
+		for (auto& unit : world.getUnitLayer()){
 			if (unit->getPlayer() == this && unit->getUnitType() == unitType){
 				unitsOfType += 1;
 			}
@@ -172,7 +173,8 @@ void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Dir
 	UnitTile::unitPtr ptr;
 
 		switch (_type){
-	#define X(type, cl, str)\
+			//type, class, string, texture
+	#define X(type, cl, str, texture)\
 		case(type):\
 			ptr = std::move(std::unique_ptr<cl>(new cl(world, mt19937, this, tm, fm, _dir)));\
 			break;
@@ -236,7 +238,7 @@ Player::Nation Player::getNation() const{
 	return nation;
 }
 
-std::vector<Player::SpawnableUnit>& Player::getSpawnableUnits(){
+const std::vector<Player::SpawnableUnit>& Player::getSpawnableUnits() const{
 	return spawnableUnits;
 }
 

@@ -8,7 +8,7 @@ tm(_tm),
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * tm.getSize().x, dimensions.y * tm.getSize().y)},
 mt19937(_mt19937),
-mTexture{tm.getTerrainTexture()}
+mTexture(tm.getTerrainTexture())
 {
 	mVertices.setPrimitiveType(sf::PrimitiveType::Quads);
 	mVertices.resize(dimensions.x * dimensions.y * 4);
@@ -86,7 +86,7 @@ at that position, according to the following format:
 Depending on the dimensions of the world, obviously
 
 */
-int World::indexAtMouseCoords(sf::Vector2i _pos){
+int World::indexAtMouseCoords(sf::Vector2i _pos) const{
 	return  int{_pos.x / tm.getSize().x} +int{_pos.y / tm.getSize().y} *dimensions.x;
 }
 
@@ -95,23 +95,23 @@ int World::indexAtMouseCoords(sf::Vector2i _pos){
 
 //N.B.: Takes TRUE coordinates, +1. Valid ranges are (0,0) -> (size.x - 1, size.y - 1)
 
-int World::indexAtCartesianCoords(sf::Vector2i _pos){
+int World::indexAtCartesianCoords(sf::Vector2i _pos) const{
 	return int{_pos.x} +int{_pos.y} *dimensions.x;
 }
 
-int World::indexAtTile(Tile& _tile){
+int World::indexAtTile(Tile& _tile) const{
 	return indexAtMouseCoords(sf::Vector2i{_tile.left(), _tile.top()});
 }
 
 //This function takes the TRUE coordinates (5,2) and gives you the index:
-sf::Vector2i World::cartesianCoordsAtIndex(int _index){
+sf::Vector2i World::cartesianCoordsAtIndex(int _index) const{
 	return{_index % dimensions.x, _index/dimensions.x};
 }
 
 //Takes in an index and returns the theoretical position of this object, whether it exists or not.
 //Does not access terrainLayer, therefore making it useful when you want to find what the position
 //of an uninitialised terrain tile tile would be
-sf::Vector2f World::posAtIndex(int _index){
+sf::Vector2f World::posAtIndex(int _index) const{
 	return {sf::Vector2f(cartesianCoordsAtIndex(_index).x * tm.getSize().x, cartesianCoordsAtIndex(_index).y * tm.getSize().y)};
 }
 
@@ -230,7 +230,7 @@ UnitTile::unitPtr World::removeUnit(UnitTile* _ptr){
 	}
 }
 
-const std::vector<UnitTile::unitPtr>& World::getCombatLayer() const{
+const std::vector<UnitTile::unitPtr>& World::getUnitLayer() const{
 	return unitLayer;
 }
 
