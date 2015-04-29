@@ -391,6 +391,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 	}
 
+	#undef AFTEREQUALS	
+
 }
 
 //Older version of the world parsing algorithm that requires every tile's type be reported
