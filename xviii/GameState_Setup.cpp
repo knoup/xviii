@@ -4,7 +4,7 @@
 
 GameState_Setup::GameState_Setup(Game* _game) :
 GameState{_game},
-setupUI(game->mTextureManager, game->mFontManager),
+setupUI(this, game->mTextureManager, game->mFontManager),
 selectedSpawnableUnit{nullptr}
 {
 }
@@ -143,8 +143,16 @@ void GameState_Setup::getInput(){
 				game->currentView->setSize(game->currentView->getSize().x + xResolution / 10, game->currentView->getSize().y + yResolution / 10);
                 break;
 
-			default:
+			case HIDE_UI_KEY:
+				if (drawUI){
+					drawUI = false;
+				}
+				else if (!drawUI){
+					drawUI = true;
+				}
 				break;
+
+			default: break;
 			}
 
 			break;
@@ -187,9 +195,7 @@ void GameState_Setup::update(FrameTime mFT){
 
 	game->currentView->move(cameraVelocity * mFT);
 
-	setupUI.setCurrentPlayerText(game->currentPlayer->getName());
-
-	setupUI.setNumbRemaining((game->currentPlayer->getDeploymentPoints()));
+	setupUI.update();
 
 	if (game->currentPlayer->isReady()){
 		if (game->currentPlayer == game->Player1){
@@ -199,39 +205,13 @@ void GameState_Setup::update(FrameTime mFT){
 			game->nextPlayer();
 			game->setGameStatePlay();
 		}
-
-		setupUI.setCurrentPlayerText(game->currentPlayer->getName());
-
 	}
 
-	//Changes the color of the number depending on how many points you have
-	if (game->currentPlayer->getDeploymentPoints() > 20){
-		setupUI.setNumbRemainingColour(sf::Color::Green);
-	}
-	else if (game->currentPlayer->getDeploymentPoints() > 10){
-		setupUI.setNumbRemainingColour(sf::Color::Yellow);
-	}
-	else{
-		setupUI.setNumbRemainingColour(sf::Color::Red);
-	}
 
 	sf::Vector2f worldCoords{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
 
     if(selectedSpawnableUnit != nullptr){
             selectedSpawnableUnit->unitSprite.setPosition(worldCoords);
-	}
-
-	//For the highlighting of the ready button:
-	sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, setupUI.uiView)};
-
-	if (uiCoords.x >= setupUI.getButton().left() && uiCoords.x <= setupUI.getButton().right()
-		&&
-		uiCoords.y >= setupUI.getButton().top() && uiCoords.y <= setupUI.getButton().bottom()){
-
-		setupUI.setButtonHighlighted(true);
-	}
-	else{
-		setupUI.setButtonHighlighted(false);
 	}
 }
 
@@ -240,9 +220,11 @@ void GameState_Setup::draw(){
 	game->mWorld.draw(game->mWindow);
 
 	//
-	game->mWindow.setView(setupUI.uiView);
-	setupUI.draw(game->mWindow);
-	
+	if (drawUI){
+		game->mWindow.setView(setupUI.uiView);
+		setupUI.draw(game->mWindow);
+	}
+	//
 
 	for (auto& item : game->currentPlayer->getSpawnableUnits()){
 		game->mWindow.draw(item.unitSprite);

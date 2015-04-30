@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "UI.h"
 
+#include "GameState.h"
 
-UI::UI(TextureManager& _tm, FontManager& _fm) :
+UI::UI(GameState* _gameState, TextureManager& _tm, FontManager& _fm) :
+gameState(_gameState),
 tm(_tm),
 fm(_fm),
 uiView{sf::FloatRect(0, -174, xResolution, 154)},
@@ -43,8 +45,4 @@ void UI::setButtonHighlighted(bool val){
 
 const UI::Button& UI::getButton() const{
 	return button;
-}
-
-void UI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
-	
 }

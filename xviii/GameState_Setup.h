@@ -16,6 +16,7 @@ public:
 private:
 	sf::Vector2f cameraVelocity;
 	SetupUI setupUI;
+	bool drawUI{true};
 
 	std::unique_ptr<Player::SpawnableUnit> selectedSpawnableUnit;
 

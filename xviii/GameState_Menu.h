@@ -30,7 +30,6 @@ private:
 
 	std::vector<saveObject> menuList;
 	
-	
 	//menuIterator will serve as an easy way to access the pointer to
 	// the currently selected option that can be incremented and
 	//decremented to move around the vector
@@ -38,5 +37,7 @@ private:
 	std::vector<saveObject>::iterator menuIterator;
 
 	sf::View menuSelectView;
+
+	sf::Text titleText;
 };
 

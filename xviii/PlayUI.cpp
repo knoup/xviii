@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "PlayUI.h"
 
+#include "GameState_Play.h"
 
-PlayUI::PlayUI(TextureManager& _tm, FontManager& _fm) : 
-UI(_tm, _fm)
+PlayUI::PlayUI(GameState_Play* _gameState, TextureManager& _tm, FontManager& _fm) :
+UI(_gameState, _tm, _fm)
 {
 	button.text.setCharacterSize(20);
 	button.setString("NEXT TURN");
@@ -53,6 +54,29 @@ void PlayUI::setSaveStatus(bool val){
 	}
 	else{
 		saveText.setString("Not saved");
+	}
+}
+
+void PlayUI::update(){
+	if (gameState->game->currentPlayer->isReady()){
+		clearCurrentMessageText();
+		setSaveStatus(false);
+	}
+
+	setCurrentPlayerText(gameState->game->currentPlayer->getName());
+	setElapsedTurnsText(gameState->game->elapsedTurns);
+
+	//For the highlighting of the next turn button:
+	sf::Vector2f uiCoords{gameState->game->mWindow.mapPixelToCoords(gameState->game->mousePos, uiView)};
+
+	if (uiCoords.x >= button.left() && uiCoords.x <= button.right()
+		&&
+		uiCoords.y >= button.top() && uiCoords.y <= button.bottom()){
+
+		setButtonHighlighted(true);
+	}
+	else{
+		setButtonHighlighted(false);
 	}
 }
 

@@ -5,6 +5,21 @@ GameState_Menu::GameState_Menu(Game* game) :
 GameState{game},
 menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)}
 {
+	titleText.setString("X V I I I");
+	titleText.setCharacterSize(275);
+	titleText.setFont(game->mFontManager.getFont(FontManager::Eighteen));
+	
+	//Randomise title text colour, for the heck of it:
+	std::uniform_int_distribution<int> distribution(0, 255);
+	int randColourR{distribution(game->mtengine)};
+	int randColourG{distribution(game->mtengine)};
+	int randColourB{distribution(game->mtengine)};
+	titleText.setColor(sf::Color(randColourR, randColourG, randColourB));
+
+	titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
+	titleText.setPosition(xResolution / 2, -(yResolution / 2.5f));
+
+
 	menuList.push_back({{"New Game"}, Action::NEW});
 	
 	boost::filesystem::directory_iterator end;
@@ -111,6 +126,8 @@ void GameState_Menu::draw(){
 	game->mWindow.clear(sf::Color::Black);
 
 	game->mWindow.setView(menuSelectView);
+
+	game->mWindow.draw(titleText);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);

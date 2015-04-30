@@ -12,7 +12,7 @@ std::string boolToString(bool _value){
 
 GameState_Play::GameState_Play(Game* _game) : 
 GameState{_game},
-playUI(game->mTextureManager, game->mFontManager),
+playUI(this, game->mTextureManager, game->mFontManager),
 selected{nullptr}
 {
 	
@@ -117,6 +117,17 @@ void GameState_Play::getInput(){
 					playUI.setSaveStatus(true);
 				}
 				break;
+
+			case HIDE_UI_KEY:
+				if (drawUI){
+					drawUI = false;
+				}
+				else if (!drawUI){
+					drawUI = true;
+				}
+				break;
+
+			default: break;
 
 			}
 
@@ -260,10 +271,9 @@ void GameState_Play::update(FrameTime mFT){
 
 	game->currentView->move(cameraVelocity * mFT);
 
-	if (game->currentPlayer->isReady()){
-		//Blank the current message
-		playUI.clearCurrentMessageText();
+	playUI.update();
 
+	if (game->currentPlayer->isReady()){
 		for (auto& unit : game->mWorld.getUnitLayer()){
 			if (unit->getPlayer() == game->currentPlayer){
 				unit->reset();
@@ -272,23 +282,6 @@ void GameState_Play::update(FrameTime mFT){
 
 		game->nextPlayer();
 		game->elapsedTurns += 1;
-
-		playUI.setSaveStatus(false);
-		playUI.setCurrentPlayerText(game->currentPlayer->getName());
-		playUI.setElapsedTurnsText(game->elapsedTurns);
-	}
-
-	//For the highlighting of the next turn button:
-	sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, playUI.uiView)};
-
-	if (uiCoords.x >= playUI.getButton().left() && uiCoords.x <= playUI.getButton().right()
-		&&
-		uiCoords.y >= playUI.getButton().top() && uiCoords.y <= playUI.getButton().bottom()){
-
-		playUI.setButtonHighlighted(true);
-	}
-	else{
-		playUI.setButtonHighlighted(false);
 	}
 
 	//Code for the mouse indicator of distance:
@@ -360,7 +353,11 @@ void GameState_Play::draw(){
 	if (selected != nullptr){
 		game->mWindow.draw(tileDistanceText);
 	}
-	
-	game->mWindow.setView(playUI.uiView);
-	playUI.draw(game->mWindow);
+
+	//
+	if (drawUI){
+		game->mWindow.setView(playUI.uiView);
+		playUI.draw(game->mWindow);
+	}
+	//
 }

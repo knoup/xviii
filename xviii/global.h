@@ -37,6 +37,8 @@ const sf::Keyboard::Key RESETZOOM_KEY = sf::Keyboard::R;
 const sf::Keyboard::Key ZOOMOUT_KEY = sf::Keyboard::Dash;
 const sf::Keyboard::Key ZOOMIN_KEY = sf::Keyboard::Equal;
 
+const sf::Keyboard::Key HIDE_UI_KEY = sf::Keyboard::H;
+
 const sf::Keyboard::Key SPAWNINF_KEY = sf::Keyboard::T;
 const sf::Keyboard::Key SPAWNCAV_KEY = sf::Keyboard::Y;
 const sf::Keyboard::Key SPAWNART_KEY = sf::Keyboard::F;

@@ -6,6 +6,7 @@ FontManager::FontManager()
 {
 	lucon.loadFromFile("assets/fonts/lucon.ttf");
 	arial.loadFromFile("assets/fonts/arial.ttf");
+	eighteen.loadFromFile("assets/fonts/eighteen.ttf");
 }
 
 const sf::Font& FontManager::getFont(Type _type) const{
@@ -15,6 +16,9 @@ const sf::Font& FontManager::getFont(Type _type) const{
 		break;
 	case Arial:
 		return arial;
+		break;
+	case Eighteen:
+		return eighteen;
 		break;
 	}
 }

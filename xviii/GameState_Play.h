@@ -68,6 +68,7 @@ private:
 	sf::Text tileDistanceText;
 
 	PlayUI playUI;
+	bool drawUI{true};
 
 };
 
