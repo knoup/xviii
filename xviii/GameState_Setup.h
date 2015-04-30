@@ -15,6 +15,9 @@ public:
 
 private:
 	sf::Vector2f cameraVelocity;
+	sf::Vector2i middleButtonCoords;
+	bool middleButtonHeld{false};
+
 	SetupUI setupUI;
 	bool drawUI{true};
 

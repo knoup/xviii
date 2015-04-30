@@ -64,6 +64,8 @@ private:
 	UnitTile* selected;
 
 	sf::Vector2f cameraVelocity;
+	sf::Vector2i middleButtonCoords;
+	bool middleButtonHeld{false};
 
 	sf::Text tileDistanceText;
 

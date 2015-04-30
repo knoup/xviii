@@ -196,6 +196,14 @@ void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Dir
 }
 
 bool Player::removeUnit(sf::Vector2i _worldCoords){
+	if (!(_worldCoords.x > 0 && _worldCoords.y > 0
+		&&
+		_worldCoords.x < world.getDimensionsInPixels().x
+		&&
+		_worldCoords.y < world.getDimensions().y)){
+
+		return false;
+	}
 
 	auto found = world.unitAtMouseCoords(_worldCoords);
 

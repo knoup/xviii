@@ -144,7 +144,12 @@ void GameState_Play::getInput(){
 			break;
 
 		case sf::Event::MouseButtonPressed:
-			if (event.mouseButton.button == sf::Mouse::Left){
+			if (event.mouseButton.button == sf::Mouse::Middle){
+				middleButtonHeld = true;
+				middleButtonCoords = {event.mouseButton.x, event.mouseButton.y};
+			}
+
+			else if (event.mouseButton.button == sf::Mouse::Left){
 				sf::Vector2i mouseCoords{event.mouseButton.x, event.mouseButton.y};
 				sf::Vector2i worldCoords{game->mWindow.mapPixelToCoords(mouseCoords, *game->currentView)};
 				sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, playUI.uiView)};
@@ -244,6 +249,15 @@ void GameState_Play::getInput(){
 			}
 
 			break;
+
+			case sf::Event::MouseButtonReleased:
+				if (event.mouseButton.button == sf::Mouse::Middle){
+					middleButtonHeld = false;
+				}
+
+				break;
+
+			default: break;
 		}
 	}
 }
@@ -270,6 +284,13 @@ void GameState_Play::update(FrameTime mFT){
 	}
 
 	game->currentView->move(cameraVelocity * mFT);
+
+	if (middleButtonHeld){
+		sf::Vector2f resultantVector = (sf::Vector2f{middleButtonCoords} - sf::Vector2f{game->mousePos});
+		resultantVector.x *= 0.0055;
+		resultantVector.y *= 0.0055;
+		game->currentView->move(resultantVector * mFT);
+	}
 
 	playUI.update();
 

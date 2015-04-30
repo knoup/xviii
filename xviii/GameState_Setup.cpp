@@ -28,7 +28,12 @@ void GameState_Setup::getInput(){
 			break;
 
 		case sf::Event::MouseButtonPressed:
-			if (event.mouseButton.button == sf::Mouse::Left){
+			if (event.mouseButton.button == sf::Mouse::Middle){
+				middleButtonHeld = true;
+				middleButtonCoords = {event.mouseButton.x, event.mouseButton.y};
+			}
+
+			else if (event.mouseButton.button == sf::Mouse::Left){
 
 				//If no menu item was selectedSpawnableUnit, select it
 
@@ -166,6 +171,15 @@ void GameState_Setup::getInput(){
 			}
 
 			break;
+
+		case sf::Event::MouseButtonReleased:
+			if (event.mouseButton.button == sf::Mouse::Middle){
+				middleButtonHeld = false;
+			}
+
+			break;
+
+		default: break;
 		}
 
 	}
@@ -194,6 +208,13 @@ void GameState_Setup::update(FrameTime mFT){
 	}
 
 	game->currentView->move(cameraVelocity * mFT);
+
+	if (middleButtonHeld){
+		sf::Vector2f resultantVector = (sf::Vector2f{middleButtonCoords} -sf::Vector2f{game->mousePos});
+		resultantVector.x *= 0.0055;
+		resultantVector.y *= 0.0055;
+		game->currentView->move(resultantVector * mFT);
+	}
 
 	setupUI.update();
 
