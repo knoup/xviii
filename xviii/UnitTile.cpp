@@ -761,7 +761,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 void UnitTile::multRollByModifiers(float &originalRoll){
 	for (auto& mod : modVector){
 		if (mod.modFloat != 0){
-			if (mod.modType != Modifier::ADDITIONAL || mod.modType != UnitTile::Modifier::ATK){
+			if (mod.modType != Modifier::ADDITIONAL && mod.modType != UnitTile::Modifier::ATK){
 				originalRoll *= mod.modFloat;
 			}
 		}
