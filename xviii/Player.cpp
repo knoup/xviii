@@ -200,7 +200,7 @@ bool Player::removeUnit(sf::Vector2i _worldCoords){
 		&&
 		_worldCoords.x < world.getDimensionsInPixels().x
 		&&
-		_worldCoords.y < world.getDimensions().y)){
+		_worldCoords.y < world.getDimensionsInPixels().y)){
 
 		return false;
 	}

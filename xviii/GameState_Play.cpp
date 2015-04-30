@@ -149,7 +149,7 @@ void GameState_Play::getInput(){
 				middleButtonCoords = {event.mouseButton.x, event.mouseButton.y};
 			}
 
-			else if (event.mouseButton.button == sf::Mouse::Left){
+			else if (event.mouseButton.button == sf::Mouse::Left && drawUI){
 				sf::Vector2i mouseCoords{event.mouseButton.x, event.mouseButton.y};
 				sf::Vector2i worldCoords{game->mWindow.mapPixelToCoords(mouseCoords, *game->currentView)};
 				sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, playUI.uiView)};
@@ -238,7 +238,7 @@ void GameState_Play::getInput(){
 				}
 			}
 
-			else if (event.mouseButton.button == sf::Mouse::Right){
+			else if (event.mouseButton.button == sf::Mouse::Right && drawUI){
 				
 				if (selected != nullptr){
 					selected->setHighlighted(false);

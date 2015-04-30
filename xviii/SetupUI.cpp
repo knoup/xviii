@@ -73,6 +73,12 @@ void SetupUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	target.draw(currentPlayerText);
 	target.draw(numbRemaining);
 	target.draw(deploymentPointsTextRemaining);
+
+	//selectable units
+	for (auto& item : gameState->game->currentPlayer->getSpawnableUnits()){
+		gameState->game->mWindow.draw(item.unitSprite);
+		gameState->game->mWindow.draw(item.unitName);
+	}
 	
 	//ready button
 	target.draw(button.sprite);

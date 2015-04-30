@@ -33,7 +33,7 @@ void GameState_Setup::getInput(){
 				middleButtonCoords = {event.mouseButton.x, event.mouseButton.y};
 			}
 
-			else if (event.mouseButton.button == sf::Mouse::Left){
+			else if (event.mouseButton.button == sf::Mouse::Left && drawUI){
 
 				//If no menu item was selectedSpawnableUnit, select it
 
@@ -88,7 +88,7 @@ void GameState_Setup::getInput(){
 			}
 
 
-			else if (event.mouseButton.button == sf::Mouse::Right){
+			else if (event.mouseButton.button == sf::Mouse::Right && drawUI){
 
 				//Deselect the currently selectedSpawnableUnit icon:
 
@@ -247,15 +247,9 @@ void GameState_Setup::draw(){
 	}
 	//
 
-	for (auto& item : game->currentPlayer->getSpawnableUnits()){
-		game->mWindow.draw(item.unitSprite);
-		game->mWindow.draw(item.unitName);
-	}
-
 	game->mWindow.setView(*game->currentView);
 	if (selectedSpawnableUnit != nullptr){
 		game->mWindow.draw(selectedSpawnableUnit->unitSprite);
 	}
-
 }
 
