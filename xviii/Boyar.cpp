@@ -23,37 +23,37 @@ std::string Boyar::meleeAttack(Infantry* inf){
 	float damageDealt{0};
 	float damageReceived{0};
 
-	//If original roll is 6 and attack bonus is ready...
-	if (thisRoll_int == 6 && attackBonusReady){
+	multRollByModifiers(thisRoll);
+	inf->multRollByModifiers(enemyRoll);
+
+	//If FINAL roll is 8 or above and attack bonus is ready...
+	if (thisRoll >= 8 && attackBonusReady){
 		damageDealt = 4;
 		inf->takeDamage(damageDealt);
 	}
-	else{
-		multRollByModifiers(thisRoll);
-		inf->multRollByModifiers(enemyRoll);
 
-		if (abs(thisRoll - enemyRoll) < 0.01){
-			damageDealt = 0.5;
-			damageReceived = 1;
+	if (abs(thisRoll - enemyRoll) < 0.01){
+		damageDealt = 0.5;
+		damageReceived = 1;
 
-			inf->takeDamage(damageDealt);
-			this->takeDamage(damageReceived);
-		}
-		else if (thisRoll > enemyRoll){
-			damageDealt = 4;
-
-			inf->takeDamage(damageDealt);
-
-		}
-		else if (enemyRoll > thisRoll){
-			damageDealt = 1;
-			damageReceived = 2;
-
-			inf->takeDamage(damageDealt);
-			this->takeDamage(damageReceived);
-
-		}
+		inf->takeDamage(damageDealt);
+		this->takeDamage(damageReceived);
 	}
+	else if (thisRoll > enemyRoll){
+		damageDealt = 4;
+
+		inf->takeDamage(damageDealt);
+
+	}
+	else if (enemyRoll > thisRoll){
+		damageDealt = 1;
+		damageReceived = 2;
+
+		inf->takeDamage(damageDealt);
+		this->takeDamage(damageReceived);
+
+	}
+	
 
 	mov = 0;
 	this->updateStats();
@@ -76,37 +76,37 @@ std::string Boyar::meleeAttack(FootGuard* foot){
 	float damageDealt{0};
 	float damageReceived{0};
 
-	//If original roll is 6 and attack bonus is ready...
-	if (thisRoll_int == 6 && attackBonusReady){
+	multRollByModifiers(thisRoll);
+	foot->multRollByModifiers(enemyRoll);
+
+	//If FINAL roll is 8 or above and attack bonus is ready...
+	if (thisRoll >= 8 && attackBonusReady){
 		damageDealt = 4;
 		foot->takeDamage(damageDealt);
 	}
-	else{
-		multRollByModifiers(thisRoll);
-		foot->multRollByModifiers(enemyRoll);
 
-		if (abs(thisRoll - enemyRoll) < 0.01){
-			damageDealt = 0.5;
-			damageReceived = 1;
+	if (abs(thisRoll - enemyRoll) < 0.01){
+		damageDealt = 0.5;
+		damageReceived = 1;
 
-			foot->takeDamage(damageDealt);
-			this->takeDamage(damageReceived);
-		}
-		else if (thisRoll > enemyRoll){
-			damageDealt = 4;
-
-			foot->takeDamage(damageDealt);
-
-		}
-		else if (enemyRoll > thisRoll){
-			damageDealt = 1;
-			damageReceived = 2;
-
-			foot->takeDamage(damageDealt);
-			this->takeDamage(damageReceived);
-
-		}
+		foot->takeDamage(damageDealt);
+		this->takeDamage(damageReceived);
 	}
+	else if (thisRoll > enemyRoll){
+		damageDealt = 4;
+
+		foot->takeDamage(damageDealt);
+
+	}
+	else if (enemyRoll > thisRoll){
+		damageDealt = 1;
+		damageReceived = 2;
+
+		foot->takeDamage(damageDealt);
+		this->takeDamage(damageReceived);
+
+	}
+	
 
 	mov = 0;
 	this->updateStats();
@@ -129,48 +129,49 @@ std::string Boyar::meleeAttack(Cavalry* cav){
 	float damageDealt{0};
 	float damageReceived{0};
 
-	//If original roll is 6 and attack bonus is ready...
-	if (thisRoll_int == 6 && attackBonusReady){
+	
+	multRollByModifiers(thisRoll);
+	cav->multRollByModifiers(enemyRoll);
+
+	//If FINAL roll is 8 or above and attack bonus is ready...
+	if (thisRoll >= 8 && attackBonusReady){
 		damageDealt = 3;
 		cav->takeDamage(damageDealt);
 	}
+
+	if (abs(thisRoll - enemyRoll) < 0.01){
+		damageDealt = 1;
+		damageReceived = 1;
+
+		this->takeDamage(damageReceived);
+		cav->takeDamage(damageDealt);
+	}
 	else{
-		multRollByModifiers(thisRoll);
-		cav->multRollByModifiers(enemyRoll);
-
-		if (abs(thisRoll - enemyRoll) < 0.01){
-			damageDealt = 1;
-			damageReceived = 1;
-
-			this->takeDamage(damageReceived);
-			cav->takeDamage(damageDealt);
-		}
-		else{
-			//If the difference between rolls is less than 3
-			if (abs(thisRoll - enemyRoll) < 3){
-				//Player with the highest roll inflicts 1 DMG on the other
-				if (thisRoll > enemyRoll){
-					damageDealt = 1;
-					cav->takeDamage(damageDealt);
-				}
-				else if (enemyRoll > thisRoll){
-					damageReceived = 1;
-					this->takeDamage(damageReceived);
-				}
+		//If the difference between rolls is less than 3
+		if (abs(thisRoll - enemyRoll) < 3){
+			//Player with the highest roll inflicts 1 DMG on the other
+			if (thisRoll > enemyRoll){
+				damageDealt = 1;
+				cav->takeDamage(damageDealt);
 			}
-			//If the difference is greater or equal to 3,
-			else{
-				if (thisRoll > enemyRoll){
-					damageDealt = 2;
-					cav->takeDamage(damageDealt);
-				}
-				else if (enemyRoll > thisRoll){
-					damageReceived = 2;
-					this->takeDamage(damageReceived);
-				}
+			else if (enemyRoll > thisRoll){
+				damageReceived = 1;
+				this->takeDamage(damageReceived);
+			}
+		}
+		//If the difference is greater or equal to 3,
+		else{
+			if (thisRoll > enemyRoll){
+				damageDealt = 2;
+				cav->takeDamage(damageDealt);
+			}
+			else if (enemyRoll > thisRoll){
+				damageReceived = 2;
+				this->takeDamage(damageReceived);
 			}
 		}
 	}
+	
 
 	mov = 0;
 	this->updateStats();
