@@ -125,6 +125,13 @@ void GameState_SelectNations::getInput(){
 		case sf::Event::Closed:
 			game->mWindow.close();
 			break;
+
+		case sf::Event::Resized:
+			uiView.setSize(event.size.width, event.size.height);
+			flagView.setSize(event.size.width, event.size.height);
+			break;
+
+		default: break;
 		}
 	}
 }

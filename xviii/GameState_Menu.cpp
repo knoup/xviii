@@ -110,6 +110,14 @@ void GameState_Menu::getInput(){
 				}
 			}
 
+			break;
+
+		case sf::Event::Resized:
+			menuSelectView.setSize(event.size.width, event.size.height);
+			break;
+
+		default: break;
+
 		}
 	}
 }
