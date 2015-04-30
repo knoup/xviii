@@ -397,7 +397,7 @@ int UnitTile::getMov() const{
 	return mov;
 }
 
-void UnitTile::takeDamage(float _dmg){
+void UnitTile::takeDamage(float& _dmg, int distance){
 	hp -= _dmg;
 	world.addToDamagedUnits(this);
 }

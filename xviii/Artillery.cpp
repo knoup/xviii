@@ -57,7 +57,7 @@ std::string Artillery::rangedAttack(UnitTile* unit, int distance){
 			damageDealt = 4;
 		}
 
-		unit->takeDamage(damageDealt);
+		unit->takeDamage(damageDealt, distance);
 	}
 
 	mov = 0;

@@ -13,6 +13,8 @@ public:
 	
 	//Overloaded for the cone width of 3
 	virtual int distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
+	//Overloaded for Light Infantry's taking half damage on all ranged attacks
+	virtual void takeDamage(float& _dmg, int distance);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 

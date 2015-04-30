@@ -154,8 +154,8 @@ std::string Infantry::meleeAttack(Infantry* inf){
 		damageDealt = 1;
 		damageReceived = 1;
 
-		this->takeDamage(damageReceived);
-		inf->takeDamage(damageDealt);
+		this->takeDamage(damageReceived, 1);
+		inf->takeDamage(damageDealt, 1);
 	}
 	else{
 		//If the difference between rolls is less than 3
@@ -163,23 +163,23 @@ std::string Infantry::meleeAttack(Infantry* inf){
 			if (thisRoll > enemyRoll){
 				damageDealt = 1;
 
-				inf->takeDamage(damageDealt);
+				inf->takeDamage(damageDealt, 1);
 			}
 			else if (enemyRoll > thisRoll){
 				damageReceived = 1;
 
-				this->takeDamage(damageReceived);
+				this->takeDamage(damageReceived, 1);
 			}
 		}
 		//If the difference is greater or equal to 3,
 		else{
 			if (thisRoll > enemyRoll){
 				damageDealt = 2;
-				inf->takeDamage(damageDealt);
+				inf->takeDamage(damageDealt, 1);
 			}
 			else if (enemyRoll > thisRoll){
 				damageReceived = 2;
-				this->takeDamage(damageReceived);
+				this->takeDamage(damageReceived, 1);
 			}
 		}
 	}
@@ -213,8 +213,8 @@ std::string Infantry::meleeAttack(FootGuard* foot){
 		damageDealt = 1;
 		damageReceived = 1;
 
-		this->takeDamage(damageReceived);
-		foot->takeDamage(damageDealt);
+		this->takeDamage(damageReceived, 1);
+		foot->takeDamage(damageDealt, 1);
 	}
 	else{
 		//If the difference between rolls is less than 3
@@ -222,23 +222,23 @@ std::string Infantry::meleeAttack(FootGuard* foot){
 			if (thisRoll > enemyRoll){
 				damageDealt = 1;
 
-				foot->takeDamage(damageDealt);
+				foot->takeDamage(damageDealt, 1);
 			}
 			else if (enemyRoll > thisRoll){
 				damageReceived = 1;
 
-				this->takeDamage(damageReceived);
+				this->takeDamage(damageReceived, 1);
 			}
 		}
 		//If the difference is greater or equal to 3,
 		else{
 			if (thisRoll > enemyRoll){
 				damageDealt = 2;
-				foot->takeDamage(damageDealt);
+				foot->takeDamage(damageDealt, 1);
 			}
 			else if (enemyRoll > thisRoll){
 				damageReceived = 2;
-				this->takeDamage(damageReceived);
+				this->takeDamage(damageReceived, 1);
 			}
 		}
 	}
@@ -271,21 +271,21 @@ std::string Infantry::meleeAttack(Cavalry* cav){
 		damageDealt = 1;
 		damageReceived = 0.5;
 
-		cav->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
+		cav->takeDamage(damageDealt, 1);
+		this->takeDamage(damageReceived, 1);
 	}
 	else if (thisRoll > enemyRoll){
 		damageDealt = 2;
 		damageReceived = 1;
 
-		cav->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
+		cav->takeDamage(damageDealt, 1);
+		this->takeDamage(damageReceived, 1);
 
 	}
 	else if (enemyRoll > thisRoll){
 		damageReceived = 4;
 
-		this->takeDamage(damageReceived);
+		this->takeDamage(damageReceived, 1);
 
 	}
 
@@ -316,15 +316,15 @@ std::string Infantry::meleeAttack(Artillery* art){
 	if (thisRoll > 3 || abs(thisRoll - 3) < 0.01){
 		damageDealt = 3;
 
-		art->takeDamage(damageDealt);
+		art->takeDamage(damageDealt, 1);
 
 	}
 	else if (thisRoll < 3){
 		damageDealt = 3;
 		damageReceived = 3;
 
-		art->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
+		art->takeDamage(damageDealt, 1);
+		this->takeDamage(damageReceived, 1);
 	}
 
 	mov = 0;
@@ -352,15 +352,15 @@ std::string Infantry::meleeAttack(Mortar* mor){
 	if (thisRoll > 3 || abs(thisRoll - 3) < 0.01){
 		damageDealt = 2;
 
-		mor->takeDamage(damageDealt);
+		mor->takeDamage(damageDealt, 1);
 
 	}
 	else if (thisRoll < 3){
 		damageDealt = 2;
 		damageReceived = 0.5;
 
-		mor->takeDamage(damageDealt);
-		this->takeDamage(damageReceived);
+		mor->takeDamage(damageDealt, 1);
+		this->takeDamage(damageReceived, 1);
 	}
 
 
@@ -399,7 +399,7 @@ std::string Infantry::rangedAttack(UnitTile* unit, int distance){
 
 	multRollByModifiers(thisRoll);
 	damageDealt = thisRoll;
-	unit->takeDamage(damageDealt);
+	unit->takeDamage(damageDealt, distance);
 
 	mov = 0;
 	this->updateStats();

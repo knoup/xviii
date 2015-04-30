@@ -128,7 +128,7 @@ public:
 	float gethp() const;
 	int getMov() const;
 
-	virtual void takeDamage(float _dmg);
+	virtual void takeDamage(float& _dmg, int distance);
 	//Returns true if dead
 	bool removeIfDead();
 

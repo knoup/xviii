@@ -31,7 +31,7 @@ std::string Timarioti::rangedAttack(UnitTile* unit, int distance){
 
 	multRollByModifiers(thisRoll);
 	damageDealt = thisRoll;
-	unit->takeDamage(damageDealt);
+	unit->takeDamage(damageDealt, distance);
 
 	mov = 0;
 	this->updateStats();

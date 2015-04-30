@@ -47,16 +47,18 @@ std::string General::interactWithFriendly(UnitTile* _unit){
 	return{};
 }
 
-void General::takeDamage(float _dmg){
+void General::takeDamage(float& _dmg, int distance){
 	if (hp - _dmg < 0.4){
 		for (auto& unit : world.getUnitLayer()){
 			if (unit->getPlayer() == this->getPlayer() && unit.get() != this){
-				unit->takeDamage(2);
+				//It is neither ranged nor melee, really, hence the 0
+				float boilerplate{2};
+				unit->takeDamage(boilerplate, 0);
 			}
 		}
 	}
 
-	UnitTile::takeDamage(_dmg);
+	UnitTile::takeDamage(_dmg, distance);
 }
 
 std::string General::rangedAttack(UnitTile* unit, int distance){
@@ -76,7 +78,7 @@ std::string General::rangedAttack(UnitTile* unit, int distance){
 	multRollByModifiers(thisRoll);
 
 	damageDealt = thisRoll;
-	unit->takeDamage(damageDealt);
+	unit->takeDamage(damageDealt, distance);
 
 	mov = 0;
 	this->updateStats();
