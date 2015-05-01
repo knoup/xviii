@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "General.h"
 
-#include "World.h"
+#include "Player.h"
 
 General::General(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
 Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::GEN, UnitType::GEN)
@@ -49,8 +49,8 @@ std::string General::interactWithFriendly(UnitTile* _unit){
 
 void General::takeDamage(float& _dmg, int distance){
 	if (hp - _dmg < 0.4){
-		for (auto& unit : world.getUnitLayer()){
-			if (unit->getPlayer() == this->getPlayer() && unit.get() != this){
+		for (auto& unit : player->getUnits()){
+			if (unit.get() != this){
 				//It is neither ranged nor melee, really, hence the 0
 				float boilerplate{2};
 				unit->takeDamage(boilerplate, 0);

@@ -141,40 +141,42 @@ bool SaveGame::create(){
 	save << "}w" << std::endl;
 	save << std::endl;
 
-	for (auto& unit : game->mWorld.unitLayer){
-		sf::Vector2i coords{game->mWorld.cartesianCoordsAtIndex(game->mWorld.indexAtTile(*unit))};
+	for (auto& player : game->mPlayers){
+		for (auto& unit : player->getUnits()){
+			sf::Vector2i coords{game->mWorld.cartesianCoordsAtIndex(game->mWorld.indexAtTile(*unit))};
 
-		save << "u{" << std::endl;
+			save << "u{" << std::endl;
 
-		save << "type=" << unit->typeToString() << std::endl;
-		save << "faction=";
+			save << "type=" << unit->typeToString() << std::endl;
+			save << "faction=";
 
-		if (unit->getPlayer() == game->Player1){
-			save << "player1";
+			if (unit->getPlayer() == game->Player1){
+				save << "player1";
+			}
+			else if (unit->getPlayer() == game->Player2){
+				save << "player2";
+			}
+
+			save << std::endl;
+			save << "pos=" << coords.x + 1 << " " << coords.y + 1 << std::endl;
+			save << "dir=" << unit->dirToString() << std::endl;
+			save << "hp=" << unit->roundFloat(unit->gethp()) << std::endl;
+			save << "mov=" << unit->getMov() << std::endl;
+			save << "hasMoved=" << unit->getHasMoved() << std::endl;
+			save << "hasRotated=" << unit->getHasRotated() << std::endl;
+			save << "hasMeleeAttacked=" << unit->getHasMeleeAttacked() << std::endl;
+			save << "hasRangedAttacked=" << unit->getHasRangedAttacked() << std::endl;
+
+			if (unit->getUnitType() == UnitTile::UnitType::GEN || unit->getUnitType() == UnitTile::UnitType::FOOT){
+				save << "hasHealed=" << unit->getHasHealed() << std::endl;
+			}
+			if (unit->getUnitType() == UnitTile::UnitType::KAP){
+				save << "attackBonusReady=" << unit->getHasHealed() << std::endl;
+			}
+
+			save << "}u" << std::endl;
+			save << std::endl;
 		}
-		else if (unit->getPlayer() == game->Player2){
-			save << "player2";
-		}
-
-		save << std::endl;
-		save << "pos=" << coords.x + 1 << " " << coords.y + 1 << std::endl;
-		save << "dir=" << unit->dirToString() << std::endl;
-		save << "hp=" << unit->roundFloat(unit->gethp()) << std::endl;
-		save << "mov=" << unit->getMov() << std::endl;
-		save << "hasMoved=" << unit->getHasMoved() << std::endl;
-		save << "hasRotated=" << unit->getHasRotated() << std::endl;
-		save << "hasMeleeAttacked=" << unit->getHasMeleeAttacked() << std::endl;
-		save << "hasRangedAttacked=" << unit->getHasRangedAttacked() << std::endl;
-
-		if (unit->getUnitType() == UnitTile::UnitType::GEN || unit->getUnitType() == UnitTile::UnitType::FOOT){
-			save << "hasHealed=" << unit->getHasHealed() << std::endl;
-		}
-		if (unit->getUnitType() == UnitTile::UnitType::KAP){
-			save << "attackBonusReady=" << unit->getHasHealed() << std::endl;
-		}
-
-		save << "}u" << std::endl;
-		save << std::endl;
 	}
 
 	save.close();
@@ -200,6 +202,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
 			game->Player1 = new Player({game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, true});
+			game->mPlayers.emplace_back(game->Player1);
 		}
 
 		else if (line.find("player1Cam=") != std::string::npos){
@@ -216,6 +219,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
 			game->Player2 = new Player({game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, false});
+			game->mPlayers.emplace_back(game->Player2);
 		}
 
 		else if (line.find("player2Cam=") != std::string::npos){

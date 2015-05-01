@@ -240,6 +240,10 @@ void GameState_Setup::draw(){
 	game->mWindow.setView(*game->currentView);
 	game->mWorld.draw(game->mWindow);
 
+	for (auto& player : game->mPlayers){
+		player->drawUnits(game->mWindow);
+	}
+
 	//
 	if (drawUI){
 		game->mWindow.setView(setupUI.uiView);

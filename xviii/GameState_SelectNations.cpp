@@ -73,6 +73,7 @@ void GameState_SelectNations::getInput(){
 			
 				if (game->Player1 == nullptr){
 					game->Player1 = new Player({game->mWorld, flagIterator->nation, game->mtengine, game->mTextureManager, game->mFontManager, true});
+					game->mPlayers.emplace_back(game->Player1);
 					//Once player 1's made their selection, delete the country he chose
 					flagMenuItems.erase(flagIterator);
 					flagIterator = flagMenuItems.begin() + flagMenuItems.size() / 2;
@@ -91,6 +92,7 @@ void GameState_SelectNations::getInput(){
 				}
 				else{
 					game->Player2 = new Player({game->mWorld, flagIterator->nation, game->mtengine, game->mTextureManager, game->mFontManager, false});
+					game->mPlayers.emplace_back(game->Player2);
 					game->currentPlayer = game->Player1;
 					game->currentView = &game->currentPlayer->view;
 					game->setGameStateSetup();

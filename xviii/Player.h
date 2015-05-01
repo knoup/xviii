@@ -133,8 +133,9 @@ class Player
 		
 		//Returns true if successfully spawned unit
 		bool spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords);
-		//Returns true if succesfully removed unit
-		bool removeUnit(sf::Vector2i _worldCoords);
+		//Returns the unit's unique ptr if successfully removed
+		UnitTile::unitPtr removeUnit(sf::Vector2i _worldCoords);
+		UnitTile::unitPtr removeUnit(UnitTile* _unit);
 		//For loading from a save game
 		void loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed);
 
@@ -163,8 +164,13 @@ class Player
 
 		const std::vector<SpawnableUnit>& getSpawnableUnits() const;
 
+		void drawUnits(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
+		
+		const std::vector<UnitTile::unitPtr>& getUnits() const;
+
     private:
         World& world;
+		std::vector<UnitTile::unitPtr> units;
 		
 		std::vector<SpawnableUnit> spawnableUnits;
 

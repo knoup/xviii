@@ -147,8 +147,8 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 		auto unitType = ptr->getUnitType();
 		int unitsOfType{0};
 
-		for (auto& unit : world.getUnitLayer()){
-			if (unit->getPlayer() == this && unit->getUnitType() == unitType){
+		for (auto& unit : units){
+			if (unit->getUnitType() == unitType){
 				unitsOfType += 1;
 			}
 		}
@@ -158,8 +158,10 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 
 
 	if (canAfford && !overLimit){
-		if (world.placeAt(_worldCoords, std::move(ptr))){
+		if (world.canBePlacedAt(_worldCoords)){
 			deploymentPoints -= cost;
+			ptr->spawn(world.terrainAtMouseCoords(_worldCoords));
+			units.emplace_back(std::move(ptr));
 			return true;
 		}
 	}
@@ -191,38 +193,63 @@ void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Dir
 	ptr->setHasRangedAttacked(_hasRangedAttacked);
 	ptr->setHasHealed(_hasHealed);
 
-	world.placeAt(sf::Vector2i{_pos.x * tm.getSize().x, _pos.y * tm.getSize().y}, std::move(ptr));
 
+	ptr->spawn(world.terrainAtMouseCoords(sf::Vector2i{_pos.x * tm.getSize().x, _pos.y * tm.getSize().y}));
+	units.emplace_back(std::move(ptr));
 }
 
-bool Player::removeUnit(sf::Vector2i _worldCoords){
+UnitTile::unitPtr Player::removeUnit(sf::Vector2i _worldCoords){
 	if (!(_worldCoords.x > 0 && _worldCoords.y > 0
 		&&
 		_worldCoords.x < world.getDimensionsInPixels().x
 		&&
 		_worldCoords.y < world.getDimensionsInPixels().y)){
 
-		return false;
+		return nullptr;
 	}
 
 	auto found = world.unitAtMouseCoords(_worldCoords);
 
 	//If there is a unit at the tile,
 	if (found != nullptr){
-
 		if (found->getPlayer() == this){
-
-			auto result = world.removeUnit({_worldCoords});
-
-			if (result != nullptr){
-				deploymentPoints += result->getCost();
-				result = nullptr;
-				return true;
+			//Search units for the unique pointer corresponding to found...
+			for (auto& unique_unit : units){
+				if (unique_unit.get() == found){
+					deploymentPoints += found->getCost();
+					//temporarily move the unit out of unit vector(so that it does not get
+					//instantly deleted as it goes out of scope), erase it, then return it
+					auto temp = std::move(unique_unit);
+					units.erase(std::remove(units.begin(), units.end(), unique_unit), units.end());
+					return temp;
+				}
 			}
 		}
 	}
 
-	return false;
+	return nullptr;
+}
+
+UnitTile::unitPtr Player::removeUnit(UnitTile* _unit){
+	if (_unit == nullptr){
+		return nullptr;
+	}
+	
+
+	//Search units for the unique pointer corresponding to found...
+	for (auto& unique_unit : units){
+		if (unique_unit.get() == _unit){
+			deploymentPoints += _unit->getCost();
+			//temporarily move the unit out of unit vector(so that it does not get
+			//instantly deleted as it goes out of scope), erase it, then return it
+			auto temp = std::move(unique_unit);
+			units.erase(std::remove(units.begin(), units.end(), unique_unit), units.end());
+			return temp;
+		}
+	}
+	
+
+	return nullptr;
 }
 
 const World& Player::getWorld() const{
@@ -260,4 +287,17 @@ void Player::setReady(bool _value){
 
 sf::Sprite Player::getFlag() const{
 	return playerFlag;
+}
+
+const std::vector<UnitTile::unitPtr>& Player::getUnits() const{
+	return units;
+}
+
+void Player::drawUnits(sf::RenderTarget &target, sf::RenderStates states) const{
+	for (auto& unit : units){
+		if (unit == nullptr){
+			std::cout << "wawawaw" << std::endl;
+		}
+		unit->draw(target, states);
+	}
 }

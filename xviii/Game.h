@@ -56,6 +56,8 @@ public:
 	Player* currentPlayer;
 	sf::View* currentView;
 
+	std::vector<Player*> mPlayers;
+
 	sf::Vector2i mousePos;
 
 	int elapsedTurns;

@@ -187,9 +187,11 @@ void GameState_Play::getInput(){
 					if (terrain != nullptr){
 						bool occupied{false};
 
-						for (auto& unitInLayer : game->mWorld.getUnitLayer()){
-							if (unitInLayer->getTerrain() == terrain){
-								occupied = true;
+						for (auto& player : game->mPlayers){
+							for (auto& unit : player->getUnits()){
+								if (unit->getTerrain() == terrain){
+									occupied = true;
+								}
 							}
 						}
 
@@ -295,10 +297,8 @@ void GameState_Play::update(FrameTime mFT){
 	playUI.update();
 
 	if (game->currentPlayer->isReady()){
-		for (auto& unit : game->mWorld.getUnitLayer()){
-			if (unit->getPlayer() == game->currentPlayer){
+		for (auto& unit : game->currentPlayer->getUnits()){
 				unit->reset();
-			}
 		}
 
 		game->nextPlayer();
@@ -370,6 +370,10 @@ void GameState_Play::update(FrameTime mFT){
 void GameState_Play::draw(){
 	game->mWindow.setView(*game->currentView);
 	game->mWorld.draw(game->mWindow);
+
+	for (auto& player : game->mPlayers){
+		player->drawUnits(game->mWindow);
+	}
 
 	if (selected != nullptr){
 		game->mWindow.draw(tileDistanceText);

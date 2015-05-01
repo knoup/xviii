@@ -36,8 +36,8 @@ public:
 	sf::Vector2i cartesianCoordsAtIndex(int _index) const;
 	sf::Vector2f posAtIndex(int _index) const;
 
-	//Places a unit at the specified tile, if it is unoccupied
-	bool placeAt(sf::Vector2i _pos, UnitTile::unitPtr ptr);
+	//Returns true if the terrain tile at this position is unoccupied
+	bool canBePlacedAt(sf::Vector2i _pos);
 
 	//Returns a [regular] pointer to the unit at this mouse coordinate position, if there is any
 	UnitTile* unitAtMouseCoords(sf::Vector2i _pos);
@@ -47,13 +47,6 @@ public:
 	TerrainTile* terrainAtMouseCoords(sf::Vector2i _pos);
 	TerrainTile* terrainAtCartesianCoords(sf::Vector2i _pos);
 
-	//Deletes and returns a [unique] pointer to the unit
-	//Takes in mouse coordinates
-	UnitTile::unitPtr removeUnit(sf::Vector2i _pos);
-	//Takes in unit ptr
-	UnitTile::unitPtr removeUnit(UnitTile* _ptr);
-
-	const std::vector<UnitTile::unitPtr>& getUnitLayer() const;
 	const std::vector<UnitTile*>& getDamagedUnits() const;
 
 	sf::Vector2i getDimensions() const;
@@ -73,9 +66,6 @@ private:
 	//of Terrain.
 	std::vector<TerrainTile::terrainPtr> terrainLayer;
 
-	//The second layer, or "combat layer"; contains the actual units.
-
-	std::vector<UnitTile::unitPtr> unitLayer;
 
 	//This vector stores pointers to the units that have been damaged during an attack. It is reset afterwards
 	std::vector<UnitTile*> damagedUnits;

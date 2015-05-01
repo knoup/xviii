@@ -115,8 +115,8 @@ sf::Vector2f World::posAtIndex(int _index) const{
 	return {sf::Vector2f(cartesianCoordsAtIndex(_index).x * tm.getSize().x, cartesianCoordsAtIndex(_index).y * tm.getSize().y)};
 }
 
-//Returns true if unit is succesfully placed
-bool World::placeAt(sf::Vector2i _pos, UnitTile::unitPtr ptr){
+//Returns true if can be placed at this position
+bool World::canBePlacedAt(sf::Vector2i _pos){
 
 	//If out of bounds, return false immediately
 	if (_pos.x >= getDimensionsInPixels().x || _pos.y >= getDimensionsInPixels().y ||
@@ -125,39 +125,14 @@ bool World::placeAt(sf::Vector2i _pos, UnitTile::unitPtr ptr){
 		return false;
 	}
 
-	//Otherwise
-    //If a tile is found at the spot, cache a pointer to it in  "here"
-
     TerrainTile* here = terrainLayer[indexAtMouseCoords(_pos)].get();
 
-    //A special if/else case to handle the combatLayer being empty (i.e. first unit placed)
-
-    if (!unitLayer.empty()){
-
-        bool vacant{true};
-
-        for (auto& unit : unitLayer){
-            //If the tile is occupied by a unit
-            if (unit->getTerrain() == here){
-                vacant = false;
-                }
-            }
-
-        if (vacant){
-            ptr->spawn(here);
-            unitLayer.push_back(std::move(ptr));
-            return true;
-            }
-        }
-
-    else{
-        ptr->spawn(here);
-        unitLayer.push_back(std::move(ptr));
-        return true;
-        }
-
-
-    return false;
+	if (here->getUnit() == nullptr){
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 UnitTile* World::unitAtMouseCoords(sf::Vector2i _pos){
@@ -184,65 +159,8 @@ TerrainTile* World::terrainAtCartesianCoords(sf::Vector2i _pos){
 	return terrainLayer[index].get();
 }
 
-//The standard function for deleting units.
-//Returns a pointer to the unit deleted; nullptr if nothing was deleted
-
-UnitTile::unitPtr World::removeUnit(sf::Vector2i _pos){
-	//If out of bounds, return nullptr immediately
-	if (_pos.x >= getDimensionsInPixels().x || _pos.y >= getDimensionsInPixels().y ||
-		_pos.x <= 0 || _pos.y <= 0){
-
-		return nullptr;
-	}
-
-	TerrainTile* here = terrainLayer[indexAtMouseCoords(_pos)].get();
-
-        for(auto& unit : unitLayer){
-
-            if(unit->getTerrain() == here){
-
-                //If a unit is found, temporarily move that unit out of combatLayer (so that
-                //it does not get instantly deleted as it goes out of scope), erase it from
-                //unitLayer, and return it.
-                auto result = std::move(unit);
-                unitLayer.erase(std::remove(unitLayer.begin(), unitLayer.end(), unit), unitLayer.end());
-				here->resetUnit();
-                return result;
-
-            }
-
-        }
-
-	return nullptr;
-}
-
-UnitTile::unitPtr World::removeUnit(UnitTile* _ptr){
-	for (auto& unit : unitLayer){
-		if (unit.get() == _ptr){
-			//If a unit is found, temporarily move that unit out of combatLayer (so that
-			//it does not get instantly deleted as it goes out of scope), erase it from
-			//unitLayer, and return it.
-			unit->getTerrain()->resetUnit();
-			auto result = std::move(unit);
-			unitLayer.erase(std::remove(unitLayer.begin(), unitLayer.end(), unit), unitLayer.end());
-			return result;
-		}
-	}
-}
-
-const std::vector<UnitTile::unitPtr>& World::getUnitLayer() const{
-	return unitLayer;
-}
-
-
 void World::draw(sf::RenderTarget &target, sf::RenderStates states) const{
-
     target.draw(mVertices,&mTexture);
-
-	for (auto& unit : unitLayer){
-		unit->draw(target, states);
-	}
-
 }
 
 sf::Vector2i World::getDimensions() const{

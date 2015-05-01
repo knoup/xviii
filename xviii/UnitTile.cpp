@@ -404,7 +404,7 @@ void UnitTile::takeDamage(float& _dmg, int distance){
 
 bool UnitTile::removeIfDead(){
 	if (hp < 0.4){
-		world.removeUnit(this);
+		player->removeUnit(this);
 		return true;
 	}
 	return false;

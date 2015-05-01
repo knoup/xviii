@@ -24,7 +24,6 @@ mFontManager{},
 mWorld{mTextureManager, sf::Vector2i(69, 100), mtengine},
 Player1{nullptr},
 Player2{nullptr},
-//Setting these to nullptr, they are properly initialised in the constructor body
 currentPlayer{nullptr},
 currentView{nullptr},
 mousePos{},
@@ -32,7 +31,7 @@ elapsedTurns{1},
 saveCreator{this}
 {
 	mWindow.setFramerateLimit(120);
-	
+
 	MenuState = new GameState_Menu(this);
 	SelectNationsState = new GameState_SelectNations(this);
 	SetupState = new GameState_Setup(this);
@@ -41,7 +40,6 @@ saveCreator{this}
 	state = MenuState;
 
 	gameLoop();
-
 }
 
 
