@@ -187,12 +187,8 @@ void GameState_Play::getInput(){
 					if (terrain != nullptr){
 						bool occupied{false};
 
-						for (auto& player : game->mPlayers){
-							for (auto& unit : player->getUnits()){
-								if (unit->getTerrain() == terrain){
-									occupied = true;
-								}
-							}
+						if (terrain->getUnit() != nullptr){
+							occupied = true;
 						}
 
 						//If vacant, move to the tile
