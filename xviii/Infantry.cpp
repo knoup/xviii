@@ -156,6 +156,8 @@ std::string Infantry::meleeAttack(Infantry* inf){
 	bool retreat{false};
 	bool frontal{false};
 
+	float retreatDamageDealt{0};
+
 	//Checks if the attack is frontal or not
 
 	for (int i{0}; i < modVector.size(); ++i){
@@ -198,7 +200,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 				inf->spawn(world.terrainAtCartesianPos(enemyRetreatPos));
 				inf->setDir(opposite(inf->getDir()));
 				//The pushed back unit is immobilised for the next turn, and takes 2 damage
-				damageDealt += 2;
+				retreatDamageDealt += 2;
 				inf->setHasMeleeAttacked(true);
 				inf->setHasRangedAttacked(true);
 				inf->setHasMoved(true);
@@ -206,7 +208,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 			}
 			else{
 				//If the unit is unable to retreat, they suffer 6 damage
-				damageDealt += 6;
+				retreatDamageDealt += 6;
 			}
 
 		}
@@ -246,6 +248,12 @@ std::string Infantry::meleeAttack(Infantry* inf){
 				this->takeDamage(damageReceived, 1);
 			}
 		}
+	}
+
+	//After all else has been determined, take the retreat damage, if there was any
+	if (retreatDamageDealt > 0){
+		damageDealt += retreatDamageDealt;
+		inf->takeDamage(retreatDamageDealt, 1);
 	}
 
 	mov = 0;

@@ -28,6 +28,8 @@ const std::string OUT_OF_RANGE{"Out of max range: "};
 
 const sf::Keyboard::Key DELETE_KEY = sf::Keyboard::Delete;
 
+const sf::Keyboard::Key RANDOMNATION_KEY = sf::Keyboard::R;
+
 const sf::Keyboard::Key UP_KEY = sf::Keyboard::W;
 const sf::Keyboard::Key DOWN_KEY = sf::Keyboard::S;
 const sf::Keyboard::Key LEFT_KEY = sf::Keyboard::A;

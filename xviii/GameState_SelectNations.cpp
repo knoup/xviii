@@ -122,6 +122,16 @@ void GameState_SelectNations::getInput(){
 				updateNationName();
 
 			}
+
+			else if (event.key.code == RANDOMNATION_KEY){
+				std::uniform_int_distribution<int> distribution(0, flagMenuItems.size() - 1);
+				int randNum{distribution(game->mtengine)};
+
+				flagIterator->highlighted = false;
+				flagIterator._Ptr = &flagMenuItems.at(randNum);
+				flagIterator->highlighted = true;
+			}
+
 			break;
 
 		case sf::Event::Closed:
