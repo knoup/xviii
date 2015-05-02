@@ -150,12 +150,69 @@ std::string Infantry::meleeAttack(Infantry* inf){
 	multRollByModifiers(thisRoll);
 	inf->multRollByModifiers(enemyRoll);
 
-	//Breakthrough
+	
+	//BREAKTHROUGH ABILITY
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	bool retreat{false};
-	if (breakthrough(inf, thisRoll_int, enemyRoll_int, thisRoll, enemyRoll, damageDealt, damageReceived)){
-		retreat = true;
+	bool frontal{false};
+
+	//Checks if the attack is frontal or not
+
+	for (int i{0}; i < modVector.size(); ++i){
+		if (modVector[i].modType == Modifier::FRONT_FLANK){
+			frontal = true;
+			break;
+		}
+		break;
 	}
-	//////////////
+
+	//For frontal attacks,
+	if (frontal){
+		//if the attacker's ORIGINAL roll is >= 6 AND the defender's ORIGINAL roll is <6
+		//OR
+		//if the attacker's FINAL roll is > than the defender's FINAL roll
+		if ((thisRoll_int == 6 && enemyRoll_int < 6) || (thisRoll > enemyRoll)){
+			std::cout << inf->getCartesianPos().x << ", " << inf->getCartesianPos().y << std::endl;
+			sf::Vector2i enemyPos{inf->getCartesianPos()};
+			sf::Vector2i enemyRetreatPos{enemyPos};
+
+			switch (this->getDir()){
+			case Direction::N:
+				enemyRetreatPos.y -= 2;
+				break;
+			case Direction::E:
+				enemyRetreatPos.x += 2;
+				break;
+			case Direction::S:
+				enemyRetreatPos.y += 2;
+				break;
+			case Direction::W:
+				enemyRetreatPos.x -= 2;
+				break;
+			}
+
+			//Now check if the tile to retreat to is not occupied:
+			if (world.canBePlacedAtCartesianPos(enemyRetreatPos)){
+				retreat = true;
+				//Here, we use the spawn function since it is essentially an instant teleport
+				inf->spawn(world.terrainAtCartesianPos(enemyRetreatPos));
+				inf->setDir(opposite(inf->getDir()));
+				//The pushed back unit is immobilised for the next turn, and takes 2 damage
+				damageDealt += 2;
+				inf->setHasMeleeAttacked(true);
+				inf->setHasRangedAttacked(true);
+				inf->setHasMoved(true);
+				inf->setMov(0);
+			}
+			else{
+				//If the unit is unable to retreat, they suffer 6 damage
+				damageDealt += 6;
+			}
+
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	if (abs(thisRoll - enemyRoll) < 0.01){
 		damageDealt += 1;
@@ -198,71 +255,6 @@ std::string Infantry::meleeAttack(Infantry* inf){
 
 	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, retreat);
 
-}
-
-std::string Infantry::meleeAttack(FootGuard* foot){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-	float enemyRoll = enemyRoll_int;
-
-	float damageDealt{0};
-	float damageReceived{0};
-
-	multRollByModifiers(thisRoll);
-	foot->multRollByModifiers(enemyRoll);
-
-	//Breakthrough
-	bool retreat{false};
-	if (breakthrough(foot, thisRoll_int, enemyRoll_int, thisRoll, enemyRoll, damageDealt, damageReceived)){
-		retreat = true;
-	}
-	//////////////
-
-	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt += 1;
-		damageReceived += 1;
-
-		this->takeDamage(damageReceived, 1);
-		foot->takeDamage(damageDealt, 1);
-	}
-	else{
-		//If the difference between rolls is less than 3
-		if (abs(thisRoll - enemyRoll) < 3){
-			if (thisRoll > enemyRoll){
-				damageDealt += 1;
-
-				foot->takeDamage(damageDealt, 1);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived += 1;
-
-				this->takeDamage(damageReceived, 1);
-			}
-		}
-		//If the difference is greater or equal to 3,
-		else{
-			if (thisRoll > enemyRoll){
-				damageDealt += 2;
-				foot->takeDamage(damageDealt, 1);
-			}
-			else if (enemyRoll > thisRoll){
-				damageReceived += 2;
-				this->takeDamage(damageReceived, 1);
-			}
-		}
-	}
-
-	mov = 0;
-	this->updateStats();
-	foot->updateStats();
-	hasMeleeAttacked = true;
-
-	return attackReport(1, this, foot, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, retreat);
 }
 
 std::string Infantry::meleeAttack(Cavalry* cav){

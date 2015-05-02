@@ -166,16 +166,11 @@ public:
 	virtual std::string meleeAttack(UnitTile* _unit) = 0;
 
 	virtual std::string meleeAttack(Infantry* inf);
-	virtual std::string meleeAttack(FootGuard* foot);
 	virtual std::string meleeAttack(Cavalry* cav);
 	virtual std::string meleeAttack(Artillery* art);
 	virtual std::string meleeAttack(Mortar* mor);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
-
-	//This is the infantry's breakthrough ability; I've placed it here so it does not have to be repeated in the code.
-	//Inf vs. HInf, Inf vs. Inf, and Hinf vs. Hinf are meant to get this.
-	bool breakthrough(UnitTile* defender, int attackerRoll, int defenderRoll, float finalAttackerRoll, float finalDefenderRoll, float& damageDealt, float& damageReceived);
 
 	//Each class will have an overloaded definition returning its specific flank modifier for either 
 	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 

@@ -20,7 +20,6 @@ public:
 	virtual std::string meleeAttack(UnitTile* _unit);
 
 	virtual std::string meleeAttack(Infantry* inf);
-	virtual std::string meleeAttack(FootGuard* foot);
 	virtual std::string meleeAttack(Cavalry* cav);
 	virtual std::string meleeAttack(Artillery* art);
 	virtual std::string meleeAttack(Mortar* mor);
