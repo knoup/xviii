@@ -196,7 +196,7 @@ public:
 	std::string modToString(ModifierReport _mod);
 	std::string typeToString();
 
-	std::string attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted);
+	std::string attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted, bool retreat = false);
 
 	bool getHasMoved() const;
 	bool getHasRotated() const;

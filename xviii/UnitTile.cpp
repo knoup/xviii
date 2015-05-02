@@ -625,7 +625,7 @@ int UnitTile::distanceFrom(Tile* _tile){
 }
 
 
-std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted){
+std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted, bool retreat){
 	std::stringstream result;
 
 	std::vector<ModifierReport>& attackerModifiers = attacker->modVector;
@@ -712,7 +712,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		result << defenderInflictedString;
 
 		//If the HP is less than 0.5, it means they are about to be deleted due to death...
-
+		
 		if (defender->gethp() < 0.4){
 			result << " (killed)";
 			if (defender->getUnitType() == UnitTile::UnitType::GEN){
@@ -741,6 +741,10 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	result << "\n";
 
 	result << defender->getPlayer()->getName().substr(0, 3) + " Mod:   ";
+
+	if (retreat){
+		result << "(retreat!) ";
+	}
 
 	for (auto& mod : defenderModifiers){
 		if (mod.modFloat != 0){

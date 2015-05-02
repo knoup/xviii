@@ -5,6 +5,7 @@
 
 /*
 TODO:
+	-Modularise lancer and breakthrough bonuses
 	-Implement specialised MudAnt and HillAnt classes
 */
 
