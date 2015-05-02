@@ -28,26 +28,26 @@ std::string Boyar::meleeAttack(Infantry* inf){
 
 	//If FINAL roll is 8 or above and attack bonus is ready...
 	if (thisRoll >= 8 && attackBonusReady){
-		damageDealt = 4;
+		damageDealt += 4;
 		inf->takeDamage(damageDealt, 1);
 	}
 
 	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 0.5;
-		damageReceived = 1;
+		damageDealt += 0.5;
+		damageReceived += 1;
 
 		inf->takeDamage(damageDealt, 1);
 		this->takeDamage(damageReceived, 1);
 	}
 	else if (thisRoll > enemyRoll){
-		damageDealt = 4;
+		damageDealt += 4;
 
 		inf->takeDamage(damageDealt, 1);
 
 	}
 	else if (enemyRoll > thisRoll){
-		damageDealt = 1;
-		damageReceived = 2;
+		damageDealt += 1;
+		damageReceived += 2;
 
 		inf->takeDamage(damageDealt, 1);
 		this->takeDamage(damageReceived, 1);
@@ -81,26 +81,26 @@ std::string Boyar::meleeAttack(FootGuard* foot){
 
 	//If FINAL roll is 8 or above and attack bonus is ready...
 	if (thisRoll >= 8 && attackBonusReady){
-		damageDealt = 4;
+		damageDealt += 4;
 		foot->takeDamage(damageDealt, 1);
 	}
 
 	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 0.5;
-		damageReceived = 1;
+		damageDealt += 0.5;
+		damageReceived += 1;
 
 		foot->takeDamage(damageDealt, 1);
 		this->takeDamage(damageReceived, 1);
 	}
 	else if (thisRoll > enemyRoll){
-		damageDealt = 4;
+		damageDealt += 4;
 
 		foot->takeDamage(damageDealt, 1);
 
 	}
 	else if (enemyRoll > thisRoll){
-		damageDealt = 1;
-		damageReceived = 2;
+		damageDealt += 1;
+		damageReceived += 2;
 
 		foot->takeDamage(damageDealt, 1);
 		this->takeDamage(damageReceived, 1);
@@ -135,13 +135,13 @@ std::string Boyar::meleeAttack(Cavalry* cav){
 
 	//If FINAL roll is 8 or above and attack bonus is ready...
 	if (thisRoll >= 8 && attackBonusReady){
-		damageDealt = 3;
+		damageDealt += 3;
 		cav->takeDamage(damageDealt, 1);
 	}
 
 	if (abs(thisRoll - enemyRoll) < 0.01){
-		damageDealt = 1;
-		damageReceived = 1;
+		damageDealt += 1;
+		damageReceived += 1;
 
 		this->takeDamage(damageReceived, 1);
 		cav->takeDamage(damageDealt, 1);
@@ -151,22 +151,22 @@ std::string Boyar::meleeAttack(Cavalry* cav){
 		if (abs(thisRoll - enemyRoll) < 3){
 			//Player with the highest roll inflicts 1 DMG on the other
 			if (thisRoll > enemyRoll){
-				damageDealt = 1;
+				damageDealt += 1;
 				cav->takeDamage(damageDealt, 1);
 			}
 			else if (enemyRoll > thisRoll){
-				damageReceived = 1;
+				damageReceived += 1;
 				this->takeDamage(damageReceived, 1);
 			}
 		}
 		//If the difference is greater or equal to 3,
 		else{
 			if (thisRoll > enemyRoll){
-				damageDealt = 2;
+				damageDealt += 2;
 				cav->takeDamage(damageDealt, 1);
 			}
 			else if (enemyRoll > thisRoll){
-				damageReceived = 2;
+				damageReceived += 2;
 				this->takeDamage(damageReceived, 1);
 			}
 		}

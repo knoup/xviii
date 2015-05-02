@@ -77,7 +77,7 @@ std::string General::rangedAttack(UnitTile* unit, int distance){
 
 	multRollByModifiers(thisRoll);
 
-	damageDealt = thisRoll;
+	damageDealt += thisRoll;
 	unit->takeDamage(damageDealt, distance);
 
 	mov = 0;

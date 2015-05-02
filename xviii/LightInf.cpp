@@ -37,7 +37,7 @@ std::string LightInf::rangedAttack(UnitTile* unit, int distance){
 	modVector.emplace_back(Modifier::DISTANCE, distanceModifier);
 
 	multRollByModifiers(thisRoll);
-	damageDealt = thisRoll;
+	damageDealt += thisRoll;
 	unit->takeDamage(damageDealt, distance);
 
 	mov = 0;

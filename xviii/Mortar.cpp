@@ -52,7 +52,7 @@ std::string Mortar::rangedAttack(UnitTile* unit, int distance){
 	multRollByModifiers(thisRoll);
 
 	if (thisRoll_int >= 4 && thisRoll_int <= 6){
-		damageDealt = 3;
+		damageDealt += 3;
 
 		unit->takeDamage(damageDealt, distance);
 	}
