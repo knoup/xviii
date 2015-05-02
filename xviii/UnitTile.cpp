@@ -161,6 +161,10 @@ terrain{nullptr}
 }
 
 void UnitTile::spawn(TerrainTile* terrainTile){
+	if (terrain != nullptr){
+		terrain->resetUnit();
+	}
+
 	terrain = terrainTile;
 	terrainTile->setUnit(this);
 	sprite.setPosition(terrainTile->getPixelPos());
@@ -818,6 +822,10 @@ void UnitTile::setMov(float _mov){
 	mov = _mov;
 }
 
+void UnitTile::setDir(Direction _dir){
+	dir = _dir;
+}
+
 void UnitTile::setHasMoved(bool _hasMoved){
 	hasMoved = _hasMoved;
 }
@@ -836,6 +844,68 @@ void UnitTile::setHasRangedAttacked(bool _value){
 
 void UnitTile::setHasHealed(bool _hasHealed){
 
+}
+
+bool UnitTile::breakthrough(UnitTile* defender, int attackerRoll, int defenderRoll, float finalAttackerRoll, float finalDefenderRoll, float& damageDealt, float& damageReceived){
+	//BREAKTHROUGH BONUS
+
+	bool frontal{false};
+
+	//Checks if the attack is frontal or not
+
+	for (int i{0}; i < modVector.size(); ++i){
+		if (modVector[i].modType == Modifier::FRONT_FLANK){
+			frontal = true;
+			break;
+		}
+		break;
+	}
+
+	//For frontal attacks,
+	if (frontal){
+		//if the attacker's ORIGINAL roll is >= 6 AND the defender's ORIGINAL roll is <6
+		//OR
+		//if the attacker's FINAL roll is > than the defender's FINAL roll
+		if ((attackerRoll == 6 && defenderRoll < 6) || (finalAttackerRoll > finalDefenderRoll)){
+			std::cout << defender->getCartesianPos().x << ", " << defender->getCartesianPos().y << std::endl;
+			sf::Vector2i enemyPos{defender->getCartesianPos()};
+			sf::Vector2i enemyRetreatPos{enemyPos};
+
+			switch (this->getDir()){
+			case Direction::N:
+				enemyRetreatPos.y -= 2;
+				break;
+			case Direction::E:
+				enemyRetreatPos.x += 2;
+				break;
+			case Direction::S:
+				enemyRetreatPos.y += 2;
+				break;
+			case Direction::W:
+				enemyRetreatPos.x -= 2;
+				break;
+			}
+
+			//Now check if the tile to retreat to is not occupied:
+			if (world.canBePlacedAtCartesianPos(enemyRetreatPos)){
+				//Here, we use the spawn function since it is essentially an instant teleport
+				defender->spawn(world.terrainAtCartesianPos(enemyRetreatPos));
+				defender->setDir(opposite(defender->getDir()));
+				//The pushed back unit is immobilised for the next turn
+				defender->setHasMeleeAttacked(true);
+				defender->setHasRangedAttacked(true);
+				defender->setHasMoved(true);
+				defender->setMov(0);
+				return true;
+			}
+			else{
+				damageDealt += 2;
+			}
+
+		}
+	}
+
+	return false;
 }
 
 UnitTile::~UnitTile(){

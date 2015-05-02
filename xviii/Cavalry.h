@@ -29,6 +29,11 @@ public:
 
 	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
 
+	//The lancer bonus, here for convenience. Certain subclasses of Cavalry are meant to have this. The virtual function hasLancerBonus() 
+	//determines whether this code is run or not.
+	bool lancerBonus(UnitTile* defender, float finalAttackerRoll, bool attackBonusReady, float& damageDealt);
+	virtual bool hasLancerBonus(){ return false; };
+
 private:
 	static const int maxhp{13};
 	static const int maxMov{12};

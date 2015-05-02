@@ -14,19 +14,15 @@ public:
 	//Boyar's reset() is overloaded due to the additional attackBonus variable
 	virtual void reset();
 
-	//Overloaded for Boyar's bonus:
-	//During their FIRST melee roll, if the roll is 6(without any modifier), they inflict 4 Damage to INF units (any type), or 3
-	//damage to Cav (any type)
-	virtual std::string meleeAttack(Infantry* inf);
-	virtual std::string meleeAttack(FootGuard* foot);
-	virtual std::string meleeAttack(Cavalry* cav);
+	//Overloaded for Boyar's bonus, enabling the lancer bonus
+	virtual bool hasLancerBonus(){ return true; };
 
 	//These functions will really be used for the attackBonusReady bool
 	virtual bool getHasHealed() const{ return attackBonusReady; };
 	virtual void setHasHealed(bool _value){ attackBonusReady = _value; };
 
 private:
-	//A special Boyar bonus; they have to rest for a turn to recharge this, so that they can proc the above mentioned bonus
+	//A special lancer bonus; they have to rest for a turn to recharge this, so that they can proc the above mentioned bonus
 	bool attackBonusReady{true};
 
 	static const int maxhp{10};

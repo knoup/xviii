@@ -199,67 +199,12 @@ std::string FootGuard::meleeAttack(Infantry* inf){
 	multRollByModifiers(thisRoll);
 	inf->multRollByModifiers(enemyRoll);
 
-	//BREAKTHROUGH BONUS
-
-	/////////////////////////////////////////////////////////////////////////////////////
-
+	//Breakthrough
 	bool retreat{false};
-	bool frontal{false};
-
-	//Checks if the attack is frontal or not
-
-	for (int i{0}; i < modVector.size(); ++i){
-		if (modVector[i].modType == Modifier::FRONT_FLANK){
-			frontal = true;
-			break;
-		}
-		break;
+	if (breakthrough(inf, thisRoll_int, enemyRoll_int, thisRoll, enemyRoll, damageDealt, damageReceived)){
+		retreat = true;
 	}
-
-	//For frontal attacks,
-	if (frontal){
-		//if the attacker's ORIGINAL roll is >= 6 AND the defender's ORIGINAL roll is <6
-		//OR
-		//if the attacker's FINAL roll is > than the defender's FINAL roll
-		if ((thisRoll_int == 6 && enemyRoll_int < 6) || (thisRoll > enemyRoll)){
-			std::cout << inf->getCartesianPos().x << ", " << inf->getCartesianPos().y << std::endl;
-			sf::Vector2i enemyPos{inf->getCartesianPos()};
-			sf::Vector2i enemyRetreatPos{enemyPos};
-
-			switch (this->getDir()){
-			case Direction::N:
-				enemyRetreatPos.y -= 2;
-				break;
-			case Direction::E:
-				enemyRetreatPos.x += 2;
-				break;
-			case Direction::S:
-				enemyRetreatPos.y += 2;
-				break;
-			case Direction::W:
-				enemyRetreatPos.x -= 2;
-				break;
-			}
-
-			//Now check if the tile to retreat to is not occupied:
-			if (world.canBePlacedAtCartesianPos(enemyRetreatPos)){
-				retreat = true;
-				//Here, we use the spawn function since it is essentially an instant teleport
-				inf->spawn(world.terrainAtCartesianPos(enemyRetreatPos));
-				//The pushed back unit is immobilised for the next turn
-				inf->setHasMeleeAttacked(true);
-				inf->setHasRangedAttacked(true);
-				inf->setHasMoved(true);
-				inf->setMov(0);
-			}
-			else{
-				damageDealt += 2;
-			}
-
-		}
-	}
-
-	/////////////////////////////////////////////////////////////////////////////////////
+	//////////////
 
 	if (abs(thisRoll - enemyRoll) < 0.01){
 		damageDealt += 1;
@@ -319,67 +264,12 @@ std::string FootGuard::meleeAttack(FootGuard* foot){
 	multRollByModifiers(thisRoll);
 	foot->multRollByModifiers(enemyRoll);
 
-	//BREAKTHROUGH BONUS
-
-	/////////////////////////////////////////////////////////////////////////////////////
-
+	//Breakthrough
 	bool retreat{false};
-	bool frontal{false};
-
-	//Checks if the attack is frontal or not
-
-	for (int i{0}; i < modVector.size(); ++i){
-		if (modVector[i].modType == Modifier::FRONT_FLANK){
-			frontal = true;
-			break;
-		}
-		break;
+	if (breakthrough(foot, thisRoll_int, enemyRoll_int, thisRoll, enemyRoll, damageDealt, damageReceived)){
+		retreat = true;
 	}
-
-	//For frontal attacks,
-	if (frontal){
-		//if the attacker's ORIGINAL roll is >= 6 AND the defender's ORIGINAL roll is <6
-		//OR
-		//if the attacker's FINAL roll is > than the defender's FINAL roll
-		if ((thisRoll_int == 6 && enemyRoll_int < 6) || (thisRoll > enemyRoll)){
-			std::cout << foot->getCartesianPos().x << ", " << foot->getCartesianPos().y << std::endl;
-			sf::Vector2i enemyPos{foot->getCartesianPos()};
-			sf::Vector2i enemyRetreatPos{enemyPos};
-
-			switch (this->getDir()){
-			case Direction::N:
-				enemyRetreatPos.y -= 2;
-				break;
-			case Direction::E:
-				enemyRetreatPos.x += 2;
-				break;
-			case Direction::S:
-				enemyRetreatPos.y += 2;
-				break;
-			case Direction::W:
-				enemyRetreatPos.x -= 2;
-				break;
-			}
-
-			//Now check if the tile to retreat to is not occupied:
-			if (world.canBePlacedAtCartesianPos(enemyRetreatPos)){
-				retreat = true;
-				//Here, we use the spawn function since it is essentially an instant teleport
-				foot->spawn(world.terrainAtCartesianPos(enemyRetreatPos));
-				//The pushed back unit is immobilised for the next turn
-				foot->setHasMeleeAttacked(true);
-				foot->setHasRangedAttacked(true);
-				foot->setHasMoved(true);
-				foot->setMov(0);
-			}
-			else{
-				damageDealt += 2;
-			}
-
-		}
-	}
-
-	/////////////////////////////////////////////////////////////////////////////////////
+	//////////////
 
 	if (abs(thisRoll - enemyRoll) < 0.01){
 		damageDealt += 1;

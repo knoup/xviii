@@ -173,6 +173,10 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
+	//This is the infantry's breakthrough ability; I've placed it here so it does not have to be repeated in the code.
+	//Inf vs. HInf, Inf vs. Inf, and Hinf vs. Hinf are meant to get this.
+	bool breakthrough(UnitTile* defender, int attackerRoll, int defenderRoll, float finalAttackerRoll, float finalDefenderRoll, float& damageDealt, float& damageReceived);
+
 	//Each class will have an overloaded definition returning its specific flank modifier for either 
 	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 
 	//its own implementation of essentially the same function.
@@ -206,6 +210,7 @@ public:
 
 	void sethp(float _hp);
 	void setMov(float _mov);
+	void setDir(Direction _dir);
 	void setHasMoved(bool _hasMoved);
 	void setHasRotated(bool _hasRotated);
 	void setHasMeleeAttacked(bool _value);

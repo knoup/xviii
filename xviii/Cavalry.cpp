@@ -11,6 +11,25 @@ static const float cavFrontFlankModifier = 1;
 static const float cavSideFlankModifier = 2;
 static const float cavRearFlankModifier = 2;
 
+bool Cavalry::lancerBonus(UnitTile* defender, float finalAttackerRoll, bool attackBonusReady, float& damageDealt){
+	//If FINAL roll is 8 or above and attack bonus is ready...
+	if (finalAttackerRoll >= 8 && attackBonusReady){
+		if (defender->getUnitFamilyType() == UnitFamily::INF_FAMILY
+			|| defender->getUnitFamilyType() == UnitFamily::HINF_FAMILY
+			|| defender->getUnitFamilyType() == UnitFamily::LINF_FAMILY){
+			damageDealt += 4;
+		}
+		else if (defender->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+			damageDealt += 3;
+		}
+
+		defender->takeDamage(damageDealt, 1);
+		return true;
+	}
+
+	return false;
+}
+
 float Cavalry::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	if (_family == UnitFamily::INF_FAMILY || _family == UnitFamily::HINF_FAMILY || _family == UnitFamily::LINF_FAMILY){
 		switch (_flank){
@@ -108,6 +127,17 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 	multRollByModifiers(thisRoll);
 	inf->multRollByModifiers(enemyRoll);
 
+	if (hasLancerBonus()){
+		if (lancerBonus(inf, thisRoll, getHasHealed(), damageDealt)){
+			mov = 0;
+			this->updateStats();
+			inf->updateStats();
+			hasMeleeAttacked = true;
+
+			return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
+		}
+	}
+
 	if (abs(thisRoll - enemyRoll) < 0.01){
 		damageDealt += 0.5;
 		damageReceived += 1;
@@ -154,6 +184,17 @@ std::string Cavalry::meleeAttack(FootGuard* foot){
 	multRollByModifiers(thisRoll);
 	foot->multRollByModifiers(enemyRoll);
 
+	if (hasLancerBonus()){
+		if (lancerBonus(foot, thisRoll, getHasHealed(), damageDealt)){
+			mov = 0;
+			this->updateStats();
+			foot->updateStats();
+			hasMeleeAttacked = true;
+
+			return attackReport(1, this, foot, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
+		}
+	}
+
 	if (abs(thisRoll - enemyRoll) < 0.01){
 		damageDealt += 0.5;
 		damageReceived += 1;
@@ -199,6 +240,17 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 
 	multRollByModifiers(thisRoll);
 	cav->multRollByModifiers(enemyRoll);
+
+	if (hasLancerBonus()){
+		if (lancerBonus(cav, thisRoll, getHasHealed(), damageDealt)){
+			mov = 0;
+			this->updateStats();
+			cav->updateStats();
+			hasMeleeAttacked = true;
+
+			return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
+		}
+	}
 
 	if (abs(thisRoll - enemyRoll) < 0.01){
 		damageDealt += 1;
