@@ -11,7 +11,7 @@ WATER to generate small lakes as well.
 class Ant 
 {
 public:
-	Ant(World* _world, TerrainTile::TerrainType _type, int _lifetime);
+	Ant(World& _world, TerrainTile::TerrainType _type, int _lifetime);
 	virtual void crawl();
 protected:
 	virtual void increment(int dir, sf::Vector2i& cartesianCoords);

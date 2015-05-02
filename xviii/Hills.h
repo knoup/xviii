@@ -5,6 +5,6 @@
 class Hills : public TerrainTile
 {
 public:
-	Hills(World* _world, TextureManager& tm, sf::Vector2f _pos);
+	Hills(World& _world, TextureManager& tm, sf::Vector2f _pos);
 };
 

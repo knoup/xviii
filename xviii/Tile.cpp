@@ -1,14 +1,17 @@
 #include "stdafx.h"
 #include "Tile.h"
 
+#include "World.h"
 
-Tile::Tile(TextureManager& tm, TextureManager::Terrain type) :
+Tile::Tile(World& _world, TextureManager& tm, TextureManager::Terrain type) :
+world(_world),
 sprite{tm.getSprite(type)},
 highlighted{false}
 {
 }
 
-Tile::Tile(TextureManager& tm, TextureManager::Unit type) :
+Tile::Tile(World& _world, TextureManager& tm, TextureManager::Unit type) :
+world(_world),
 sprite{tm.getSprite(type)},
 highlighted{false}
 {

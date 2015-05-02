@@ -5,6 +5,6 @@
 class Road : public TerrainTile
 {
 public:
-	Road(World* _world, TextureManager& tm, sf::Vector2f _pos);
+	Road(World& _world, TextureManager& tm, sf::Vector2f _pos);
 };
 

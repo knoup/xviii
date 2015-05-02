@@ -5,6 +5,6 @@
 class Urban : public TerrainTile
 {
 public:
-	Urban(World* _world, TextureManager& tm, sf::Vector2f _pos);
+	Urban(World& _world, TextureManager& tm, sf::Vector2f _pos);
 };
 

@@ -3,8 +3,8 @@
 
 #include "World.h"
 
-Ant::Ant(World* _world, TerrainTile::TerrainType _type, int _lifetime) :
-world{_world},
+Ant::Ant(World& _world, TerrainTile::TerrainType _type, int _lifetime) :
+world(&_world),
 type{_type},
 lifetime{_lifetime},
 currentIndex{0}
@@ -77,7 +77,7 @@ void Ant::crawl(){
 			//type, class, texture, string
 			#define X(_type, cl, texture, str)\
 					case(_type):\
-						world->terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl{world, world->tm, currentPos}));\
+						world->terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl{*world, world->tm, currentPos}));\
 						break;
 			TERRAINPROPERTIES
 			#undef X

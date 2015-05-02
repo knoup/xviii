@@ -32,7 +32,7 @@ public:
 	using terrainPtr = std::unique_ptr<TerrainTile>;
 	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS };
 
-	TerrainTile(World* _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);
+	TerrainTile(World& _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);
 	virtual ~TerrainTile() = 0;
 
 	void setPos(sf::Vector2f _pos);

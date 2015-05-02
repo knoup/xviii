@@ -5,7 +5,7 @@
 class RiverAnt : public Ant
 {
 public:
-	RiverAnt(World* _world, int _lifetime);
+	RiverAnt(World& _world, int _lifetime);
 	virtual void crawl();
 protected:
 	//Rivers keep track of their initial direction; they are more likely to 

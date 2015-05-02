@@ -50,7 +50,6 @@
 	X(UnitTile::UnitType::ARN, Arnauts, "arnauts", TextureManager::Unit::INF)\
 
 class Player;
-class World;
 
 class Infantry;
 class Cavalry;
@@ -227,7 +226,6 @@ public:
 protected:
 	std::string outOfRange();
 
-	World& world;
 	std::mt19937& mt19937;
 
 	//Pointer to the player the unit belongs to

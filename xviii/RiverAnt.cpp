@@ -2,7 +2,7 @@
 #include "RiverAnt.h"
 
 
-RiverAnt::RiverAnt(World* _world, int _lifetime) : 
+RiverAnt::RiverAnt(World& _world, int _lifetime) :
 Ant{_world, TerrainTile::TerrainType::WATER, _lifetime},
 initialDirection{0}
 {
@@ -14,7 +14,7 @@ void RiverAnt::crawl(){
 
 		sf::Vector2f currentPos{world->terrainLayer[currentIndex]->getPos()};
 
-		world->terrainLayer[currentIndex] = std::move(std::unique_ptr<Water>(new Water{world, world->tm, currentPos})); 
+		world->terrainLayer[currentIndex] = std::move(std::unique_ptr<Water>(new Water{*world, world->tm, currentPos})); 
 
 		const sf::Vector2i currentCartesianPos{world->cartesianCoordsAtIndex(currentIndex)};
 
