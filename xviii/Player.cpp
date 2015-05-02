@@ -62,6 +62,7 @@ spawnedAtBottom{_spawnedAtBottom}
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CUIR, {3, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DRAG, {4, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LCAV, {5, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::FOOT, {6, 2}));
 	}
 
 

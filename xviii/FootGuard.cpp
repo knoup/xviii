@@ -30,7 +30,17 @@ void FootGuard::reset(){
 }
 
 std::string FootGuard::interactWithFriendly(UnitTile* _unit){
-	if (_unit == this){
+	sf::Vector2i thisPos = getCartesianPos();
+	sf::Vector2i friendlyPos = _unit->getCartesianPos();
+
+	sf::Vector2i difference = (thisPos - friendlyPos);
+	difference.x = abs(difference.x);
+	difference.y = abs(difference.y);
+
+	if (difference.x > maxHealingRange || difference.y > maxHealingRange){
+		return OUT_OF_RANGE + std::to_string(maxHealingRange);
+	}
+	else if (_unit == this){
 		return CANNOT_HEAL_SELF;
 	}
 	else if (hasHealed){
