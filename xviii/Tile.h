@@ -14,6 +14,9 @@ public:
 	virtual ~Tile() = 0;
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
 
+	sf::Vector2i getCartesianPos() const;
+	sf::Vector2f getPixelPos() const;
+
 	void setHighlighted(bool _value);
 
 	int top() const;

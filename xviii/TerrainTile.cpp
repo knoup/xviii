@@ -41,11 +41,6 @@ void TerrainTile::setPos(sf::Vector2f _pos){
 	sprite.setPosition(_pos);
 }
 
-
-sf::Vector2f TerrainTile::getPos() const{
-	return sprite.getPosition();
-}
-
 TerrainTile::TerrainType TerrainTile::getTerrainType() const{
 	return terrainType;
 }

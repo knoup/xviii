@@ -24,6 +24,19 @@ void Tile::setHighlighted(bool _value){
 	highlighted = _value;
 }
 
+sf::Vector2i Tile::getCartesianPos() const{
+	//N.B.
+	//In the interest of keeping this function const, I used this 
+	return world.cartesianPosAtIndex(world.indexAtPixelPos(sf::Vector2i{left(), top()}));
+	//Instead of this:
+	//Tile* ptr = this;
+	//return world.cartesianPosAtIndex(world.indexAtPixelPos(world.indexAtTile(this)));
+}
+
+sf::Vector2f Tile::getPixelPos() const{
+	return sprite.getPosition();
+}
+
 int Tile::top() const{
 	return sprite.getPosition().y;
 }

@@ -167,8 +167,8 @@ void GameState_Play::getInput(){
 					return;
 				}
 
-				auto unit = game->mWorld.unitAtMouseCoords(worldCoords);
-				auto terrain = game->mWorld.terrainAtMouseCoords(worldCoords);
+				auto unit = game->mWorld.unitAtPixelPos(worldCoords);
+				auto terrain = game->mWorld.terrainAtPixelPos(worldCoords);
 				bool friendly{true};
 
 				//Cache the unit's allignment
@@ -312,8 +312,8 @@ void GameState_Play::update(FrameTime mFT){
 		sf::Vector2f fworldCoords = game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView);
 		sf::Vector2i iworldCoords{int(fworldCoords.x), int(fworldCoords.y)};\
 
-		auto terrain = game->mWorld.terrainAtMouseCoords(iworldCoords);
-		auto unit = game->mWorld.unitAtMouseCoords(iworldCoords);
+		auto terrain = game->mWorld.terrainAtPixelPos(iworldCoords);
+		auto unit = game->mWorld.unitAtPixelPos(iworldCoords);
 
 		bool validMovDirection{false};
 		bool validAttackDirection{false};

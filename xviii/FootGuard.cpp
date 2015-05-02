@@ -121,10 +121,10 @@ std::string FootGuard::moveTo(TerrainTile* terrainTile){
 	int movExpended{0};
 
 	//Get the coordinates of the current tile the unit is at
-	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*terrain))};
+	sf::Vector2i currentCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrain))};
 
 	//Get the coordinates of the tile to be moved to
-	sf::Vector2i toMoveToCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*terrainTile))};
+	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrainTile))};
 
 	movExpended = distanceFrom(terrainTile, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
 
@@ -138,10 +138,10 @@ std::string FootGuard::moveTo(TerrainTile* terrainTile){
 		terrain = terrainTile;
 		terrainTile->setUnit(this);
 		mov -= movExpended;
-		sprite.setPosition(terrainTile->getPos());
-		unitFlag.setPosition(terrainTile->getPos());
-		yellowOutline.setPosition(terrainTile->getPos());
-		redOutline.setPosition(terrainTile->getPos());
+		sprite.setPosition(terrainTile->getPixelPos());
+		unitFlag.setPosition(terrainTile->getPixelPos());
+		yellowOutline.setPosition(terrainTile->getPixelPos());
+		redOutline.setPosition(terrainTile->getPixelPos());
 		updateStats();
 		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
 	}

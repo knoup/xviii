@@ -143,7 +143,7 @@ bool SaveGame::create(){
 
 	for (auto& player : game->mPlayers){
 		for (auto& unit : player->getUnits()){
-			sf::Vector2i coords{game->mWorld.cartesianCoordsAtIndex(game->mWorld.indexAtTile(*unit))};
+			sf::Vector2i coords{game->mWorld.cartesianPosAtIndex(game->mWorld.indexAtTile(*unit))};
 
 			save << "u{" << std::endl;
 
@@ -273,12 +273,12 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				std::string currentTypeStr = AFTEREQUALS;
 
 				while (trueIndex < currentIndex){
-					currentPos = game->mWorld.posAtIndex(trueIndex);
+					currentPos = game->mWorld.pixelPosAtIndex(trueIndex);
 					game->mWorld.terrainLayer[trueIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, game->mTextureManager, currentPos)));
 					trueIndex++;
 				}
 				
-				currentPos = game->mWorld.posAtIndex(currentIndex);
+				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
 
 				//type, class, texture, string
 				#define X(_type, cl, texture, str)\
@@ -292,7 +292,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			}
 
 			while (currentIndex <= ((game->mWorld.getDimensions().x * game->mWorld.getDimensions().y) -1 )){
-				currentPos = game->mWorld.posAtIndex(currentIndex);
+				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
 				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, game->mTextureManager, currentPos)));
 				currentIndex++;
 			}
@@ -414,7 +414,7 @@ else if (line.find("w{") != std::string::npos){
 		int currentIndex = std::stoi(line.substr(0, line.find("=")));
 		std::string currentTypeStr = AFTEREQUALS;
 
-		sf::Vector2f currentPos = game->mWorld.posAtIndex(currentIndex);
+		sf::Vector2f currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
 
 		//type, class, texture, string
 		#define X(_type, cl, texture, str)\

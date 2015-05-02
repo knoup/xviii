@@ -86,37 +86,36 @@ at that position, according to the following format:
 Depending on the dimensions of the world, obviously
 
 */
-int World::indexAtMouseCoords(sf::Vector2i _pos) const{
+int World::indexAtPixelPos(sf::Vector2i _pos) const{
 	return  int{_pos.x / tm.getSize().x} +int{_pos.y / tm.getSize().y} *dimensions.x;
 }
 
 //This function is somewhat similar to the one above, except it takes in the x and y coords directly:
-//for example, in a 5x3 vector, indexAtCartesianCoords(4,2) would give the index of the last element.
+//for example, in a 5x3 vector, indexAtCartesianPos(4,2) would give the index of the last element.
 
 //N.B.: Takes TRUE coordinates, +1. Valid ranges are (0,0) -> (size.x - 1, size.y - 1)
 
-int World::indexAtCartesianCoords(sf::Vector2i _pos) const{
+int World::indexAtCartesianPos(sf::Vector2i _pos) const{
 	return int{_pos.x} +int{_pos.y} *dimensions.x;
 }
 
 int World::indexAtTile(Tile& _tile) const{
-	return indexAtMouseCoords(sf::Vector2i{_tile.left(), _tile.top()});
+	return indexAtPixelPos(sf::Vector2i{_tile.left(), _tile.top()});
 }
 
-//This function takes the TRUE coordinates (5,2) and gives you the index:
-sf::Vector2i World::cartesianCoordsAtIndex(int _index) const{
+sf::Vector2i World::cartesianPosAtIndex(int _index) const{
 	return{_index % dimensions.x, _index/dimensions.x};
 }
 
 //Takes in an index and returns the theoretical position of this object, whether it exists or not.
 //Does not access terrainLayer, therefore making it useful when you want to find what the position
 //of an uninitialised terrain tile tile would be
-sf::Vector2f World::posAtIndex(int _index) const{
-	return {sf::Vector2f(cartesianCoordsAtIndex(_index).x * tm.getSize().x, cartesianCoordsAtIndex(_index).y * tm.getSize().y)};
+sf::Vector2f World::pixelPosAtIndex(int _index) const{
+	return {sf::Vector2f(cartesianPosAtIndex(_index).x * tm.getSize().x, cartesianPosAtIndex(_index).y * tm.getSize().y)};
 }
 
 //Returns true if can be placed at this position
-bool World::canBePlacedAt(sf::Vector2i _pos){
+bool World::canBePlacedAtPixelPos(sf::Vector2i _pos){
 
 	//If out of bounds, return false immediately
 	if (_pos.x >= getDimensionsInPixels().x || _pos.y >= getDimensionsInPixels().y ||
@@ -125,7 +124,7 @@ bool World::canBePlacedAt(sf::Vector2i _pos){
 		return false;
 	}
 
-    TerrainTile* here = terrainLayer[indexAtMouseCoords(_pos)].get();
+    TerrainTile* here = terrainLayer[indexAtPixelPos(_pos)].get();
 
 	if (here->getUnit() == nullptr){
 		return true;
@@ -135,8 +134,27 @@ bool World::canBePlacedAt(sf::Vector2i _pos){
 	}
 }
 
-UnitTile* World::unitAtMouseCoords(sf::Vector2i _pos){
-	UnitTile* unitHere = terrainLayer[indexAtMouseCoords(_pos)].get()->getUnit();
+bool World::canBePlacedAtCartesianPos(sf::Vector2i _pos){
+
+	//If out of bounds, return false immediately
+	if (_pos.x > getDimensions().x - 1 || _pos.y > getDimensions().y - 1 ||
+		_pos.x < 0 || _pos.y < 0){
+
+		return false;
+	}
+
+	TerrainTile* here = terrainLayer[indexAtCartesianPos(_pos)].get();
+
+	if (here->getUnit() == nullptr){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+UnitTile* World::unitAtPixelPos(sf::Vector2i _pos){
+	UnitTile* unitHere = terrainLayer[indexAtPixelPos(_pos)].get()->getUnit();
 
 	if (unitHere != nullptr){
 		return unitHere;
@@ -146,16 +164,16 @@ UnitTile* World::unitAtMouseCoords(sf::Vector2i _pos){
 }
 
 
-UnitTile* World::unitAt(TerrainTile* _terrain){
-	return unitAtMouseCoords(sf::Vector2i(_terrain->getPos()));
+UnitTile* World::unitAtTerrain(TerrainTile* _terrain){
+	return unitAtPixelPos(sf::Vector2i(_terrain->getPixelPos()));
 }
 
-TerrainTile* World::terrainAtMouseCoords(sf::Vector2i _pos){
-	return terrainLayer[indexAtMouseCoords(_pos)].get();
+TerrainTile* World::terrainAtPixelPos(sf::Vector2i _pos){
+	return terrainLayer[indexAtPixelPos(_pos)].get();
 }
 
-TerrainTile* World::terrainAtCartesianCoords(sf::Vector2i _pos){
-	int index = indexAtCartesianCoords(_pos);
+TerrainTile* World::terrainAtCartesianPos(sf::Vector2i _pos){
+	int index = indexAtCartesianPos(_pos);
 	return terrainLayer[index].get();
 }
 

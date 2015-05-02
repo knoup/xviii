@@ -17,7 +17,7 @@ currentIndex{0}
 	int xCoord = xDist(world->mt19937);
 	int yCoord = yDist(world->mt19937);
 
-	currentIndex = world->indexAtCartesianCoords({xCoord, yCoord});
+	currentIndex = world->indexAtCartesianPos({xCoord, yCoord});
 }
 
 void Ant::increment(int dir, sf::Vector2i& cartesianCoords){
@@ -70,7 +70,7 @@ void Ant::crawl(){
 	//So long as we are still alive and within bounds
 	while (lifetime > 0){
 
-		sf::Vector2f currentPos{world->terrainLayer[currentIndex]->getPos()};
+		sf::Vector2f currentPos{world->terrainLayer[currentIndex]->getPixelPos()};
 
 		//Create new terrain as needed, type associations defined in TERRAINPROPERTIES (TerrainTile.h)
 		switch (type){
@@ -83,7 +83,7 @@ void Ant::crawl(){
 			#undef X
 		}
 
-		const sf::Vector2i currentCartesianPos{world->cartesianCoordsAtIndex(currentIndex)};
+		const sf::Vector2i currentCartesianPos{world->cartesianPosAtIndex(currentIndex)};
 
 		//And finally, switch the currentIndex index to a tile in a random direction. To do this, we'll use our cartesian coordinates. We
 		//also check if the new tile is already the same terrain type we are trying to spawn; if so we keep going in the same direction 
@@ -96,12 +96,12 @@ void Ant::crawl(){
 
 		//If the tile we are moving to is the same type 
 		//move ant in that direction again until that is not the case
-		while (world->terrainLayer[world->indexAtCartesianCoords(newCartesianPos)]->getTerrainType() == type && lifetime > 0){
+		while (world->terrainLayer[world->indexAtCartesianPos(newCartesianPos)]->getTerrainType() == type && lifetime > 0){
 			increment(randomDirection, newCartesianPos);
 		}
 
 		//Set the index to the new coordinates
-		currentIndex = world->indexAtCartesianCoords(newCartesianPos);
+		currentIndex = world->indexAtCartesianPos(newCartesianPos);
 
 		//Decrement our lifetime
 		--lifetime;

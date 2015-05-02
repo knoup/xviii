@@ -30,22 +30,23 @@ public:
 
 	void generateRandomWorld();
 
-	int indexAtMouseCoords(sf::Vector2i _pos) const;
-	int indexAtCartesianCoords(sf::Vector2i _pos) const;
+	int indexAtPixelPos(sf::Vector2i _pos) const;
+	int indexAtCartesianPos(sf::Vector2i _pos) const;
 	int indexAtTile(Tile& _tile) const;
-	sf::Vector2i cartesianCoordsAtIndex(int _index) const;
-	sf::Vector2f posAtIndex(int _index) const;
+	sf::Vector2i cartesianPosAtIndex(int _index) const;
+	sf::Vector2f pixelPosAtIndex(int _index) const;
 
 	//Returns true if the terrain tile at this position is unoccupied
-	bool canBePlacedAt(sf::Vector2i _pos);
+	bool canBePlacedAtPixelPos(sf::Vector2i _pos);
+	bool canBePlacedAtCartesianPos(sf::Vector2i _pos);
 
 	//Returns a [regular] pointer to the unit at this mouse coordinate position, if there is any
-	UnitTile* unitAtMouseCoords(sf::Vector2i _pos);
+	UnitTile* unitAtPixelPos(sf::Vector2i _pos);
 	//Takes in terrain ptr
-	UnitTile* unitAt(TerrainTile* _terrain);
+	UnitTile* unitAtTerrain(TerrainTile* _terrain);
 
-	TerrainTile* terrainAtMouseCoords(sf::Vector2i _pos);
-	TerrainTile* terrainAtCartesianCoords(sf::Vector2i _pos);
+	TerrainTile* terrainAtPixelPos(sf::Vector2i _pos);
+	TerrainTile* terrainAtCartesianPos(sf::Vector2i _pos);
 
 	const std::vector<UnitTile*>& getDamagedUnits() const;
 

@@ -36,7 +36,7 @@ public:
 	virtual ~TerrainTile() = 0;
 
 	void setPos(sf::Vector2f _pos);
-	sf::Vector2f getPos() const;
+
 	TerrainType getTerrainType() const;
 
 	void setUnit(UnitTile* _unit);

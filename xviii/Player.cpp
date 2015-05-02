@@ -90,8 +90,8 @@ spawnedAtBottom{_spawnedAtBottom}
 
 bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 
-	auto terrain = world.terrainAtMouseCoords(_worldCoords);
-	auto cartesianCoords = world.cartesianCoordsAtIndex(world.indexAtTile(*terrain));
+	auto terrain = world.terrainAtPixelPos(_worldCoords);
+	auto cartesianCoords = world.cartesianPosAtIndex(world.indexAtTile(*terrain));
 
 	UnitTile::unitPtr ptr;
 	UnitTile::Direction dir;
@@ -158,9 +158,9 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 
 
 	if (canAfford && !overLimit){
-		if (world.canBePlacedAt(_worldCoords)){
+		if (world.canBePlacedAtPixelPos(_worldCoords)){
 			deploymentPoints -= cost;
-			ptr->spawn(world.terrainAtMouseCoords(_worldCoords));
+			ptr->spawn(world.terrainAtPixelPos(_worldCoords));
 			units.emplace_back(std::move(ptr));
 			return true;
 		}
@@ -194,7 +194,7 @@ void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Dir
 	ptr->setHasHealed(_hasHealed);
 
 
-	ptr->spawn(world.terrainAtMouseCoords(sf::Vector2i{_pos.x * tm.getSize().x, _pos.y * tm.getSize().y}));
+	ptr->spawn(world.terrainAtPixelPos(sf::Vector2i{_pos.x * tm.getSize().x, _pos.y * tm.getSize().y}));
 	units.emplace_back(std::move(ptr));
 }
 
@@ -208,7 +208,7 @@ UnitTile::unitPtr Player::removeUnit(sf::Vector2i _worldCoords){
 		return nullptr;
 	}
 
-	auto found = world.unitAtMouseCoords(_worldCoords);
+	auto found = world.unitAtPixelPos(_worldCoords);
 
 	//If there is a unit at the tile,
 	if (found != nullptr){

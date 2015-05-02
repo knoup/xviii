@@ -163,10 +163,10 @@ terrain{nullptr}
 void UnitTile::spawn(TerrainTile* terrainTile){
 	terrain = terrainTile;
 	terrainTile->setUnit(this);
-	sprite.setPosition(terrainTile->getPos());
-	unitFlag.setPosition(terrainTile->getPos());
-	yellowOutline.setPosition(terrainTile->getPos());
-	redOutline.setPosition(terrainTile->getPos());
+	sprite.setPosition(terrainTile->getPixelPos());
+	unitFlag.setPosition(terrainTile->getPixelPos());
+	yellowOutline.setPosition(terrainTile->getPixelPos());
+	redOutline.setPosition(terrainTile->getPixelPos());
 	updateStats();
 }
 
@@ -180,10 +180,10 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	int movExpended{0};
 
 	//Get the coordinates of the current tile the unit is at
-	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*terrain))};
+	sf::Vector2i currentCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrain))};
 
 	//Get the coordinates of the tile to be moved to
-	sf::Vector2i toMoveToCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*_terrainTile))};
+	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*_terrainTile))};
 
 	movExpended = distanceFrom(_terrainTile, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
 
@@ -196,10 +196,10 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 		terrain = _terrainTile;
 		_terrainTile->setUnit(this);
 		mov -= movExpended;
-		sprite.setPosition(_terrainTile->getPos());
-		unitFlag.setPosition(_terrainTile->getPos());
-		yellowOutline.setPosition(_terrainTile->getPos());
-		redOutline.setPosition(_terrainTile->getPos());
+		sprite.setPosition(_terrainTile->getPixelPos());
+		unitFlag.setPosition(_terrainTile->getPixelPos());
+		yellowOutline.setPosition(_terrainTile->getPixelPos());
+		redOutline.setPosition(_terrainTile->getPixelPos());
 		updateStats();
 		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
 	}
@@ -488,11 +488,11 @@ int UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool
 	//Excluding the center, obviously
 	coneWidth /= 2;
 
-	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*terrain))};
-	sf::Vector2i toMoveToCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*_terrain))};
+	sf::Vector2i currentCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrain))};
+	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*_terrain))};
 
 	//Check if there is a unit at the terrain tile;
-	UnitTile* unitAtTile = world.unitAt(_terrain);
+	UnitTile* unitAtTile = world.unitAtTerrain(_terrain);
 
 	bool destinationIsUnit = (unitAtTile != nullptr);
 
@@ -573,10 +573,10 @@ int UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool
 			UnitTile* unit;
 
 			if (dir == Direction::N || dir == Direction::S){
-				unit = world.unitAt(world.terrainAtCartesianCoords({SECONDARYAXIS_POSITIVE, i}));
+				unit = world.unitAtTerrain(world.terrainAtCartesianPos({SECONDARYAXIS_POSITIVE, i}));
 			}
 			else{
-				unit = world.unitAt(world.terrainAtCartesianCoords({i, SECONDARYAXIS_POSITIVE}));
+				unit = world.unitAtTerrain(world.terrainAtCartesianPos({i, SECONDARYAXIS_POSITIVE}));
 			}
 
 			if (unit != nullptr){
@@ -601,8 +601,8 @@ int UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool
 }
 
 int UnitTile::distanceFrom(Tile* _tile){
-	sf::Vector2i currentCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*terrain))};
-	sf::Vector2i toMoveToCoords{world.cartesianCoordsAtIndex(world.indexAtTile(*_tile))};
+	sf::Vector2i currentCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrain))};
+	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*_tile))};
 
 	switch (dir){
 	case UnitTile::Direction::N:
