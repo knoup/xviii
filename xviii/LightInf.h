@@ -18,7 +18,7 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
-	virtual void preAttack(UnitTile* unit, bool attacking);
+	virtual void preMeleeAttack(UnitTile* unit, bool attacking);
 
 private:
 	static const int maxhp{9};

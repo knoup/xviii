@@ -11,7 +11,7 @@ public:
 	inline virtual int getMaxMov() const{ return maxMov; };
 	inline virtual int getMaxRange() const{ return maxRange; };
 
-	//Inherits preAttack() from Cuirassier
+	//Inherits preMeleeAttack() from Cuirassier
 
 private:
 	static const int maxhp{12};

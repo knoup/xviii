@@ -56,7 +56,7 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 	hp = maxhp;
 }
 
-void Cuirassier::preAttack(UnitTile* unit, bool attacking){
+void Cuirassier::preMeleeAttack(UnitTile* unit, bool attacking){
 	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
 	}

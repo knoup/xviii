@@ -8,7 +8,7 @@ LightCav(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	hp = maxhp;
 }
 
-void Hussar::preAttack(UnitTile* unit, bool attacking){
+void Hussar::preMeleeAttack(UnitTile* unit, bool attacking){
 	if (attacking){
 		this->modVector.emplace_back(Modifier::ATK, 1);
 	}

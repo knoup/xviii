@@ -29,6 +29,6 @@ public:
 private:
 	static const int maxhp{3};
 	static const int maxMov{2};
-	static const int maxRange{20};
+	static const int maxRange{24};
 };
 

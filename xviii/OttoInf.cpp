@@ -9,7 +9,7 @@ Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	hp = maxhp;
 }
 
-void OttoInf::preAttack(UnitTile* unit, bool attacking){
+void OttoInf::preMeleeAttack(UnitTile* unit, bool attacking){
 	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);
 	}

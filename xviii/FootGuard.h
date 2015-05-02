@@ -37,6 +37,8 @@ public:
 
 	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
 
+	virtual void preMeleeAttack(UnitTile* unit, bool attacking);
+
 	virtual bool getHasHealed() const;
 	virtual void setHasHealed(bool _hasHealed);
 

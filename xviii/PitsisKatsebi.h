@@ -13,8 +13,8 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
-	//Override Cuirassier's preAttack() with blank function
-	virtual void preAttack(UnitTile* unit, bool attacking){};
+	//Override Cuirassier's preMeleeAttack() with blank function
+	virtual void preMeleeAttack(UnitTile* unit, bool attacking){};
 
 private:
 	static const int maxhp{14};

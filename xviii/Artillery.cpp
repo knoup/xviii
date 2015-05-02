@@ -50,7 +50,10 @@ std::string Artillery::rangedAttack(UnitTile* unit, int distance){
 	float damageDealt{0};
 
 	if (thisRoll_int >= 4 && thisRoll_int <= 6){
-		if (distance <= 20 && distance >= 10){
+		if (distance >= 20 && distance <= 24){
+			damageDealt = 1;
+		}
+		else if (distance <= 19 && distance >= 10){
 			damageDealt = 2;
 		}
 		else if (distance <= 9){

@@ -15,6 +15,11 @@ static const float cavFrontFlankModifier = 1;
 static const float cavSideFlankModifier = 1.5;
 static const float cavRearFlankModifier = 2;
 
+void FootGuard::preMeleeAttack(UnitTile* unit, bool attacking){
+	//+1 in melee rolls
+	this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
+}
+
 float FootGuard::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	if (_family == UnitFamily::INF_FAMILY || _family == UnitFamily::HINF_FAMILY || _family == UnitFamily::LINF_FAMILY){
 		switch (_flank){

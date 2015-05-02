@@ -9,8 +9,11 @@ FootGuard(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit
 	hp = maxhp;
 }
 
-void KhevKveitebi::preAttack(UnitTile* unit, bool attacking){
+void KhevKveitebi::preMeleeAttack(UnitTile* unit, bool attacking){
 	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
 		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);
 	}
+
+	//+1 in melee rolls
+	this->modVector.emplace_back(Modifier::ADDITIONAL, 1);
 }

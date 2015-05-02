@@ -313,15 +313,15 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	
 	//Apply unit-specific modifiers
-	this->preAttack(unit, true);
-	unit->preAttack(this, false);
+	this->preMeleeAttack(unit, true);
+	unit->preMeleeAttack(this, false);
 
 	//Double dispatch, hence the reverse order
 	return unit->meleeAttack(this);
 }	
 
 //Virtual
-void UnitTile::preAttack(UnitTile* unit, bool attacking){
+void UnitTile::preMeleeAttack(UnitTile* unit, bool attacking){
 
 }
 

@@ -11,7 +11,7 @@ public:
 	inline virtual int getMaxMov() const{ return maxMov; };
 	inline virtual int getMaxRange() const{ return maxRange; };
 
-	virtual void preAttack(UnitTile* unit, bool attacking);
+	virtual void preMeleeAttack(UnitTile* unit, bool attacking);
 
 private:
 	static const int maxhp{15};

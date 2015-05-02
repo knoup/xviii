@@ -60,6 +60,6 @@ int LightInf::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool
 	return UnitTile::distanceFrom(_terrain, _validMovDirection, _validAttackDirection, _obstructionPresent, _inMovementRange, _inRangedAttackRange, false, 3);
 }
 
-void LightInf::preAttack(UnitTile* unit, bool attacking){
+void LightInf::preMeleeAttack(UnitTile* unit, bool attacking){
 	this->modVector.emplace_back(Modifier::ADDITIONAL, -2);
 }

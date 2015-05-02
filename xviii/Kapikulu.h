@@ -20,8 +20,8 @@ public:
 	virtual std::string meleeAttack(FootGuard* foot);
 	virtual std::string meleeAttack(Cavalry* cav);
 
-	//Override Cuirassier's preAttack() with blank function
-	virtual void preAttack(UnitTile* unit, bool attacking){};
+	//Override Cuirassier's preMeleeAttack() with blank function
+	virtual void preMeleeAttack(UnitTile* unit, bool attacking){};
 
 	//These functions will really be used for the attackBonusReady bool
 	virtual bool getHasHealed() const{ return attackBonusReady; };
