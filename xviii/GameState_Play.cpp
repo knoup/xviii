@@ -309,11 +309,12 @@ void GameState_Play::update(FrameTime mFT){
 		&&
 		mouseLocation.x > 0 && mouseLocation.y > 0)){
 		//Just a little type conversion because of some quirks
-		sf::Vector2f fworldCoords = game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView);
-		sf::Vector2i iworldCoords{int(fworldCoords.x), int(fworldCoords.y)};\
+		sf::Vector2i mousePos = sf::Vector2i(game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView));
 
-		auto terrain = game->mWorld.terrainAtPixelPos(iworldCoords);
-		auto unit = game->mWorld.unitAtPixelPos(iworldCoords);
+		TerrainTile* terrain = game->mWorld.terrainAtPixelPos(mousePos);
+		UnitTile* unit = terrain->getUnit();
+
+		UnitTile::Direction dir = selected->getDir();
 
 		bool validMovDirection{false};
 		bool validAttackDirection{false};
@@ -321,7 +322,37 @@ void GameState_Play::update(FrameTime mFT){
 		bool inMovementRange{false};
 		bool inRangedAttackRange{false};
 
-		int dist = selected->distanceFrom(terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+		//Store the distance between the selected tile and currently moused over tile in vectorDist
+		sf::Vector2i vectorDist = selected->distanceFrom(terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+
+		
+		int primaryAxisDistance{0};
+		if (dir == UnitTile::Direction::N || dir == UnitTile::Direction::S){
+			primaryAxisDistance = abs(vectorDist.y);
+		}
+		else{
+			primaryAxisDistance = abs(vectorDist.x);
+		}
+
+		//For the direction string:
+		std::string dir_string_X;
+		std::string dir_string_Y;
+
+		//N or S
+		if (vectorDist.y < 0){
+			dir_string_Y = "N";
+		}
+		else if (vectorDist.y > 0){
+			dir_string_Y = "S";
+		}
+
+		//E or W
+		if (vectorDist.x > 0){
+			dir_string_X += "E";
+		}
+		else if (vectorDist.x < 0){
+			dir_string_X += "W";
+		}
 
 		//If you aren't mousing over an enemy unit
 		if (unit == nullptr && terrain != nullptr){
@@ -343,7 +374,7 @@ void GameState_Play::update(FrameTime mFT){
 			//Check if it is an enemy unit
 			bool friendly = (unit->getPlayer() == game->currentPlayer);
 
-				if (!validAttackDirection || obstructionPresent || (dist > 1 && !inRangedAttackRange) || selected->getHasMeleeAttacked() || selected->getHasMeleeAttacked()){
+			if (!validAttackDirection || obstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || selected->getHasMeleeAttacked() || selected->getHasMeleeAttacked()){
 					tileDistanceText.setColor(sf::Color::Red); 
 				}
 				else{
@@ -357,7 +388,24 @@ void GameState_Play::update(FrameTime mFT){
 
 		}
 
-		tileDistanceText.setString(std::to_string(dist) + (selected->dirToString()));
+		std::string finalString;
+
+		//std::to_string(abs(vectorDist.y)) + dir_string_Y + "," + std::to_string(abs(vectorDist.x)) + dir_string_X
+
+		bool yDistanceOverZero{abs(vectorDist.y) > 0};
+		bool xDistanceOverZero{abs(vectorDist.x) > 0};
+
+		if (yDistanceOverZero){
+			finalString += std::to_string(abs(vectorDist.y)) + dir_string_Y;
+		}
+		if (xDistanceOverZero){
+			if (yDistanceOverZero){
+				finalString += ",";
+			}
+			finalString += std::to_string(abs(vectorDist.x)) + dir_string_X;
+		}
+
+		tileDistanceText.setString(finalString);
 		tileDistanceText.setPosition({game->mWindow.mapPixelToCoords({game->mousePos.x - 18, game->mousePos.y + 18}, *game->currentView)});
 		
 	}

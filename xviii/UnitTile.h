@@ -187,7 +187,8 @@ public:
 	void updateStats();
 
 	//Further documented in UnitTile.cpp
-	virtual int distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
+	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
+
 	//Overloaded version that only gets the distance and doesn't take in bools
 	int distanceFrom(Tile* _tile);
 

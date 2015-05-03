@@ -189,7 +189,14 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	//Get the coordinates of the tile to be moved to
 	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*_terrainTile))};
 
-	movExpended = distanceFrom(_terrainTile, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+	sf::Vector2i vectorDist = distanceFrom(_terrainTile, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+
+	if (dir == Direction::N || dir == Direction::S){
+		movExpended = abs(vectorDist.y);
+	}
+	else{
+		movExpended = abs(vectorDist.x);
+	}
 
 	if (obstructionPresent){
 		return OBSTRUCTION_PRESENT_MOV;
@@ -269,7 +276,15 @@ std::string UnitTile::attack(UnitTile* unit){
 	bool inMovementRange{false};
 	bool inRangedAttackRange{false};
 
-	int dist{distanceFrom(unit->terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange)};
+	sf::Vector2i vectorDist = distanceFrom(unit->terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+	int dist{0};
+
+	if (dir == Direction::N || dir == Direction::S){
+		dist = abs(vectorDist.y);
+	}
+	else{
+		dist = abs(vectorDist.x);
+	}
 
 	if (hasMeleeAttacked || hasRangedAttacked){
 		return{ALREADY_ATTACKED};
@@ -483,14 +498,14 @@ range.
 */
 
 //virtual
-int UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth){
+sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth){
 	//coneWidth represents the width units can fire at. It should always be an odd number; 1 for the center, and 2/4/6 etc. for the sides
 
 	//Excluding the center, obviously
 	coneWidth /= 2;
 
-	sf::Vector2i currentCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrain))};
-	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*_terrain))};
+	sf::Vector2i currentCoords{terrain->getCartesianPos()};
+	sf::Vector2i toMoveToCoords{_terrain->getCartesianPos()};
 
 	//Check if there is a unit at the terrain tile;
 	UnitTile* unitAtTile = world.unitAtTerrain(_terrain);
@@ -597,7 +612,7 @@ int UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool
 		}
 	}
 
-	return dist;
+	return{toMoveToCoords - currentCoords};
 
 }
 

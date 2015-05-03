@@ -73,7 +73,14 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 	//Get the coordinates of the tile to be moved to
 	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrainTile))};
 
-	movExpended = distanceFrom(terrainTile, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+	sf::Vector2i vectorDist = distanceFrom(terrainTile, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+
+	if (dir == Direction::N || dir == Direction::S){
+		movExpended = abs(vectorDist.y);
+	}
+	else{
+		movExpended = abs(vectorDist.x);
+	}
 
 	if (obstructionPresent){
 		return OBSTRUCTION_PRESENT_MOV;
