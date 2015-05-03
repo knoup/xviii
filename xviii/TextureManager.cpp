@@ -77,6 +77,10 @@ sf::Sprite TextureManager::getSprite(Unit type){
 	case Unit::HINF:
 		rekt = {54, 102, counterSize.x, counterSize.y};
 		break;
+
+	case Unit::ARTGUARD:
+		rekt = {0, 136, counterSize.x, counterSize.y};
+		break;
 	}
 
 	return{*units, rekt};

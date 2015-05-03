@@ -48,6 +48,7 @@
 	X(UnitTile::UnitType::DOR, Dorunaby, "dorunaby", TextureManager::Unit::GRE)\
 	X(UnitTile::UnitType::VIT, Vitae, "vitae", TextureManager::Unit::LINF)\
 	X(UnitTile::UnitType::ARN, Arnauts, "arnauts", TextureManager::Unit::INF)\
+	X(UnitTile::UnitType::ARTGUARD, ArtGuard, "art guard", TextureManager::Unit::ARTGUARD)
 
 class Player;
 
@@ -85,6 +86,7 @@ class Boyar;
 class Dorunaby;
 class Vitae;
 class Arnauts;
+class ArtGuard;
 
 class UnitTile : public Tile
 {
@@ -92,7 +94,7 @@ public:
 	using unitPtr = std::unique_ptr<UnitTile>;
 	enum class Direction{ N, E, S, W };
 	enum class Modifier{NONE, ADDITIONAL, ATK, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI, FOOT, KKV, HUS, COUR, SEG, BOY, DOR, VIT, ARN};
+	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, AKINCI, DELI, TIM, KAP, GRE, JAN, OINF, LINF, SAP, CRICAV, COSINF, KMKH, AMKH, PIT, DON, METTOP, KACI, FOOT, KKV, HUS, COUR, SEG, BOY, DOR, VIT, ARN, ARTGUARD};
 	//Each UnitFamily generally has its own combat rules. LINF, however, does not, and for the moment, HINF's
 	//is identical to INF.
 	enum class UnitFamily{LINF_FAMILY, INF_FAMILY, HINF_FAMILY, CAV_FAMILY, ART_FAMILY};

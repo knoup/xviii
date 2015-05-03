@@ -38,6 +38,7 @@ spawnedAtBottom{_spawnedAtBottom}
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DELI, {3, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AKINCI, {4, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::TIM, {5, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ARTGUARD, {6, 2}));
 	}
 	else if (nation == Player::Nation::CRI){
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::COSINF, {4, 1}));
@@ -53,6 +54,7 @@ spawnedAtBottom{_spawnedAtBottom}
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KMKH, {4, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DON, {5, 2}));
 	}
+	//Europeans
 	else{
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::INF, {4, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GRE, {5, 1}));
@@ -63,6 +65,7 @@ spawnedAtBottom{_spawnedAtBottom}
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DRAG, {4, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LCAV, {5, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::FOOT, {6, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ARTGUARD, {7, 2}));
 	}
 
 
@@ -218,6 +221,7 @@ UnitTile::unitPtr Player::removeUnit(sf::Vector2i _worldCoords){
 			for (auto& unique_unit : units){
 				if (unique_unit.get() == found){
 					deploymentPoints += found->getCost();
+					unique_unit->getTerrain()->resetUnit();
 					//temporarily move the unit out of unit vector(so that it does not get
 					//instantly deleted as it goes out of scope), erase it, then return it
 					auto temp = std::move(unique_unit);
@@ -241,6 +245,7 @@ UnitTile::unitPtr Player::removeUnit(UnitTile* _unit){
 	for (auto& unique_unit : units){
 		if (unique_unit.get() == _unit){
 			deploymentPoints += _unit->getCost();
+			unique_unit->getTerrain()->resetUnit();
 			//temporarily move the unit out of unit vector(so that it does not get
 			//instantly deleted as it goes out of scope), erase it, then return it
 			auto temp = std::move(unique_unit);

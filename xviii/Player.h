@@ -39,6 +39,7 @@
 #include "Dorunaby.h"
 #include "Vitae.h"
 #include "Arnauts.h"
+#include "ArtGuard.h"
 
 #include "global.h"
 
