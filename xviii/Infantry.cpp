@@ -106,13 +106,13 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 std::string Infantry::rotate(UnitTile::Direction _dir){
 	if (hasMeleeAttacked || hasRangedAttacked){
-		return "Can't rotate after attacking";
+		return NO_ROTATE_AFTER_ATK;
 	}
 	if (hasRotated){
 		return ALREADY_ROTATED;
 	}
 	else if (hasMoved){
-		return "Can't rotate after moving";
+		return NO_ROTATE_AFTER_MOV;
 	}
 	else if (dir == _dir){
 		return ALREADY_FACING + UnitTile::dirToString();

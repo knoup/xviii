@@ -21,11 +21,12 @@ void FootGuard::preMeleeAttack(UnitTile* unit, bool attacking){
 }
 
 void FootGuard::reset(){
-	mov = maxMov;
+	mov = getMaxMov();
 	hasRotated = false;
 	hasMeleeAttacked = false;
 	hasRangedAttacked = false;
 	hasHealed = false;
+	hasMoved = false;
 	updateStats();
 }
 
