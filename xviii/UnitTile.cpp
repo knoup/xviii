@@ -236,37 +236,12 @@ void UnitTile::reset(){
 }
 
 //Virtual
-std::string UnitTile::rotate(UnitTile::Direction _dir){
-	return{};
-}
-
-//Virtual
-std::string UnitTile::interactWithFriendly(UnitTile* _unit){
-	return{};
-}
-
-//Virtual
 std::string UnitTile::heal(float num){
 	hp += num;
 	updateStats();
 	std::string str;
 	str = HEAL_SUCCESS + roundFloat(num);
 	return str;
-}
-
-//Virtual
-int UnitTile::getMaxHp() const{
-	return 0;
-}
-
-//Virtual
-int UnitTile::getMaxMov() const{
-	return 0;
-}
-
-//Virtual
-int UnitTile::getMaxRange() const{
-	return 0;
 }
 
 std::string UnitTile::attack(UnitTile* unit){
@@ -338,44 +313,6 @@ std::string UnitTile::attack(UnitTile* unit){
 	return unit->meleeAttack(this);
 }	
 
-//Virtual
-void UnitTile::preMeleeAttack(UnitTile* unit, bool attacking){
-
-}
-
-//Virtual
-std::string UnitTile::meleeAttack(Infantry* inf){
-	return{};
-}
-
-//Virtual
-std::string UnitTile::meleeAttack(Cavalry* cav){
-	return{};
-}
-//Virtual
-std::string UnitTile::meleeAttack(Artillery* art){
-	return{};
-}
-//Virtual
-std::string UnitTile::meleeAttack(Mortar* mor){
-	return{};
-}
-//Virtual
-std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
-	return{};
-}
-//Virtual
-float UnitTile::getFlankModifier(UnitFamily _family, Modifier _flank) const{
-	return 0;
-}
-
-TerrainTile* UnitTile::getTerrain() const{
-	return terrain;
-}
-
-Player* UnitTile::getPlayer() const{
-	return player;
-}
 
 bool UnitTile::isHostile(UnitTile* _tile){
 	if (player != _tile->getPlayer()){
@@ -384,32 +321,6 @@ bool UnitTile::isHostile(UnitTile* _tile){
 	else{
 		return false;
 	}
-}
-
-UnitTile::UnitType UnitTile::getUnitType() const{
-	return unitType;
-}
-
-UnitTile::UnitFamily UnitTile::getUnitFamilyType() const{
-	return unitFamilyType;
-}
-
-//Virtual
-int UnitTile::getCost() const{
-	return 100;
-}
-
-//Virtual
-int UnitTile::getLimit() const{
-	return 1;
-}
-
-float UnitTile::gethp() const{
-	return hp;
-}
-
-int UnitTile::getMov() const{
-	return mov;
 }
 
 void UnitTile::takeDamage(float& _dmg, int distance){
@@ -423,10 +334,6 @@ bool UnitTile::removeIfDead(){
 		return true;
 	}
 	return false;
-}
-
-UnitTile::Direction UnitTile::getDir() const{
-	return dir;
 }
 
 void UnitTile::updateStats(){
@@ -804,58 +711,6 @@ void UnitTile::multRollByModifiers(float &originalRoll){
 std::string UnitTile::outOfRange(){
 	std::string result{OUT_OF_RANGE + std::to_string(getMaxRange())};
 	return result;
-}
-
-bool UnitTile::getHasMoved() const{
-	return hasMoved;
-}
-
-bool UnitTile::getHasRotated() const{
-	return hasRotated;
-}
-
-bool UnitTile::getHasMeleeAttacked() const{
-	return hasMeleeAttacked;
-}
-
-bool UnitTile::getHasRangedAttacked() const{
-	return hasRangedAttacked;
-}
-
-bool UnitTile::getHasHealed() const{
-	return false;
-}
-
-void UnitTile::sethp(float _hp){
-	hp = _hp;
-}
-
-void UnitTile::setMov(float _mov){
-	mov = _mov;
-}
-
-void UnitTile::setDir(Direction _dir){
-	dir = _dir;
-}
-
-void UnitTile::setHasMoved(bool _hasMoved){
-	hasMoved = _hasMoved;
-}
-
-void UnitTile::setHasRotated(bool _hasRotated){
-	hasRotated = _hasRotated;
-}
-
-void UnitTile::setHasMeleeAttacked(bool _value){
-	hasMeleeAttacked = _value;
-}
-
-void UnitTile::setHasRangedAttacked(bool _value){
-	hasRangedAttacked = _value;
-}
-
-void UnitTile::setHasHealed(bool _hasHealed){
-
 }
 
 UnitTile::~UnitTile(){

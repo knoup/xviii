@@ -117,79 +117,108 @@ public:
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
 
-	//Very, very useful
-	std::string roundFloat(const double x);
+	//Getters
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 
-	UnitType getUnitType() const;
-	UnitFamily getUnitFamilyType() const;
+	//Non-Virtual
+	inline TerrainTile* getTerrain() const{ return terrain; };
+	inline Player* getPlayer() const{ return player; };
+	inline UnitType getUnitType() const{ return unitType; };
+	inline UnitFamily getUnitFamilyType() const { return unitFamilyType; };
+	inline float gethp() const{ return hp; };
+	inline int getMov() const{	return mov;	};
+	inline UnitTile::Direction getDir() const{ return dir; };
 
-	virtual int getCost() const;
-	virtual int getLimit() const;
+	inline bool getHasMoved() const{ return hasMoved; };
+	inline bool getHasRotated() const{ return hasRotated; };
+	inline bool getHasMeleeAttacked() const{ return hasMeleeAttacked; };
+	inline bool getHasRangedAttacked() const{ return hasRangedAttacked; };
 
-	float gethp() const;
-	int getMov() const;
+	//Virtual
+	inline virtual int getCost() const{ return 100; };
+	inline virtual int getLimit() const{ return 1; };
+	inline virtual int getMaxHp() const{ return 0; };
+	inline virtual int getMaxMov() const{ return 0; };
+	inline virtual int getMaxRange() const{ return 0; };
+	inline virtual bool getCanMelee() const{ return true; };
+	//Each class will have an overloaded definition returning its specific flank modifier for either 
+	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 
+	//its own implementation of essentially the same function.
+	inline virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const{ return 0; };
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//Setters
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	inline void sethp(float _hp){ hp = _hp; };
+	inline void setMov(float _mov){ mov = _mov; };
+	inline void setDir(Direction _dir){ dir = _dir; };
+	inline void setHasMoved(bool _hasMoved){ hasMoved = _hasMoved; };
+	inline void setHasRotated(bool _hasRotated){ hasRotated = _hasRotated; };
+	inline void setHasMeleeAttacked(bool _value){ hasMeleeAttacked = _value; };
+	inline void setHasRangedAttacked(bool _value){ hasRangedAttacked = _value; };
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//The following are applicable only for some children
+	inline virtual void setHasHealed(bool _hasHealed){};
+	inline virtual bool getHasHealed() const{ return false; };
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//Other - Virtual
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	virtual void takeDamage(float& _dmg, int distance);
+	virtual std::string moveTo(TerrainTile* _terrainTile);
+	//Called at the end of every turn;
+	virtual void reset();
+	inline virtual std::string rotate(Direction _dir){ return{}; };
+	inline virtual std::string interactWithFriendly(UnitTile* _unit){ return{}; };
+	virtual std::string heal(float num);
+
+	//This function is unit-specific, and checks for such things as vs. family bonuses/maluses. The bool specifies
+	//whether the unit is attacking or defending
+	inline virtual void preMeleeAttack(UnitTile* unit, bool attacking){};
+
+	//Needed for double dispatch
+	virtual std::string meleeAttack(UnitTile* _unit) = 0;
+
+	inline virtual std::string meleeAttack(Infantry* inf){ return{}; };
+	inline virtual std::string meleeAttack(Cavalry* cav){ return{}; };
+	inline virtual std::string meleeAttack(Artillery* art){ return{}; };
+	inline virtual std::string meleeAttack(Mortar* mor){ return{}; };
+
+	inline virtual std::string rangedAttack(UnitTile* unit, int distance){ return{}; };
+
+	//Further documented in UnitTile.cpp
+	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
+
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	//Other - Non Virtual
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
 	//Returns true if dead
 	bool removeIfDead();
-
-	UnitTile::Direction getDir() const;
 
 	UnitTile::Direction opposite(UnitTile::Direction _dir);
 
 	//Spawn is very similar to moveTo, but is only used during the setup phase; it costs no movement 
 	void spawn(TerrainTile* terrainTile);
 
-	//MAIN VIRTUAL FUNCTIONS:
-	//They return strings for the output log...
-
-    virtual std::string moveTo(TerrainTile* _terrainTile);
-	//Called at the end of every turn;
-	virtual void reset();
-	virtual std::string rotate(Direction _dir);
-	//Mainly used for the general to invoke the heal() function, but could be used for other things as well
-	//hence the name
-	virtual std::string interactWithFriendly(UnitTile* _unit);
-	virtual std::string heal(float num);
-
-	virtual int getMaxHp() const;
-	virtual int getMaxMov() const;
-	virtual int getMaxRange() const;
-	inline virtual bool getCanMelee() const{ return true; };
-
 	//This function is in charge of initiating combat by determining distance, flank, etc. and calling either
 	//meleeAttack() or rangedAttack()
 	std::string attack(UnitTile* _unit);
-	//This function is unit-specific, and checks for such things as vs. family bonuses/maluses. The bool specifies
-	//whether the unit is attacking or defending
-	virtual void preMeleeAttack(UnitTile* unit, bool attacking);
 
-	//Needed for double dispatch
-	virtual std::string meleeAttack(UnitTile* _unit) = 0;
-
-	virtual std::string meleeAttack(Infantry* inf);
-	virtual std::string meleeAttack(Cavalry* cav);
-	virtual std::string meleeAttack(Artillery* art);
-	virtual std::string meleeAttack(Mortar* mor);
-
-	virtual std::string rangedAttack(UnitTile* unit, int distance);
-
-	//Each class will have an overloaded definition returning its specific flank modifier for either 
-	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 
-	//its own implementation of essentially the same function.
-	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
-
-	TerrainTile* getTerrain() const;
-	Player* getPlayer() const;
-	
 	bool isHostile(UnitTile* _tile);
-	//void highlightEnemy();
 
     //Manages the position of the sf::Text numbers (hp and movement)
 	void updateStats();
-
-	//Further documented in UnitTile.cpp
-	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
 
 	//Overloaded version that only gets the distance and doesn't take in bools
 	int distanceFrom(Tile* _tile);
@@ -198,33 +227,15 @@ public:
 	std::string modToString(ModifierReport _mod);
 	std::string typeToString();
 
-	std::string attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted, bool retreat = false);
+	std::string attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted, bool retreat = false);	
 
-	bool getHasMoved() const;
-	bool getHasRotated() const;
-	bool getHasMeleeAttacked() const;
-	bool getHasRangedAttacked() const;
-	virtual bool getHasHealed() const;
-
-	void sethp(float _hp);
-	void setMov(float _mov);
-	void setDir(Direction _dir);
-	void setHasMoved(bool _hasMoved);
-	void setHasRotated(bool _hasRotated);
-	void setHasMeleeAttacked(bool _value);
-	void setHasRangedAttacked(bool _value);
-
-	//The following are applicable only for some children; the definition in UnitTile will be
-	//blank
-	virtual void setHasHealed(bool _hasHealed);
-
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
-
-	std::vector<ModifierReport> modVector;
-
-	//Only ever needs to be used internally; making these so I don't have to copy and paste the same
-	//code 20 times
 	void multRollByModifiers(float &originalRoll);
+	std::string roundFloat(const double x);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//Data member
+	std::vector<ModifierReport> modVector;
 
 protected:
 	std::string outOfRange();
