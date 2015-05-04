@@ -20,6 +20,7 @@ void Kapikulu::reset(){
 		attackBonusReady = false;
 	}
 
+	calculateEffectiveMov();
 	mov = maxMov;
 	hasRotated = false;
 	hasMeleeAttacked = false;

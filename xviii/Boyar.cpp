@@ -20,7 +20,7 @@ void Boyar::reset(){
 		attackBonusReady = false;
 	}
 
-	mov = maxMov;
+	calculateEffectiveMov();
 	hasRotated = false;
 	hasMeleeAttacked = false;
 	hasRangedAttacked = false;

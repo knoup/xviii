@@ -227,7 +227,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 
 //Virtual
 void UnitTile::reset(){
-	mov = getMaxMov();
+	calculateEffectiveMov();
 	hasMoved = false;
 	hasRotated = false;
 	hasMeleeAttacked = false;
@@ -711,6 +711,35 @@ void UnitTile::multRollByModifiers(float &originalRoll){
 std::string UnitTile::outOfRange(){
 	std::string result{OUT_OF_RANGE + std::to_string(getMaxRange())};
 	return result;
+}
+
+void UnitTile::calculateEffectiveMov(){
+	UnitTile* general = player->getGeneral();
+
+	if (general == nullptr){
+		//Implicitly rounded down
+		setMov(getMaxMov()*0.65);
+	}
+	else{
+		sf::Vector2i generalPos = general->getCartesianPos();
+		sf::Vector2i currentPos = getCartesianPos();
+		sf::Vector2i distance = currentPos - generalPos;
+		distance.x = abs(distance.x);
+		distance.y = abs(distance.y);
+
+		if (distance.x >= 21 || distance.y >= 21){
+			if (distance.x <= 34 && distance.y <= 34){
+				setMov(getMaxMov()*0.75);
+			}
+			else{
+				setMov(getMaxMov()*0.65);
+			}
+		}
+		else{
+			setMov(getMaxMov());
+		}
+
+	}
 }
 
 UnitTile::~UnitTile(){
