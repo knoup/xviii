@@ -60,6 +60,7 @@ spawnedAtBottom{_spawnedAtBottom}
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::INF, {4, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GRE, {5, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LINF, {6, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::PIKE, {7, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {1, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CAV, {2, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CUIR, {3, 2}));
