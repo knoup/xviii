@@ -7,6 +7,7 @@ static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution,
 
 Player::Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom) :
 world(_world),
+general{nullptr},
 nation{_nation},
 mt19937(_mt19937),
 tm(_tm),
@@ -165,7 +166,13 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 		if (world.canBePlacedAtPixelPos(_worldCoords)){
 			deploymentPoints -= cost;
 			ptr->spawn(world.terrainAtPixelPos(_worldCoords));
+
+			if (_type == UnitTile::UnitType::GEN){
+				general = ptr.get();
+			}
+
 			units.emplace_back(std::move(ptr));
+
 			return true;
 		}
 	}
@@ -199,6 +206,11 @@ void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Dir
 
 
 	ptr->spawn(world.terrainAtPixelPos(sf::Vector2i{_pos.x * tm.getSize().x, _pos.y * tm.getSize().y}));
+
+	if (_type == UnitTile::UnitType::GEN){
+		general = ptr.get();
+	}
+
 	units.emplace_back(std::move(ptr));
 }
 
@@ -222,6 +234,10 @@ UnitTile::unitPtr Player::removeUnit(sf::Vector2i _worldCoords){
 				if (unique_unit.get() == found){
 					deploymentPoints += found->getCost();
 					unique_unit->getTerrain()->resetUnit();
+
+					if (unique_unit->getUnitType() == UnitTile::UnitType::GEN){
+						general = nullptr;
+					}
 					//temporarily move the unit out of unit vector(so that it does not get
 					//instantly deleted as it goes out of scope), erase it, then return it
 					auto temp = std::move(unique_unit);
@@ -246,6 +262,10 @@ UnitTile::unitPtr Player::removeUnit(UnitTile* _unit){
 		if (unique_unit.get() == _unit){
 			deploymentPoints += _unit->getCost();
 			unique_unit->getTerrain()->resetUnit();
+
+			if (unique_unit->getUnitType() == UnitTile::UnitType::GEN){
+				general = nullptr;
+			}
 			//temporarily move the unit out of unit vector(so that it does not get
 			//instantly deleted as it goes out of scope), erase it, then return it
 			auto temp = std::move(unique_unit);
@@ -293,10 +313,6 @@ void Player::setReady(bool _value){
 
 sf::Sprite Player::getFlag() const{
 	return playerFlag;
-}
-
-const std::vector<UnitTile::unitPtr>& Player::getUnits() const{
-	return units;
 }
 
 void Player::drawUnits(sf::RenderTarget &target, sf::RenderStates states) const{

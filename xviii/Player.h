@@ -167,11 +167,13 @@ class Player
 
 		void drawUnits(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 		
-		const std::vector<UnitTile::unitPtr>& getUnits() const;
+		inline const std::vector<UnitTile::unitPtr>& getUnits() const{ return units; };
+		inline UnitTile* getGeneral() const {return general;};
 
     private:
         World& world;
 		std::vector<UnitTile::unitPtr> units;
+		UnitTile* general;
 		
 		std::vector<SpawnableUnit> spawnableUnits;
 
