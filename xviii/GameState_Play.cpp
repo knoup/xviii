@@ -127,6 +127,17 @@ void GameState_Play::getInput(){
 				}
 				break;
 
+			case LIMBER_KEY:
+			{
+				Artillery* art = dynamic_cast<Artillery*>(selected);
+
+				if (art != nullptr){
+					art->toggleLimber();
+				}
+
+				break;
+			}
+
 			default: break;
 
 			}

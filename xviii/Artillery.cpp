@@ -10,6 +10,20 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::ART, 
 	hp = maxhp;
 }
 
+void Artillery::reset(){
+	calculateEffectiveMov();	
+
+	if (!limber){
+		mov = 0;
+	}
+
+	hasRotated = false;
+	hasMeleeAttacked = false;
+	hasRangedAttacked = false;
+	hasMoved = false;
+	updateStats();
+}
+
 std::string Artillery::rotate(UnitTile::Direction _dir){
 	if (hasRangedAttacked){
 		return NO_ROTATE_AFTER_ATTACK;
@@ -64,10 +78,14 @@ std::string Artillery::meleeAttack(UnitTile* _unit){
 		return _unit->meleeAttack(this);
 	}
 
-	return "Artillery Guard must be killed first";
+	return ARTILLERY_GUARD;
 }
 
 std::string Artillery::rangedAttack(UnitTile* unit, int distance){
+
+	if (limber){
+		return LIMBERED;
+	}
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 
@@ -97,4 +115,15 @@ std::string Artillery::rangedAttack(UnitTile* unit, int distance){
 	hasRangedAttacked = true;
 
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
+}
+
+void Artillery::toggleLimber(){
+	mov = 0;
+	hasMeleeAttacked = true;
+	hasRangedAttacked = true;
+	hasMoved = true;
+
+	limber = !limber;
+
+	updateStats();
 }

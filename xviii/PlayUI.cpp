@@ -68,7 +68,29 @@ void PlayUI::update(){
 		setSaveStatus(false);
 	}
 
+	if (gameState->selected != nullptr){
 
+		Artillery* art = dynamic_cast<Artillery*>(gameState->selected);
+
+		if (art != nullptr){
+			drawLimberText = true;
+
+			switch (art->getLimber()){
+			case true:
+				limberText.setString("Limber ON");
+				break;
+			case false:
+				limberText.setString("Limber OFF");
+				break;
+			}
+		}
+		else{
+			drawLimberText = false;
+		}
+	}
+	else{
+		drawLimberText = false;
+	}
 
 	setCurrentPlayerText(gameState->game->currentPlayer->getName());
 	setElapsedTurnsText(gameState->game->elapsedTurns);
@@ -98,6 +120,10 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 
 	if (!currentMessageText.getString().isEmpty()){
 		target.draw(currentMessageText);
+	}
+
+	if (drawLimberText){
+		target.draw(limberText);
 	}
 
 	target.draw(messageLogText);
