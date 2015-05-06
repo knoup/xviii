@@ -4,7 +4,8 @@
 #include "GameState_Play.h"
 
 PlayUI::PlayUI(GameState_Play* _gameState, TextureManager& _tm, FontManager& _fm) :
-UI(_gameState, _tm, _fm)
+gameState{_gameState},
+UI(_tm, _fm)
 {
 	button.text.setCharacterSize(20);
 	button.setString("NEXT TURN");
@@ -30,6 +31,10 @@ UI(_gameState, _tm, _fm)
 	saveText.setCharacterSize(20);
 	saveText.setPosition(20, -80);
 	setSaveStatus(false);
+
+	limberText.setFont(fm.getFont(FontManager::Type::Lucon));
+	limberText.setColor(sf::Color::White);
+	limberText.setPosition(970, -130);
 }
 
 PlayUI::~PlayUI(){
@@ -62,6 +67,8 @@ void PlayUI::update(){
 		clearCurrentMessageText();
 		setSaveStatus(false);
 	}
+
+
 
 	setCurrentPlayerText(gameState->game->currentPlayer->getName());
 	setElapsedTurnsText(gameState->game->elapsedTurns);

@@ -44,7 +44,7 @@ public:
 		}
 	};
 
-	UI(GameState* _gameState, TextureManager& _tm, FontManager& _fm);
+	UI(TextureManager& _tm, FontManager& _fm);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UI() = 0;
 	void setCurrentPlayerText(std::string str);
@@ -54,7 +54,6 @@ public:
 	inline virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const = 0{};
 
 protected:
-	GameState* gameState;
 	TextureManager& tm;
 	FontManager& fm;
 

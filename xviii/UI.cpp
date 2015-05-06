@@ -3,8 +3,7 @@
 
 #include "GameState.h"
 
-UI::UI(GameState* _gameState, TextureManager& _tm, FontManager& _fm) :
-gameState(_gameState),
+UI::UI(TextureManager& _tm, FontManager& _fm) :
 tm(_tm),
 fm(_fm),
 uiView{sf::FloatRect(0, -174, xResolution, 154)},

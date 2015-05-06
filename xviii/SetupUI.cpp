@@ -4,7 +4,8 @@
 #include "GameState_Setup.h"
 
 SetupUI::SetupUI(GameState_Setup* _gameState, TextureManager& _tm, FontManager& _fm) :
-UI(_gameState, _tm, _fm)
+gameState{_gameState},
+UI(_tm, _fm)
 {
 	button.setString("READY");
 	button.text.setOrigin(button.text.getLocalBounds().width / 2, button.text.getGlobalBounds().height / 2);

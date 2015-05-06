@@ -16,9 +16,14 @@ public:
 	virtual void update();
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 private:
+	GameState_Play* gameState;
+
 	sf::Text elapsedTurnsText;
 	sf::Text messageLogText;
 	sf::Text currentMessageText;
 	sf::Text saveText;
+	sf::Text limberText;
+
+	bool drawLimberText{false};
 };
 

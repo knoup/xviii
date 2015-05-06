@@ -6,6 +6,8 @@
 
 class GameState_Play : public GameState
 {
+	friend class PlayUI;
+
 public:
 	struct Button{
 		sf::Text text;

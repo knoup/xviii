@@ -14,6 +14,8 @@ public:
 	void setNumbRemaining(int _num);
 	void setNumbRemainingColour(sf::Color col);
 private:
+	GameState_Setup* gameState;
+
 	sf::Text numbRemaining;
 	sf::Text deploymentPointsTextRemaining;
 };
