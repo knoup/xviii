@@ -118,6 +118,10 @@ void GameState_Play::getInput(){
 				}
 				break;
 
+			case NEXT_TURN:
+				game->currentPlayer->setReady(true);
+				break;
+
 			case HIDE_UI_KEY:
 				if (drawUI){
 					drawUI = false;

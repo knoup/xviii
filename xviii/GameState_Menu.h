@@ -15,7 +15,7 @@ public:
 	virtual void update(float mFT);
 	virtual void draw();
 private:
-	enum class Action{ NEW, LOAD };
+	enum class Action{ NEW, LOAD, EXIT };
 
 	struct saveObject{
 		saveObject(boost::filesystem::path _path, Action _action) :
@@ -38,7 +38,12 @@ private:
 	std::vector<saveObject>::iterator menuIterator;
 
 	sf::View menuSelectView;
+	sf::View backgroundView;
 
 	sf::Text titleText;
+	//Due to the massive amount of available backgrounds, and the fact that only one will be ever used,
+	//this is the only place in the code where I won't handle a texture with TextureManager.
+	std::unique_ptr<sf::Texture> backgroundTexture;
+	sf::Sprite backgroundSprite;
 };
 

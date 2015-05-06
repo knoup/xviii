@@ -3,7 +3,8 @@
 
 GameState_Menu::GameState_Menu(Game* game) :
 GameState{game},
-menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)}
+menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)},
+backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 {
 	titleText.setString("X V I I I");
 	titleText.setCharacterSize(275);
@@ -19,10 +20,28 @@ menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)}
 	titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
 	titleText.setPosition(xResolution / 2, -(yResolution / 2.5f));
 
+	std::vector<boost::filesystem::path> paths;
+	boost::filesystem::directory_iterator end;
+
+	if (boost::filesystem::exists("assets/gfx/backgrounds")){
+		for (boost::filesystem::directory_iterator it("assets/gfx/backgrounds"); it != end; ++it){
+			paths.push_back(it->path());
+		}
+	}
+
+	if (!paths.empty()){
+		std::uniform_int_distribution<int> dist(0, paths.size() - 1);
+		int randomIndex{dist(game->mtengine)};
+		std::string randomPath{paths[randomIndex].string()};
+
+		backgroundTexture = std::move(std::unique_ptr<sf::Texture>(new sf::Texture()));
+		backgroundTexture->loadFromFile(randomPath);
+		backgroundSprite.setTexture(*backgroundTexture);
+	}
+
+	////////////////////////////////////////////////////////////////////////
 
 	menuList.push_back({{"New Game"}, Action::NEW});
-	
-	boost::filesystem::directory_iterator end;
 
 	if (boost::filesystem::exists("save")){
 		for (boost::filesystem::directory_iterator it("save"); it != end; ++it){
@@ -30,16 +49,21 @@ menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)}
 		}
 	}
 
+	menuList.push_back({{"Exit"}, Action::EXIT});
+
 	for (int i{0}; i < menuList.size(); ++i){
 		menuList[i].text.setFont(game->mFontManager.getFont(FontManager::Arial));
 		menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
-		menuList[i].text.setColor(sf::Color(80, 80, 80));
+		menuList[i].text.setColor(sf::Color::White);
+		menuList[i].text.setStyle(sf::Text::Bold);
 
 		int textXPos = xResolution / 2;
 		int textYPos = (i * 50);
 
 		menuList[i].text.setPosition(textXPos, textYPos);
 	}
+
+
 	//Set selected to the first item in menuList, which will always be "New Game"
 	menuIterator = menuList.begin();
 }
@@ -66,6 +90,10 @@ void GameState_Menu::getInput(){
 						game->saveCreator.parse(menuIterator->path);
 						game->setGameStatePlay();
 						break;
+
+					case Action::EXIT:
+						game->mWindow.close();
+						break;
 				}
 			}
 
@@ -76,7 +104,7 @@ void GameState_Menu::getInput(){
 			else if ((event.key.code == UP_ARROW || event.key.code == DOWN_ARROW || event.key.code == UP_KEY || event.key.code == DOWN_KEY) && menuList.size() > 1){
 
 				//Unhighlight current object
-				menuIterator->text.setColor((sf::Color(80, 80, 80)));
+				menuIterator->text.setColor((sf::Color::White));
 
 				if (event.key.code == UP_ARROW || event.key.code == UP_KEY){
 					if (menuIterator == menuList.begin()){
@@ -123,8 +151,8 @@ void GameState_Menu::getInput(){
 }
 
 void GameState_Menu::update(float mFT){
-	if (menuIterator->text.getColor() != sf::Color::White){
-		menuIterator->text.setColor(sf::Color::White);
+	if (menuIterator->text.getColor() != sf::Color::Yellow){
+		menuIterator->text.setColor(sf::Color::Yellow);
 	}
 
 	menuSelectView.setCenter(menuSelectView.getCenter().x, menuIterator->text.getPosition().y);
@@ -132,9 +160,10 @@ void GameState_Menu::update(float mFT){
 
 void GameState_Menu::draw(){
 	game->mWindow.clear(sf::Color::Black);
+	game->mWindow.setView(backgroundView);
+	game->mWindow.draw(backgroundSprite);
 
 	game->mWindow.setView(menuSelectView);
-
 	game->mWindow.draw(titleText);
 
 	for (auto& item : menuList){
