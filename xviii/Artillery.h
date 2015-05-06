@@ -29,7 +29,8 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
-	virtual bool getLimber() const{ return limber; };
+	virtual bool getHasHealed() const{ return limber; };
+	virtual void setHasHealed(bool _value){ limber = _value; };
 	virtual void toggleLimber();
 
 private:

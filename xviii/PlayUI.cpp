@@ -75,7 +75,7 @@ void PlayUI::update(){
 		if (art != nullptr){
 			drawLimberText = true;
 
-			switch (art->getLimber()){
+			switch (art->getHasHealed()){
 			case true:
 				limberText.setString("Limber ON");
 				break;

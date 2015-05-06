@@ -170,8 +170,11 @@ bool SaveGame::create(){
 			if (unit->getUnitType() == UnitTile::UnitType::GEN || unit->getUnitType() == UnitTile::UnitType::FOOT){
 				save << "hasHealed=" << unit->getHasHealed() << std::endl;
 			}
-			if (unit->getUnitType() == UnitTile::UnitType::KAP){
+			else if (unit->getUnitType() == UnitTile::UnitType::KAP || unit->getUnitType() == UnitTile::UnitType::BOY){
 				save << "attackBonusReady=" << unit->getHasHealed() << std::endl;
+			}
+			else if (unit->getUnitType() == UnitTile::UnitType::ART){
+				save << "limbered=" << unit->getHasHealed();
 			}
 
 			save << "}u" << std::endl;
@@ -381,6 +384,9 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				}
 
 				else if (line.find("attackBonusReady=") != std::string::npos){
+					hasHealed = std::stoi(AFTEREQUALS);
+				}
+				else if (line.find("limbered=") != std::string::npos){
 					hasHealed = std::stoi(AFTEREQUALS);
 				}
 
