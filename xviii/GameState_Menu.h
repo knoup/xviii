@@ -5,13 +5,14 @@
 #include "boost/filesystem/fstream.hpp"
 
 #include "global.h"
+#include "keybinds.h"
 
 class GameState_Menu : public GameState
 {
 public:
 	GameState_Menu(Game* game);
 	virtual void getInput();
-	virtual void update(FrameTime mFT);
+	virtual void update(float mFT);
 	virtual void draw();
 private:
 	enum class Action{ NEW, LOAD };

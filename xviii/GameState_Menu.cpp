@@ -122,7 +122,7 @@ void GameState_Menu::getInput(){
 	}
 }
 
-void GameState_Menu::update(FrameTime mFT){
+void GameState_Menu::update(float mFT){
 	if (menuIterator->text.getColor() != sf::Color::White){
 		menuIterator->text.setColor(sf::Color::White);
 	}

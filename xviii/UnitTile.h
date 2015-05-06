@@ -9,7 +9,7 @@
 #include <iomanip>
 #include <math.h>
 
-#include "global.h"
+#include "messages.h"
 
 //The last entry, the texture enum, is used only for the selectable units at selection menu. They are NOT used to determine
 //actual unit sprites past that point.

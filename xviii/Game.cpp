@@ -44,8 +44,11 @@ saveCreator{this}
 
 
 void Game::gameLoop(){
-	FrameTime lastFT{0.f};
-	FrameTime currentSlice{0.f};
+	constexpr float ftSlice{1.f};
+	constexpr float ftStep{1.f};
+
+	float lastFT{0.f};
+	float currentSlice{0.f};
 
 	while (mWindow.isOpen()){
 
@@ -67,7 +70,7 @@ void Game::gameLoop(){
 		auto timePoint2(boost::chrono::high_resolution_clock::now());
 		auto elapsedTime(timePoint2 - timePoint1);
 
-		FrameTime ft{boost::chrono::duration_cast<boost::chrono::duration<float, boost::milli>>(elapsedTime).count()};
+		float ft{boost::chrono::duration_cast<boost::chrono::duration<float, boost::milli>>(elapsedTime).count()};
 		lastFT = ft;
 	}
 
@@ -81,7 +84,7 @@ void Game::getInput(){
 	state->getInput();
 }
 
-void Game::update(FrameTime mFT){
+void Game::update(float mFT){
 	state->update(mFT);
 }
 

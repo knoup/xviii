@@ -1,6 +1,7 @@
 #pragma once
 #include "GameState.h"
 #include "global.h"
+#include "keybinds.h"
 
 #include "PlayUI.h"
 
@@ -60,7 +61,7 @@ public:
 	void oneTimeUpdate();
 
 	virtual void getInput();
-	virtual void update(FrameTime mFT);
+	virtual void update(float mFT);
 	virtual void draw();
 private:
 	UnitTile* selected;

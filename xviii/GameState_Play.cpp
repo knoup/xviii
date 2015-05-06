@@ -271,7 +271,7 @@ void GameState_Play::getInput(){
 	}
 }
 
-void GameState_Play::update(FrameTime mFT){
+void GameState_Play::update(float mFT){
 	if (cameraVelocity.x >= -0.1 && cameraVelocity.x <= 0.1 && cameraVelocity.x != 0){
 		cameraVelocity = {0, 0};
 	}

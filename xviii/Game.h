@@ -24,7 +24,7 @@ public:
 	void gameLoop();
 
 	void getInput();
-	void update(FrameTime mFT);
+	void update(float mFT);
 	void draw();
 
 	void setGameStateSelectNations();

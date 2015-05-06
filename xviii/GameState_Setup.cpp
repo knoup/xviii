@@ -186,7 +186,7 @@ void GameState_Setup::getInput(){
 
 }
 
-void GameState_Setup::update(FrameTime mFT){
+void GameState_Setup::update(float mFT){
 	if (cameraVelocity.x >= -0.1 && cameraVelocity.x <= 0.1 && cameraVelocity.x != 0){
 		cameraVelocity = {0, 0};
 	}
