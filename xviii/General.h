@@ -24,8 +24,8 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
-	virtual bool getHasHealed() const;
-	virtual void setHasHealed(bool _hasHealed);
+	virtual bool getUniqueVariable() const;
+	virtual void setUniqueVariable(bool _hasHealed);
 	
 private:
 	bool hasHealed{false};

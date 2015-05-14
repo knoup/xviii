@@ -18,8 +18,8 @@ public:
 	virtual bool hasLancerBonus(){ return true; };
 
 	//These functions will really be used for the attackBonusReady bool
-	virtual bool getHasHealed() const{ return attackBonusReady; };
-	virtual void setHasHealed(bool _value){ attackBonusReady = _value; };
+	virtual bool getUniqueVariable() const{ return attackBonusReady; };
+	virtual void setUniqueVariable(bool _value){ attackBonusReady = _value; };
 
 private:
 	//A special lancer bonus; they have to rest for a turn to recharge this, so that they can proc the above mentioned bonus

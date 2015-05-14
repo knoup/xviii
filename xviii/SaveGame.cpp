@@ -168,13 +168,13 @@ bool SaveGame::create(){
 			save << "hasRangedAttacked=" << unit->getHasRangedAttacked() << std::endl;
 
 			if (unit->getUnitType() == UnitTile::UnitType::GEN || unit->getUnitType() == UnitTile::UnitType::FOOT){
-				save << "hasHealed=" << unit->getHasHealed() << std::endl;
+				save << "hasHealed=" << unit->getUniqueVariable() << std::endl;
 			}
 			else if (unit->getUnitType() == UnitTile::UnitType::KAP || unit->getUnitType() == UnitTile::UnitType::BOY){
-				save << "attackBonusReady=" << unit->getHasHealed() << std::endl;
+				save << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
 			}
 			else if (unit->getUnitType() == UnitTile::UnitType::ART){
-				save << "limbered=" << unit->getHasHealed();
+				save << "limbered=" << unit->getUniqueVariable() << std::endl;
 			}
 
 			save << "}u" << std::endl;
@@ -316,7 +316,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			bool hasRotated;
 			bool hasMeleeAttacked;
 			bool hasRangedAttacked;
-			bool hasHealed{false};
+			bool uniqueVariable;
 
 			while (line.find("}u") == std::string::npos){
 
@@ -379,24 +379,27 @@ void SaveGame::parse(boost::filesystem::path _dir){
 					hasRangedAttacked = std::stoi(AFTEREQUALS);
 				}
 
-				else if (line.find("hasHealed=") != std::string::npos){
-					hasHealed = std::stoi(AFTEREQUALS);
-				}
+				//Unique variable names go in here
+				else{
 
-				else if (line.find("attackBonusReady=") != std::string::npos){
-					hasHealed = std::stoi(AFTEREQUALS);
-				}
-				else if (line.find("limbered=") != std::string::npos){
-					hasHealed = std::stoi(AFTEREQUALS);
-				}
+					if (line.find("hasHealed=") != std::string::npos){
+						uniqueVariable = std::stoi(AFTEREQUALS);
+					}
 
+					else if (line.find("attackBonusReady=") != std::string::npos){
+						uniqueVariable = std::stoi(AFTEREQUALS);
+					}
+					else if (line.find("limbered=") != std::string::npos){
+						uniqueVariable = std::stoi(AFTEREQUALS);
+					}
+				}
 
 				std::getline(save, line);
 
 			}
 
 
-			player->loadUnit(type, pos, dir, hp, mov, hasMoved, hasRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed);
+			player->loadUnit(type, pos, dir, hp, mov, hasMoved, hasRotated, hasMeleeAttacked, hasRangedAttacked, uniqueVariable);
 
 		}
 

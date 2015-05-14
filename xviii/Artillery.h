@@ -29,8 +29,8 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
-	virtual bool getHasHealed() const{ return limber; };
-	virtual void setHasHealed(bool _value){ limber = _value; };
+	virtual bool getUniqueVariable() const{ return limber; };
+	virtual void setUniqueVariable(bool _value){ limber = _value; };
 	virtual void toggleLimber();
 
 private:

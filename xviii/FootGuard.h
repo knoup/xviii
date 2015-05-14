@@ -23,8 +23,8 @@ public:
 
 	virtual void preMeleeAttack(UnitTile* unit, bool attacking);
 
-	virtual bool getHasHealed() const;
-	virtual void setHasHealed(bool _hasHealed);
+	virtual bool getUniqueVariable() const;
+	virtual void setUniqueVariable(bool _hasHealed);
 
 private:
 	bool hasHealed{false};

@@ -88,10 +88,10 @@ std::string General::rangedAttack(UnitTile* unit, int distance){
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
 }
 
-bool General::getHasHealed() const{
+bool General::getUniqueVariable() const{
 	return hasHealed;
 }
 
-void General::setHasHealed(bool _hasHealed){
+void General::setUniqueVariable(bool _hasHealed){
 	hasHealed = _hasHealed;
 }

@@ -128,7 +128,7 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 	inf->multRollByModifiers(enemyRoll);
 
 	if (hasLancerBonus()){
-		if (lancerBonus(inf, thisRoll, getHasHealed(), damageDealt)){
+		if (lancerBonus(inf, thisRoll, getUniqueVariable(), damageDealt)){
 			mov = 0;
 			this->updateStats();
 			inf->updateStats();
@@ -185,7 +185,7 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 	cav->multRollByModifiers(enemyRoll);
 
 	if (hasLancerBonus()){
-		if (lancerBonus(cav, thisRoll, getHasHealed(), damageDealt)){
+		if (lancerBonus(cav, thisRoll, getUniqueVariable(), damageDealt)){
 			mov = 0;
 			this->updateStats();
 			cav->updateStats();

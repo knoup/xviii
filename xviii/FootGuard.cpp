@@ -68,11 +68,11 @@ std::string FootGuard::interactWithFriendly(UnitTile* _unit){
 	return{};
 }
 
-bool FootGuard::getHasHealed() const{
+bool FootGuard::getUniqueVariable() const{
 	return hasHealed;
 }
 
-void FootGuard::setHasHealed(bool _hasHealed){
+void FootGuard::setUniqueVariable(bool _hasHealed){
 	hasHealed = _hasHealed;
 }
 

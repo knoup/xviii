@@ -164,8 +164,8 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//The following are applicable only for some children
-	inline virtual void setHasHealed(bool _hasHealed){};
-	inline virtual bool getHasHealed() const{ return false; };
+	inline virtual void setUniqueVariable(bool _uniqueVariable){};
+	inline virtual bool getUniqueVariable() const{ return false; };
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
