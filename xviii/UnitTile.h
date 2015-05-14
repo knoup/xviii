@@ -50,7 +50,8 @@
 	X(UnitTile::UnitType::ARN, Arnauts, "arnauts", TextureManager::Unit::INF)\
 	X(UnitTile::UnitType::ARTGUARD, ArtGuard, "art guard", TextureManager::Unit::ARTGUARD)\
 	X(UnitTile::UnitType::PIKE, Pikemen, "pikemen", TextureManager::Unit::PIKE)\
-	X(UnitTile::UnitType::LAN, Lancer, "lancer", TextureManager::Unit::LAN)
+	X(UnitTile::UnitType::LAN, Lancer, "lancer", TextureManager::Unit::LAN)\
+	X(UnitTile::UnitType::MUT, Mutteferrika, "mutte", TextureManager::Unit::DRAG)
 
 class Player;
 
@@ -91,6 +92,7 @@ class Arnauts;
 class ArtGuard;
 class Pikemen;
 class Lancer;
+class Mutteferrika;
 
 class UnitTile : public Tile
 {
@@ -108,7 +110,7 @@ public:
 						AMKH, PIT, DON, METTOP, KACI, 
 						FOOT, KKV, HUS, COUR, SEG, 
 						BOY, DOR, VIT, ARN, ARTGUARD, 
-						PIKE, LAN};
+						PIKE, LAN, MUT};
 
 	//Each UnitFamily generally has its own combat rules. LINF, however, does not, and for the moment, HINF's
 	//is identical to INF.

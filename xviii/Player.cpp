@@ -31,9 +31,10 @@ spawnedAtBottom{_spawnedAtBottom}
 	}
 
 	else if (nation == Player::Nation::OTO){
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {3, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::JAN, {4, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::OINF, {5, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {1, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MUT, {1, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KAP, {2, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DELI, {3, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AKINCI, {4, 2}));

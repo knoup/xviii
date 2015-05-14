@@ -42,6 +42,7 @@
 #include "ArtGuard.h"
 #include "Pikemen.h"
 #include "Lancer.h"
+#include "Mutteferrika.h"
 
 #include "global.h"
 
