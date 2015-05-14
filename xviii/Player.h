@@ -41,6 +41,7 @@
 #include "Arnauts.h"
 #include "ArtGuard.h"
 #include "Pikemen.h"
+#include "Lancer.h"
 
 #include "global.h"
 

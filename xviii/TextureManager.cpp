@@ -85,6 +85,10 @@ sf::Sprite TextureManager::getSprite(Unit type){
 	case Unit::PIKE:
 		rekt = {54, 136, counterSize.x, counterSize.y};
 		break;
+
+	case Unit::LAN:
+		rekt = {108, 136, counterSize.x, counterSize.y};
+		break;
 	}
 
 	return{*units, rekt};

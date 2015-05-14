@@ -5,7 +5,7 @@ class TextureManager : public sf::NonCopyable
 public:
 	using texturePtr = std::unique_ptr<sf::Texture>;
 
-	enum class Unit{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, GRE, LINF, SAP, HINF, ARTGUARD, PIKE};
+	enum class Unit{INF, CAV, CUIR, LCAV, DRAG, ART, MOR, GEN, GRE, LINF, SAP, HINF, ARTGUARD, PIKE, LAN};
 	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS};
 	enum class UI{RECTANGLE, BUTTON};
 	enum class Flag{AUS,PRU,FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL};
