@@ -34,64 +34,64 @@ sf::Sprite TextureManager::getSprite(Unit type){
 		rekt = {0, 0, counterSize.x, counterSize.y};
 		break;
 
+	case Unit::LCAV:
+		rekt = {counterSize.x, 0, counterSize.x, counterSize.y};
+		break;
+
 	case Unit::CAV:
-		rekt = {108, 0, counterSize.x, counterSize.y};
+		rekt = {2 * counterSize.x, 0, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::CUIR:
-		rekt = {0, 34	, counterSize.x, counterSize.y};
-		break;
-
-	case Unit::DRAG:
-		rekt = {54, 68, counterSize.x, counterSize.y};
-		break;
-
-	case Unit::LCAV:
-		rekt = {54, 0, counterSize.x, counterSize.y};
-		break;
-
-	case Unit::ART:
-		rekt = {108, 34, counterSize.x, counterSize.y};
+		rekt = {0, counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::MOR:
-		rekt = {54, 34, counterSize.x, counterSize.y};
+		rekt = {counterSize.x, counterSize.y, counterSize.x, counterSize.y};
 		break;
 
-	case Unit::GEN:
-		rekt = {0, 102, counterSize.x, counterSize.y};
-		break;
-
-	case Unit::GRE:
-		rekt = {108, 68, counterSize.x, counterSize.y};
-		break;
-		
-	case Unit::LINF:
-		rekt = {108, 102, counterSize.x, counterSize.y};
+	case Unit::ART:
+		rekt = {2 * counterSize.x, counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::SAP:
-		rekt = {0, 68, counterSize.x, counterSize.y};
+		rekt = {0, 2 * counterSize.y, counterSize.x, counterSize.y};
+		break;
+
+	case Unit::DRAG:
+		rekt = {counterSize.x, 2 * counterSize.y, counterSize.x, counterSize.y};
+		break;
+
+	case Unit::GRE:
+		rekt = {2 * counterSize.x, 2 * counterSize.y, counterSize.x, counterSize.y};
+		break;
+
+	case Unit::GEN:
+		rekt = {0, 3 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::HINF:
-		rekt = {54, 102, counterSize.x, counterSize.y};
+		rekt = {counterSize.x, 3 * counterSize.y, counterSize.x, counterSize.y};
+		break;
+
+	case Unit::LINF:
+		rekt = {2 * counterSize.x, 3 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::ARTGUARD:
-		rekt = {0, 136, counterSize.x, counterSize.y};
+		rekt = {0, 4 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::PIKE:
-		rekt = {54, 136, counterSize.x, counterSize.y};
+		rekt = {counterSize.x, 4 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::LAN:
-		rekt = {108, 136, counterSize.x, counterSize.y};
+		rekt = {2 * counterSize.x, 4 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Unit::ARMLAN:
-		rekt = {0, 170, counterSize.x, counterSize.y};
+		rekt = {0, 5 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 	}
 
@@ -109,31 +109,31 @@ sf::Sprite TextureManager::getSprite(Terrain type){
 		break;
 
 	case Terrain::HILLS:
-		rekt = {54, 0, size.x, size.y};
+		rekt = {size.x, 0, size.x, size.y};
 		break;
 
 	case Terrain::MUD:
-		rekt = {108, 0, size.x, size.y};
+		rekt = {2 * size.x, 0, size.x, size.y};
 		break;
 
 	case Terrain::ROAD:
-		rekt = {162, 0, size.x, size.y};
+		rekt = {3 * size.x, 0, size.x, size.y};
 		break;
 
 	case Terrain::SLOPES:
-		rekt = {0, 54, size.x, size.y};
+		rekt = {0, size.y, size.x, size.y};
 		break;
 
 	case Terrain::URBAN:
-		rekt = {54, 54, size.x, size.y};
+		rekt = {size.x, size.y, size.x, size.y};
 		break;
 
 	case Terrain::WATER:
-		rekt = {108, 54, size.x, size.y};
+		rekt = {2 * size.x, size.y, size.x, size.y};
 		break;
 
 	case Terrain::WOODS:
-		rekt = {162, 54, size.x, size.y};
+		rekt = {3 * size.x, size.y, size.x, size.y};
 		break;
 	}
 
@@ -167,67 +167,67 @@ sf::Sprite TextureManager::getSprite(Flag type){
 		break;
 
 	case Flag::PRU:
-		rekt = {54, 0, counterSize.x, counterSize.y};
+		rekt = {counterSize.x, 0, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::FRA:
-		rekt = {108, 0, counterSize.x, counterSize.y};
+		rekt = {2 * counterSize.x, 0, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::GBR:
-		rekt = {162, 0, counterSize.x, counterSize.y};
+		rekt = {3 * counterSize.x, 0, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::RUS:
-		rekt = {0, 34, counterSize.x, counterSize.y};
+		rekt = {0, counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::BAV:
-		rekt = {54, 34, counterSize.x, counterSize.y};
+		rekt = {counterSize.x, counterSize.y, counterSize.x, counterSize.y};
 		break;
 		
 	case Flag::COM:
-		rekt = {108, 34, counterSize.x, counterSize.y};
+		rekt = {2 * counterSize.x, counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::SPA:
-		rekt = {162, 34, counterSize.x, counterSize.y};
+		rekt = {3 * counterSize.x, counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::POR:
-		rekt = {0, 68, counterSize.x, counterSize.y};
+		rekt = {0, 2 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::VEN:
-		rekt = {54, 68, counterSize.x, counterSize.y};
+		rekt = {counterSize.x, 2 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::SAX:
-		rekt = {108, 68, counterSize.x, counterSize.y};
+		rekt = {2 * counterSize.x, 2 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::SWE:
-		rekt = {162, 68, counterSize.x, counterSize.y};
+		rekt = {3 * counterSize.x, 2 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::OTO:
-		rekt = {0, 102, counterSize.x, counterSize.y};
+		rekt = {0, 3 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::CRI:
-		rekt = {54, 102, counterSize.x, counterSize.y};
+		rekt = {counterSize.x, 3 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::IME:
-		rekt = {108, 102, counterSize.x, counterSize.y};
+		rekt = {2 * counterSize.x, 3 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::MOL:
-		rekt = {162, 102, counterSize.x, counterSize.y};
+		rekt = {3 * counterSize.x, 3 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 
 	case Flag::WAL:
-		rekt = {0, 136, counterSize.x, counterSize.y};
+		rekt = {0, 4 * counterSize.y, counterSize.x, counterSize.y};
 		break;
 	}
 
