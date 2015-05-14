@@ -44,6 +44,7 @@ spawnedAtBottom{_spawnedAtBottom}
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::COSINF, {4, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CRICAV, {5, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KAP, {6, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MARZ, {7, 1}));
 	}
 	else if (nation == Player::Nation::IME){
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::METTOP, {4, 1}));

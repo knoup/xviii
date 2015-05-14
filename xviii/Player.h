@@ -43,6 +43,7 @@
 #include "Pikemen.h"
 #include "Lancer.h"
 #include "Mutteferrika.h"
+#include "Marzas.h"
 
 #include "global.h"
 
