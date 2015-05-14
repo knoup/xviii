@@ -316,7 +316,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			bool hasRotated;
 			bool hasMeleeAttacked;
 			bool hasRangedAttacked;
-			bool uniqueVariable;
+			bool uniqueVariable{false};
 
 			while (line.find("}u") == std::string::npos){
 

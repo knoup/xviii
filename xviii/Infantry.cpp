@@ -112,7 +112,10 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 
 std::string Infantry::rotate(UnitTile::Direction _dir){
-	if (hasMeleeAttacked || hasRangedAttacked){
+	bool skirmish = {canSkirmish()};
+	bool oppositeRotation{_dir == opposite(dir)};
+
+	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || (skirmish && !oppositeRotation)){
 		return NO_ROTATE_AFTER_ATK;
 	}
 	if (hasRotated){
@@ -126,7 +129,14 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 	}
 
 	hasRotated = true;
-	mov = 0;
+
+	if (skirmish && hasRangedAttacked){
+		mov = 2;
+	}
+	else{
+		mov = 0;
+	}
+
 	dir = _dir;
 	updateStats();
 

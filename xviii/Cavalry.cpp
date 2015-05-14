@@ -78,7 +78,10 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily:
 
 
 std::string Cavalry::rotate(UnitTile::Direction _dir){
-	if (hasMeleeAttacked || hasRangedAttacked){
+	bool skirmish = {canSkirmish()};
+	bool oppositeRotation{_dir == opposite(dir)};
+
+	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || (skirmish && !oppositeRotation)){
 		return NO_ROTATE_AFTER_ATTACK;
 	}
 	else if (hasRotated){
@@ -88,12 +91,18 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 		return ALREADY_FACING + UnitTile::dirToString();
 	}
 	//If it was a full rotation
-	if (_dir == opposite(dir)){
+	if (oppositeRotation){
 		//Due to the rule that cav cannot attack after full rotation, and to simplify matters, I set the
 		//hasAttacked variables to true here
 		hasMeleeAttacked = true;
 		hasRangedAttacked = true;
-		mov = 0;
+
+		if (skirmish && hasRangedAttacked){
+			mov = 2;
+		}
+		else{
+			mov = 0;
+		}
 	}
 
 	hasRotated = true;

@@ -8,32 +8,6 @@ LightCav(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	hp = maxhp;
 }
 
-std::string CrimeanCav::rotate(UnitTile::Direction _dir){
-	if (hasMeleeAttacked){
-		return NO_ROTATE_AFTER_MELEE;
-	}
-	else if (hasRotated){
-		return ALREADY_ROTATED;
-	}
-	else if (dir == _dir){
-		return ALREADY_FACING + UnitTile::dirToString();
-	}
-	//If it was a full rotation
-	if (_dir == opposite(dir)){
-		//Due to the rule that cav cannot attack after full rotation, and to simplify matters, I set the
-		//hasAttacked variables to true here
-		hasMeleeAttacked = true;
-		hasRangedAttacked = true;
-		mov = 2;
-	}
-
-	hasRotated = true;
-	dir = _dir;
-	updateStats();
-	
-	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
-}
-
 std::string CrimeanCav::rangedAttack(UnitTile* unit, int distance){
 	std::uniform_int_distribution<int> distribution(1, 6);
 
