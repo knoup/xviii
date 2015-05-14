@@ -19,7 +19,6 @@ spawnedAtBottom{_spawnedAtBottom}
 	//All nations get these three units
 	spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {1, 1}));
 	spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {2, 1}));
-	spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MOR, {3, 1}));
 
 	if (nation == Player::Nation::MOL || nation == Player::Nation::WAL){
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DOR, {4, 1}));
@@ -39,7 +38,6 @@ spawnedAtBottom{_spawnedAtBottom}
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DELI, {3, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AKINCI, {4, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::TIM, {5, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ARTGUARD, {6, 2}));
 	}
 	else if (nation == Player::Nation::CRI){
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::COSINF, {4, 1}));
@@ -57,6 +55,7 @@ spawnedAtBottom{_spawnedAtBottom}
 	}
 	//Europeans
 	else{
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ARTGUARD, {3, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::INF, {4, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GRE, {5, 1}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LINF, {6, 1}));
@@ -66,8 +65,8 @@ spawnedAtBottom{_spawnedAtBottom}
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CUIR, {3, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DRAG, {4, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LCAV, {5, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::FOOT, {6, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ARTGUARD, {7, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LAN, {6, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::FOOT, {7, 2}));
 	}
 
 
