@@ -25,7 +25,7 @@
 	X(UnitTile::UnitType::AKINCI, Akinci, "akinci", TextureManager::Unit::DRAG)\
 	X(UnitTile::UnitType::DELI, Deli, "deli", TextureManager::Unit::LCAV)\
 	X(UnitTile::UnitType::TIM, Timarioti, "tim", TextureManager::Unit::CAV)\
-	X(UnitTile::UnitType::KAP, Kapikulu, "kap", TextureManager::Unit::CUIR)\
+	X(UnitTile::UnitType::KAP, Kapikulu, "kap", TextureManager::Unit::ARMLAN)\
 	X(UnitTile::UnitType::GRE, Grenadier, "gre", TextureManager::Unit::GRE)\
 	X(UnitTile::UnitType::JAN, Janissary, "jan", TextureManager::Unit::GRE)\
 	X(UnitTile::UnitType::OINF, OttoInf, "o inf", TextureManager::Unit::INF)\
@@ -90,6 +90,7 @@ class Vitae;
 class Arnauts;
 class ArtGuard;
 class Pikemen;
+class Lancer;
 
 class UnitTile : public Tile
 {
