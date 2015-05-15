@@ -56,7 +56,7 @@
 	X(UnitTile::UnitType::AZAP, Azaps, "azaps", TextureManager::Unit::IRR)\
 	X(UnitTile::UnitType::TTINF, TatarInf, "tatar", TextureManager::Unit::LINF)\
 	X(UnitTile::UnitType::MUL, Mulizamy, "mulizamy", TextureManager::Unit::CUIR)\
-	X(UnitTile::UnitType::GUL, Gul, "gul", TextureManager::Unit::CUIR)\
+	X(UnitTile::UnitType::GUL, Gul, "gul", TextureManager::Unit::ARMLAN)\
 	X(UnitTile::UnitType::PCAV, PersianCav, "per cav", TextureManager::Unit::HARCH)\
 	X(UnitTile::UnitType::CURCI, Curci, "curci", TextureManager::Unit::DRAG)\
 	X(UnitTile::UnitType::PINF, PersianInf, "per inf", TextureManager::Unit::INF)\
