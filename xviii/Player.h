@@ -45,6 +45,7 @@
 #include "Mutteferrika.h"
 #include "Marzas.h"
 #include "Azaps.h"
+#include "TatarInf.h"
 
 #include "global.h"
 
