@@ -51,6 +51,7 @@
 #include "PersianCav.h"
 #include "Curci.h"
 #include "PersianInf.h"
+#include "KurdishInf.h"
 
 #include "global.h"
 
