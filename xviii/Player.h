@@ -50,6 +50,7 @@
 #include "Gul.h"
 #include "PersianCav.h"
 #include "Curci.h"
+#include "PersianInf.h"
 
 #include "global.h"
 

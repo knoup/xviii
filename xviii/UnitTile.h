@@ -59,6 +59,7 @@
 	X(UnitTile::UnitType::GUL, Gul, "gul", TextureManager::Unit::CUIR)\
 	X(UnitTile::UnitType::PCAV, PersianCav, "per cav", TextureManager::Unit::HARCH)\
 	X(UnitTile::UnitType::CURCI, Curci, "curci", TextureManager::Unit::DRAG)\
+	X(UnitTile::UnitType::PINF, PersianInf, "per inf", TextureManager::Unit::INF)
 
 class Player;
 
@@ -107,6 +108,7 @@ class Mulizamy;
 class Gul;
 class PersianCav;
 class Curci;
+class PersianInf;
 
 class UnitTile : public Tile
 {
@@ -125,7 +127,8 @@ public:
 						FOOT, KKV, HUS, COUR, SEG, 
 						BOY, DOR, VIT, ARN, ARTGUARD, 
 						PIKE, LAN, MUT, MARZ, AZAP,
-						TTINF, MUL, GUL, PCAV, CURCI};
+						TTINF, MUL, GUL, PCAV, CURCI,
+						PINF};
 
 	//Each UnitFamily generally has its own combat rules. LINF, however, does not, and for the moment, HINF's
 	//is identical to INF.
