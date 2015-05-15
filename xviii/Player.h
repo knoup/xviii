@@ -49,6 +49,7 @@
 #include "Mulizamy.h"
 #include "Gul.h"
 #include "PersianCav.h"
+#include "Curci.h"
 
 #include "global.h"
 
