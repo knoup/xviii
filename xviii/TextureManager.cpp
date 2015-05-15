@@ -93,6 +93,10 @@ sf::Sprite TextureManager::getSprite(Unit type){
 	case Unit::ARMLAN:
 		rekt = {0, 5 * counterSize.y, counterSize.x, counterSize.y};
 		break;
+
+	case Unit::IRR:
+		rekt = {counterSize.x, 5 * counterSize.y, counterSize.x, counterSize.y};
+		break;
 	}
 
 	return{*units, rekt};

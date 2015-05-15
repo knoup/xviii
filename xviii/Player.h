@@ -44,6 +44,7 @@
 #include "Lancer.h"
 #include "Mutteferrika.h"
 #include "Marzas.h"
+#include "Azaps.h"
 
 #include "global.h"
 

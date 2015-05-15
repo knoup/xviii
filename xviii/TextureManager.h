@@ -8,7 +8,7 @@ public:
 	enum class Unit{INF, CAV, CUIR, LCAV, DRAG, 
 					ART, MOR, GEN, GRE, LINF, 
 					SAP, HINF, ARTGUARD, PIKE, LAN,
-					ARMLAN};
+					ARMLAN, IRR};
 
 	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS};
 	enum class UI{RECTANGLE, BUTTON};
