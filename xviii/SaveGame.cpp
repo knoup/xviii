@@ -170,7 +170,7 @@ bool SaveGame::create(){
 			if (unit->getUnitType() == UnitTile::UnitType::GEN || unit->getUnitType() == UnitTile::UnitType::FOOT){
 				save << "hasHealed=" << unit->getUniqueVariable() << std::endl;
 			}
-			else if (unit->getUnitType() == UnitTile::UnitType::KAP || unit->getUnitType() == UnitTile::UnitType::BOY){
+			else if (unit->getUnitType() == UnitTile::UnitType::KAP || unit->getUnitType() == UnitTile::UnitType::BOY || unit->getUnitType() == UnitTile::UnitType::LAN){
 				save << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
 			}
 			else if (unit->getUnitType() == UnitTile::UnitType::ART){

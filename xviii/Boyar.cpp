@@ -9,20 +9,3 @@ Lancer(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::L
 	mov = maxMov;
 	hp = maxhp;
 }
-
-void Boyar::reset(){
-	//Before resetting the hasMeleeAttacked variable, set attackBonusReady. This way, we can check if
-	//the unit has attacked this turn and if it hasn't, we can set the bonus ready for the next turn
-	if (!hasMeleeAttacked){
-		attackBonusReady = true;
-	}
-	else{
-		attackBonusReady = false;
-	}
-
-	calculateEffectiveMov();
-	hasRotated = false;
-	hasMeleeAttacked = false;
-	hasRangedAttacked = false;
-	updateStats();
-}
