@@ -8,7 +8,7 @@ public:
 	LightInf(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType = TextureManager::Unit::LINF, UnitType uType = UnitType::LINF);
 
 	//Determines whether the unit can skirmish or not (skirmishing gives the ability to fully rotate after firing, and have 2 movement points left over)
-	virtual bool canSkirmish(){ return true; };
+	inline virtual bool canSkirmish(){ return true; };
 
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
