@@ -279,11 +279,15 @@ std::string UnitTile::attack(UnitTile* unit){
 	}
 
 	// Ranged	////////////////////////////////////////////////////
-	if (dist > 1 || !getCanMelee()){
+	if (dist > 1){
 		return this->rangedAttack(unit, dist);
 	}
 
 	// Melee	///////////////////////////////////////////////////
+
+	if (dist == 1 && !getCanMelee()){
+		return NO_MELEE;
+	}
 	
 	UnitTile::Modifier flank{Modifier::FRONT_FLANK};
 

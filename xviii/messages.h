@@ -19,6 +19,7 @@ const std::string MOV_SUCCESS{"Successfully moved to: "};
 const std::string OUT_OF_RANGE{"Out of max range: "};
 const std::string ARTILLERY_GUARD{"Must kill Artillery Guard"};
 const std::string LIMBERED{"Cannot fire while limbered"};
+const std::string NO_MELEE{"This unit cannot engage in melee combat"};
 
 const std::string NO_ROTATE_AFTER_ATK{"Cannot rotate after attacking"};
 const std::string NO_ROTATE_AFTER_MOV{"Cannot rotate after moving"};
