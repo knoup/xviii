@@ -46,6 +46,7 @@
 #include "Marzas.h"
 #include "Azaps.h"
 #include "TatarInf.h"
+#include "Mulizamy.h"
 
 #include "global.h"
 

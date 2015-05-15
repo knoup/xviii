@@ -44,7 +44,7 @@
 	X(UnitTile::UnitType::HUS, Hussar, "hussar", TextureManager::Unit::LCAV)\
 	X(UnitTile::UnitType::COUR, Courtin, "courtin", TextureManager::Unit::CAV)\
 	X(UnitTile::UnitType::SEG, Segbans, "segbans", TextureManager::Unit::DRAG)\
-	X(UnitTile::UnitType::BOY, Boyar, "boyar", TextureManager::Unit::CUIR)\
+	X(UnitTile::UnitType::BOY, Boyar, "boyar", TextureManager::Unit::LAN)\
 	X(UnitTile::UnitType::DOR, Dorunaby, "dorunaby", TextureManager::Unit::GRE)\
 	X(UnitTile::UnitType::VIT, Vitae, "vitae", TextureManager::Unit::LINF)\
 	X(UnitTile::UnitType::ARN, Arnauts, "arnauts", TextureManager::Unit::INF)\
@@ -55,6 +55,7 @@
 	X(UnitTile::UnitType::MARZ, Marzas, "marzas", TextureManager::Unit::CAV)\
 	X(UnitTile::UnitType::AZAP, Azaps, "azaps", TextureManager::Unit::IRR)\
 	X(UnitTile::UnitType::TTINF, TatarInf, "tatar", TextureManager::Unit::LINF)\
+	X(UnitTile::UnitType::MUL, Mulizamy, "mulizamy", TextureManager::Unit::CUIR)\
 
 class Player;
 
@@ -99,6 +100,7 @@ class Mutteferrika;
 class Marzas;
 class Azaps;
 class TatarInf;
+class Mulizamy;
 
 class UnitTile : public Tile
 {
@@ -117,7 +119,7 @@ public:
 						FOOT, KKV, HUS, COUR, SEG, 
 						BOY, DOR, VIT, ARN, ARTGUARD, 
 						PIKE, LAN, MUT, MARZ, AZAP,
-						TTINF};
+						TTINF, MUL};
 
 	//Each UnitFamily generally has its own combat rules. LINF, however, does not, and for the moment, HINF's
 	//is identical to INF.

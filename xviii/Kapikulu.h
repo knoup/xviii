@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Cuirassier.h"
+#include "Lancer.h"
 
-class Kapikulu : public Cuirassier
+class Kapikulu : public Lancer
 {
 public:
 	Kapikulu(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
@@ -13,9 +13,6 @@ public:
 
 	//Kapikulu's reset() is overloaded due to the additional attackBonus variable
 	virtual void reset();
-
-	//Overloaded for Kapikulu's bonus, enabling the lancer bonus
-	virtual bool hasLancerBonus(){ return true; };
 
 	//Override Cuirassier's preMeleeAttack() with blank function
 	virtual void preMeleeAttack(UnitTile* unit, bool attacking){};

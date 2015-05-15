@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Cavalry.h"
+#include "Lancer.h"
 
-class Boyar : public Cavalry
+class Boyar : public Lancer
 {
 public:
 	Boyar(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir);
@@ -13,9 +13,6 @@ public:
 
 	//Boyar's reset() is overloaded due to the additional attackBonus variable
 	virtual void reset();
-
-	//Overloaded for Boyar's bonus, enabling the lancer bonus
-	virtual bool hasLancerBonus(){ return true; };
 
 	//These functions will really be used for the attackBonusReady bool
 	virtual bool getUniqueVariable() const{ return attackBonusReady; };
