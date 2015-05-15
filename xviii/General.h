@@ -22,8 +22,6 @@ public:
 	inline virtual int getCost() const{ return 0; };
 	inline virtual int getLimit() const{ return 1; };
 
-	virtual std::string rangedAttack(UnitTile* unit, int distance);
-
 	virtual bool getUniqueVariable() const;
 	virtual void setUniqueVariable(bool _hasHealed);
 	

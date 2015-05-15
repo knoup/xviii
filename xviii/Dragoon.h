@@ -11,8 +11,6 @@ public:
 	inline virtual int getMaxMov() const{ return maxMov; };
 	inline virtual int getMaxRange() const{ return maxRange; };
 
-	virtual std::string rangedAttack(UnitTile* unit, int distance);
-
 	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
 
 private:

@@ -137,6 +137,19 @@ public:
 		float modFloat;
 	};
 
+	struct RangedAttackRange{
+		RangedAttackRange(int _lower, int _upper, float _distModifier) :
+			lowerThreshold{_lower},
+			upperThreshold{_upper},
+			distModifier{_distModifier}
+		{
+		}
+
+		int lowerThreshold;
+		int upperThreshold;
+		float distModifier;
+	};
+
 	UnitTile(World& _world, std::mt19937&, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitType type, UnitFamily familyType, Direction _dir);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
@@ -164,6 +177,7 @@ public:
 	inline virtual int getMaxHp() const{ return 0; };
 	inline virtual int getMaxMov() const{ return 0; };
 	inline virtual int getMaxRange() const{ return 0; };
+
 	inline virtual bool getCanMelee() const{ return true; };
 	//Each class will have an overloaded definition returning its specific flank modifier for either 
 	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 
@@ -214,7 +228,7 @@ public:
 	inline virtual std::string meleeAttack(Artillery* art){ return{}; };
 	inline virtual std::string meleeAttack(Mortar* mor){ return{}; };
 
-	inline virtual std::string rangedAttack(UnitTile* unit, int distance){ return{}; };
+	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
 	//Further documented in UnitTile.cpp
 	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
@@ -263,6 +277,8 @@ public:
 	std::vector<ModifierReport> modVector;
 
 protected:
+	std::vector<RangedAttackRange> rangedAttackDistValues;
+
 	std::string outOfRange();
 
 	std::mt19937& mt19937;

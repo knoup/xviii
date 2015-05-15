@@ -13,8 +13,6 @@ public:
 	inline virtual int getMaxMov() const{ return maxMov; };
 	inline virtual int getMaxRange() const{ return maxRange; };
 
-	virtual std::string rangedAttack(UnitTile* unit, int distance);
-
 private:
 	static const int maxhp{9};
 	static const int maxMov{14};

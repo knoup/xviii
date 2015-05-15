@@ -1,9 +1,11 @@
 Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and <a href="http://www.boost.org/">Boost's</a> filesystem module. This is my first real project, hence the generally amateurish code. Inspired by, and continutally developed with, the ideas and input of a friend.
 
-IMPORTANT NOTE ON UNITS
+Items of Note
 -----------------------
 
- Currently, a vast amount of new units, nations, and some mechanics are being added. Updating this file after every minor adjustment would be very cumbersome. Therefore, until all units are in, expect this file to be temporarily "outdated"
+ *Currently, a vast amount of new units, nations, and some mechanics are being added. Updating this file after every minor adjustment would be very cumbersome. Therefore, until further notice, assume this file to be outdated.
+
+ *There is code for random menu wallpapers. My personal collection is nearly 30MB in size, and thus I won't upload it on Github for the time being. However, you are free to place your own images in the dir assets/gfx/backgrounds.
 
 General
 -------

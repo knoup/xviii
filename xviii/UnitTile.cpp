@@ -742,6 +742,40 @@ void UnitTile::calculateEffectiveMov(){
 	}
 }
 
+std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
+
+	std::uniform_int_distribution<int> distribution(1, 6);
+
+	int thisRoll_int{distribution(mt19937)};
+
+	float thisRoll = thisRoll_int;
+
+	float damageDealt{0};
+
+	float distanceModifier{0};
+
+	for (auto& item : rangedAttackDistValues){
+		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
+			distanceModifier = item.distModifier;
+			continue;
+		}
+	}
+
+	modVector.emplace_back(Modifier::DISTANCE, distanceModifier);
+
+	multRollByModifiers(thisRoll);
+	damageDealt += thisRoll;
+	unit->takeDamage(damageDealt, distance);
+
+	mov = 0;
+	this->updateStats();
+	unit->updateStats();
+	hasRangedAttacked = true;
+
+	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
+
+}
+
 UnitTile::~UnitTile(){
 	//Required for this to be an abstract class
 }

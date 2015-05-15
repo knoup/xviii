@@ -32,8 +32,6 @@ public:
 	virtual std::string meleeAttack(Artillery* art);
 	virtual std::string meleeAttack(Mortar* mor);
 
-	virtual std::string rangedAttack(UnitTile* unit, int distance);
-
 	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
 
 private:

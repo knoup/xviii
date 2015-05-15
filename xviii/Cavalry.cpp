@@ -317,7 +317,3 @@ std::string Cavalry::meleeAttack(Mortar* mor){
 
 	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived);
 }
-
-std::string Cavalry::rangedAttack(UnitTile* unit, int distance){
-	return{};
-}

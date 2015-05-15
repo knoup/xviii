@@ -19,8 +19,6 @@ public:
 	//Overloaded for Light Infantry's taking half damage on all ranged attacks
 	virtual void takeDamage(float& _dmg, int distance);
 
-	virtual std::string rangedAttack(UnitTile* unit, int distance);
-
 	virtual void preMeleeAttack(UnitTile* unit, bool attacking);
 
 private:

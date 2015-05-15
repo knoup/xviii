@@ -56,6 +56,10 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily:
 {
 	mov = maxMov;
 	hp = maxhp;
+	rangedAttackDistValues.clear();
+	rangedAttackDistValues.emplace_back(6, 6, 0.5);
+	rangedAttackDistValues.emplace_back(3, 5, 1);
+	rangedAttackDistValues.emplace_back(2, 2, 2);
 }
 
 std::string Infantry::moveTo(TerrainTile* terrainTile){
@@ -121,7 +125,7 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 	if (hasRotated){
 		return ALREADY_ROTATED;
 	}
-	else if (hasMoved){
+	else if (hasMoved && !skirmish){
 		return NO_ROTATE_AFTER_MOV;
 	}
 	else if (dir == _dir){
@@ -402,40 +406,4 @@ std::string Infantry::meleeAttack(Mortar* mor){
 
 	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived);
 
-}
-
-std::string Infantry::rangedAttack(UnitTile* unit, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-
-	float damageDealt{0};
-
-	float distanceModifier{1};
-
-	if (distance == 6){
-		distanceModifier = 0.5;
-	}
-	else if (distance >= 3 && distance <= 5){
-		distanceModifier = 1;
-	}
-	else if (distance == 2){
-		distanceModifier = 2;
-	}
-
-	modVector.emplace_back(Modifier::DISTANCE, distanceModifier);
-
-	multRollByModifiers(thisRoll);
-	damageDealt += thisRoll;
-	unit->takeDamage(damageDealt, distance);
-
-	mov = 0;
-	this->updateStats();
-	unit->updateStats();
-	hasRangedAttacked = true;
-
-	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
 }
