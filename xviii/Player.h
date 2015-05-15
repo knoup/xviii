@@ -47,6 +47,7 @@
 #include "Azaps.h"
 #include "TatarInf.h"
 #include "Mulizamy.h"
+#include "Gul.h"
 
 #include "global.h"
 
