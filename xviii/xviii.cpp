@@ -5,9 +5,6 @@
 
 /*
 TODO:
-	-Artillery guard unit & artillery limber features
-	-Malus on movement if too far from general
-	-Split global.h into several files and include only where needed, to reduce the executable size
 	-Implement specialised MudAnt and HillAnt classes
 */
 

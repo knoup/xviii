@@ -195,7 +195,6 @@ std::string Infantry::meleeAttack(Infantry* inf){
 		//OR
 		//if the attacker's FINAL roll is > than the defender's FINAL roll
 		if ((thisRoll_int == 6 && enemyRoll_int < 6) || (thisRoll > enemyRoll)){
-			std::cout << inf->getCartesianPos().x << ", " << inf->getCartesianPos().y << std::endl;
 			sf::Vector2i enemyPos{inf->getCartesianPos()};
 			sf::Vector2i enemyRetreatPos{enemyPos};
 

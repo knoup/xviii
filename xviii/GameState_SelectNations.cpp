@@ -29,6 +29,7 @@ uiView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::IME), Player::Nation::IME});
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::MOL), Player::Nation::MOL});
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::OTO), Player::Nation::OTO});
+	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::PER), Player::Nation::PER});
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::POR), Player::Nation::POR});
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::PRU), Player::Nation::PRU});
 	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::RUS), Player::Nation::RUS});

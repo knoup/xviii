@@ -57,6 +57,14 @@ spawnedAtBottom{_spawnedAtBottom}
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KMKH, {4, 2}));
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DON, {5, 2}));
 	}
+	else if (nation == Player::Nation::PER){
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::PCAV, {3, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MUL, {4, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GUL, {5, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CURCI, {6, 1}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::PINF, {1, 2}));
+		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KINF, {2, 2}));
+	}
 	//Europeans
 	else{
 		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ARTGUARD, {3, 1}));
@@ -321,9 +329,6 @@ sf::Sprite Player::getFlag() const{
 
 void Player::drawUnits(sf::RenderTarget &target, sf::RenderStates states) const{
 	for (auto& unit : units){
-		if (unit == nullptr){
-			std::cout << "wawawaw" << std::endl;
-		}
 		unit->draw(target, states);
 	}
 }

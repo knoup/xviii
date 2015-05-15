@@ -12,7 +12,7 @@ public:
 
 	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS};
 	enum class UI{RECTANGLE, BUTTON};
-	enum class Flag{AUS,PRU,FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL};
+	enum class Flag{AUS,PRU,FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER};
 
 	TextureManager();
 

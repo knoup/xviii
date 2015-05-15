@@ -76,7 +76,8 @@
 	X(Player::Nation::SPA, TextureManager::Flag::SPA, "Spain")\
 	X(Player::Nation::SWE, TextureManager::Flag::SWE, "Sweden")\
 	X(Player::Nation::VEN, TextureManager::Flag::VEN, "Venice")\
-	X(Player::Nation::WAL, TextureManager::Flag::WAL, "Wallachia")
+	X(Player::Nation::WAL, TextureManager::Flag::WAL, "Wallachia")\
+	X(Player::Nation::PER, TextureManager::Flag::PER, "Persia")
 
 class Player
 {
@@ -141,7 +142,7 @@ class Player
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-		enum class Nation{ AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL};
+		enum class Nation{ AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER};
 		Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
 		
 		//Returns true if successfully spawned unit
