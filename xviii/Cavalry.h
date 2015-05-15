@@ -12,9 +12,6 @@ public:
 	bool lancerBonus(UnitTile* defender, float finalAttackerRoll, bool attackBonusReady, float& damageDealt);
 	virtual bool hasLancerBonus(){ return false; };
 
-	//Determines whether the unit can skirmish or not (skirmishing gives the ability to fully rotate after firing, and have 2 movement points left over)
-	virtual bool canSkirmish(){ return false; };
-
 	virtual std::string rotate(Direction _dir);
 	virtual std::string interactWithFriendly(UnitTile* _unit);
 

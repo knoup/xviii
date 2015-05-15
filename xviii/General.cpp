@@ -50,18 +50,18 @@ std::string General::interactWithFriendly(UnitTile* _unit){
 	return{};
 }
 
-void General::takeDamage(float& _dmg, int distance){
+void General::takeDamage(UnitTile* attacker, float& _dmg, int distance){
 	if (hp - _dmg < 0.4){
 		for (auto& unit : player->getUnits()){
 			if (unit.get() != this){
 				//It is neither ranged nor melee, really, hence the 0
 				float boilerplate{2};
-				unit->takeDamage(boilerplate, 0);
+				unit->takeDamage(attacker, boilerplate, 0);
 			}
 		}
 	}
 
-	UnitTile::takeDamage(_dmg, distance);
+	UnitTile::takeDamage(attacker, _dmg, distance);
 }
 
 bool General::getUniqueVariable() const{

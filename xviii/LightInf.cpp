@@ -18,12 +18,12 @@ Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 	rangedAttackDistValues.emplace_back(2, 2, 1.5);
 }
 
-void LightInf::takeDamage(float& _dmg, int distance){
+void LightInf::takeDamage(UnitTile* attacker, float& _dmg, int distance){
 	if (distance > 1){
 		_dmg /= 2.f;
 	}
 
-	UnitTile::takeDamage(_dmg, distance);
+	UnitTile::takeDamage(attacker, _dmg, distance);
 }
 
 sf::Vector2i LightInf::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth){

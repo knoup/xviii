@@ -11,7 +11,7 @@ public:
 	//be redundant since only General can even heal
 	virtual void reset();
 	//General's takeDamage() is overloaded due to the rule that all other friendlies lose 2 hp on his death
-	virtual void takeDamage(float& _dmg, int distance);
+	virtual void takeDamage(UnitTile* attacker, float& _dmg, int distance);
 	//General's interactWithFriendly() is overloaded for his healing ability
 	virtual std::string interactWithFriendly(UnitTile* _unit);
 

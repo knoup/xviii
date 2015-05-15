@@ -210,7 +210,12 @@ public:
 	//Other - Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
-	virtual void takeDamage(float& _dmg, int distance);
+	//Determines whether the unit can skirmish or not (skirmishing gives the ability to fully rotate after firing, and have 2 movement points left over)
+	inline virtual bool canSkirmish(){ return false; };
+	//Determines whether the unit gets the "frightening" bonus (+1 damage if any damage dealt)
+	inline virtual bool frightening(){ return false; };
+
+	virtual void takeDamage(UnitTile* attacker, float& _dmg, int distance);
 	virtual std::string moveTo(TerrainTile* _terrainTile);
 	//Called at the end of every turn;
 	virtual void reset();

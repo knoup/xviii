@@ -327,7 +327,11 @@ bool UnitTile::isHostile(UnitTile* _tile){
 	}
 }
 
-void UnitTile::takeDamage(float& _dmg, int distance){
+void UnitTile::takeDamage(UnitTile* attacker, float& _dmg, int distance){
+	if (attacker->frightening()){
+		_dmg += 1;
+	}
+
 	hp -= _dmg;
 	world.addToDamagedUnits(this);
 }
@@ -665,6 +669,10 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		}
 	}
 
+	if (attacker->frightening() && attackerInflicted > 0){
+		result << "[frightening: +1DMG]";
+	}
+
 	result << "\n";
 
 	result << defender->getPlayer()->getName().substr(0, 3) + " Mod:   ";
@@ -683,6 +691,10 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 				result << "[" + modToString(mod) + ": " + roundFloat(mod.modFloat) + "d]";
 			}
 		}
+	}
+
+	if (defender->frightening() && attackerInflicted > 0){
+		result << "[frightening: +1DMG]";
 	}
 
 	return result.str();
@@ -769,7 +781,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 
 	multRollByModifiers(thisRoll);
 	damageDealt += thisRoll;
-	unit->takeDamage(damageDealt, distance);
+	unit->takeDamage(this, damageDealt, distance);
 
 	mov = 0;
 	this->updateStats();

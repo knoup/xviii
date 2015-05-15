@@ -17,7 +17,7 @@ public:
 	//Overloaded for the cone width of 3
 	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
 	//Overloaded for Light Infantry's taking half damage on all ranged attacks
-	virtual void takeDamage(float& _dmg, int distance);
+	virtual void takeDamage(UnitTile* attacker, float& _dmg, int distance);
 
 	virtual void preMeleeAttack(UnitTile* unit, bool attacking);
 
