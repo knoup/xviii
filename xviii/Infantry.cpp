@@ -122,7 +122,7 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || ((skirmish && !oppositeRotation) && hasRangedAttacked || hasMeleeAttacked)){
 		return NO_ROTATE_AFTER_ATK;
 	}
-	if (hasRotated){
+	if ((!skirmish && getHasAnyRotated()) || (skirmish && hasFullRotated)){
 		return ALREADY_ROTATED;
 	}
 	else if (hasMoved && !skirmish){
@@ -132,7 +132,12 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 		return ALREADY_FACING + UnitTile::dirToString();
 	}
 
-	hasRotated = true;
+	if (oppositeRotation){
+		hasFullRotated = true;
+	}
+	else{
+		hasPartialRotated = true;
+	}
 
 	if (skirmish && hasRangedAttacked){
 		mov = 2;

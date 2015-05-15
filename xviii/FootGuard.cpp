@@ -21,13 +21,8 @@ void FootGuard::preMeleeAttack(UnitTile* unit, bool attacking){
 }
 
 void FootGuard::reset(){
-	calculateEffectiveMov();
-	hasRotated = false;
-	hasMeleeAttacked = false;
-	hasRangedAttacked = false;
 	hasHealed = false;
-	hasMoved = false;
-	updateStats();
+	UnitTile::reset();
 }
 
 std::string FootGuard::interactWithFriendly(UnitTile* _unit){

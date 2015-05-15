@@ -84,12 +84,13 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || ((skirmish && !oppositeRotation) && hasRangedAttacked || hasMeleeAttacked)){
 		return NO_ROTATE_AFTER_ATTACK;
 	}
-	else if (hasRotated){
+	else if ((!skirmish && getHasAnyRotated()) || (skirmish && hasFullRotated)){
 		return ALREADY_ROTATED;
 	}
 	else if (dir == _dir){
 		return ALREADY_FACING + UnitTile::dirToString();
 	}
+
 	//If it was a full rotation
 	if (oppositeRotation){
 		//Due to the rule that cav cannot attack after full rotation, and to simplify matters, I set the
@@ -103,9 +104,13 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 		else{
 			mov = 0;
 		}
+
+		hasFullRotated = true;
+	}
+	else{
+		hasPartialRotated = true;
 	}
 
-	hasRotated = true;
 	dir = _dir;
 	updateStats();
 

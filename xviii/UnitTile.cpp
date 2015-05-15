@@ -229,7 +229,8 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 void UnitTile::reset(){
 	calculateEffectiveMov();
 	hasMoved = false;
-	hasRotated = false;
+	hasPartialRotated = false;
+	hasFullRotated = false;
 	hasMeleeAttacked = false;
 	hasRangedAttacked = false;
 	updateStats();
@@ -693,7 +694,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		}
 	}
 
-	if (defender->frightening() && attackerInflicted > 0){
+	if (defender->frightening() && defenderInflicted > 0){
 		result << "[frightening: +1DMG]";
 	}
 
@@ -787,6 +788,19 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	this->updateStats();
 	unit->updateStats();
 	hasRangedAttacked = true;
+
+
+	/*
+	Units that can skirmish need to be able to rotate a second time sometimes. Take the following scenario, for instance:
+	A LINF is facing south.
+		-It turns north
+		-It fires at an enemy
+	Its skirmisher bonus should be usable now, and it should be able to turn south again.
+	*/
+
+	if (canSkirmish()){
+		hasFullRotated = false;
+	}
 
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
 

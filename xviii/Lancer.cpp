@@ -19,9 +19,5 @@ void Lancer::reset(){
 		attackBonusReady = false;
 	}
 
-	calculateEffectiveMov();
-	hasRotated = false;
-	hasMeleeAttacked = false;
-	hasRangedAttacked = false;
-	updateStats();
+	UnitTile::reset();
 }

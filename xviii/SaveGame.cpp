@@ -71,6 +71,9 @@ game{_game}
 }
 
 bool SaveGame::create(){
+	
+	#define INDENT "\t"
+
 	if (!boost::filesystem::exists("save")){
 		boost::filesystem::create_directory("save");
 	}
@@ -123,7 +126,7 @@ bool SaveGame::create(){
 			continue;
 		}
 
-		save << std::to_string(i) << "=";
+		save << INDENT << std::to_string(i) << "=";
 
 		switch (currentType){
 			//type, class, texture, string
@@ -147,38 +150,39 @@ bool SaveGame::create(){
 
 			save << "u{" << std::endl;
 
-			save << "type=" << unit->typeToString() << std::endl;
-			save << "faction=";
+			save << INDENT << "type=" << unit->typeToString() << std::endl;
+			save << INDENT << "faction=";
 
 			if (unit->getPlayer() == game->Player1){
-				save << "player1";
+				save << INDENT << "player1";
 			}
 			else if (unit->getPlayer() == game->Player2){
-				save << "player2";
+				save << INDENT << "player2";
 			}
 
 			save << std::endl;
-			save << "pos=" << coords.x + 1 << " " << coords.y + 1 << std::endl;
-			save << "dir=" << unit->dirToString() << std::endl;
-			save << "hp=" << unit->roundFloat(unit->gethp()) << std::endl;
-			save << "mov=" << unit->getMov() << std::endl;
-			save << "hasMoved=" << unit->getHasMoved() << std::endl;
-			save << "hasRotated=" << unit->getHasRotated() << std::endl;
-			save << "hasMeleeAttacked=" << unit->getHasMeleeAttacked() << std::endl;
-			save << "hasRangedAttacked=" << unit->getHasRangedAttacked() << std::endl;
+			save << INDENT << "pos=" << coords.x + 1 << " " << coords.y + 1 << std::endl;
+			save << INDENT << "dir=" << unit->dirToString() << std::endl;
+			save << INDENT << "hp=" << unit->roundFloat(unit->gethp()) << std::endl;
+			save << INDENT << "mov=" << unit->getMov() << std::endl;
+			save << INDENT << "hasMoved=" << unit->getHasMoved() << std::endl;
+			save << INDENT << "hasPartialRotated=" << unit->getHasPartialRotated() << std::endl;
+			save << INDENT << "hasFullRotated=" << unit->getHasFullRotated() << std::endl;
+			save << INDENT << "hasMeleeAttacked=" << unit->getHasMeleeAttacked() << std::endl;
+			save << INDENT << "hasRangedAttacked=" << unit->getHasRangedAttacked() << std::endl;
 
 			if (unit->getUnitType() == UnitTile::UnitType::GEN || unit->getUnitType() == UnitTile::UnitType::FOOT){
-				save << "hasHealed=" << unit->getUniqueVariable() << std::endl;
+				save << INDENT << "hasHealed=" << unit->getUniqueVariable() << std::endl;
 			}
 			else if (unit->getUnitType() == UnitTile::UnitType::ART){
-				save << "limbered=" << unit->getUniqueVariable() << std::endl;
+				save << INDENT << "limbered=" << unit->getUniqueVariable() << std::endl;
 			}
 
 			else{
 				Lancer* lan = dynamic_cast<Lancer*>(unit.get());
 
 				if (lan != nullptr){
-					save << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
+					save << INDENT << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
 				}
 			}
 
@@ -318,7 +322,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			float hp;
 			float mov;
 			bool hasMoved;
-			bool hasRotated;
+			bool hasPartialRotated;
+			bool hasFullRotated;
 			bool hasMeleeAttacked;
 			bool hasRangedAttacked;
 			bool uniqueVariable{false};
@@ -372,8 +377,12 @@ void SaveGame::parse(boost::filesystem::path _dir){
 					hasMoved = std::stoi(AFTEREQUALS);
 				}
 
-				else if (line.find("hasRotated=") != std::string::npos){
-					hasRotated = std::stoi(AFTEREQUALS);
+				else if (line.find("hasPartialRotated=") != std::string::npos){
+					hasPartialRotated = std::stoi(AFTEREQUALS);
+				}
+
+				else if (line.find("hasFullRotated=") != std::string::npos){
+					hasFullRotated = std::stoi(AFTEREQUALS);
 				}
 
 				else if (line.find("hasMeleeAttacked=") != std::string::npos){
@@ -404,7 +413,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			}
 
 
-			player->loadUnit(type, pos, dir, hp, mov, hasMoved, hasRotated, hasMeleeAttacked, hasRangedAttacked, uniqueVariable);
+			player->loadUnit(type, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, hasMeleeAttacked, hasRangedAttacked, uniqueVariable);
 
 		}
 

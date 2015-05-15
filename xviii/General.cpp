@@ -15,7 +15,8 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::
 
 void General::reset(){
 	mov = maxMov;
-	hasRotated = false;
+	hasPartialRotated = false;
+	hasFullRotated = false;
 	hasMeleeAttacked = false;
 	hasRangedAttacked = false;
 	hasHealed = false;

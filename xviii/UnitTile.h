@@ -180,7 +180,9 @@ public:
 	inline UnitTile::Direction getDir() const{ return dir; };
 
 	inline bool getHasMoved() const{ return hasMoved; };
-	inline bool getHasRotated() const{ return hasRotated; };
+	inline bool getHasPartialRotated() const{ return hasPartialRotated; };
+	inline bool getHasFullRotated() const{ return hasFullRotated; };
+	inline bool getHasAnyRotated() const{ return (hasPartialRotated || hasFullRotated); };
 	inline bool getHasMeleeAttacked() const{ return hasMeleeAttacked; };
 	inline bool getHasRangedAttacked() const{ return hasRangedAttacked; };
 
@@ -206,7 +208,8 @@ public:
 	inline void setMov(float _mov){ mov = _mov; };
 	inline void setDir(Direction _dir){ dir = _dir; };
 	inline void setHasMoved(bool _hasMoved){ hasMoved = _hasMoved; };
-	inline void setHasRotated(bool _hasRotated){ hasRotated = _hasRotated; };
+	inline void setHasPartialRotated(bool _hasPartialRotated){ hasPartialRotated = _hasPartialRotated; };
+	inline void setHasFullRotated(bool _hasFullRotated){ hasFullRotated = _hasFullRotated; };
 	inline void setHasMeleeAttacked(bool _value){ hasMeleeAttacked = _value; };
 	inline void setHasRangedAttacked(bool _value){ hasRangedAttacked = _value; };
 
@@ -331,7 +334,8 @@ protected:
 	sf::Text movText;
 
 	bool hasMoved{false};
-	bool hasRotated{false};
+	bool hasPartialRotated{false};
+	bool hasFullRotated{false};
 	bool hasMeleeAttacked{false};
 	bool hasRangedAttacked{false};
 };

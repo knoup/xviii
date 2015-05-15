@@ -17,7 +17,8 @@ void Artillery::reset(){
 		mov = 0;
 	}
 
-	hasRotated = false;
+	hasPartialRotated = false;
+	hasFullRotated = false;
 	hasMeleeAttacked = false;
 	hasRangedAttacked = false;
 	hasMoved = false;
@@ -25,17 +26,25 @@ void Artillery::reset(){
 }
 
 std::string Artillery::rotate(UnitTile::Direction _dir){
+	bool oppositeRotation{_dir == opposite(dir)};
+
 	if (hasRangedAttacked){
 		return NO_ROTATE_AFTER_ATTACK;
 	}
-	else if (hasRotated){
+	else if (getHasAnyRotated()){
 		return ALREADY_ROTATED;
 	}
 	else if (dir == _dir){
 		return ALREADY_FACING + UnitTile::dirToString();
 	}
 
-	hasRotated = true;
+	if (oppositeRotation){
+		hasFullRotated = true;
+	}
+	else{
+		hasPartialRotated = true;
+	}
+
 	dir = _dir;
 	updateStats();
 

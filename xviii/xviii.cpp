@@ -5,6 +5,7 @@
 
 /*
 TODO:
+	-Split hasRotated into hasPartiallyRotated and hasFullyRotated; fix skirmish rules 
 	-Implement specialised MudAnt and HillAnt classes
 */
 
