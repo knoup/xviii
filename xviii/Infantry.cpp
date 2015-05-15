@@ -119,7 +119,7 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 	bool skirmish = {canSkirmish()};
 	bool oppositeRotation{_dir == opposite(dir)};
 
-	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || (skirmish && !oppositeRotation)){
+	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || ((skirmish && !oppositeRotation) && hasRangedAttacked || hasMeleeAttacked)){
 		return NO_ROTATE_AFTER_ATK;
 	}
 	if (hasRotated){

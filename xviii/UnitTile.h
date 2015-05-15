@@ -31,7 +31,7 @@
 	X(UnitTile::UnitType::OINF, OttoInf, "o inf", TextureManager::Unit::INF)\
 	X(UnitTile::UnitType::LINF, LightInf, "linf", TextureManager::Unit::LINF)\
 	X(UnitTile::UnitType::SAP, Sapper, "sap", TextureManager::Unit::SAP)\
-	X(UnitTile::UnitType::CRICAV, CrimeanCav, "cr cav", TextureManager::Unit::LCAV)\
+	X(UnitTile::UnitType::CRICAV, CrimeanCav, "cr cav", TextureManager::Unit::HARCH)\
 	X(UnitTile::UnitType::COSINF, CossackInf, "cos inf", TextureManager::Unit::INF)\
 	X(UnitTile::UnitType::KMKH, KhevMkhedrebi, "khev mkh", TextureManager::Unit::CUIR)\
 	X(UnitTile::UnitType::PIT, PitsisKatsebi, "pit kat", TextureManager::Unit::CAV)\

@@ -11,8 +11,8 @@ public:
 	inline virtual int getMaxMov() const{ return maxMov; };
 	inline virtual int getMaxRange() const{ return maxRange; };
 
-	//Override LightInf's preMeleeAttack that gives -2 in melee combat with a blank declaration
-	virtual void preMeleeAttack(UnitTile* unit, bool attacking){};
+	//Override LightInf's preMeleeAttack that gives -2 in melee combat
+	virtual void preMeleeAttack(UnitTile* unit, bool attacking);
 
 private:
 	static const int maxhp{6};

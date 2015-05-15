@@ -170,11 +170,16 @@ bool SaveGame::create(){
 			if (unit->getUnitType() == UnitTile::UnitType::GEN || unit->getUnitType() == UnitTile::UnitType::FOOT){
 				save << "hasHealed=" << unit->getUniqueVariable() << std::endl;
 			}
-			else if (unit->getUnitType() == UnitTile::UnitType::KAP || unit->getUnitType() == UnitTile::UnitType::BOY || unit->getUnitType() == UnitTile::UnitType::LAN){
-				save << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
-			}
 			else if (unit->getUnitType() == UnitTile::UnitType::ART){
 				save << "limbered=" << unit->getUniqueVariable() << std::endl;
+			}
+
+			else{
+				Lancer* lan = dynamic_cast<Lancer*>(unit.get());
+
+				if (lan != nullptr){
+					save << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
+				}
 			}
 
 			save << "}u" << std::endl;

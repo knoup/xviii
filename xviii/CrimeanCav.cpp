@@ -2,7 +2,7 @@
 #include "CrimeanCav.h"
 
 CrimeanCav::CrimeanCav(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-LightCav(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::LCAV, UnitType::CRICAV)
+LightCav(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::HARCH, UnitType::CRICAV)
 {
 	mov = maxMov;
 	hp = maxhp;

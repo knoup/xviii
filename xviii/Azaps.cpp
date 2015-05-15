@@ -12,3 +12,9 @@ Infantry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 	rangedAttackDistValues.emplace_back(3, 6, 0.5);
 	rangedAttackDistValues.emplace_back(2, 2, 1);
 }
+
+void Azaps::preMeleeAttack(UnitTile* unit, bool attacking){
+	if (unit->getUnitFamilyType() == UnitFamily::CAV_FAMILY){
+		this->modVector.emplace_back(Modifier::ADDITIONAL, -1);
+	}
+}
