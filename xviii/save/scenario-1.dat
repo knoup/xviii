@@ -714,7 +714,7 @@ w{
 
 u{
 	type=inf
-	faction=	player1
+	faction=player1
 	pos=32 55
 	dir=N
 	hp=18
@@ -728,7 +728,7 @@ u{
 
 u{
 	type=inf
-	faction=	player1
+	faction=player1
 	pos=33 53
 	dir=N
 	hp=18
@@ -742,7 +742,7 @@ u{
 
 u{
 	type=inf
-	faction=	player1
+	faction=player1
 	pos=34 50
 	dir=E
 	hp=17
@@ -756,7 +756,7 @@ u{
 
 u{
 	type=inf
-	faction=	player1
+	faction=player1
 	pos=35 53
 	dir=N
 	hp=18
@@ -770,7 +770,7 @@ u{
 
 u{
 	type=cav
-	faction=	player1
+	faction=player1
 	pos=37 51
 	dir=N
 	hp=12
@@ -784,7 +784,7 @@ u{
 
 u{
 	type=cav
-	faction=	player1
+	faction=player1
 	pos=44 45
 	dir=N
 	hp=12
@@ -798,7 +798,7 @@ u{
 
 u{
 	type=cav
-	faction=	player1
+	faction=player1
 	pos=23 59
 	dir=W
 	hp=11
@@ -812,7 +812,7 @@ u{
 
 u{
 	type=cav
-	faction=	player1
+	faction=player1
 	pos=25 55
 	dir=W
 	hp=10
@@ -826,7 +826,7 @@ u{
 
 u{
 	type=art
-	faction=	player1
+	faction=player1
 	pos=30 59
 	dir=E
 	hp=3
@@ -841,7 +841,7 @@ u{
 
 u{
 	type=art
-	faction=	player1
+	faction=player1
 	pos=35 58
 	dir=E
 	hp=3
@@ -856,7 +856,7 @@ u{
 
 u{
 	type=art
-	faction=	player1
+	faction=player1
 	pos=38 55
 	dir=N
 	hp=3
@@ -871,7 +871,7 @@ u{
 
 u{
 	type=cav
-	faction=	player1
+	faction=player1
 	pos=45 54
 	dir=E
 	hp=12
@@ -885,7 +885,7 @@ u{
 
 u{
 	type=inf
-	faction=	player1
+	faction=player1
 	pos=30 54
 	dir=S
 	hp=18
@@ -899,7 +899,7 @@ u{
 
 u{
 	type=inf
-	faction=	player1
+	faction=player1
 	pos=29 54
 	dir=W
 	hp=18
@@ -913,7 +913,7 @@ u{
 
 u{
 	type=gen
-	faction=	player1
+	faction=player1
 	pos=34 54
 	dir=S
 	hp=4
@@ -928,7 +928,7 @@ u{
 
 u{
 	type=gen
-	faction=	player2
+	faction=player2
 	pos=38 48
 	dir=E
 	hp=1
@@ -943,7 +943,7 @@ u{
 
 u{
 	type=inf
-	faction=	player2
+	faction=player2
 	pos=41 49
 	dir=S
 	hp=18
@@ -957,7 +957,7 @@ u{
 
 u{
 	type=inf
-	faction=	player2
+	faction=player2
 	pos=40 50
 	dir=S
 	hp=18
@@ -971,7 +971,7 @@ u{
 
 u{
 	type=inf
-	faction=	player2
+	faction=player2
 	pos=39 50
 	dir=S
 	hp=18
@@ -985,7 +985,7 @@ u{
 
 u{
 	type=cav
-	faction=	player2
+	faction=player2
 	pos=27 52
 	dir=S
 	hp=12
@@ -999,7 +999,7 @@ u{
 
 u{
 	type=cav
-	faction=	player2
+	faction=player2
 	pos=34 55
 	dir=N
 	hp=11
@@ -1013,7 +1013,7 @@ u{
 
 u{
 	type=cav
-	faction=	player2
+	faction=player2
 	pos=24 55
 	dir=E
 	hp=12
@@ -1027,7 +1027,7 @@ u{
 
 u{
 	type=inf
-	faction=	player2
+	faction=player2
 	pos=37 50
 	dir=S
 	hp=13
@@ -1041,7 +1041,7 @@ u{
 
 u{
 	type=inf
-	faction=	player2
+	faction=player2
 	pos=36 50
 	dir=S
 	hp=18
@@ -1055,7 +1055,7 @@ u{
 
 u{
 	type=inf
-	faction=	player2
+	faction=player2
 	pos=36 51
 	dir=E
 	hp=16
@@ -1069,7 +1069,7 @@ u{
 
 u{
 	type=art
-	faction=	player2
+	faction=player2
 	pos=31 48
 	dir=S
 	hp=3
@@ -1084,7 +1084,7 @@ u{
 
 u{
 	type=art
-	faction=	player2
+	faction=player2
 	pos=39 49
 	dir=S
 	hp=3
@@ -1099,7 +1099,7 @@ u{
 
 u{
 	type=cav
-	faction=	player2
+	faction=player2
 	pos=22 59
 	dir=E
 	hp=10

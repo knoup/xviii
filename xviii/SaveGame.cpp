@@ -154,10 +154,10 @@ bool SaveGame::create(){
 			save << INDENT << "faction=";
 
 			if (unit->getPlayer() == game->Player1){
-				save << INDENT << "player1";
+				save  << "player1";
 			}
 			else if (unit->getPlayer() == game->Player2){
-				save << INDENT << "player2";
+				save << "player2";
 			}
 
 			save << std::endl;
