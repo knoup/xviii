@@ -131,6 +131,7 @@ void GameState_SelectNations::getInput(){
 				flagIterator->highlighted = false;
 				flagIterator._Ptr = &flagMenuItems.at(randNum);
 				flagIterator->highlighted = true;
+				updateNationName();
 			}
 
 			break;
