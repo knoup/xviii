@@ -60,7 +60,7 @@ void GameState_Setup::getInput(){
 						uiCoords.y >= setupUI.getButton().top() && uiCoords.y <= setupUI.getButton().bottom()){
 						
 						//As long as the player has at least one non-general unit
-						if (game->currentPlayer->getDeploymentPoints() <= 29){
+						if (game->currentPlayer->getDeploymentPoints() <= game->currentPlayer->getMaxDeploymentPoints() - 1){
 							game->currentPlayer->setReady(true);
 						}
 

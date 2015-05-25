@@ -153,14 +153,18 @@ class Player
 		//For loading from a save game
 		void loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _uniqueVariable);
 
-        const World& getWorld() const;
-
-		int getDeploymentPoints() const;
-
-		std::string getName() const;
-
-		bool isReady() const;
-		void setReady(bool _value);
+		inline const World& getWorld() const{ return world; };
+		inline int getDeploymentPoints() const{ return deploymentPoints; };
+		inline int getMaxDeploymentPoints() const{ return maxDeploymentPoints; };
+		inline std::string getName() const { return name; };
+		inline sf::Color getnationColour() const{ return nationColour; };
+		inline Nation getNation() const{ return nation; };
+		inline bool isReady() const{ return ready; };
+		inline void setReady(bool _value){ ready = _value; };
+		inline sf::Sprite getNationFlag() const{ return nationFlag; };
+		const std::vector<SpawnableUnit>& getSpawnableUnits() const{ return spawnableUnits; };
+		inline const std::vector<UnitTile::unitPtr>& getUnits() const{ return units; };
+		inline UnitTile* getGeneral() const { return general; };
 
 		//Public because there is no real reason to make it private; it needs to be
 		//constantly modified...
@@ -172,16 +176,7 @@ class Player
 			return this == &_player;
 		}
 
-		sf::Sprite getFlag() const;
-		sf::Color getColour() const;
-		Nation getNation() const;
-
-		const std::vector<SpawnableUnit>& getSpawnableUnits() const;
-
 		void drawUnits(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
-		
-		inline const std::vector<UnitTile::unitPtr>& getUnits() const{ return units; };
-		inline UnitTile* getGeneral() const {return general;};
 
     private:
         World& world;
@@ -192,7 +187,7 @@ class Player
 
 		Nation nation;
 		sf::Color nationColour{sf::Color::White};
-		sf::Sprite playerFlag;
+		sf::Sprite nationFlag;
 		std::string name;
 
 		std::mt19937& mt19937;
@@ -205,5 +200,6 @@ class Player
 
 		//If this player spawned at the lower part of the map, this is true. 
 		const bool spawnedAtBottom;
+		static const int maxDeploymentPoints{35};
 
 };

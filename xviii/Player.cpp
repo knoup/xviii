@@ -12,7 +12,7 @@ nation{_nation},
 mt19937(_mt19937),
 tm(_tm),
 fm(_fm),
-deploymentPoints{30},
+deploymentPoints{maxDeploymentPoints},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
@@ -86,7 +86,7 @@ spawnedAtBottom{_spawnedAtBottom}
 			//nation, flag, name
 	#define X(nat,fla,str)\
 		case(nat):\
-		playerFlag = tm.getSprite(fla);\
+		nationFlag = tm.getSprite(fla);\
 		name = str;\
 		break;
 		NATIONPROPERTIES
@@ -289,43 +289,6 @@ UnitTile::unitPtr Player::removeUnit(UnitTile* _unit){
 	
 
 	return nullptr;
-}
-
-const World& Player::getWorld() const{
-    return world;
-}
-
-
-int Player::getDeploymentPoints() const{
-	return deploymentPoints;
-}
-
-std::string Player::getName() const{
-	return name;
-}
-
-sf::Color Player::getColour() const{
-	return nationColour;
-}
-
-Player::Nation Player::getNation() const{
-	return nation;
-}
-
-const std::vector<Player::SpawnableUnit>& Player::getSpawnableUnits() const{
-	return spawnableUnits;
-}
-
-bool Player::isReady() const{
-	return ready;
-}
-
-void Player::setReady(bool _value){
-	ready = _value;
-}
-
-sf::Sprite Player::getFlag() const{
-	return playerFlag;
 }
 
 void Player::drawUnits(sf::RenderTarget &target, sf::RenderStates states) const{

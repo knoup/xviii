@@ -131,7 +131,7 @@ mov{0},
 terrain{nullptr}
 
 {
-	unitFlag = player->getFlag();
+	unitFlag = player->getNationFlag();
 
     dirText.setString(dirToString());
 
