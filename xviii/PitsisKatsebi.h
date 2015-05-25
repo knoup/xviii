@@ -9,7 +9,6 @@ public:
 
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
-	inline virtual int getMaxRange() const{ return maxRange; };
 
 	//Override Cuirassier's preMeleeAttack() with blank function
 	virtual void preMeleeAttack(UnitTile* unit, bool attacking){};
@@ -17,6 +16,5 @@ public:
 private:
 	static const int maxhp{14};
 	static const int maxMov{12};
-	static const int maxRange{5};
 };
 

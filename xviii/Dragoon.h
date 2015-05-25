@@ -9,14 +9,12 @@ public:
 
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
-	inline virtual int getMaxRange() const{ return maxRange; };
 
 	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
 
 private:
 	static const int maxhp{10};
 	static const int maxMov{12};
-	static const int maxRange{5};
 };
 
 

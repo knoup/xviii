@@ -26,6 +26,19 @@ UnitTile::Direction UnitTile::opposite(UnitTile::Direction _dir){
 	}
 }
 
+//virtual
+int UnitTile::getMaxRange() const{
+	if (rangedAttackDistValues.empty()){
+		return 0;
+	}
+	else{
+		//Of course, assuming the elements of rangedAttackDistValues were inserted in order of
+		//furthest to shortest distances, the first element's upper threshold should represent
+		//the furthest a unit can possibly shoot
+		return rangedAttackDistValues[0].upperThreshold;
+	}
+}
+
 std::string UnitTile::roundFloat(const double x) {
 	std::stringstream ss;
 	ss << std::fixed;

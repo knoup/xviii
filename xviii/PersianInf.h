@@ -9,13 +9,11 @@ public:
 
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
-	inline virtual int getMaxRange() const{ return maxRange; };
 
 	virtual void preMeleeAttack(UnitTile* unit, bool attacking);
 
 private:
 	static const int maxhp{15};
 	static const int maxMov{8};
-	static const int maxRange{6};
 };
 

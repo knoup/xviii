@@ -5,7 +5,12 @@
 
 /*
 TODO:
-	-Split hasRotated into hasPartiallyRotated and hasFullyRotated; fix skirmish rules 
+	-KhevKveitebi should not be able to heal (make healing more internally flexible in code, perhaps 
+	like ranged attack?)
+
+	-Have a basic readable config file where several simple parameters can be set (resolution, deployment points,
+	tile sizes, etc.)
+
 	-Implement specialised MudAnt and HillAnt classes
 */
 

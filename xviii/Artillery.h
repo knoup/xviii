@@ -19,7 +19,6 @@ public:
 
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
-	inline virtual int getMaxRange() const{ return maxRange; };
 	inline virtual bool getCanMelee() const{ return false; };
 
 	inline virtual int getCost() const{ return 3; };
@@ -39,6 +38,5 @@ private:
 
 	static const int maxhp{3};
 	static const int maxMov{3};
-	static const int maxRange{24};
 };
 

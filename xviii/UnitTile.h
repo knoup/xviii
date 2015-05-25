@@ -192,7 +192,7 @@ public:
 	inline virtual int getLimit() const{ return 1; };
 	inline virtual int getMaxHp() const{ return 0; };
 	inline virtual int getMaxMov() const{ return 0; };
-	inline virtual int getMaxRange() const{ return 0; };
+	int getMaxRange() const;
 
 	inline virtual bool getCanMelee() const{ return true; };
 	//Each class will have an overloaded definition returning its specific flank modifier for either 
@@ -299,6 +299,8 @@ public:
 	std::vector<ModifierReport> modVector;
 
 protected:
+	//Elements must be inserted in order of furthest to shortest distances; the first 
+	//element's upper threshold should represent the furthest a unit can shoot
 	std::vector<RangedAttackRange> rangedAttackDistValues;
 
 	std::string outOfRange();

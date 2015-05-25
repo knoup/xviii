@@ -12,7 +12,6 @@ public:
 
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
-	inline virtual int getMaxRange() const{ return maxRange; };
 	
 	//Overloaded for the cone width of 3
 	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
@@ -24,6 +23,5 @@ public:
 private:
 	static const int maxhp{9};
 	static const int maxMov{9};
-	static const int maxRange{8};
 };
 
