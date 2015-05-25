@@ -81,10 +81,10 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 	bool skirmish = {canSkirmish()};
 	bool oppositeRotation{_dir == opposite(dir)};
 
-	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || ((skirmish && !oppositeRotation) && hasRangedAttacked || hasMeleeAttacked)){
+	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || ((skirmish && !oppositeRotation) && getHasAnyAttacked())){
 		return NO_ROTATE_AFTER_ATTACK;
 	}
-	else if ((!skirmish && getHasAnyRotated()) || (skirmish && hasFullRotated)){
+	else if ((!skirmish && getHasAnyRotated()) || (skirmish && getHasAnyRotated() && !hasRangedAttacked)){
 		return ALREADY_ROTATED;
 	}
 	else if (dir == _dir){
@@ -93,12 +93,7 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 
 	//If it was a full rotation
 	if (oppositeRotation){
-		//Due to the rule that cav cannot attack after full rotation, and to simplify matters, I set the
-		//hasAttacked variables to true here
-		hasMeleeAttacked = true;
-		hasRangedAttacked = true;
-
-		if (skirmish && hasRangedAttacked){
+		if (skirmish && oppositeRotation && hasRangedAttacked){
 			mov = 2;
 		}
 		else{
@@ -106,6 +101,11 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 		}
 
 		hasFullRotated = true;
+
+		//Due to the rule that cav cannot attack after full rotation, and to simplify matters, I set the
+		//hasAttacked variables to true here
+		hasMeleeAttacked = true;
+		hasRangedAttacked = true;
 	}
 	else{
 		hasPartialRotated = true;

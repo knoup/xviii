@@ -185,6 +185,7 @@ public:
 	inline bool getHasAnyRotated() const{ return (hasPartialRotated || hasFullRotated); };
 	inline bool getHasMeleeAttacked() const{ return hasMeleeAttacked; };
 	inline bool getHasRangedAttacked() const{ return hasRangedAttacked; };
+	inline bool getHasAnyAttacked() const{ return (hasMeleeAttacked || hasRangedAttacked); };
 
 	//Virtual
 	inline virtual int getCost() const{ return 100; };
