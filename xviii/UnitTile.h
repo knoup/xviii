@@ -158,6 +158,13 @@ public:
 		{
 		}
 
+		//The lower and upper thresholds specify the range at which the accompanying distModifier will 
+		//take effect. For example, if:
+		//lowerThreshold = 3;
+		//upperThreshold = 5;
+		//distModifier = 1.5;
+		//Then the unit will get a distance modifier of 1.5 when shooting at a distance between 3 and 5 (inclusive)
+
 		int lowerThreshold;
 		int upperThreshold;
 		float distModifier;
@@ -194,7 +201,15 @@ public:
 	inline virtual int getMaxMov() const{ return 0; };
 	int getMaxRange() const;
 
+	//UNLESS OTHERWISE MENTIONED IN THE CLASS HEADER, THESE FUNCTIONS WILL DEFAULT TO:
+	/////
 	inline virtual bool getCanMelee() const{ return true; };
+	//Determines whether the unit can skirmish or not (skirmishing gives the ability to fully rotate after firing, and have 2 movement points left over)
+	inline virtual bool canSkirmish(){ return false; };
+	//Determines whether the unit gets the "frightening" bonus (+1 damage if any damage dealt)
+	inline virtual bool frightening(){ return false; };
+	/////
+
 	//Each class will have an overloaded definition returning its specific flank modifier for either 
 	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 
 	//its own implementation of essentially the same function.
@@ -224,11 +239,6 @@ public:
 
 	//Other - Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-
-	//Determines whether the unit can skirmish or not (skirmishing gives the ability to fully rotate after firing, and have 2 movement points left over)
-	inline virtual bool canSkirmish(){ return false; };
-	//Determines whether the unit gets the "frightening" bonus (+1 damage if any damage dealt)
-	inline virtual bool frightening(){ return false; };
 
 	virtual void takeDamage(UnitTile* attacker, float& _dmg, int distance);
 	virtual std::string moveTo(TerrainTile* _terrainTile);

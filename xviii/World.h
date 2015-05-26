@@ -73,8 +73,8 @@ private:
 
 
 	//Used for drawing efficiency
-	sf::VertexArray mVertices;
-	sf::Texture& mTexture;
+	sf::VertexArray mTerrainVertices;
+	sf::Texture& mTerrainTexture;
 
 };
 

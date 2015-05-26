@@ -24,7 +24,7 @@ unit{nullptr}
 	const sf::Vector2i currentCartesianPos{int(_pos.x / tm.getSize().x), int(_pos.y / tm.getSize().y)};
 	sf::IntRect currentRekt{sprite.getTextureRect()};
 
-	sf::Vertex* quad = &world.mVertices[(currentCartesianPos.x + currentCartesianPos.y*world.getDimensions().x) * 4];
+	sf::Vertex* quad = &world.mTerrainVertices[(currentCartesianPos.x + currentCartesianPos.y*world.getDimensions().x) * 4];
 
 	quad[0].position = sf::Vector2f(_pos.x, _pos.y);
 	quad[1].position = sf::Vector2f(_pos.x + tm.getSize().x, _pos.y);

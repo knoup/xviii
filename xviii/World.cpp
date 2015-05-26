@@ -8,10 +8,10 @@ tm(_tm),
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * tm.getSize().x, dimensions.y * tm.getSize().y)},
 mt19937(_mt19937),
-mTexture(tm.getTerrainTexture())
+mTerrainTexture(tm.getTerrainTexture())
 {
-	mVertices.setPrimitiveType(sf::PrimitiveType::Quads);
-	mVertices.resize(dimensions.x * dimensions.y * 4);
+	mTerrainVertices.setPrimitiveType(sf::PrimitiveType::Quads);
+	mTerrainVertices.resize(dimensions.x * dimensions.y * 4);
 
 	//Begin by filling the map with meadows
 
@@ -178,7 +178,7 @@ TerrainTile* World::terrainAtCartesianPos(sf::Vector2i _pos){
 }
 
 void World::draw(sf::RenderTarget &target, sf::RenderStates states) const{
-    target.draw(mVertices,&mTexture);
+	target.draw(mTerrainVertices, &mTerrainTexture);
 }
 
 sf::Vector2i World::getDimensions() const{

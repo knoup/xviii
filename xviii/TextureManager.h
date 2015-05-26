@@ -21,11 +21,12 @@ public:
 	sf::Sprite getSprite(UI type);
 	sf::Sprite getSprite(Flag type);
 
-	sf::Vector2i getSize() const;
-	sf::Vector2i getCounterSize() const;
-
+	inline sf::Vector2i getSize() const{ return size; };
+	inline sf::Vector2i getCounterSize() const{ return counterSize; };
     //Used for the vertex array (for terrain tiles)	
-	sf::Texture& getTerrainTexture() const;
+	inline sf::Texture& getTerrainTexture() const{ return *terrain; };
+	// Used for the vertex array(for unit tiles)
+	inline sf::Texture& getUnitTexture() const{ return *units; };
 
 private:
 	//The unit sprites

@@ -246,15 +246,3 @@ sf::Sprite TextureManager::getSprite(Flag type){
 	return{*flags, rekt};
 
 }
-
-sf::Vector2i TextureManager::getSize() const{
-	return size;
-}
-
-sf::Vector2i TextureManager::getCounterSize() const{
-	return counterSize;
-}
-
-sf::Texture& TextureManager::getTerrainTexture() const{
-	return *terrain;
-}
