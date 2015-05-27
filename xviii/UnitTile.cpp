@@ -250,7 +250,7 @@ void UnitTile::reset(){
 }
 
 //Virtual
-std::string UnitTile::heal(float num){
+std::string UnitTile::beHealed(float num){
 	hp += num;
 	updateStats();
 	std::string str;
@@ -299,7 +299,7 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	// Melee	///////////////////////////////////////////////////
 
-	if (dist == 1 && !getCanMelee()){
+	if (dist == 1 && !canMelee()){
 		return NO_MELEE;
 	}
 	
@@ -487,7 +487,7 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirect
 
 		_validAttackDirection = true;
 
-		if (dist == 1 && getCanMelee()){
+		if (dist == 1 && canMelee()){
 			if (!((SECONDARYAXIS_POSITIVE >= SECONDARYAXIS_NEGATIVE) && (SECONDARYAXIS_POSITIVE <= SECONDARYAXIS_NEGATIVE))){
 				_validAttackDirection = false;
 			}

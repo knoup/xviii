@@ -53,10 +53,10 @@ std::string FootGuard::interactWithFriendly(UnitTile* _unit){
 		hasHealed = true;
 
 		if (diff >= 1){
-			return _unit->heal(1);
+			return _unit->beHealed(1);
 		}
 		else{
-			return _unit->heal(diff);
+			return _unit->beHealed(diff);
 		}
 	}
 

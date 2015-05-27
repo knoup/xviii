@@ -41,10 +41,10 @@ std::string General::interactWithFriendly(UnitTile* _unit){
 		hasHealed = true;
 
 		if (diff >= 2){
-			return _unit->heal(2);
+			return _unit->beHealed(2);
 		}
 		else{
-			return _unit->heal(diff);
+			return _unit->beHealed(diff);
 		}
 	}
 

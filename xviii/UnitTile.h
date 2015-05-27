@@ -203,7 +203,7 @@ public:
 
 	//UNLESS OTHERWISE MENTIONED IN THE CLASS HEADER, THESE FUNCTIONS WILL DEFAULT TO:
 	/////
-	inline virtual bool getCanMelee() const{ return true; };
+	inline virtual bool canMelee() const{ return true; };
 	//Determines whether the unit can skirmish or not (skirmishing gives the ability to fully rotate after firing, and have 2 movement points left over)
 	inline virtual bool canSkirmish(){ return false; };
 	//Determines whether the unit gets the "frightening" bonus (+1 damage if any damage dealt)
@@ -246,7 +246,6 @@ public:
 	virtual void reset();
 	inline virtual std::string rotate(Direction _dir){ return{}; };
 	inline virtual std::string interactWithFriendly(UnitTile* _unit){ return{}; };
-	virtual std::string heal(float num);
 
 	//This function is unit-specific, and checks for such things as vs. family bonuses/maluses. The bool specifies
 	//whether the unit is attacking or defending
@@ -272,6 +271,7 @@ public:
 
 	//Other - Non Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
+	std::string beHealed(float num);
 	void calculateEffectiveMov();
 
 	//Returns true if dead
