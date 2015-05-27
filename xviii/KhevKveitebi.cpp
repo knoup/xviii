@@ -7,6 +7,9 @@ FootGuard(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit
 {
 	mov = maxMov;
 	hp = maxhp;
+
+	//They inherit from Footguards but aren't meant to heal; hence, clear healingRangeValues upon creation
+	healingRangeValues.clear();
 }
 
 void KhevKveitebi::preMeleeAttack(UnitTile* unit, bool attacking){

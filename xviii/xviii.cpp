@@ -5,11 +5,11 @@
 
 /*
 TODO:
-	-KhevKveitebi should not be able to heal (make healing more internally flexible in code, perhaps 
-	like ranged attack?)
-
 	-Have a basic readable config file where several simple parameters can be set (resolution, deployment points,
 	tile sizes, etc.)
+
+	-Script units. There would only be 4 basic unit types (infantry, artillery, cavalry, mortar); all units would
+	be scripted in LUA or something
 
 	-Implement specialised MudAnt and HillAnt classes
 */

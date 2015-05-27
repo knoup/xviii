@@ -11,6 +11,9 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::
 
 	rangedAttackDistValues.clear();
 	rangedAttackDistValues.emplace_back(2, getMaxRange(), 0.5);
+
+	healingRangeValues.clear();
+	healingRangeValues.emplace_back(0, 0, 2);
 }
 
 void General::reset(){
@@ -21,34 +24,6 @@ void General::reset(){
 	hasRangedAttacked = false;
 	hasHealed = false;
 	updateStats();
-}
-
-std::string General::interactWithFriendly(UnitTile* _unit){
-	if (_unit == this){
-		return CANNOT_HEAL_SELF;
-	}
-	else if (hasHealed){
-		return ALREADY_HEALED;
-	}
-	else if (_unit->gethp() == _unit->getMaxHp()){
-		return AT_MAX_HP;
-	}
-	else {
-		float hp = _unit->gethp();
-		float max = _unit->getMaxHp();
-		float diff = max - hp;
-
-		hasHealed = true;
-
-		if (diff >= 2){
-			return _unit->beHealed(2);
-		}
-		else{
-			return _unit->beHealed(diff);
-		}
-	}
-
-	return{};
 }
 
 void General::takeDamage(UnitTile* attacker, float& _dmg, int distance){
@@ -63,12 +38,4 @@ void General::takeDamage(UnitTile* attacker, float& _dmg, int distance){
 	}
 
 	UnitTile::takeDamage(attacker, _dmg, distance);
-}
-
-bool General::getUniqueVariable() const{
-	return hasHealed;
-}
-
-void General::setUniqueVariable(bool _hasHealed){
-	hasHealed = _hasHealed;
 }

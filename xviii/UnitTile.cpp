@@ -249,7 +249,59 @@ void UnitTile::reset(){
 	updateStats();
 }
 
-//Virtual
+std::string UnitTile::heal(UnitTile* _unit){
+	if (!healingRangeValues.empty()){
+		sf::Vector2i thisPos = getCartesianPos();
+		sf::Vector2i friendlyPos = _unit->getCartesianPos();
+
+		sf::Vector2i difference = (thisPos - friendlyPos);
+		difference.x = abs(difference.x);
+		difference.y = abs(difference.y);
+
+		float healingAmount{0};
+
+		for (auto & healingRange : healingRangeValues){
+			if ((healingRange.lowerThreshold == 0 && healingRange.upperThreshold == 0)
+				||
+				difference.x >= healingRange.lowerThreshold && difference.y >= healingRange.lowerThreshold
+				&&
+				difference.x <= healingRange.upperThreshold && difference.y <= healingRange.upperThreshold){
+
+				healingAmount = healingRange.healingAmount;
+			}
+		}
+
+		if (healingAmount == 0){
+			return OUT_OF_RANGE + std::to_string(healingRangeValues[0].upperThreshold);
+		}
+		else if (_unit == this){
+			return CANNOT_HEAL_SELF;
+		}
+		else if (hasHealed){
+			return ALREADY_HEALED;
+		}
+		else if (_unit->gethp() == _unit->getMaxHp()){
+			return AT_MAX_HP;
+		}
+		else {
+			float hp = _unit->gethp();
+			float max = _unit->getMaxHp();
+			float hpDifference = max - hp;
+
+			hasHealed = true;
+
+			if (hpDifference >= healingAmount){
+				return _unit->beHealed(healingAmount);
+			}
+			else{
+				return _unit->beHealed(hpDifference);
+			}
+		}
+	}
+
+	return CANNOT_HEAL;
+}
+
 std::string UnitTile::beHealed(float num){
 	hp += num;
 	updateStats();

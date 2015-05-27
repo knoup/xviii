@@ -170,6 +170,21 @@ public:
 		float distModifier;
 	};
 
+	struct HealingRange{
+		HealingRange(int _lower, int _upper, float _healingAmount) :
+			lowerThreshold{_lower},
+			upperThreshold{_upper},
+			healingAmount{_healingAmount}
+		{
+		}
+
+		//Note that an upper and lower threshold of both 0 means unlimited healing range
+
+		int lowerThreshold;
+		int upperThreshold;
+		float healingAmount;
+	};
+
 	UnitTile(World& _world, std::mt19937&, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitType type, UnitFamily familyType, Direction _dir);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
@@ -193,6 +208,7 @@ public:
 	inline bool getHasMeleeAttacked() const{ return hasMeleeAttacked; };
 	inline bool getHasRangedAttacked() const{ return hasRangedAttacked; };
 	inline bool getHasAnyAttacked() const{ return (hasMeleeAttacked || hasRangedAttacked); };
+	inline bool getHasHealed() const{ return hasHealed; };
 
 	//Virtual
 	inline virtual int getCost() const{ return 100; };
@@ -201,6 +217,7 @@ public:
 	inline virtual int getMaxMov() const{ return 0; };
 	int getMaxRange() const;
 
+	inline bool canHeal() const{ return !healingRangeValues.empty(); };
 	//UNLESS OTHERWISE MENTIONED IN THE CLASS HEADER, THESE FUNCTIONS WILL DEFAULT TO:
 	/////
 	inline virtual bool canMelee() const{ return true; };
@@ -228,6 +245,7 @@ public:
 	inline void setHasFullRotated(bool _hasFullRotated){ hasFullRotated = _hasFullRotated; };
 	inline void setHasMeleeAttacked(bool _value){ hasMeleeAttacked = _value; };
 	inline void setHasRangedAttacked(bool _value){ hasRangedAttacked = _value; };
+	inline void setHasHealed(bool _value){ hasHealed = _value; };
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -245,7 +263,6 @@ public:
 	//Called at the end of every turn;
 	virtual void reset();
 	inline virtual std::string rotate(Direction _dir){ return{}; };
-	inline virtual std::string interactWithFriendly(UnitTile* _unit){ return{}; };
 
 	//This function is unit-specific, and checks for such things as vs. family bonuses/maluses. The bool specifies
 	//whether the unit is attacking or defending
@@ -271,6 +288,7 @@ public:
 
 	//Other - Non Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
+	std::string heal(UnitTile* _unit);
 	std::string beHealed(float num);
 	void calculateEffectiveMov();
 
@@ -312,6 +330,7 @@ protected:
 	//Elements must be inserted in order of furthest to shortest distances; the first 
 	//element's upper threshold should represent the furthest a unit can shoot
 	std::vector<RangedAttackRange> rangedAttackDistValues;
+	std::vector<HealingRange> healingRangeValues;
 
 	std::string outOfRange();
 
@@ -351,5 +370,6 @@ protected:
 	bool hasFullRotated{false};
 	bool hasMeleeAttacked{false};
 	bool hasRangedAttacked{false};
+	bool hasHealed{false};
 };
 

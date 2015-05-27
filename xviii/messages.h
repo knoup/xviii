@@ -13,6 +13,7 @@ const std::string INVALID_DIR_MOV{"Invalid move order: hrzntl or wrong dir"};
 const std::string INVALID_DIR_ATK{"Invalid attack order: hrzntl or wrong dir"};
 const std::string CANNOT_HEAL_SELF{"Cannot heal self"};
 const std::string ALREADY_HEALED{"Already healed"};
+const std::string CANNOT_HEAL{"This unit cannot heal"};
 const std::string AT_MAX_HP{"Unit is at max HP"};
 const std::string HEAL_SUCCESS{"Successfully healed for "};
 const std::string MOV_SUCCESS{"Successfully moved to: "};

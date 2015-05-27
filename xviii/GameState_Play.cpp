@@ -231,7 +231,7 @@ void GameState_Play::getInput(){
 
 						}
 						else if (occupied && friendly){
-							playUI.setCurrentMessageText(selected->interactWithFriendly(unit));
+							playUI.setCurrentMessageText(selected->heal(unit));
 							playUI.setSaveStatus(false);
 							//specially for the general's heal ability
 						}

@@ -11,8 +11,6 @@ public:
 	//FootGuard's reset() is overloaded due to the additional hasHealed variable that needs to be reset; giving it to all other UnitTiles would
 	//be redundant since only General can even heal
 	virtual void reset();
-	//Footguard's interactWithFriendly() is overloaded for his healing ability
-	virtual std::string interactWithFriendly(UnitTile* _unit);
 
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
@@ -21,15 +19,8 @@ public:
 	inline virtual int getLimit() const{ return 0; };
 
 	virtual void preMeleeAttack(UnitTile* unit, bool attacking);
-
-	virtual bool getUniqueVariable() const;
-	virtual void setUniqueVariable(bool _hasHealed);
-
 private:
-	bool hasHealed{false};
-
 	static const int maxhp{22};
 	static const int maxMov{6};
-	static const int maxHealingRange{10};
 };
 
