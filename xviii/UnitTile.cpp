@@ -402,7 +402,7 @@ bool UnitTile::isHostile(UnitTile* _tile){
 }
 
 void UnitTile::takeDamage(UnitTile* attacker, float& _dmg, int distance){
-	if (attacker->getFrightening()){
+	if (attacker->getFrightening() && distance == 1){
 		_dmg += 1;
 	}
 
@@ -743,7 +743,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		}
 	}
 
-	if (attacker->getFrightening() && attackerInflicted > 0){
+	if (attacker->getFrightening() && distance == 1 && attackerInflicted > 0){
 		result << "[frightening: +1DMG]";
 	}
 
@@ -767,7 +767,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		}
 	}
 
-	if (defender->getFrightening() && defenderInflicted > 0){
+	if (defender->getFrightening() && distance == 1 && defenderInflicted > 0){
 		result << "[frightening: +1DMG]";
 	}
 

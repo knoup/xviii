@@ -67,12 +67,13 @@ public:
 	};
 
 	struct RangedAttackRange{
-		RangedAttackRange(int _lower, int _upper, float _distModifier, bool _modifierIsDamage = false, int _lowerDieThreshold = 1, int _upperDieThreshold = 6) :
-			lowerThreshold{_lower},
-			upperThreshold{_upper},
+		RangedAttackRange(int _lowerThreshold, int _upperThreshold, float _distModifier, bool _modifierIsDamage, int _lowerDieThreshold, int _upperDieThreshold) :
+			lowerThreshold{_lowerThreshold},
+			upperThreshold{_upperThreshold},
+			distModifier{_distModifier},
+			modifierIsDamage{_modifierIsDamage},
 			lowerDieThreshold{_lowerDieThreshold},
-			upperDieThreshold{_upperDieThreshold},
-			distModifier{_distModifier}
+			upperDieThreshold{_upperDieThreshold}
 		{
 		}
 
@@ -83,7 +84,7 @@ public:
 		//distModifier = 1.5;
 		//Then the unit will get a distance modifier of 1.5 when shooting at a distance between 3 and 5 (inclusive)
 
-		//The optional lower and upper die roll variables only allow damage to be inflicted if the player's roll
+		//The lower and upper die roll variables only allow damage to be inflicted if the player's roll
 		//is between their values; it defaults to 1 and 6
 
 		//The optional modifierIsDamage variable specifies whether the distModifier is a multiplicational damage modifier 
