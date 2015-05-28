@@ -363,6 +363,7 @@ protected:
 	sf::Text hpText;
 	sf::Text movText;
 
+	std::string unitName;
 	UnitType unitType;
 	UnitFamily unitFamilyType;
 
