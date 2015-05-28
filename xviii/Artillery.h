@@ -15,7 +15,6 @@ public:
 	virtual void reset();
 	
 	virtual std::string rotate(Direction _dir);
-	virtual std::string interactWithFriendly(UnitTile* _unit);
 
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };

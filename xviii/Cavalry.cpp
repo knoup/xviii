@@ -116,10 +116,6 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 
 	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
-
-std::string Cavalry::interactWithFriendly(UnitTile* _unit){
-	return{};
-}
 	
 std::string Cavalry::meleeAttack(UnitTile* _unit){
 	return _unit->meleeAttack(this);

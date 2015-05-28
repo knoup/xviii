@@ -28,7 +28,7 @@ UnitTile::Direction UnitTile::opposite(UnitTile::Direction _dir){
 
 //virtual
 int UnitTile::getMaxRange() const{
-	if (rangedAttackDistValues.empty()){
+	if (!canRangedAttack()){
 		return 0;
 	}
 	else{
@@ -250,7 +250,7 @@ void UnitTile::reset(){
 }
 
 std::string UnitTile::heal(UnitTile* _unit){
-	if (!healingRangeValues.empty()){
+	if (canHeal()){
 		sf::Vector2i thisPos = getCartesianPos();
 		sf::Vector2i friendlyPos = _unit->getCartesianPos();
 
@@ -788,11 +788,6 @@ void UnitTile::multRollByModifiers(float &originalRoll){
 	if (originalRoll < 1.001){
 		originalRoll = 1;
 	}
-}
-
-std::string UnitTile::outOfRange(){
-	std::string result{OUT_OF_RANGE + std::to_string(getMaxRange())};
-	return result;
 }
 
 void UnitTile::calculateEffectiveMov(){

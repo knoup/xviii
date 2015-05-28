@@ -218,6 +218,7 @@ public:
 	int getMaxRange() const;
 
 	inline bool canHeal() const{ return !healingRangeValues.empty(); };
+	inline bool canRangedAttack() const{ return !rangedAttackDistValues.empty(); };
 	//UNLESS OTHERWISE MENTIONED IN THE CLASS HEADER, THESE FUNCTIONS WILL DEFAULT TO:
 	/////
 	inline virtual bool canMelee() const{ return true; };
@@ -225,6 +226,7 @@ public:
 	inline virtual bool canSkirmish(){ return false; };
 	//Determines whether the unit gets the "frightening" bonus (+1 damage if any damage dealt)
 	inline virtual bool frightening(){ return false; };
+	inline virtual bool hasLancerBonus(){ return false; };
 	/////
 
 	//Each class will have an overloaded definition returning its specific flank modifier for either 
@@ -332,8 +334,6 @@ protected:
 	std::vector<RangedAttackRange> rangedAttackDistValues;
 	std::vector<HealingRange> healingRangeValues;
 
-	std::string outOfRange();
-
 	std::mt19937& mt19937;
 
 	//Pointer to the player the unit belongs to
@@ -344,16 +344,9 @@ protected:
 
 	//In addition to each player having a flag, each unit itself must have a flag sprite too
 	sf::Sprite unitFlag;
-	
 	//Pointer to the terrain tile that the unit is on. This is only to be used for units, to indicate
 	//where they are easily and efficiently, since a unit must always be on a terrain tile
 	TerrainTile* terrain;
-
-	UnitType unitType;
-	UnitFamily unitFamilyType;
-
-	float hp;
-	int mov;
 
 	//For (yellow) outlining
 	sf::RectangleShape yellowOutline;
@@ -364,6 +357,12 @@ protected:
     sf::Text dirText;
 	sf::Text hpText;
 	sf::Text movText;
+
+	UnitType unitType;
+	UnitFamily unitFamilyType;
+
+	float hp;
+	int mov;
 
 	bool hasMoved{false};
 	bool hasPartialRotated{false};

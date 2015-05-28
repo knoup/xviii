@@ -152,10 +152,6 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
 
-std::string Infantry::interactWithFriendly(UnitTile* _unit){
-	return{};
-}
-
 std::string Infantry::meleeAttack(UnitTile* _unit){
 	return _unit->meleeAttack(this);
 }

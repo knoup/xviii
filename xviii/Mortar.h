@@ -12,7 +12,6 @@ public:
 	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
 
 	virtual std::string rotate(Direction _dir);
-	virtual std::string interactWithFriendly(UnitTile* _unit);
 
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
