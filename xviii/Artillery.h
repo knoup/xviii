@@ -18,7 +18,6 @@ public:
 
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
-	inline virtual bool getCanMelee() const{ return false; };
 
 	inline virtual int getCost() const{ return 3; };
 	inline virtual int getLimit() const{ return 5; };

@@ -7,6 +7,8 @@ Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, texType, uType)
 {
 	mov = maxMov;
 	hp = maxhp;
+
+	lancer = true;
 }
 
 void Lancer::reset(){

@@ -7,4 +7,6 @@ Lancer(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::A
 {
 	mov = maxMov;
 	hp = maxhp;
+
+	frightening = true;
 }

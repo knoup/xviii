@@ -8,6 +8,11 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::MOR, 
 	hp = maxhp;
 
 	rangedAttackDistValues.emplace_back(2, 30, 3, true, 4, 6);
+
+	melee = false;
+	skirmish = false;
+	frightening = false;
+	lancer = false;
 }
 
 

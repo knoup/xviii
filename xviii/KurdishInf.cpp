@@ -11,4 +11,6 @@ LightInf(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit:
 	rangedAttackDistValues.clear();
 	rangedAttackDistValues.emplace_back(3, 8, 0.5);
 	rangedAttackDistValues.emplace_back(2, 2, 1);
+
+	skirmish = true;
 }

@@ -74,11 +74,15 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily:
 {
 	mov = maxMov;
 	hp = maxhp;
+
+	melee = true;
+	skirmish = false;
+	frightening = false;
+	lancer = false;
 }
 
 
 std::string Cavalry::rotate(UnitTile::Direction _dir){
-	bool skirmish = {canSkirmish()};
 	bool oppositeRotation{_dir == opposite(dir)};
 
 	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || ((skirmish && !oppositeRotation) && getHasAnyAttacked())){
@@ -137,7 +141,7 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 	multRollByModifiers(thisRoll);
 	inf->multRollByModifiers(enemyRoll);
 
-	if (hasLancerBonus()){
+	if (lancer){
 		if (lancerBonus(inf, thisRoll, getUniqueVariable(), damageDealt)){
 			mov = 0;
 			this->updateStats();
@@ -194,7 +198,7 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 	multRollByModifiers(thisRoll);
 	cav->multRollByModifiers(enemyRoll);
 
-	if (hasLancerBonus()){
+	if (lancer){
 		if (lancerBonus(cav, thisRoll, getUniqueVariable(), damageDealt)){
 			mov = 0;
 			this->updateStats();

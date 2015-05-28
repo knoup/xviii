@@ -14,8 +14,6 @@ public:
 	inline virtual int getMaxHp() const{ return maxhp; };
 	inline virtual int getMaxMov() const{ return maxMov; };
 
-	virtual bool hasLancerBonus(){ return true; };
-
 	//These functions will really be used for the attackBonusReady bool
 	virtual bool getUniqueVariable() const{ return attackBonusReady; };
 	virtual void setUniqueVariable(bool _value){ attackBonusReady = _value; };

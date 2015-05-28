@@ -12,6 +12,11 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::ART, 
 	rangedAttackDistValues.emplace_back(20, 24, 1, true, 4, 6);
 	rangedAttackDistValues.emplace_back(10, 19, 2, true, 4, 6);
 	rangedAttackDistValues.emplace_back(2, 9, 4, true, 4, 6);
+
+	melee = false;
+	skirmish = false;
+	frightening = false;
+	lancer = false;
 }
 
 void Artillery::reset(){

@@ -60,6 +60,11 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily:
 	rangedAttackDistValues.emplace_back(6, 6, 0.5);
 	rangedAttackDistValues.emplace_back(3, 5, 1);
 	rangedAttackDistValues.emplace_back(2, 2, 2);
+
+	melee = true;
+	skirmish = false;
+	frightening = false;
+	lancer = false;
 }
 
 std::string Infantry::moveTo(TerrainTile* terrainTile){
@@ -116,7 +121,6 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 
 std::string Infantry::rotate(UnitTile::Direction _dir){
-	bool skirmish = {canSkirmish()};
 	bool oppositeRotation{_dir == opposite(dir)};
 
 	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || ((skirmish && !oppositeRotation) && getHasAnyAttacked())){

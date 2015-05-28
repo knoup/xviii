@@ -232,15 +232,7 @@ public:
 
 	inline bool canHeal() const{ return !healingRangeValues.empty(); };
 	inline bool canRangedAttack() const{ return !rangedAttackDistValues.empty(); };
-	//UNLESS OTHERWISE MENTIONED IN THE CLASS HEADER, THESE FUNCTIONS WILL DEFAULT TO:
-	/////
-	inline virtual bool canMelee() const{ return true; };
-	//Determines whether the unit can skirmish or not (skirmishing gives the ability to fully rotate after firing, and have 2 movement points left over)
-	inline virtual bool canSkirmish(){ return false; };
-	//Determines whether the unit gets the "frightening" bonus (+1 damage if any damage dealt)
-	inline virtual bool frightening(){ return false; };
-	inline virtual bool hasLancerBonus(){ return false; };
-	/////
+	
 
 	//Each class will have an overloaded definition returning its specific flank modifier for either 
 	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 
@@ -373,6 +365,14 @@ protected:
 
 	UnitType unitType;
 	UnitFamily unitFamilyType;
+
+	bool melee;
+	//Determines whether the unit can skirmish or not (skirmishing gives the ability to fully rotate after firing, and have 2 movement points left over)
+	bool skirmish;
+	//Determines whether the unit gets the "frightening" bonus (+1 damage if any damage dealt)
+	bool frightening;
+	//Determines whether the unit gets the lancer bonus (only applies for Cav)
+	bool lancer;
 
 	float hp;
 	int mov;

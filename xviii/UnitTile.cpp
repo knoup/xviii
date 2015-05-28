@@ -351,7 +351,7 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	// Melee	///////////////////////////////////////////////////
 
-	if (dist == 1 && !canMelee()){
+	if (dist == 1 && !melee){
 		return NO_MELEE;
 	}
 	
@@ -394,7 +394,7 @@ bool UnitTile::isHostile(UnitTile* _tile){
 }
 
 void UnitTile::takeDamage(UnitTile* attacker, float& _dmg, int distance){
-	if (attacker->frightening()){
+	if (attacker->frightening){
 		_dmg += 1;
 	}
 
@@ -539,7 +539,7 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirect
 
 		_validAttackDirection = true;
 
-		if (dist == 1 && canMelee()){
+		if (dist == 1 && melee){
 			if (!((SECONDARYAXIS_POSITIVE >= SECONDARYAXIS_NEGATIVE) && (SECONDARYAXIS_POSITIVE <= SECONDARYAXIS_NEGATIVE))){
 				_validAttackDirection = false;
 			}
@@ -735,7 +735,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		}
 	}
 
-	if (attacker->frightening() && attackerInflicted > 0){
+	if (attacker->frightening && attackerInflicted > 0){
 		result << "[frightening: +1DMG]";
 	}
 
@@ -759,7 +759,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		}
 	}
 
-	if (defender->frightening() && defenderInflicted > 0){
+	if (defender->frightening && defenderInflicted > 0){
 		result << "[frightening: +1DMG]";
 	}
 
@@ -879,7 +879,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	Its skirmisher bonus should be usable now, and it should be able to turn south again.
 	*/
 
-	if (canSkirmish()){
+	if (skirmish){
 		hasFullRotated = false;
 	}
 
