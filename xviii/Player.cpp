@@ -2,6 +2,7 @@
 #include "Player.h"
 
 #include "UnitLoader.h"
+#include "SpawnableUnit.h"
 
 static const sf::View bottomView{sf::View{sf::FloatRect(1183, 4800, xResolution, yResolution)}};
 static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yResolution)}};
@@ -20,7 +21,7 @@ ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
 	
-
+	spawnableUnits.emplace_back(this, "inf", sf::Vector2i(1,1));
 
 	switch (nation){
 			//nation, flag, name

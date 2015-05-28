@@ -22,7 +22,7 @@ private:
 	SetupUI setupUI;
 	bool drawUI{true};
 
-	std::unique_ptr<Player::SpawnableUnit> selectedSpawnableUnit;
+	std::unique_ptr<SpawnableUnit> selectedSpawnableUnit;
 
 };
 

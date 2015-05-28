@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UI.h"
+#include "SpawnableUnit.h"
 
 class GameState_Setup;
 

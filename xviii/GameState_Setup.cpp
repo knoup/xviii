@@ -41,14 +41,14 @@ void GameState_Setup::getInput(){
 					sf::Vector2f worldCoords{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
 					sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, setupUI.uiView)};
 
-					std::vector<Player::SpawnableUnit> current{game->currentPlayer->getSpawnableUnits()};
+					std::vector<SpawnableUnit> current{game->currentPlayer->getSpawnableUnits()};
 
 					for (int i{0}; i < current.size(); ++i){
 						if (uiCoords.x > current[i].left() && uiCoords.x < current[i].right()
 							&&
 							uiCoords.y > current[i].top() && uiCoords.y < current[i].bottom()){
 
-							selectedSpawnableUnit = std::move(std::unique_ptr<Player::SpawnableUnit>(new Player::SpawnableUnit(current[i])));
+							selectedSpawnableUnit = std::move(std::unique_ptr<SpawnableUnit>(new SpawnableUnit(current[i])));
 							break;
 
 						}

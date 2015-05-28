@@ -4,8 +4,8 @@
 #include "boost/filesystem/fstream.hpp"
 
 #include "UnitTile.h"
-#include "Player.h"
 #include "TextureManager.h"
+#include "Player.h"
 
 class UnitLoader
 {
