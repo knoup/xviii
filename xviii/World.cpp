@@ -194,7 +194,11 @@ const std::vector<UnitTile*>& World::getDamagedUnits() const{
 }
 
 void World::addToDamagedUnits(UnitTile* unit){
-	damagedUnits.emplace_back(unit);
+	//Removing the check may cause a crash in the rare cases where takeDamage() is called
+	//twice in the same function on the same unit, such as during infantry breakthroughs.
+	if (!(std::find(damagedUnits.begin(), damagedUnits.end(), unit) != damagedUnits.end())){
+		damagedUnits.emplace_back(unit);
+	}
 }
 
 void World::clearDamagedUnits(){
