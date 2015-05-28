@@ -4,14 +4,15 @@
 #include "boost/filesystem/fstream.hpp"
 
 #include "UnitTile.h"
-//#include "Player.h"
+#include "Player.h"
+#include "TextureManager.h"
 
 class UnitLoader
 {
 public:
 	struct UnitClassData{
 		//This struct contains all the data needed to "create" classes from read
-		//txt files
+		//txt files; the name acts as a unique ID
 		UnitClassData(std::string _name, boost::filesystem::path _path) : 
 			name{_name},
 			mPath{_path}
@@ -21,7 +22,8 @@ public:
 		std::string name;
 		boost::filesystem::path mPath;
 
-		//std::vector<Player::Nation> nations;
+		sf::Sprite sprite;
+		std::vector<Player::Nation> nations;
 		std::string unitName;
 		UnitTile::UnitType unitType;
 		UnitTile::UnitFamily unitFamilyType;
@@ -39,12 +41,14 @@ public:
 		int cost;
 	};
 
-	UnitLoader();
+	UnitLoader(TextureManager& _tm);
 	void load();
 
 	std::map<std::string, UnitClassData> customClasses;
 
 private:
 	void parse(boost::filesystem::path path);
+
+	TextureManager& tm;
 };
 

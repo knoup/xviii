@@ -28,9 +28,12 @@ currentPlayer{nullptr},
 currentView{nullptr},
 mousePos{},
 elapsedTurns{1},
-saveCreator{this}
+saveCreator{this},
+mUnitLoader{mTextureManager}
 {
 	mWindow.setFramerateLimit(120);
+
+	mUnitLoader.load();
 
 	MenuState = new GameState_Menu(this);
 	SelectNationsState = new GameState_SelectNations(this);

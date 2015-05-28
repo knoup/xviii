@@ -20,6 +20,22 @@
 	X(UnitTile::UnitType::INF, Infantry, "inf", TextureManager::Unit::INF)\
 	X(UnitTile::UnitType::MOR, Mortar, "mor", TextureManager::Unit::MOR)
 
+#define MAINTYPEPROPERTIES\
+	X("INF", UnitTile::UnitType::INF)\
+	X("CAV", UnitTile::UnitType::CAV)\
+	X("MOR", UnitTile::UnitType::MOR)\
+	X("GEN", UnitTile::UnitType::GEN)\
+	X("ARTGUARD", UnitTile::UnitType::ARTGUARD)
+
+
+#define FAMILYTYPEPROPERTIES\
+	X("LINF", UnitTile::UnitFamily::LINF_FAMILY)\
+	X("INF", UnitTile::UnitFamily::INF_FAMILY)\
+	X("HINF", UnitTile::UnitFamily::HINF_FAMILY)\
+	X("CAV", UnitTile::UnitFamily::CAV_FAMILY)\
+	X("ART", UnitTile::UnitFamily::ART_FAMILY)\
+
+
 class Player;
 
 class Infantry;
@@ -35,7 +51,7 @@ public:
 
 	enum class Direction{ N, E, S, W };
 
-	enum class Modifier{NONE, ADDITIONAL, ATK, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
+	enum class Modifier{NONE, ADDITIONAL, DMG, ATK, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
 
 	enum class UnitType{INF, CAV, ART, MOR, GEN, ARTGUARD};
 

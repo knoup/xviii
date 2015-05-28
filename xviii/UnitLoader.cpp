@@ -2,7 +2,8 @@
 #include "UnitLoader.h"
 
 
-UnitLoader::UnitLoader()
+UnitLoader::UnitLoader(TextureManager& _tm) : 
+tm(_tm)
 {
 }
 
@@ -27,25 +28,62 @@ void UnitLoader::parse(boost::filesystem::path path){
 	#define EXISTS != std::string::npos
 
 	while (unitData && std::getline(unitData, currentLine)){
-		//
-		//NATIONS SHOULD GO HERE
-		//
 
-		if (currentLine.find("STRING:") EXISTS){
+		if (currentLine.find("NATIONS:") EXISTS){
+			std::getline(unitData, currentLine);
+
+			while (currentLine.find("}") == std::string::npos){
+				if (currentLine.find("DEFINE:") EXISTS){
+					std::string str = AFTERCOLON;
+
+					#define X(nationType, textureType, _str)\
+					if(str == _str){\
+						newClass->nations.emplace_back(nationType);\
+					}
+					NATIONPROPERTIES
+					#undef X
+				}
+
+				std::getline(unitData, currentLine);
+			}
+		}
+
+		else if (currentLine.find("STRING:") EXISTS){
 			newClass->name = AFTERCOLON;
 		}
 
-		//
-		//SPRITES SHOULD GO HERE
-		//
+		else if (currentLine.find("SPRITE:") EXISTS){
+			std::string str = AFTERCOLON;
 
-		//
-		//MAIN TYPES SHOULD GO HERE
-		//
+				#define X(_str, texType)\
+				if(str == _str){\
+					newClass->sprite = tm.getSprite(texType);\
+				}
+				TEXTUREPROPERTIES
+				#undef X
+		}
 
-		//
-		//FAMILY TYPES SHOULD GO HERE
-		//
+		else if (currentLine.find("MAIN TYPE:") EXISTS){
+			std::string str = AFTERCOLON;
+
+			#define X(_str, mainType)\
+			if(str == _str){\
+				newClass->unitType = mainType;\
+									}
+			MAINTYPEPROPERTIES
+			#undef X
+		}
+
+		else if (currentLine.find("FAMILY TYPE:") EXISTS){
+			std::string str = AFTERCOLON;
+
+			#define X(_str, familyType)\
+			if(str == _str){\
+				newClass->unitFamilyType = familyType;\
+			}
+			FAMILYTYPEPROPERTIES
+			#undef X
+		}
 
 		else if (currentLine.find("HP:") EXISTS){
 			newClass->maxHp = std::stoi(AFTERCOLON);
@@ -86,16 +124,30 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 					size_t pos = 0;
 
-					while ((pos = str.find(":")) != std::string::npos){
-						rangeArgs.push_back(std::stoi(str.substr(0, pos)));
+					//We do the whole mess with stringstream because regular stoi trunctuates
+					//decimals, and we don't want that. We do an extra go at the end to catch the
+					//last variable that isn't done in the loop.
+
+					while ((pos = str.find(",")) != std::string::npos){
+						std::string temp = str.substr(0, pos);
+						std::stringstream ss(temp);
+						float arg;
+						ss >> arg;
+						rangeArgs.push_back(arg);
 						str.erase(0, pos + 1);
 					}
+					
+					std::string temp = str.substr(0, pos);
+					std::stringstream ss(temp);
+					float arg;
+					ss >> arg;
+					rangeArgs.push_back(arg);
 
 					newClass->rangedAttackDistValues.emplace_back(rangeArgs[0], rangeArgs[1], rangeArgs[2], rangeArgs[3], rangeArgs[4], rangeArgs[5]);
 
-					std::getline(unitData, currentLine);
 				}
 
+				std::getline(unitData, currentLine);
 			}
 		}
 
@@ -110,17 +162,34 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 					size_t pos = 0;
 
-					while ((pos = str.find(":")) != std::string::npos){
-						healingArgs.push_back(std::stoi(str.substr(0, pos)));
+					//We do the whole mess with stringstream because regular stoi trunctuates
+					//decimals, and we don't want that. We do an extra go at the end to catch the
+					//last variable that isn't done in the loop.
+
+					while ((pos = str.find(",")) != std::string::npos){
+						std::string temp = str.substr(0, pos);
+						std::stringstream ss(temp);
+						float arg;
+						ss >> arg;
+						healingArgs.push_back(arg);
 						str.erase(0, pos + 1);
 					}
 
+					std::string temp = str.substr(0, pos);
+					std::stringstream ss(temp);
+					float arg;
+					ss >> arg;
+					healingArgs.push_back(arg);
+
 					newClass->healingRangeValues.emplace_back(healingArgs[0], healingArgs[1], healingArgs[2]);
 
-					std::getline(unitData, currentLine);
 				}
 
+				std::getline(unitData, currentLine);
 			}
 		}
 	}
+
+	unitData.close();
+	customClasses.emplace(newClass->name, std::move(*newClass));
 }

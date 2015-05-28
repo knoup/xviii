@@ -5,6 +5,7 @@
 #include "TextureManager.h"
 #include "FontManager.h"
 #include "SaveGame.h"
+#include "UnitLoader.h"
 
 #include <random>
 #include <boost/chrono.hpp>
@@ -63,5 +64,6 @@ public:
 	int elapsedTurns;
 
 	SaveGame saveCreator;
+	UnitLoader mUnitLoader;
 };
 
