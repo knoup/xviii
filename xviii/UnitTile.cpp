@@ -248,6 +248,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 //Virtual
 void UnitTile::reset(){
 	calculateEffectiveMov();
+	hasHealed = false;
 	hasMoved = false;
 	hasPartialRotated = false;
 	hasFullRotated = false;

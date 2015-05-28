@@ -20,8 +20,18 @@ deploymentPoints{maxDeploymentPoints},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
-	
-	spawnableUnits.emplace_back(this, "inf", sf::Vector2i(1,1));
+	sf::Vector2i idealDimensions{7, 2};
+
+	for (auto& customClass : unitLoader.customClasses){
+		for (auto& customNation : customClass.second.nations){
+			if (customNation == nation){
+				int index = spawnableUnits.size();
+				spawnableUnits.emplace_back(this, customClass.second.name, 
+				sf::Vector2i((index % idealDimensions.x) + 1, (index / idealDimensions.x) + 1));
+				break;
+			}
+		}
+	}
 
 	switch (nation){
 			//nation, flag, name
