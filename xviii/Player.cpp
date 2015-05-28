@@ -16,70 +16,7 @@ deploymentPoints{maxDeploymentPoints},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
-	//All nations get these three units
-	spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GEN, {1, 1}));
-	spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ART, {2, 1}));
-
-	if (nation == Player::Nation::MOL || nation == Player::Nation::WAL){
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DOR, {4, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::VIT, {5, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ARN, {6, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::BOY, {1, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::HUS, {2, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::COUR, {3, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SEG, {4, 2}));
-	}
-
-	else if (nation == Player::Nation::OTO){
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {3, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::JAN, {4, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::OINF, {5, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AZAP, {6, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MUT, {1, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KAP, {2, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DELI, {3, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AKINCI, {4, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::TIM, {5, 2}));
-	}
-	else if (nation == Player::Nation::CRI){
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::TTINF, {3, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::COSINF, {4, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CRICAV, {5, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KAP, {6, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MARZ, {7, 1}));
-	}
-	else if (nation == Player::Nation::IME){
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::METTOP, {4, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KACI, {5, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::AMKH, {1, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KKV, {2, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::PIT, {3, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KMKH, {4, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DON, {5, 2}));
-	}
-	else if (nation == Player::Nation::PER){
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::PCAV, {3, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::MUL, {4, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GUL, {5, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CURCI, {6, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::PINF, {1, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::KINF, {2, 2}));
-	}
-	//Europeans
-	else{
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::ARTGUARD, {3, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::INF, {4, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::GRE, {5, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LINF, {6, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::PIKE, {7, 1}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::SAP, {1, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CAV, {2, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::CUIR, {3, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::DRAG, {4, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LCAV, {5, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::LAN, {6, 2}));
-		spawnableUnits.emplace_back(SpawnableUnit(this, UnitTile::UnitType::FOOT, {7, 2}));
-	}
+	
 
 
 	switch (nation){

@@ -16,101 +16,17 @@
 #define UNITPROPERTIES\
 	X(UnitTile::UnitType::ART, Artillery, "art", TextureManager::Unit::ART)\
 	X(UnitTile::UnitType::CAV, Cavalry, "cav", TextureManager::Unit::CAV)\
-	X(UnitTile::UnitType::CUIR, Cuirassier, "cuir", TextureManager::Unit::CUIR )\
-	X(UnitTile::UnitType::DRAG, Dragoon, "drag", TextureManager::Unit::DRAG)\
 	X(UnitTile::UnitType::GEN, General, "gen", TextureManager::Unit::GEN)\
 	X(UnitTile::UnitType::INF, Infantry, "inf", TextureManager::Unit::INF)\
-	X(UnitTile::UnitType::MOR, Mortar, "mor", TextureManager::Unit::MOR)\
-	X(UnitTile::UnitType::LCAV, LightCav, "lcav", TextureManager::Unit::LCAV)\
-	X(UnitTile::UnitType::AKINCI, Akinci, "akinci", TextureManager::Unit::DRAG)\
-	X(UnitTile::UnitType::DELI, Deli, "deli", TextureManager::Unit::LCAV)\
-	X(UnitTile::UnitType::TIM, Timarioti, "tim", TextureManager::Unit::CAV)\
-	X(UnitTile::UnitType::KAP, Kapikulu, "kap", TextureManager::Unit::ARMLAN)\
-	X(UnitTile::UnitType::GRE, Grenadier, "gre", TextureManager::Unit::GRE)\
-	X(UnitTile::UnitType::JAN, Janissary, "jan", TextureManager::Unit::GRE)\
-	X(UnitTile::UnitType::OINF, OttoInf, "o inf", TextureManager::Unit::INF)\
-	X(UnitTile::UnitType::LINF, LightInf, "linf", TextureManager::Unit::LINF)\
-	X(UnitTile::UnitType::SAP, Sapper, "sap", TextureManager::Unit::SAP)\
-	X(UnitTile::UnitType::CRICAV, CrimeanCav, "cr cav", TextureManager::Unit::HARCH)\
-	X(UnitTile::UnitType::COSINF, CossackInf, "cos inf", TextureManager::Unit::INF)\
-	X(UnitTile::UnitType::KMKH, KhevMkhedrebi, "khev mkh", TextureManager::Unit::CUIR)\
-	X(UnitTile::UnitType::PIT, PitsisKatsebi, "pit kat", TextureManager::Unit::CAV)\
-	X(UnitTile::UnitType::DON, DonCossack, "don cos", TextureManager::Unit::LCAV)\
-	X(UnitTile::UnitType::AMKH, AbrMkhedrebi, "abr mkh", TextureManager::Unit::DRAG)\
-	X(UnitTile::UnitType::METTOP, MetTop, "met top", TextureManager::Unit::INF)\
-	X(UnitTile::UnitType::KACI, KudzeKaci, "kud kaci", TextureManager::Unit::LINF)\
-	X(UnitTile::UnitType::FOOT, FootGuard, "footguard", TextureManager::Unit::HINF)\
-	X(UnitTile::UnitType::KKV, KhevKveitebi, "khev kvei", TextureManager::Unit::HINF)\
-	X(UnitTile::UnitType::HUS, Hussar, "hussar", TextureManager::Unit::LCAV)\
-	X(UnitTile::UnitType::COUR, Courtin, "courtin", TextureManager::Unit::CAV)\
-	X(UnitTile::UnitType::SEG, Segbans, "segbans", TextureManager::Unit::DRAG)\
-	X(UnitTile::UnitType::BOY, Boyar, "boyar", TextureManager::Unit::LAN)\
-	X(UnitTile::UnitType::DOR, Dorunaby, "dorunaby", TextureManager::Unit::GRE)\
-	X(UnitTile::UnitType::VIT, Vitae, "vitae", TextureManager::Unit::LINF)\
-	X(UnitTile::UnitType::ARN, Arnauts, "arnauts", TextureManager::Unit::INF)\
-	X(UnitTile::UnitType::ARTGUARD, ArtGuard, "art guard", TextureManager::Unit::ARTGUARD)\
-	X(UnitTile::UnitType::PIKE, Pikemen, "pikemen", TextureManager::Unit::PIKE)\
-	X(UnitTile::UnitType::LAN, Lancer, "lancer", TextureManager::Unit::LAN)\
-	X(UnitTile::UnitType::MUT, Mutteferrika, "mutte", TextureManager::Unit::DRAG)\
-	X(UnitTile::UnitType::MARZ, Marzas, "marzas", TextureManager::Unit::CAV)\
-	X(UnitTile::UnitType::AZAP, Azaps, "azaps", TextureManager::Unit::IRR)\
-	X(UnitTile::UnitType::TTINF, TatarInf, "tatar", TextureManager::Unit::LINF)\
-	X(UnitTile::UnitType::MUL, Mulizamy, "mulizamy", TextureManager::Unit::CUIR)\
-	X(UnitTile::UnitType::GUL, Gul, "gul", TextureManager::Unit::ARMLAN)\
-	X(UnitTile::UnitType::PCAV, PersianCav, "per cav", TextureManager::Unit::HARCH)\
-	X(UnitTile::UnitType::CURCI, Curci, "curci", TextureManager::Unit::DRAG)\
-	X(UnitTile::UnitType::PINF, PersianInf, "per inf", TextureManager::Unit::INF)\
-	X(UnitTile::UnitType::KINF, KurdishInf, "kurd inf", TextureManager::Unit::LINF)
+	X(UnitTile::UnitType::MOR, Mortar, "mor", TextureManager::Unit::MOR)
 
 class Player;
 
 class Infantry;
 class Cavalry;
-class Cuirassier;
-class Dragoon;
-class LightCav;
 class Artillery;
 class Mortar;
 class General;
-class Akinci;
-class Deli;
-class Timarioti;
-class Kapikulu;
-class Grenadier;
-class Janissary;
-class OttoInf;
-class LightInf;
-class Sapper;
-class CrimeanCav;
-class CossackInf;
-class KhevMkhedrebi;
-class PitsisKatsebi;
-class DonCossack;
-class AbrMkhedrebi;
-class MetTop;
-class KudzeKaci;
-class FootGuard;
-class KhevKveitebi;
-class Hussar;
-class Courtin;
-class Segbans;
-class Boyar;
-class Dorunaby;
-class Vitae;
-class Arnauts;
-class ArtGuard;
-class Pikemen;
-class Lancer;
-class Mutteferrika;
-class Marzas;
-class Azaps;
-class TatarInf;
-class Mulizamy;
-class Gul;
-class PersianCav;
-class Curci;
-class PersianInf;
-class KurdishInf;
 
 class UnitTile : public Tile
 {
@@ -121,16 +37,7 @@ public:
 
 	enum class Modifier{NONE, ADDITIONAL, ATK, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
 
-	enum class UnitType{INF, CAV, CUIR, LCAV, DRAG, 
-						ART, MOR, GEN, AKINCI, DELI, 
-						TIM, KAP, GRE, JAN, OINF, 
-						LINF, SAP, CRICAV, COSINF, KMKH, 
-						AMKH, PIT, DON, METTOP, KACI, 
-						FOOT, KKV, HUS, COUR, SEG, 
-						BOY, DOR, VIT, ARN, ARTGUARD, 
-						PIKE, LAN, MUT, MARZ, AZAP,
-						TTINF, MUL, GUL, PCAV, CURCI,
-						PINF, KINF};
+	enum class UnitType{INF, CAV, ART, MOR, GEN, ARTGUARD};
 
 	//Each UnitFamily generally has its own combat rules. LINF, however, does not, and for the moment, HINF's
 	//is identical to INF.
@@ -222,6 +129,11 @@ public:
 	inline bool getHasRangedAttacked() const{ return hasRangedAttacked; };
 	inline bool getHasAnyAttacked() const{ return (hasMeleeAttacked || hasRangedAttacked); };
 	inline bool getHasHealed() const{ return hasHealed; };
+
+	inline bool getMelee() const{ return melee; };
+	inline bool getSkirmish() const{ return skirmish; };
+	inline bool getFrightening() const { return frightening; };
+	inline bool getLancer() const{ return lancer; };
 
 	//Virtual
 	inline virtual int getCost() const{ return 100; };

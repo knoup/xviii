@@ -180,13 +180,11 @@ bool SaveGame::create(){
 				save << INDENT << "limbered=" << unit->getUniqueVariable() << std::endl;
 			}
 
-			else{
-				Lancer* lan = dynamic_cast<Lancer*>(unit.get());
-
-				if (lan != nullptr){
+			//NOTE: getUniqueVariable() does not do anything right now
+			//TODO: FIX IT GODDAMNIT
+			else if (unit->getLancer()){
 					save << INDENT << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
 				}
-			}
 
 			save << "}u" << std::endl;
 			save << std::endl;
