@@ -20,8 +20,8 @@
 	X(UnitTile::UnitType::DRAG, Dragoon, "drag", TextureManager::Unit::DRAG)\
 	X(UnitTile::UnitType::GEN, General, "gen", TextureManager::Unit::GEN)\
 	X(UnitTile::UnitType::INF, Infantry, "inf", TextureManager::Unit::INF)\
-	X(UnitTile::UnitType::LCAV, LightCav, "lcav", TextureManager::Unit::LCAV)\
 	X(UnitTile::UnitType::MOR, Mortar, "mor", TextureManager::Unit::MOR)\
+	X(UnitTile::UnitType::LCAV, LightCav, "lcav", TextureManager::Unit::LCAV)\
 	X(UnitTile::UnitType::AKINCI, Akinci, "akinci", TextureManager::Unit::DRAG)\
 	X(UnitTile::UnitType::DELI, Deli, "deli", TextureManager::Unit::LCAV)\
 	X(UnitTile::UnitType::TIM, Timarioti, "tim", TextureManager::Unit::CAV)\
@@ -151,9 +151,11 @@ public:
 	};
 
 	struct RangedAttackRange{
-		RangedAttackRange(int _lower, int _upper, float _distModifier) :
+		RangedAttackRange(int _lower, int _upper, float _distModifier, bool _modifierIsDamage = false, int _lowerDieThreshold = 1, int _upperDieThreshold = 6) :
 			lowerThreshold{_lower},
 			upperThreshold{_upper},
+			lowerDieThreshold{_lowerDieThreshold},
+			upperDieThreshold{_upperDieThreshold},
 			distModifier{_distModifier}
 		{
 		}
@@ -165,9 +167,20 @@ public:
 		//distModifier = 1.5;
 		//Then the unit will get a distance modifier of 1.5 when shooting at a distance between 3 and 5 (inclusive)
 
+		//The optional lower and upper die roll variables only allow damage to be inflicted if the player's roll
+		//is between their values; it defaults to 1 and 6
+
+		//The optional modifierIsDamage variable specifies whether the distModifier is a multiplicational damage modifier 
+		//or directly damage (1.5d or 1.5 dmg)
+
 		int lowerThreshold;
 		int upperThreshold;
+
+		int lowerDieThreshold;
+		int upperDieThreshold;
+
 		float distModifier;
+		bool modifierIsDamage;
 	};
 
 	struct HealingRange{

@@ -8,6 +8,10 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::ART, 
 {
 	mov = maxMov;
 	hp = maxhp;
+
+	rangedAttackDistValues.emplace_back(20, 24, 1, true, 4, 6);
+	rangedAttackDistValues.emplace_back(10, 19, 2, true, 4, 6);
+	rangedAttackDistValues.emplace_back(2, 9, 4, true, 4, 6);
 }
 
 void Artillery::reset(){
@@ -92,34 +96,7 @@ std::string Artillery::rangedAttack(UnitTile* unit, int distance){
 		return LIMBERED;
 	}
 
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-
-	float damageDealt{0};
-
-	if (thisRoll_int >= 4 && thisRoll_int <= 6){
-		if (distance >= 20 && distance <= 24){
-			damageDealt += 1;
-		}
-		else if (distance <= 19 && distance >= 10){
-			damageDealt += 2;
-		}
-		else if (distance <= 9){
-			damageDealt += 4;
-		}
-
-		unit->takeDamage(this, damageDealt, distance);
-	}
-
-	mov = 0;
-	this->updateStats();
-	unit->updateStats();
-	hasRangedAttacked = true;
-
-	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
+	return UnitTile::rangedAttack(unit, distance);
 }
 
 void Artillery::toggleLimber(){

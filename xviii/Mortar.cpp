@@ -6,6 +6,8 @@ UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::MOR, 
 {
 	mov = maxMov;
 	hp = maxhp;
+
+	rangedAttackDistValues.emplace_back(2, 30, 3, true, 4, 6);
 }
 
 
@@ -41,30 +43,4 @@ sf::Vector2i Mortar::distanceFrom(TerrainTile* _terrain, bool& _validMovDirectio
 
 std::string Mortar::meleeAttack(UnitTile* _unit){
 	return _unit->meleeAttack(this);
-}
-
-std::string Mortar::rangedAttack(UnitTile* unit, int distance){
-
-	std::uniform_int_distribution<int> distribution(1, 6);
-
-	int thisRoll_int{distribution(mt19937)};
-
-	float thisRoll = thisRoll_int;
-
-	float damageDealt{0};
-
-	multRollByModifiers(thisRoll);
-
-	if (thisRoll_int >= 4 && thisRoll_int <= 6){
-		damageDealt += 3;
-
-		unit->takeDamage(this, damageDealt, distance);
-	}
-
-	mov = 0;
-	this->updateStats();
-	unit->updateStats();
-	hasRangedAttacked = true;
-
-	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
 }

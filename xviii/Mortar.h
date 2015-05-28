@@ -22,8 +22,6 @@ public:
 
 	virtual std::string meleeAttack(UnitTile* _unit);
 
-	virtual std::string rangedAttack(UnitTile* unit, int distance);
-
 private:
 	static const int maxhp{2};
 	static const int maxMov{0};

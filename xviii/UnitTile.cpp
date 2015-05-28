@@ -831,18 +831,39 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 
 	float distanceModifier{0};
 
+	int lowerDieThreshold{1};
+	int upperDieThreshold{6};
+	bool modifierIsDamage{false};
+
 	for (auto& item : rangedAttackDistValues){
 		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
 			distanceModifier = item.distModifier;
+			modifierIsDamage = item.modifierIsDamage;
+			lowerDieThreshold = item.lowerDieThreshold;
+			upperDieThreshold = item.upperDieThreshold;
 			continue;
 		}
 	}
 
-	modVector.emplace_back(Modifier::DISTANCE, distanceModifier);
+	if (!modifierIsDamage){
+		modVector.emplace_back(Modifier::DISTANCE, distanceModifier);
 
-	multRollByModifiers(thisRoll);
-	damageDealt += thisRoll;
-	unit->takeDamage(this, damageDealt, distance);
+		multRollByModifiers(thisRoll);
+		damageDealt += thisRoll;
+	}
+	else{
+		modVector.emplace_back(Modifier::DISTANCE, 1);
+
+		multRollByModifiers(thisRoll);
+		damageDealt = distanceModifier;
+	}
+
+	if (thisRoll >= lowerDieThreshold && thisRoll <= upperDieThreshold){
+		unit->takeDamage(this, damageDealt, distance);
+	}
+	else{
+		damageDealt = 0;
+	}
 
 	mov = 0;
 	this->updateStats();
@@ -863,7 +884,6 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	}
 
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
-
 }
 
 UnitTile::~UnitTile(){
