@@ -78,7 +78,7 @@ void GameState_Setup::getInput(){
 						(worldCoords.y <= game->mWorld.getDimensionsInPixels().y &&
 						worldCoords.y >= 0)){
 
-						game->currentPlayer->spawnUnit(selectedSpawnableUnit->type, worldCoords);
+						game->currentPlayer->spawnUnit(selectedSpawnableUnit->unitName.getString(), worldCoords);
 
 					}
 

@@ -45,7 +45,7 @@ spawnedAtBottom{_spawnedAtBottom}
 	view = centerView;
 }
 
-bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
+bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 
 	auto terrain = world.terrainAtPixelPos(_worldCoords);
 	auto cartesianCoords = world.cartesianPosAtIndex(world.indexAtTile(*terrain));
@@ -75,17 +75,21 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 		dir = UnitTile::Direction::S;
 	}
 
-	//Create the appropriate unit
+	TextureManager::Unit _texture = unitLoader.customClasses.at(_name).texture;
+	UnitTile::UnitType _type = unitLoader.customClasses.at(_name).unitType;
+	UnitTile::UnitFamily _familyType = unitLoader.customClasses.at(_name).unitFamilyType;
 
+	//Create the appropriate unit
 	switch (_type){
-		//type, class, string, texture
-	#define X(type, cl, str, texture)\
+		//string, type, class
+		#define X(str, type, cl)\
 		case(type):\
-			ptr = std::move(std::unique_ptr<cl>(new cl(unitLoader, world, mt19937, this, tm, fm, dir)));\
+			ptr = std::move(std::unique_ptr<cl>(new cl(unitLoader, world, mt19937, this, tm, fm, _texture, _name, _type, _familyType, dir)));\
 			break;
-		UNITPROPERTIES
-	#undef X
+		MAINTYPEPROPERTIES
+		#undef X
 	}
+	
 
 	//Check its deployment cost
 
@@ -133,18 +137,23 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 }
 
 //For loading from a save game
-void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _uniqueVariable){
+void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _uniqueVariable){
+
+	TextureManager::Unit _texture = unitLoader.customClasses.at(_name).texture;
+	UnitTile::UnitType _type = unitLoader.customClasses.at(_name).unitType;
+	UnitTile::UnitFamily _familyType = unitLoader.customClasses.at(_name).unitFamilyType;
 
 	UnitTile::unitPtr ptr;
 
-		switch (_type){
-			//type, class, string, texture
-	#define X(type, cl, str, texture)\
-		case(type):\
-			ptr = std::move(std::unique_ptr<cl>(new cl(unitLoader, world, mt19937, this, tm, fm, _dir)));\
-			break;
-		UNITPROPERTIES
-	#undef X
+	//Create the appropriate unit
+	switch (_type){
+		//string, type, class
+		#define X(str, type, cl)\
+			case(type):\
+				ptr = std::move(std::unique_ptr<cl>(new cl(unitLoader, world, mt19937, this, tm, fm, _texture, _name, _type, _familyType, _dir)));\
+				break;
+		MAINTYPEPROPERTIES
+		#undef X
 	}
 
 	ptr->sethp(_hp);

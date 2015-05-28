@@ -51,25 +51,19 @@ class Player
 			Player* player;
 			UnitTile::UnitType type;
 
-			SpawnableUnit(Player* _player, UnitTile::UnitType _type, sf::Vector2i _coords) :
-				player{_player},
-				type{_type}
+			SpawnableUnit(Player* _player, std::string _name, sf::Vector2i _coords) :
+				player{_player}
 			{
 				unitName.setFont(player->fm.getFont(FontManager::Type::Lucon));
 				unitName.setColor(sf::Color::White);
 				unitName.setCharacterSize(12);
 
+				unitName.setString(_name);
+
 				//set sprite and string with macro
-				switch (type){
-					//type, class, string, texture
-					#define X(_type, cl, str, texture)\
-					case(_type):\
-						unitSprite = player->tm.getSprite(texture);\
-						unitName.setString(str);\
-						break;
-					UNITPROPERTIES
-				#undef X
-				}
+				//unitSprite = unitLoader.
+				//TODO
+				//FIX
 
 				unitSprite.setOrigin(unitSprite.getGlobalBounds().width / 2, unitSprite.getGlobalBounds().height / 2);
 				unitName.setOrigin(unitName.getLocalBounds().width / 2, unitName.getLocalBounds().height / 2);
@@ -105,12 +99,12 @@ class Player
 		Player(UnitLoader& _unitLoader, World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
 		
 		//Returns true if successfully spawned unit
-		bool spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords);
+		bool spawnUnit(std::string _name, sf::Vector2i _worldCoords);
 		//Returns the unit's unique ptr if successfully removed
 		UnitTile::unitPtr removeUnit(sf::Vector2i _worldCoords);
 		UnitTile::unitPtr removeUnit(UnitTile* _unit);
 		//For loading from a save game
-		void loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _uniqueVariable);
+		void loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _uniqueVariable);
 
 		inline const World& getWorld() const{ return world; };
 		inline int getDeploymentPoints() const{ return deploymentPoints; };

@@ -55,9 +55,9 @@ void UnitLoader::parse(boost::filesystem::path path){
 			std::string str = AFTERCOLON;
 
 				#define X(_str, texType)\
-				if(str == _str){\
-					newClass->sprite = tm.getSprite(texType);\
-				}
+					if(str == _str){\
+						newClass->texture = texType;\
+					}
 				TEXTUREPROPERTIES
 				#undef X
 		}
@@ -94,6 +94,10 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 		else if (currentLine.find("COST:") EXISTS){
 			newClass->cost = std::stoi(AFTERCOLON);
+		}
+
+		else if (currentLine.find("LIMIT:") EXISTS){
+			newClass->limit = std::stoi(AFTERCOLON);
 		}
 
 		else if (currentLine.find("MELEE:") EXISTS){

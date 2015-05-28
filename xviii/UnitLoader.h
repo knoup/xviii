@@ -22,11 +22,11 @@ public:
 		std::string name;
 		boost::filesystem::path mPath;
 
-		sf::Sprite sprite;
 		std::vector<Player::Nation> nations;
 		std::string unitName;
 		UnitTile::UnitType unitType;
 		UnitTile::UnitFamily unitFamilyType;
+		TextureManager::Unit texture;
 
 		//Elements must be inserted in order of furthest to shortest distances; the first 
 		//element's upper threshold should represent the furthest a unit can shoot
@@ -41,6 +41,7 @@ public:
 		float maxHp;
 		int maxMov;
 		int cost;
+		int limit;
 	};
 
 	UnitLoader(TextureManager& _tm);

@@ -14,6 +14,11 @@ bool UnitTile::getLancer() const{ return unitLoader.customClasses.at(name).lance
 bool UnitTile::canHeal() const{ return !(unitLoader.customClasses.at(name).healingRangeValues.empty()); };
 bool UnitTile::canRangedAttack() const{ return !(unitLoader.customClasses.at(name).rangedAttackDistValues.empty()); };
 
+int UnitTile::getCost() const{ return unitLoader.customClasses.at(name).cost; };
+int UnitTile::getLimit() const{ return unitLoader.customClasses.at(name).limit; };
+int UnitTile::getMaxHp() const{ return unitLoader.customClasses.at(name).maxHp; };
+int UnitTile::getMaxMov() const{ return unitLoader.customClasses.at(name).maxMov; };
+
 UnitTile::Direction UnitTile::opposite(UnitTile::Direction _dir){
 	switch (_dir){
 
@@ -129,22 +134,11 @@ std::string UnitTile::modToString(ModifierReport _mod){
 	}
 }
 
-std::string UnitTile::typeToString(){
-	switch (unitType){
-		//type, class, string, texture
-	#define X(unitType, cl, str, texture)\
-		case (unitType):\
-		return str;\
-		break;
-	UNITPROPERTIES
-	#undef X
-	}
-}
-
-UnitTile::UnitTile(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
+UnitTile::UnitTile(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, std::string _name, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
 unitLoader(_unitLoader),
 Tile(_world, tm, id),
 mt19937(_mt19937),
+name{_name},
 unitType{type},
 unitFamilyType{familyType},
 player{_belongsToPlayer},
@@ -181,6 +175,9 @@ terrain{nullptr}
 	redOutline.setOutlineColor(sf::Color::Red);
 	redOutline.setOutlineThickness(-1);
 	redOutline.setFillColor(sf::Color::Transparent);
+
+	hp = getMaxHp();
+	mov = getMaxMov();
 }
 
 void UnitTile::spawn(TerrainTile* terrainTile){
@@ -668,7 +665,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	std::string attackerInflictedString{attacker->getPlayer()->getName().substr(0, 3) + " -" + roundFloat(defenderInflicted)};
 	std::string defenderInflictedString{defender->getPlayer()->getName().substr(0, 3) + " -" + roundFloat(attackerInflicted)};
 
-	result << "Combat:    " << attacker->getPlayer()->getName().substr(0, 3) + " " + attacker->typeToString() + "[" + attacker->dirToString() + "] " << " vs. " << defender->getPlayer()->getName().substr(0, 3) + " " + defender->typeToString() + "[" + defender->dirToString() + "]" << "; ";
+	result << "Combat:    " << attacker->getPlayer()->getName().substr(0, 3) + " " + attacker->name + "[" + attacker->dirToString() + "] " << " vs. " << defender->getPlayer()->getName().substr(0, 3) + " " + defender->name + "[" + defender->dirToString() + "]" << "; ";
 
 	if (distance == 1){
 		result << "melee";

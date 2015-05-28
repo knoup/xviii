@@ -114,7 +114,7 @@ public:
 		float healingAmount;
 	};
 
-	UnitTile(UnitLoader& _unitLoader, World& _world, std::mt19937&, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitType type, UnitFamily familyType, Direction _dir);
+	UnitTile(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
 
@@ -129,6 +129,7 @@ public:
 	inline float gethp() const{ return hp; };
 	inline int getMov() const{	return mov;	};
 	inline UnitTile::Direction getDir() const{ return dir; };
+	inline std::string getName() const{ return name; };
 
 	inline bool getHasMoved() const{ return hasMoved; };
 	inline bool getHasPartialRotated() const{ return hasPartialRotated; };
@@ -144,16 +145,16 @@ public:
 	bool getFrightening() const;
 	bool getLancer() const;
 
-	//Virtual
-	inline virtual int getCost() const{ return 100; };
-	inline virtual int getLimit() const{ return 1; };
-	inline virtual int getMaxHp() const{ return 0; };
-	inline virtual int getMaxMov() const{ return 0; };
 	int getMaxRange() const;
-
 	bool canHeal() const;
 	bool canRangedAttack() const;
-	
+
+	int getCost() const;
+	int getLimit() const;
+	int getMaxHp() const;
+	int getMaxMov() const;
+
+	//Virtual
 
 	//Each class will have an overloaded definition returning its specific flank modifier for either 
 	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 
@@ -242,7 +243,6 @@ public:
 
 	std::string dirToString();
 	std::string modToString(ModifierReport _mod);
-	std::string typeToString();
 
 	std::string attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted, bool retreat = false);	
 

@@ -12,15 +12,6 @@ Player::Nation stringToNation(std::string _name){
 	#undef X
 }
 
-UnitTile::UnitType stringToUnitType(std::string _str){
-	//type, class, string, texture
-	#define X(type, cl, str, texture)\
-	if(_str == str)\
-		return type;
-	UNITPROPERTIES
-	#undef X
-}
-
 UnitTile::Direction stringToDir(std::string _dir){
 	if (_dir == "N"){
 		return UnitTile::Direction::N;
@@ -150,7 +141,7 @@ bool SaveGame::create(){
 
 			save << "u{" << std::endl;
 
-			save << INDENT << "type=" << unit->typeToString() << std::endl;
+			save << INDENT << "type=" << unit->getName() << std::endl;
 			save << INDENT << "faction=";
 
 			if (unit->getPlayer() == game->Player1){
@@ -315,7 +306,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 			//Keeping these uninitialised for the moment to ensure I catch any bugs
 
-			UnitTile::UnitType type;
+			std::string name;
 			Player* player{nullptr};
 			sf::Vector2i pos;
 			UnitTile::Direction dir;
@@ -333,7 +324,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 
 				if (line.find("type=") != std::string::npos){
-					type = stringToUnitType(AFTEREQUALS);
+					name = AFTEREQUALS;
 				}
 
 				else if (line.find("faction=") != std::string::npos){
@@ -412,7 +403,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			}
 
 
-			player->loadUnit(type, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed, uniqueVariable);
+			player->loadUnit(name, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed, uniqueVariable);
 
 		}
 
