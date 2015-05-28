@@ -51,20 +51,16 @@ float Infantry::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 }
 
 
-Infantry::Infantry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType, UnitType uType) :
-UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily::INF_FAMILY, _dir)
+Infantry::Infantry(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType, UnitType uType) :
+UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily::INF_FAMILY, _dir)
 {
 	mov = maxMov;
 	hp = maxhp;
+	/*
 	rangedAttackDistValues.clear();
 	rangedAttackDistValues.emplace_back(6, 6, 0.5);
 	rangedAttackDistValues.emplace_back(3, 5, 1);
-	rangedAttackDistValues.emplace_back(2, 2, 2);
-
-	melee = true;
-	skirmish = false;
-	frightening = false;
-	lancer = false;
+	rangedAttackDistValues.emplace_back(2, 2, 2);*/
 }
 
 std::string Infantry::moveTo(TerrainTile* terrainTile){
@@ -123,13 +119,13 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 std::string Infantry::rotate(UnitTile::Direction _dir){
 	bool oppositeRotation{_dir == opposite(dir)};
 
-	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || ((skirmish && !oppositeRotation) && getHasAnyAttacked())){
+	if (hasMeleeAttacked || (!getSkirmish() && hasRangedAttacked) || ((getSkirmish() && !oppositeRotation) && getHasAnyAttacked())){
 		return NO_ROTATE_AFTER_ATK;
 	}
-	else if ((!skirmish && getHasAnyRotated()) || (skirmish && getHasAnyRotated() && !hasRangedAttacked)){
+	else if ((!getSkirmish() && getHasAnyRotated()) || (getSkirmish() && getHasAnyRotated() && !hasRangedAttacked)){
 		return ALREADY_ROTATED;
 	}
-	else if (hasMoved && !skirmish){
+	else if (hasMoved && !getSkirmish()){
 		return NO_ROTATE_AFTER_MOV;
 	}
 	else if (dir == _dir){
@@ -143,7 +139,7 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 		hasPartialRotated = true;
 	}
 
-	if (skirmish && oppositeRotation && hasRangedAttacked){
+	if (getSkirmish() && oppositeRotation && hasRangedAttacked){
 		mov = 2;
 	}
 	else{

@@ -4,6 +4,15 @@
 #include "Player.h"
 #include "World.h"
 
+#include "UnitLoader.h"
+
+
+bool UnitTile::getMelee() const{ return unitLoader.customClasses.at(name).melee; };
+bool UnitTile::getSkirmish() const{ return unitLoader.customClasses.at(name).skirmish; };
+bool UnitTile::getFrightening() const { return unitLoader.customClasses.at(name).frightening; };
+bool UnitTile::getLancer() const{ return unitLoader.customClasses.at(name).lancer; };
+bool UnitTile::canHeal() const{ return !(unitLoader.customClasses.at(name).healingRangeValues.empty()); };
+bool UnitTile::canRangedAttack() const{ return !(unitLoader.customClasses.at(name).rangedAttackDistValues.empty()); };
 
 UnitTile::Direction UnitTile::opposite(UnitTile::Direction _dir){
 	switch (_dir){
@@ -35,7 +44,7 @@ int UnitTile::getMaxRange() const{
 		//Of course, assuming the elements of rangedAttackDistValues were inserted in order of
 		//furthest to shortest distances, the first element's upper threshold should represent
 		//the furthest a unit can possibly shoot
-		return rangedAttackDistValues[0].upperThreshold;
+		return unitLoader.customClasses.at(name).rangedAttackDistValues[0].upperThreshold;
 	}
 }
 
@@ -132,7 +141,8 @@ std::string UnitTile::typeToString(){
 	}
 }
 
-UnitTile::UnitTile(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
+UnitTile::UnitTile(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
+unitLoader(_unitLoader),
 Tile(_world, tm, id),
 mt19937(_mt19937),
 unitType{type},
@@ -260,7 +270,7 @@ std::string UnitTile::heal(UnitTile* _unit){
 
 		float healingAmount{0};
 
-		for (auto & healingRange : healingRangeValues){
+		for (auto & healingRange : unitLoader.customClasses.at(name).healingRangeValues){
 			if ((healingRange.lowerThreshold == 0 && healingRange.upperThreshold == 0)
 				||
 				difference.x >= healingRange.lowerThreshold && difference.y >= healingRange.lowerThreshold
@@ -272,7 +282,7 @@ std::string UnitTile::heal(UnitTile* _unit){
 		}
 
 		if (healingAmount == 0){
-			return OUT_OF_RANGE + std::to_string(healingRangeValues[0].upperThreshold);
+			return OUT_OF_RANGE + std::to_string(unitLoader.customClasses.at(name).healingRangeValues[0].upperThreshold);
 		}
 		else if (_unit == this){
 			return CANNOT_HEAL_SELF;
@@ -351,7 +361,7 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	// Melee	///////////////////////////////////////////////////
 
-	if (dist == 1 && !melee){
+	if (dist == 1 && !getMelee()){
 		return NO_MELEE;
 	}
 	
@@ -394,7 +404,7 @@ bool UnitTile::isHostile(UnitTile* _tile){
 }
 
 void UnitTile::takeDamage(UnitTile* attacker, float& _dmg, int distance){
-	if (attacker->frightening){
+	if (attacker->getFrightening()){
 		_dmg += 1;
 	}
 
@@ -539,7 +549,7 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirect
 
 		_validAttackDirection = true;
 
-		if (dist == 1 && melee){
+		if (dist == 1 && getMelee()){
 			if (!((SECONDARYAXIS_POSITIVE >= SECONDARYAXIS_NEGATIVE) && (SECONDARYAXIS_POSITIVE <= SECONDARYAXIS_NEGATIVE))){
 				_validAttackDirection = false;
 			}
@@ -735,7 +745,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		}
 	}
 
-	if (attacker->frightening && attackerInflicted > 0){
+	if (attacker->getFrightening() && attackerInflicted > 0){
 		result << "[frightening: +1DMG]";
 	}
 
@@ -759,7 +769,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		}
 	}
 
-	if (defender->frightening && defenderInflicted > 0){
+	if (defender->getFrightening() && defenderInflicted > 0){
 		result << "[frightening: +1DMG]";
 	}
 
@@ -835,7 +845,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	int upperDieThreshold{6};
 	bool modifierIsDamage{false};
 
-	for (auto& item : rangedAttackDistValues){
+	for (auto& item : unitLoader.customClasses.at(name).rangedAttackDistValues){
 		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
 			distanceModifier = item.distModifier;
 			modifierIsDamage = item.modifierIsDamage;
@@ -879,7 +889,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	Its skirmisher bonus should be usable now, and it should be able to turn south again.
 	*/
 
-	if (skirmish){
+	if (getSkirmish()){
 		hasFullRotated = false;
 	}
 

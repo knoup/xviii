@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "UnitLoader.h"
 
-
 UnitLoader::UnitLoader(TextureManager& _tm) : 
 tm(_tm)
 {
@@ -66,7 +65,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 		else if (currentLine.find("MAIN TYPE:") EXISTS){
 			std::string str = AFTERCOLON;
 
-			#define X(_str, mainType)\
+			#define X(_str, mainType, cl)\
 			if(str == _str){\
 				newClass->unitType = mainType;\
 									}

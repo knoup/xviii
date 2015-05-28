@@ -5,7 +5,7 @@
 class Cavalry : public UnitTile
 {
 public:
-	Cavalry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType = TextureManager::Unit::CAV, UnitType uType = UnitType::CAV);
+	Cavalry(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType = TextureManager::Unit::CAV, UnitType uType = UnitType::CAV);
 
 	//The lancer bonus, here for convenience. Certain subclasses of Cavalry are meant to have this. The boolean lancer 
 	//determines whether this code is run or not.

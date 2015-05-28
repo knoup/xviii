@@ -28,6 +28,8 @@ public:
 		UnitTile::UnitType unitType;
 		UnitTile::UnitFamily unitFamilyType;
 
+		//Elements must be inserted in order of furthest to shortest distances; the first 
+		//element's upper threshold should represent the furthest a unit can shoot
 		std::vector<UnitTile::RangedAttackRange> rangedAttackDistValues;
 		std::vector<UnitTile::HealingRange> healingRangeValues;
 

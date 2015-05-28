@@ -69,26 +69,21 @@ float Cavalry::getFlankModifier(UnitFamily _family, Modifier _flank) const{
 	}
 }
 
-Cavalry::Cavalry(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType, UnitType uType) :
-UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily::CAV_FAMILY, _dir)
+Cavalry::Cavalry(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir, TextureManager::Unit texType, UnitType uType) :
+UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, tm, fm, texType, uType, UnitFamily::CAV_FAMILY, _dir)
 {
 	mov = maxMov;
 	hp = maxhp;
-
-	melee = true;
-	skirmish = false;
-	frightening = false;
-	lancer = false;
 }
 
 
 std::string Cavalry::rotate(UnitTile::Direction _dir){
 	bool oppositeRotation{_dir == opposite(dir)};
 
-	if (hasMeleeAttacked || (!skirmish && hasRangedAttacked) || ((skirmish && !oppositeRotation) && getHasAnyAttacked())){
+	if (hasMeleeAttacked || (!getSkirmish() && hasRangedAttacked) || ((getSkirmish() && !oppositeRotation) && getHasAnyAttacked())){
 		return NO_ROTATE_AFTER_ATTACK;
 	}
-	else if ((!skirmish && getHasAnyRotated()) || (skirmish && getHasAnyRotated() && !hasRangedAttacked)){
+	else if ((!getSkirmish() && getHasAnyRotated()) || (getSkirmish() && getHasAnyRotated() && !hasRangedAttacked)){
 		return ALREADY_ROTATED;
 	}
 	else if (dir == _dir){
@@ -97,7 +92,7 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 
 	//If it was a full rotation
 	if (oppositeRotation){
-		if (skirmish && oppositeRotation && hasRangedAttacked){
+		if (getSkirmish() && oppositeRotation && hasRangedAttacked){
 			mov = 2;
 		}
 		else{
@@ -141,7 +136,7 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 	multRollByModifiers(thisRoll);
 	inf->multRollByModifiers(enemyRoll);
 
-	if (lancer){
+	if (getLancer()){
 		if (lancerBonus(inf, thisRoll, getUniqueVariable(), damageDealt)){
 			mov = 0;
 			this->updateStats();
@@ -198,7 +193,7 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 	multRollByModifiers(thisRoll);
 	cav->multRollByModifiers(enemyRoll);
 
-	if (lancer){
+	if (getLancer()){
 		if (lancerBonus(cav, thisRoll, getUniqueVariable(), damageDealt)){
 			mov = 0;
 			this->updateStats();

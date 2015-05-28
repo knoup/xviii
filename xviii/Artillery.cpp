@@ -3,20 +3,16 @@
 
 #include "World.h"
 
-Artillery::Artillery(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::ART, UnitType::ART, UnitFamily::ART_FAMILY, _dir)
+Artillery::Artillery(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
+UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::ART, UnitType::ART, UnitFamily::ART_FAMILY, _dir)
 {
 	mov = maxMov;
 	hp = maxhp;
 
+	/*
 	rangedAttackDistValues.emplace_back(20, 24, 1, true, 4, 6);
 	rangedAttackDistValues.emplace_back(10, 19, 2, true, 4, 6);
-	rangedAttackDistValues.emplace_back(2, 9, 4, true, 4, 6);
-
-	melee = false;
-	skirmish = false;
-	frightening = false;
-	lancer = false;
+	rangedAttackDistValues.emplace_back(2, 9, 4, true, 4, 6);*/
 }
 
 void Artillery::reset(){

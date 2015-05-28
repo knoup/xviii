@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include "Player.h"
 
+#include "UnitLoader.h"
+
 static const sf::View bottomView{sf::View{sf::FloatRect(1183, 4800, xResolution, yResolution)}};
 static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yResolution)}};
 static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution, yResolution)}};
 
-Player::Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom) :
+Player::Player(UnitLoader& _unitLoader, World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom) :
+unitLoader(_unitLoader),
 world(_world),
 general{nullptr},
 nation{_nation},
@@ -78,7 +81,7 @@ bool Player::spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords){
 		//type, class, string, texture
 	#define X(type, cl, str, texture)\
 		case(type):\
-			ptr = std::move(std::unique_ptr<cl>(new cl(world, mt19937, this, tm, fm, dir)));\
+			ptr = std::move(std::unique_ptr<cl>(new cl(unitLoader, world, mt19937, this, tm, fm, dir)));\
 			break;
 		UNITPROPERTIES
 	#undef X
@@ -138,7 +141,7 @@ void Player::loadUnit(UnitTile::UnitType _type, sf::Vector2i _pos, UnitTile::Dir
 			//type, class, string, texture
 	#define X(type, cl, str, texture)\
 		case(type):\
-			ptr = std::move(std::unique_ptr<cl>(new cl(world, mt19937, this, tm, fm, _dir)));\
+			ptr = std::move(std::unique_ptr<cl>(new cl(unitLoader, world, mt19937, this, tm, fm, _dir)));\
 			break;
 		UNITPROPERTIES
 	#undef X

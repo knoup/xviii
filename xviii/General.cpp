@@ -3,17 +3,17 @@
 
 #include "Player.h"
 
-General::General(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-Cavalry(_world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::GEN, UnitType::GEN)
+General::General(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
+Cavalry(_unitLoader, _world, _mt19937, _belongsToPlayer, tm, fm, _dir, TextureManager::Unit::GEN, UnitType::GEN)
 {
 	mov = maxMov;
 	hp = maxhp;
-
+	/*
 	rangedAttackDistValues.clear();
 	rangedAttackDistValues.emplace_back(2, getMaxRange(), 0.5);
 
 	healingRangeValues.clear();
-	healingRangeValues.emplace_back(0, 0, 2);
+	healingRangeValues.emplace_back(0, 0, 2);*/
 }
 
 void General::reset(){

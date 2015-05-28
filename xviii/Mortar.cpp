@@ -1,18 +1,13 @@
 #include "stdafx.h"
 #include "Mortar.h"
 
-Mortar::Mortar(World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
-UnitTile(_world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::MOR, UnitType::MOR, UnitFamily::ART_FAMILY, _dir)
+Mortar::Mortar(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, UnitTile::Direction _dir) :
+UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, tm, fm, TextureManager::Unit::MOR, UnitType::MOR, UnitFamily::ART_FAMILY, _dir)
 {
 	mov = maxMov;
 	hp = maxhp;
 
-	rangedAttackDistValues.emplace_back(2, 30, 3, true, 4, 6);
-
-	melee = false;
-	skirmish = false;
-	frightening = false;
-	lancer = false;
+	//rangedAttackDistValues.emplace_back(2, 30, 3, true, 4, 6);
 }
 
 

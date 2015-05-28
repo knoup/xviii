@@ -213,7 +213,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("player1=") != std::string::npos){
 			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
-			game->Player1 = new Player({game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, true});
+			game->Player1 = new Player({game->mUnitLoader, game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, true});
 			game->mPlayers.emplace_back(game->Player1);
 		}
 
@@ -230,7 +230,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("player2=") != std::string::npos){
 			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
-			game->Player2 = new Player({game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, false});
+			game->Player2 = new Player({game->mUnitLoader, game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, false});
 			game->mPlayers.emplace_back(game->Player2);
 		}
 

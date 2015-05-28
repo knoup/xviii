@@ -12,6 +12,8 @@
 #include "General.h"
 #include "global.h"
 
+class UnitLoader;
+
 //Since each nation will only have one unique unit (and different names/flags), I felt it would be
 //unnecessary to create classes for each. The exceptions to these are Crimea, the Ottomans, and
 //the Mughals, who will have different units completely. These can simply be handled in the constructor.
@@ -100,7 +102,7 @@ class Player
 
 
 		enum class Nation{ AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER};
-		Player(World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
+		Player(UnitLoader& _unitLoader, World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
 		
 		//Returns true if successfully spawned unit
 		bool spawnUnit(UnitTile::UnitType _type, sf::Vector2i _worldCoords);
@@ -136,6 +138,7 @@ class Player
 		void drawUnits(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
     private:
+		UnitLoader& unitLoader;
         World& world;
 		std::vector<UnitTile::unitPtr> units;
 		UnitTile* general;

@@ -11,21 +11,14 @@
 
 #include "messages.h"
 
-//The last entry, the texture enum, is used only for the selectable units at selection menu. They are NOT used to determine
-//actual unit sprites past that point.
-#define UNITPROPERTIES\
-	X(UnitTile::UnitType::ART, Artillery, "art", TextureManager::Unit::ART)\
-	X(UnitTile::UnitType::CAV, Cavalry, "cav", TextureManager::Unit::CAV)\
-	X(UnitTile::UnitType::GEN, General, "gen", TextureManager::Unit::GEN)\
-	X(UnitTile::UnitType::INF, Infantry, "inf", TextureManager::Unit::INF)\
-	X(UnitTile::UnitType::MOR, Mortar, "mor", TextureManager::Unit::MOR)
+class UnitLoader;
 
 #define MAINTYPEPROPERTIES\
-	X("INF", UnitTile::UnitType::INF)\
-	X("CAV", UnitTile::UnitType::CAV)\
-	X("MOR", UnitTile::UnitType::MOR)\
-	X("GEN", UnitTile::UnitType::GEN)\
-	X("ARTGUARD", UnitTile::UnitType::ARTGUARD)
+	X("INF", UnitTile::UnitType::INF, Infantry)\
+	X("CAV", UnitTile::UnitType::CAV, Cavalry)\
+	X("MOR", UnitTile::UnitType::MOR, Mortar)\
+	X("GEN", UnitTile::UnitType::GEN, General)\
+	X("ARTGUARD", UnitTile::UnitType::ARTGUARD, Infantry)
 
 
 #define FAMILYTYPEPROPERTIES\
@@ -121,7 +114,7 @@ public:
 		float healingAmount;
 	};
 
-	UnitTile(World& _world, std::mt19937&, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitType type, UnitFamily familyType, Direction _dir);
+	UnitTile(UnitLoader& _unitLoader, World& _world, std::mt19937&, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, UnitType type, UnitFamily familyType, Direction _dir);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
 
@@ -146,10 +139,10 @@ public:
 	inline bool getHasAnyAttacked() const{ return (hasMeleeAttacked || hasRangedAttacked); };
 	inline bool getHasHealed() const{ return hasHealed; };
 
-	inline bool getMelee() const{ return melee; };
-	inline bool getSkirmish() const{ return skirmish; };
-	inline bool getFrightening() const { return frightening; };
-	inline bool getLancer() const{ return lancer; };
+	bool getMelee() const;
+	bool getSkirmish() const;
+	bool getFrightening() const;
+	bool getLancer() const;
 
 	//Virtual
 	inline virtual int getCost() const{ return 100; };
@@ -158,8 +151,8 @@ public:
 	inline virtual int getMaxMov() const{ return 0; };
 	int getMaxRange() const;
 
-	inline bool canHeal() const{ return !healingRangeValues.empty(); };
-	inline bool canRangedAttack() const{ return !rangedAttackDistValues.empty(); };
+	bool canHeal() const;
+	bool canRangedAttack() const;
 	
 
 	//Each class will have an overloaded definition returning its specific flank modifier for either 
@@ -262,11 +255,6 @@ public:
 	std::vector<ModifierReport> modVector;
 
 protected:
-	//Elements must be inserted in order of furthest to shortest distances; the first 
-	//element's upper threshold should represent the furthest a unit can shoot
-	std::vector<RangedAttackRange> rangedAttackDistValues;
-	std::vector<HealingRange> healingRangeValues;
-
 	std::mt19937& mt19937;
 
 	//Pointer to the player the unit belongs to
@@ -291,17 +279,13 @@ protected:
 	sf::Text hpText;
 	sf::Text movText;
 
-	std::string unitName;
+	//This string serves both as a name and as a unique ID to the custom defined unit type
+	std::string name;
+
 	UnitType unitType;
 	UnitFamily unitFamilyType;
 
-	bool melee;
-	//Determines whether the unit can skirmish or not (skirmishing gives the ability to fully rotate after firing, and have 2 movement points left over)
-	bool skirmish;
-	//Determines whether the unit gets the "frightening" bonus (+1 damage if any damage dealt)
-	bool frightening;
-	//Determines whether the unit gets the lancer bonus (only applies for Cav)
-	bool lancer;
+	UnitLoader& unitLoader;
 
 	float hp;
 	int mov;
