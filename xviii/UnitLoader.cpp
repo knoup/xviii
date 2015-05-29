@@ -279,7 +279,106 @@ void UnitLoader::parse(boost::filesystem::path path){
 				std::getline(unitData, currentLine);
 			}
 		}
+
+		else if (currentLine.find("MELEE_BONUS") EXISTS){
+			std::getline(unitData, currentLine);
+
+			while (currentLine.find("}") == std::string::npos){
+
+				if (currentLine.find("DEFINE:") EXISTS){
+					std::string str(AFTERCOLON);
+					//MAIN:INF:2,0
+
+					//get "MAIN"
+					std::string first_part = str.substr(0, str.find_first_of(":"));
+
+					size_t pos1 = str.find_first_of(":");
+					size_t pos2 = str.find_last_of(":");
+
+					pos1 += 1;
+					pos2 -= pos1;
+
+					//get "INF"
+					std::string second_part = str.substr(pos1, pos2);
+
+					//str = MAIN:INF:2,0
+					//first_part = MAIN
+					//second_part = INF
+
+					//get "2,0,1,1"
+					std::string last_part(str.substr(str.find_last_of(":") + 1, str.size()));
+
+					std::vector<std::string> argsAsStrings;
+
+					std::stringstream ss(last_part);
+					std::string item;
+
+					while (std::getline(ss, item, ',')){
+						argsAsStrings.push_back(item);
+					}
+
+					std::stringstream arg1AsString(argsAsStrings[0]);
+					std::stringstream arg2AsString(argsAsStrings[1]);
+					std::stringstream arg3AsString(argsAsStrings[2]);
+					std::stringstream arg4AsString(argsAsStrings[3]);
+
+					float arg1;
+					int arg2;
+					int arg3;
+					int arg4;
+
+					arg1AsString >> arg1;
+					arg2AsString >> arg2;
+					arg3AsString >> arg3;
+					arg4AsString >> arg4;
+
+					if (first_part == "MAIN"){
+
+						UnitTile::UnitType mainType;
+
+						#define X(_str, _mainType, cl)\
+						if(second_part == _str){\
+							mainType = _mainType;\
+						}
+						MAINTYPEPROPERTIES
+						#undef X
+
+							//mainType = INF;
+
+							newClass->bonusesVsMainTypes.emplace_back(mainType, arg1, arg2, arg3, arg4);
+
+					}
+					else if (first_part == "FAMILY"){
+
+						UnitTile::UnitFamily familyType;
+
+						#define X(_str, _familyType, cl)\
+						if(second_part == _str){\
+							familyType = _familyType;\
+												}
+						FAMILYTYPEPROPERTIES
+						#undef X
+
+							//familyType = INF;
+
+							newClass->bonusesVsFamilyTypes.emplace_back(familyType, arg1, arg2, arg3, arg4);
+					}
+
+					else{
+						break;
+					}
+						
+				}
+
+				std::getline(unitData, currentLine);
+			}
+
+		}
+
 	}
+
+	#undef AFTERCOLON
+	#undef EXISTS
 
 	unitData.close();
 	customClasses.emplace(newClass->name, std::move(*newClass));

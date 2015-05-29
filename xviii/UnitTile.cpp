@@ -20,6 +20,44 @@ int UnitTile::getLimit() const{ return unitLoader.customClasses.at(name).limit; 
 int UnitTile::getMaxHp() const{ return unitLoader.customClasses.at(name).maxHp; };
 int UnitTile::getMaxMov() const{ return unitLoader.customClasses.at(name).maxMov; };
 
+void UnitTile::preMeleeAttack(UnitTile* _unit, bool _attacking){
+	UnitTile::UnitType mainType = _unit->getUnitType();
+	UnitTile::UnitFamily familyType = _unit->getUnitFamilyType();
+
+	auto bonusesVsMainTypes = unitLoader.customClasses.at(name).bonusesVsMainTypes;
+	auto bonusesVsFamilyTypes = unitLoader.customClasses.at(name).bonusesVsFamilyTypes;
+
+	for (auto& bonus : bonusesVsMainTypes){
+		if (bonus.mainType == mainType){
+			UnitTile::Modifier modType;
+			if ((!_attacking && bonus.whenDefending) || (_attacking && bonus.whenAttacking)){
+				if (bonus.modifierIsAdditional){
+					modType = Modifier::ADDITIONAL;
+				}
+				else{
+					modType = Modifier::MULTIPLICATIONAL;
+				}
+				modVector.emplace_back(modType, bonus.modifier);
+			}
+		}
+	}
+
+	for (auto& bonus : bonusesVsFamilyTypes){
+		if (bonus.familyType == familyType){
+			UnitTile::Modifier modType;
+			if ((!_attacking && bonus.whenDefending) || (_attacking && bonus.whenAttacking)){
+				if (bonus.modifierIsAdditional){
+					modType = Modifier::ADDITIONAL;
+				}
+				else{
+					modType = Modifier::MULTIPLICATIONAL;
+				}
+				modVector.emplace_back(modType, bonus.modifier);
+			}
+		}
+	}
+}
+
 float UnitTile::getFlankModifier(UnitType _mainType, Modifier _flank) const{
 	auto vec = unitLoader.customClasses.at(name).flankModifierValues;
 
@@ -122,12 +160,14 @@ std::string UnitTile::dirToString(){
 }
 
 std::string UnitTile::modToString(ModifierReport _mod){
+	//All modifiers are multiplicational, except (obviously) ADDITIONAL
 	switch (_mod.modType){
 	case Modifier::NONE:
 		return{"none"};
 		break;
 
 	case Modifier::ADDITIONAL:
+	case Modifier::MULTIPLICATIONAL:
 		if (_mod.modFloat >= 0){
 			return{"bonus"};
 		}
@@ -136,9 +176,6 @@ std::string UnitTile::modToString(ModifierReport _mod){
 		}
 		break;
 
-	case Modifier::ATK:
-		return{"ATKing"};
-		break;
 	case Modifier::DISTANCE:
 		return{"distance"};
 		break;
@@ -803,7 +840,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 void UnitTile::multRollByModifiers(float &originalRoll){
 	for (auto& mod : modVector){
 		if (mod.modFloat != 0){
-			if (mod.modType != Modifier::ADDITIONAL && mod.modType != UnitTile::Modifier::ATK){
+			if (mod.modType != Modifier::ADDITIONAL){
 				originalRoll *= mod.modFloat;
 			}
 		}
@@ -812,7 +849,7 @@ void UnitTile::multRollByModifiers(float &originalRoll){
 
 	for (auto& mod : modVector){
 		if (mod.modFloat != 0){
-			if (mod.modType == Modifier::ADDITIONAL || mod.modType == UnitTile::Modifier::ATK){
+			if (mod.modType == Modifier::ADDITIONAL){
 			originalRoll += mod.modFloat;
 			}
 		}

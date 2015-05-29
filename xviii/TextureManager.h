@@ -7,6 +7,7 @@
 	X("LCAV", TextureManager::Unit::LCAV)\
 	X("DRAG", TextureManager::Unit::DRAG)\
 	X("ART", TextureManager::Unit::ART)\
+	X("MOR", TextureManager::Unit::MOR)\
 	X("GEN", TextureManager::Unit::GEN)\
 	X("GRE", TextureManager::Unit::GRE)\
 	X("SAP", TextureManager::Unit::SAP)\

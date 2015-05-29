@@ -35,6 +35,8 @@ public:
 		std::vector<UnitTile::HealingRange> healingRangeValues;
 
 		std::vector<UnitTile::FlankModifiers> flankModifierValues;
+		std::vector<UnitTile::BonusVSMainType> bonusesVsMainTypes;
+		std::vector<UnitTile::BonusVSFamilyType> bonusesVsFamilyTypes;
 
 		bool melee;
 		bool skirmish;

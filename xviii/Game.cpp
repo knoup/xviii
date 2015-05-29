@@ -35,6 +35,7 @@ mUnitLoader{mTextureManager}
 
 	mUnitLoader.load();
 
+	//TODO: make these unique ptrs instead of regular ones
 	MenuState = new GameState_Menu(this);
 	SelectNationsState = new GameState_SelectNations(this);
 	SetupState = new GameState_Setup(this);

@@ -16,6 +16,7 @@ class UnitLoader;
 #define MAINTYPEPROPERTIES\
 	X("INF", UnitTile::UnitType::INF, Infantry)\
 	X("CAV", UnitTile::UnitType::CAV, Cavalry)\
+	X("ART", UnitTile::UnitType::ART, Artillery)\
 	X("MOR", UnitTile::UnitType::MOR, Mortar)\
 	X("GEN", UnitTile::UnitType::GEN, General)\
 	X("ARTGUARD", UnitTile::UnitType::ARTGUARD, Infantry)
@@ -35,6 +36,7 @@ class Cavalry;
 class Artillery;
 class Mortar;
 class General;
+class Artguard;
 
 class UnitTile : public Tile
 {
@@ -43,7 +45,7 @@ public:
 
 	enum class Direction{ N, E, S, W };
 
-	enum class Modifier{NONE, ADDITIONAL, DMG, ATK, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
+	enum class Modifier{NONE, ADDITIONAL, MULTIPLICATIONAL, ATK, DFND, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
 
 	enum class UnitType{INF, CAV, ART, MOR, GEN, ARTGUARD};
 
@@ -126,6 +128,30 @@ public:
 		float rear{1};
 	};
 
+	struct BonusVSMainType{
+		BonusVSMainType(UnitType _mainType, float _modifier, bool _modifierIsAdditional, bool _whenAttacking, bool _whenDefending) :
+			mainType{_mainType}, modifier{_modifier}, modifierIsAdditional{_modifierIsAdditional}, whenAttacking{_whenAttacking}, whenDefending{_whenDefending}
+		{}
+
+		UnitTile::UnitType mainType;
+		float modifier;
+		bool modifierIsAdditional;
+		bool whenAttacking;
+		bool whenDefending;
+	};
+
+	struct BonusVSFamilyType{
+		BonusVSFamilyType(UnitFamily _familyType, float _modifier, bool _modifierIsAdditional, bool _whenAttacking, bool _whenDefending) :
+			familyType{_familyType}, modifier{_modifier}, modifierIsAdditional{_modifierIsAdditional}, whenAttacking{_whenAttacking}, whenDefending{_whenDefending}
+		{}
+
+		UnitTile::UnitFamily familyType;
+		float modifier;
+		bool modifierIsAdditional;
+		bool whenAttacking;
+		bool whenDefending;
+	};
+
 	UnitTile(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
@@ -203,7 +229,7 @@ public:
 
 	//This function is unit-specific, and checks for such things as vs. family bonuses/maluses. The bool specifies
 	//whether the unit is attacking or defending
-	inline virtual void preMeleeAttack(UnitTile* unit, bool attacking){};
+	void preMeleeAttack(UnitTile* _unit, bool _attacking);
 
 	//Needed for double dispatch
 	virtual std::string meleeAttack(UnitTile* _unit) = 0;
