@@ -33,6 +33,8 @@ public:
 		std::vector<UnitTile::RangedAttackRange> rangedAttackDistValues;
 		std::vector<UnitTile::HealingRange> healingRangeValues;
 
+		std::vector<UnitTile::FlankModifiers> flankModifierValues;
+
 		bool melee;
 		bool skirmish;
 		bool frightening;

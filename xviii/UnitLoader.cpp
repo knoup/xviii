@@ -62,7 +62,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 				#undef X
 		}
 
-		else if (currentLine.find("MAIN TYPE:") EXISTS){
+		else if (currentLine.find("MAIN_TYPE:") EXISTS){
 			std::string str = AFTERCOLON;
 
 			#define X(_str, mainType, cl)\
@@ -73,7 +73,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 			#undef X
 		}
 
-		else if (currentLine.find("FAMILY TYPE:") EXISTS){
+		else if (currentLine.find("FAMILY_TYPE:") EXISTS){
 			std::string str = AFTERCOLON;
 
 			#define X(_str, familyType)\
@@ -102,6 +102,63 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 		else if (currentLine.find("MELEE:") EXISTS){
 			newClass->melee = std::stoi(AFTERCOLON);
+		}
+		
+		else if (currentLine.find("FLANK") EXISTS){
+			std::getline(unitData, currentLine);
+
+			while (currentLine.find("}") == std::string::npos){
+
+				if (currentLine.find("DEFINE:") EXISTS){
+					//DEFINE:INF_SIDE:0.5
+					std::string str = AFTERCOLON;
+					//INF_SIDE:0.5
+
+					//Get INF (before the _)
+					std::string type_substr;
+					std::string::size_type pos = str.find("_");
+
+					if (pos != std::string::npos){
+						type_substr = str.substr(0, pos);
+						type_substr.length();
+					}
+
+					//get SIDE (after _, before :)
+
+					std::string dir_substr;
+					std::string::size_type pos1 = str.find('_');
+					std::string::size_type pos2 = str.find(':');
+
+					if (pos1 != std::string::npos && pos2 != std::string::npos){
+						pos1 += 1;
+						pos2 -= pos1;
+						dir_substr = str.substr(pos1, pos2);
+						dir_substr.length();
+					}
+
+					//Get the flank modifier itself; extract using stringstream
+					//to preserve decimals
+
+					float modifier;
+					std::stringstream ss(str.substr(str.find(":") + 1, str.size() - 1));
+
+					if (ss.str().empty()){
+						modifier = 1.f;
+					}
+
+					ss >> modifier;
+
+					//At this point, we have something like this:
+					//str = "INF_SIDE:0.5"
+					//type_substr = "INF"
+					//dir_substr = "SIDE"
+					//modifier = 0.5
+
+				}
+
+				std::getline(unitData, currentLine);
+			}
+
 		}
 
 		else if (currentLine.find("SKIRMISH:") EXISTS){
