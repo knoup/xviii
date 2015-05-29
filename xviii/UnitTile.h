@@ -156,6 +156,7 @@ public:
 	bool getMelee() const;
 	bool getSkirmish() const;
 	bool getFrightening() const;
+	bool getHalfRangedDamage() const;
 	bool getLancer() const;
 
 	int getMaxRange() const;

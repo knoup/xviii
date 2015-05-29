@@ -10,6 +10,7 @@
 bool UnitTile::getMelee() const{ return unitLoader.customClasses.at(name).melee; };
 bool UnitTile::getSkirmish() const{ return unitLoader.customClasses.at(name).skirmish; };
 bool UnitTile::getFrightening() const { return unitLoader.customClasses.at(name).frightening; };
+bool UnitTile::getHalfRangedDamage() const { return unitLoader.customClasses.at(name).halfRangedDamage; };
 bool UnitTile::getLancer() const{ return unitLoader.customClasses.at(name).lancer; };
 bool UnitTile::canHeal() const{ return !(unitLoader.customClasses.at(name).healingRangeValues.empty()); };
 bool UnitTile::canRangedAttack() const{ return !(unitLoader.customClasses.at(name).rangedAttackDistValues.empty()); };
@@ -425,6 +426,10 @@ bool UnitTile::isHostile(UnitTile* _tile){
 void UnitTile::takeDamage(UnitTile* attacker, float& _dmg, int distance){
 	if (attacker->getFrightening() && distance == 1){
 		_dmg += 1;
+	}
+
+	if (distance > 1 && getHalfRangedDamage()){
+		_dmg *= 0.5;
 	}
 
 	hp -= _dmg;
@@ -887,7 +892,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 		damageDealt = distanceModifier;
 	}
 
-	if (thisRoll >= lowerDieThreshold && thisRoll <= upperDieThreshold){
+	if (thisRoll_int >= lowerDieThreshold && thisRoll_int <= upperDieThreshold){
 		unit->takeDamage(this, damageDealt, distance);
 	}
 	else{

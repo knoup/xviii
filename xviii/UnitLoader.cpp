@@ -100,78 +100,6 @@ void UnitLoader::parse(boost::filesystem::path path){
 			newClass->limit = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("MELEE:") EXISTS){
-			newClass->melee = std::stoi(AFTERCOLON);
-		}
-		
-		else if (currentLine.find("FLANK") EXISTS){
-			std::getline(unitData, currentLine);
-
-			while (currentLine.find("}") == std::string::npos){
-
-				if (currentLine.find("DEFINE:") EXISTS){
-					//DEFINE:INF
-					std::string str = AFTERCOLON;
-					
-					UnitTile::UnitType mainType;
-
-					#define X(_str, _mainType, cl)\
-					if(str == _str){\
-						mainType = _mainType;\
-						}
-					MAINTYPEPROPERTIES
-					#undef X
-
-						std::getline(unitData, currentLine);
-						
-					UnitTile::FlankModifiers flankModifier{mainType};
-
-						while (currentLine.find("}") == std::string::npos){
-							if (currentLine.find("DEFINE:") EXISTS){
-								str = AFTERCOLON;
-								//str = "FRONT:0.5"
-
-								std::string direction_str;
-
-								std::string::size_type pos = str.find(':');
-
-								if (pos != std::string::npos){
-									direction_str = str.substr(0, pos);
-								}
-
-								//Stringstream to extract the modifier, to preserve decimals
-								std::stringstream ss(str.substr(str.find(":") + 1, str.size() - 1));
-
-								//Initialise the modifier as 0; modifiers of 0 are ignored in combat. In case there is
-								//an empty string afterwards, nothing bad will happen.
-								float modifier{0};
-
-								if (ss.str().empty()){
-									ss >> modifier;
-								}
-
-								if (direction_str == "FRONT"){
-									flankModifier.front = modifier;
-								}
-								else if (direction_str == "SIDE"){
-									flankModifier.side = modifier;
-								}
-								else if (direction_str == "REAR"){
-									flankModifier.rear = modifier;
-								}
-							}
-
-							std::getline(unitData, currentLine);
-						}
-
-						newClass->flankModifierValues.emplace_back(flankModifier);
-				}
-
-				std::getline(unitData, currentLine);
-			}
-
-		}
-
 		else if (currentLine.find("SKIRMISH:") EXISTS){
 			newClass->skirmish = std::stoi(AFTERCOLON);
 		}
@@ -180,8 +108,84 @@ void UnitLoader::parse(boost::filesystem::path path){
 			newClass->frightening = std::stoi(AFTERCOLON);
 		}
 
+		else if (currentLine.find("HALFRANGEDDAMAGE:") EXISTS){
+			newClass->halfRangedDamage = std::stoi(AFTERCOLON);
+		}
+
 		else if (currentLine.find("LANCER:") EXISTS){
 			newClass->lancer = std::stoi(AFTERCOLON);
+		}
+
+		else if (currentLine.find("MELEE:") EXISTS){
+			newClass->melee = std::stoi(AFTERCOLON);
+		}
+
+		else if (currentLine.find("FLANK") EXISTS){
+			std::getline(unitData, currentLine);
+
+			while (currentLine.find("}") == std::string::npos){
+
+				if (currentLine.find("DEFINE:") EXISTS){
+					//DEFINE:INF
+					std::string str = AFTERCOLON;
+
+					UnitTile::UnitType mainType;
+
+					#define X(_str, _mainType, cl)\
+					if(str == _str){\
+						mainType = _mainType;\
+					}
+					MAINTYPEPROPERTIES
+					#undef X
+
+						std::getline(unitData, currentLine);
+
+					UnitTile::FlankModifiers flankModifier{mainType};
+
+					while (currentLine.find("}") == std::string::npos){
+						if (currentLine.find("DEFINE:") EXISTS){
+							str = AFTERCOLON;
+							//str = "FRONT:0.5"
+
+							std::string direction_str;
+
+							std::string::size_type pos = str.find(':');
+
+							if (pos != std::string::npos){
+								direction_str = str.substr(0, pos);
+							}
+
+							//Stringstream to extract the modifier, to preserve decimals
+							std::stringstream ss(str.substr(str.find(":") + 1, str.size() - 1));
+
+							//Initialise the modifier as 0; modifiers of 0 are ignored in combat. In case there is
+							//an empty string afterwards, nothing bad will happen.
+							float modifier{0};
+
+							if (!ss.str().empty()){
+								ss >> modifier;
+							}
+
+							if (direction_str == "FRONT"){
+								flankModifier.front = modifier;
+							}
+							else if (direction_str == "SIDE"){
+								flankModifier.side = modifier;
+							}
+							else if (direction_str == "REAR"){
+								flankModifier.rear = modifier;
+							}
+						}
+
+						std::getline(unitData, currentLine);
+					}
+
+					newClass->flankModifierValues.emplace_back(flankModifier);
+				}
+
+				std::getline(unitData, currentLine);
+			}
+
 		}
 
 		else if (currentLine.find("RANGED") EXISTS){

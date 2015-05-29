@@ -38,6 +38,7 @@ public:
 		bool melee;
 		bool skirmish;
 		bool frightening;
+		bool halfRangedDamage;
 		bool lancer;
 
 		float maxHp;
