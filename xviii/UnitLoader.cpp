@@ -26,6 +26,11 @@ void UnitLoader::parse(boost::filesystem::path path){
 	#define AFTERCOLON currentLine.substr(currentLine.find(":") + 1, currentLine.size() - 1)
 	#define EXISTS != std::string::npos
 
+	std::getline(unitData, currentLine);
+	if (!(currentLine.find("UNIT DEFINITION") EXISTS)){
+		return;
+	}
+
 	while (unitData && std::getline(unitData, currentLine)){
 
 		if (currentLine.find("NATIONS:") EXISTS){
