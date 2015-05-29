@@ -16,12 +16,6 @@ public:
 	
 	virtual std::string rotate(Direction _dir);
 
-	inline virtual int getMaxHp() const{ return maxhp; };
-	inline virtual int getMaxMov() const{ return maxMov; };
-
-	inline virtual int getCost() const{ return 3; };
-	inline virtual int getLimit() const{ return 5; };
-
 	virtual std::string meleeAttack(UnitTile* _unit);
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
@@ -33,8 +27,5 @@ public:
 private:
 	//A special artillery ability, limbering
 	bool limber{true};
-
-	static const int maxhp{3};
-	static const int maxMov{3};
 };
 

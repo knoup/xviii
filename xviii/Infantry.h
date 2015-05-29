@@ -12,21 +12,11 @@ public:
 	
 	virtual std::string rotate(Direction _dir);
 
-	inline virtual int getMaxHp() const{ return maxhp; };
-	inline virtual int getMaxMov() const{ return maxMov; };
-
-	inline virtual int getCost() const{ return 1; };
-	inline virtual int getLimit() const{ return 0; };
-
 	virtual std::string meleeAttack(UnitTile* _unit);
 
 	virtual std::string meleeAttack(Infantry* inf);
 	virtual std::string meleeAttack(Cavalry* cav);
 	virtual std::string meleeAttack(Artillery* art);
 	virtual std::string meleeAttack(Mortar* mor);
-
-private:
-	static const int maxhp{18};
-	static const int maxMov{6};
 };
 

@@ -15,12 +15,6 @@ public:
 	virtual void reset();
 	virtual std::string rotate(Direction _dir);
 
-	inline virtual int getMaxHp() const{ return maxhp; };
-	inline virtual int getMaxMov() const{ return maxMov; };
-
-	inline virtual int getCost() const{ return 3; };
-	inline virtual int getLimit() const{ return 5; };
-
 	virtual std::string meleeAttack(UnitTile* _unit);
 
 	virtual std::string meleeAttack(Infantry* inf);
@@ -31,9 +25,7 @@ public:
 	virtual bool getUniqueVariable() const{ return attackBonusReady; };
 	virtual void setUniqueVariable(bool _value){ attackBonusReady = _value; };
 
-private:
+protected:
 	bool attackBonusReady{true};
-	static const int maxhp{13};
-	static const int maxMov{12};
 };
 

@@ -13,16 +13,6 @@ public:
 
 	virtual std::string rotate(Direction _dir);
 
-	inline virtual int getMaxHp() const{ return maxhp; };
-	inline virtual int getMaxMov() const{ return maxMov; };
-
-	inline virtual int getCost() const{ return 2; };
-	inline virtual int getLimit() const{ return 5; };
-
 	virtual std::string meleeAttack(UnitTile* _unit);
-
-private:
-	static const int maxhp{2};
-	static const int maxMov{0};
 };
 

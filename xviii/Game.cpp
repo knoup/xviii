@@ -35,12 +35,12 @@ mUnitLoader{mTextureManager}
 
 	mUnitLoader.load();
 
-	MenuState = std::unique_ptr<GameState_Menu>(new GameState_Menu(this));
-	SelectNationsState = std::unique_ptr<GameState_SelectNations>(new GameState_SelectNations(this));
-	SetupState = std::unique_ptr<GameState_Setup>(new GameState_Setup(this));
-	PlayState = std::unique_ptr<GameState_Play>(new GameState_Play(this));
+	MenuState = (new GameState_Menu(this));
+	SelectNationsState = (new GameState_SelectNations(this));
+	SetupState = (new GameState_Setup(this));
+	PlayState = (new GameState_Play(this));
 
-	state = MenuState.get();
+	state = MenuState;
 
 	gameLoop();
 }
@@ -95,16 +95,16 @@ void Game::draw(){
 }
 
 void Game::setGameStateSelectNations(){
-	state = SelectNationsState.get();
+	state = SelectNationsState;
 }
 
 void Game::setGameStateSetup(){
-	state = SetupState.get();
+	state = SetupState;
 }
 
 void Game::setGameStatePlay(){
 	PlayState->oneTimeUpdate();
-	state = PlayState.get();
+	state = PlayState;
 }
 
 void Game::nextPlayer(){

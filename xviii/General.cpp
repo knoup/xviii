@@ -15,12 +15,20 @@ Cavalry(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _na
 }
 
 void General::reset(){
-	mov = maxMov;
+	if (!hasMeleeAttacked){
+		attackBonusReady = true;
+	}
+	else{
+		attackBonusReady = false;
+	}
+
+	mov = getMaxMov();
+	hasHealed = false;
+	hasMoved = false;
 	hasPartialRotated = false;
 	hasFullRotated = false;
 	hasMeleeAttacked = false;
 	hasRangedAttacked = false;
-	hasHealed = false;
 	updateStats();
 }
 
