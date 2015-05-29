@@ -11,6 +11,8 @@ public:
 	//determines whether this code is run or not.
 	bool lancerBonus(UnitTile* defender, float finalAttackerRoll, bool attackBonusReady, float& damageDealt);
 
+	//Overloaded for the attackReady variable, used by lancers
+	virtual void reset();
 	virtual std::string rotate(Direction _dir);
 
 	inline virtual int getMaxHp() const{ return maxhp; };
@@ -26,7 +28,11 @@ public:
 	virtual std::string meleeAttack(Artillery* art);
 	virtual std::string meleeAttack(Mortar* mor);
 
+	virtual bool getUniqueVariable() const{ return attackBonusReady; };
+	virtual void setUniqueVariable(bool _value){ attackBonusReady = _value; };
+
 private:
+	bool attackBonusReady{true};
 	static const int maxhp{13};
 	static const int maxMov{12};
 };

@@ -35,6 +35,17 @@ UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _n
 {
 }
 
+void Cavalry::reset(){
+	if (!hasMeleeAttacked){
+		attackBonusReady = true;
+	}
+	else{
+		attackBonusReady = false;
+	}
+
+	UnitTile::reset();
+}
+
 
 std::string Cavalry::rotate(UnitTile::Direction _dir){
 	bool oppositeRotation{_dir == opposite(dir)};

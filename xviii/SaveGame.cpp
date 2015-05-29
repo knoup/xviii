@@ -182,8 +182,6 @@ bool SaveGame::create(){
 				save << INDENT << "limbered=" << unit->getUniqueVariable() << std::endl;
 			}
 
-			//NOTE: getUniqueVariable() does not do anything right now
-			//TODO: FIX IT GODDAMNIT
 			else if (unit->getLancer()){
 					save << INDENT << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
 				}
