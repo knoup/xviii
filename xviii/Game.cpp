@@ -35,13 +35,12 @@ mUnitLoader{mTextureManager}
 
 	mUnitLoader.load();
 
-	//TODO: make these unique ptrs instead of regular ones
-	MenuState = new GameState_Menu(this);
-	SelectNationsState = new GameState_SelectNations(this);
-	SetupState = new GameState_Setup(this);
-	PlayState = new GameState_Play(this);
+	MenuState = std::unique_ptr<GameState_Menu>(new GameState_Menu(this));
+	SelectNationsState = std::unique_ptr<GameState_SelectNations>(new GameState_SelectNations(this));
+	SetupState = std::unique_ptr<GameState_Setup>(new GameState_Setup(this));
+	PlayState = std::unique_ptr<GameState_Play>(new GameState_Play(this));
 
-	state = MenuState;
+	state = MenuState.get();
 
 	gameLoop();
 }
@@ -78,9 +77,6 @@ void Game::gameLoop(){
 		lastFT = ft;
 	}
 
-	delete SetupState;
-	delete PlayState;
-
 	return;
 }
 
@@ -99,18 +95,16 @@ void Game::draw(){
 }
 
 void Game::setGameStateSelectNations(){
-	state = SelectNationsState;
+	state = SelectNationsState.get();
 }
 
 void Game::setGameStateSetup(){
-	state = SetupState;
+	state = SetupState.get();
 }
 
 void Game::setGameStatePlay(){
 	PlayState->oneTimeUpdate();
-	state = PlayState;
-	SetupState = nullptr;
-	delete SetupState;
+	state = PlayState.get();
 }
 
 void Game::nextPlayer(){

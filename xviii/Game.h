@@ -41,10 +41,11 @@ public:
 	sf::RenderWindow mWindow;
 
 	GameState* state;
-	GameState_SelectNations* SelectNationsState;
-	GameState_Menu* MenuState;
-	GameState_Setup* SetupState;
-	GameState_Play* PlayState;
+
+	std::unique_ptr<GameState_Menu> MenuState;
+	std::unique_ptr<GameState_SelectNations> SelectNationsState;
+	std::unique_ptr<GameState_Setup> SetupState;
+	std::unique_ptr<GameState_Play> PlayState;
 
 	TextureManager mTextureManager;
 	FontManager mFontManager;
