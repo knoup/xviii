@@ -19,6 +19,28 @@ int UnitTile::getLimit() const{ return unitLoader.customClasses.at(name).limit; 
 int UnitTile::getMaxHp() const{ return unitLoader.customClasses.at(name).maxHp; };
 int UnitTile::getMaxMov() const{ return unitLoader.customClasses.at(name).maxMov; };
 
+float UnitTile::getFlankModifier(UnitType _mainType, Modifier _flank) const{
+	auto vec = unitLoader.customClasses.at(name).flankModifierValues;
+
+	for (auto& flankModifier : vec){
+		if (flankModifier.type == _mainType){
+			switch (_flank){
+			case Modifier::FRONT_FLANK:
+				return flankModifier.front;
+				break;
+			case Modifier::SIDE_FLANK:
+				return flankModifier.side;
+				break;
+			case Modifier::REAR_FLANK:
+				return flankModifier.rear;
+				break;
+			}
+		}
+	}
+
+	return 0;
+}
+
 UnitTile::Direction UnitTile::opposite(UnitTile::Direction _dir){
 	switch (_dir){
 
@@ -379,8 +401,7 @@ std::string UnitTile::attack(UnitTile* unit){
 		flank = Modifier::SIDE_FLANK;
 	}
 
-	//Add the flank modifier to this unit's modVector. See particular unit's getFlankModifier() for details.
-	this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitFamilyType(), flank));
+	this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitType(), flank));
 
 	
 	//Apply unit-specific modifiers

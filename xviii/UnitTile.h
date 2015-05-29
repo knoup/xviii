@@ -167,12 +167,7 @@ public:
 	int getMaxHp() const;
 	int getMaxMov() const;
 
-	//Virtual
-
-	//Each class will have an overloaded definition returning its specific flank modifier for either 
-	//INF or CAV family units. In the interest of keeping the modifiers static, each class will have 
-	//its own implementation of essentially the same function.
-	inline virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const{ return 0; };
+	float getFlankModifier(UnitType _mainType, Modifier _flank) const;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
