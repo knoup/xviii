@@ -11,46 +11,6 @@ static const float cavFrontFlankModifier = 1;
 static const float cavSideFlankModifier = 1.5;
 static const float cavRearFlankModifier = 2;
 
-float Infantry::getFlankModifier(UnitFamily _family, Modifier _flank) const{
-	if (_family == UnitFamily::INF_FAMILY || _family == UnitFamily::HINF_FAMILY || _family == UnitFamily::LINF_FAMILY){
-		switch (_flank){
-		case Modifier::FRONT_FLANK:
-			return infFrontFlankModifier;
-			break;
-
-		case Modifier::SIDE_FLANK:
-			return infSideFlankModifier;
-			break;
-
-		case Modifier::REAR_FLANK:
-			return infRearFlankModifier;
-			break;
-		}
-	}
-
-	else if (_family == UnitFamily::CAV_FAMILY){
-		switch (_flank){
-		case Modifier::FRONT_FLANK:
-			return cavFrontFlankModifier;
-			break;
-
-		case Modifier::SIDE_FLANK:
-			return cavSideFlankModifier;
-			break;
-
-		case Modifier::REAR_FLANK:
-			return cavRearFlankModifier;
-			break;
-		}
-	}
-
-	//If unit is neither in INF or CAV family, return 0. Modifiers of 0 will be ignored.
-	else{
-		return 0;
-	}
-}
-
-
 Infantry::Infantry(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
 UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _name, _type, _familyType, _dir)
 {

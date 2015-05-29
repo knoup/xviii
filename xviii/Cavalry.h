@@ -26,8 +26,6 @@ public:
 	virtual std::string meleeAttack(Artillery* art);
 	virtual std::string meleeAttack(Mortar* mor);
 
-	virtual float getFlankModifier(UnitFamily _family, Modifier _flank) const;
-
 private:
 	static const int maxhp{13};
 	static const int maxMov{12};

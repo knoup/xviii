@@ -110,50 +110,61 @@ void UnitLoader::parse(boost::filesystem::path path){
 			while (currentLine.find("}") == std::string::npos){
 
 				if (currentLine.find("DEFINE:") EXISTS){
-					//DEFINE:INF_SIDE:0.5
+					//DEFINE:INF
 					std::string str = AFTERCOLON;
-					//INF_SIDE:0.5
+					
+					UnitTile::UnitType mainType;
 
-					//Get INF (before the _)
-					std::string type_substr;
-					std::string::size_type pos = str.find("_");
+					#define X(_str, _mainType, cl)\
+					if(str == _str){\
+						mainType = _mainType;\
+						}
+					MAINTYPEPROPERTIES
+					#undef X
 
-					if (pos != std::string::npos){
-						type_substr = str.substr(0, pos);
-						type_substr.length();
-					}
+						std::getline(unitData, currentLine);
+						
+					UnitTile::FlankModifiers flankModifier{mainType};
 
-					//get SIDE (after _, before :)
+						while (currentLine.find("}") == std::string::npos){
+							if (currentLine.find("DEFINE:") EXISTS){
+								str = AFTERCOLON;
+								//str = "FRONT:0.5"
 
-					std::string dir_substr;
-					std::string::size_type pos1 = str.find('_');
-					std::string::size_type pos2 = str.find(':');
+								std::string direction_str;
 
-					if (pos1 != std::string::npos && pos2 != std::string::npos){
-						pos1 += 1;
-						pos2 -= pos1;
-						dir_substr = str.substr(pos1, pos2);
-						dir_substr.length();
-					}
+								std::string::size_type pos = str.find(':');
 
-					//Get the flank modifier itself; extract using stringstream
-					//to preserve decimals
+								if (pos != std::string::npos){
+									direction_str = str.substr(0, pos);
+								}
 
-					float modifier;
-					std::stringstream ss(str.substr(str.find(":") + 1, str.size() - 1));
+								//Stringstream to extract the modifier, to preserve decimals
+								std::stringstream ss(str.substr(str.find(":") + 1, str.size() - 1));
 
-					if (ss.str().empty()){
-						modifier = 1.f;
-					}
+								//Initialise the modifier as 0; modifiers of 0 are ignored in combat. In case there is
+								//an empty string afterwards, nothing bad will happen.
+								float modifier{0};
 
-					ss >> modifier;
+								if (ss.str().empty()){
+									ss >> modifier;
+								}
 
-					//At this point, we have something like this:
-					//str = "INF_SIDE:0.5"
-					//type_substr = "INF"
-					//dir_substr = "SIDE"
-					//modifier = 0.5
+								if (direction_str == "FRONT"){
+									flankModifier.front = modifier;
+								}
+								else if (direction_str == "SIDE"){
+									flankModifier.side = modifier;
+								}
+								else if (direction_str == "REAR"){
+									flankModifier.rear = modifier;
+								}
+							}
 
+							std::getline(unitData, currentLine);
+						}
+
+						newClass->flankModifierValues.emplace_back(flankModifier);
 				}
 
 				std::getline(unitData, currentLine);
