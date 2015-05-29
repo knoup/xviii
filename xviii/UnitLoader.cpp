@@ -84,6 +84,17 @@ void UnitLoader::parse(boost::filesystem::path path){
 			#undef X
 		}
 
+		else if (currentLine.find("ERA:") EXISTS){
+			std::string str = AFTERCOLON;
+
+			#define X(_str, _era)\
+				if(str == _str){\
+					newClass->era = _era;\
+			}
+			ERAPROPERTIES
+			#undef X
+		}
+
 		else if (currentLine.find("HP:") EXISTS){
 			newClass->maxHp = std::stoi(AFTERCOLON);
 		}

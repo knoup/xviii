@@ -41,15 +41,18 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 
 	////////////////////////////////////////////////////////////////////////
 
-	menuList.push_back({{"New Game"}, Action::NEW});
+	menuList.push_back({{"New Game (All Eras)"}, Action::NEW, World::Era::ALL});
+	menuList.push_back({{"New Game (Early Era)"}, Action::NEW, World::Era::EARLY});
+	menuList.push_back({{"New Game (Mid Era)"}, Action::NEW, World::Era::MID});
+	menuList.push_back({{"New Game (Late Era)"}, Action::NEW, World::Era::LATE});
 
 	if (boost::filesystem::exists("save")){
 		for (boost::filesystem::directory_iterator it("save"); it != end; ++it){
-			menuList.push_back({it->path(), Action::LOAD});
+			menuList.push_back({it->path(), Action::LOAD, World::Era::ALL});
 		}
 	}
 
-	menuList.push_back({{"Exit"}, Action::EXIT});
+	menuList.push_back({{"Exit"}, Action::EXIT, World::Era::ALL});
 
 	for (int i{0}; i < menuList.size(); ++i){
 		menuList[i].text.setFont(game->mFontManager.getFont(FontManager::Arial));
@@ -82,7 +85,7 @@ void GameState_Menu::getInput(){
 			if (event.key.code == CONFIRM_KEY){
 				switch (menuIterator->action){
 					case Action::NEW:
-						game->mWorld.generateRandomWorld();
+						game->mWorld.generateRandomWorld(menuIterator->era);
 						game->setGameStateSelectNations();
 						break;
 

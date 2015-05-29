@@ -15,6 +15,12 @@
 #include "Water.h"
 #include "Woods.h"
 
+#define ERAPROPERTIES\
+	X("EARLY", World::Era::EARLY)\
+	X("MID", World::Era::MID)\
+	X("LATE", World::Era::LATE)\
+	X("ALL", World::Era::ALL)
+
 class World : public sf::Drawable, public sf::NonCopyable
 {
 	friend class Ant;
@@ -25,10 +31,12 @@ class World : public sf::Drawable, public sf::NonCopyable
 	//For easier access to the vertex array
 	friend class TerrainTile;
 public:
+	enum class Era{ EARLY, MID, LATE, ALL };
+
 	World(TextureManager& _tm, sf::Vector2i _dimensions, std::mt19937& _mt19937);
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
-	void generateRandomWorld();
+	void generateRandomWorld(Era _era);
 
 	int indexAtPixelPos(sf::Vector2i _pos) const;
 	int indexAtCartesianPos(sf::Vector2i _pos) const;
@@ -52,6 +60,8 @@ public:
 
 	sf::Vector2i getDimensions() const;
 	sf::Vector2i getDimensionsInPixels() const;
+	World::Era getEra() const{ return era; };
+	void setEra(Era _era){era = _era;}
 
 	void addToDamagedUnits(UnitTile* unit);
 	void clearDamagedUnits();
@@ -62,6 +72,8 @@ private:
 	sf::Vector2i dimensionsInPixels;
 
 	std::mt19937& mt19937;
+
+	Era era;
 
 	//The first layer, or "terrain layer"; always drawn behind the units and only consists
 	//of Terrain.

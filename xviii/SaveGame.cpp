@@ -86,6 +86,17 @@ bool SaveGame::create(){
 	save.open("save\\" + saveName + ".dat"); 
 
 	save << "turn=" << game->elapsedTurns << std::endl;
+	std::string eraString;
+	World::Era currentEra = game->mWorld.getEra();
+
+		#define X(_str, _era)\
+		if(_era == currentEra){\
+			eraString = _str;\
+		}
+		ERAPROPERTIES
+		#undef X
+
+	save << "era=" << eraString << std::endl;
 	save << "player1=" << game->Player1->getName() << std::endl;
 	save << "player2=" << game->Player2->getName() << std::endl;
 	save << "player1Cam=" << game->Player1->view.getCenter().x << " " << game->Player1->view.getCenter().y << std::endl;
@@ -199,6 +210,16 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		if (line.find("turn=") != std::string::npos){
 			int turn{std::stoi(AFTEREQUALS)};
 			game->elapsedTurns = turn;
+		}
+
+		else if (line.find("era=") != std::string::npos){
+			std::string str = AFTEREQUALS;
+
+			#define X(_str, _era)\
+			if(str == _str):\
+				game->mWorld.setEra(_era);\
+			ERAPROPERTIES
+			#undef X
 		}
 
 		else if (line.find("player1=") != std::string::npos){

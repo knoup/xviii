@@ -27,6 +27,7 @@ public:
 		UnitTile::UnitType unitType;
 		UnitTile::UnitFamily unitFamilyType;
 		TextureManager::Unit texture;
+		World::Era era;
 
 		//Elements must be inserted in order of furthest to shortest distances; the first 
 		//element's upper threshold should represent the furthest a unit can shoot

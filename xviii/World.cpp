@@ -10,6 +10,8 @@ dimensionsInPixels{sf::Vector2i(dimensions.x * tm.getSize().x, dimensions.y * tm
 mt19937(_mt19937),
 mTerrainTexture(tm.getTerrainTexture())
 {
+	//era = Era::ALL;
+
 	mTerrainVertices.setPrimitiveType(sf::PrimitiveType::Quads);
 	mTerrainVertices.resize(dimensions.x * dimensions.y * 4);
 
@@ -28,7 +30,9 @@ mTerrainTexture(tm.getTerrainTexture())
 
 }
 
-void World::generateRandomWorld(){
+void World::generateRandomWorld(Era _era){
+
+	setEra(_era);
 
 	terrainLayer.clear();
 

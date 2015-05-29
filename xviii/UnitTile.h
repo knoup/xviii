@@ -28,7 +28,6 @@ class UnitLoader;
 	X("CAV", UnitTile::UnitFamily::CAV_FAMILY)\
 	X("ART", UnitTile::UnitFamily::ART_FAMILY)\
 
-
 class Player;
 
 class Infantry;
