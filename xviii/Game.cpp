@@ -77,6 +77,8 @@ void Game::gameLoop(){
 		lastFT = ft;
 	}
 
+	delete PlayState;
+
 	return;
 }
 
@@ -105,6 +107,9 @@ void Game::setGameStateSetup(){
 void Game::setGameStatePlay(){
 	PlayState->oneTimeUpdate();
 	state = PlayState;
+
+	delete SetupState;
+	delete MenuState;
 }
 
 void Game::nextPlayer(){

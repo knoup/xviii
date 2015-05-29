@@ -17,7 +17,9 @@
 	X("LAN", TextureManager::Unit::LAN)\
 	X("ARMLAN", TextureManager::Unit::ARMLAN)\
 	X("IRR", TextureManager::Unit::IRR)\
-	X("HARCH", TextureManager::Unit::HARCH)
+	X("HARCH", TextureManager::Unit::HARCH)\
+	X("LART", TextureManager::Unit::LART)\
+	X("LDRAG", TextureManager::Unit::LDRAG)
 
 class TextureManager : public sf::NonCopyable
 {
@@ -27,7 +29,7 @@ public:
 	enum class Unit{INF, CAV, CUIR, LCAV, DRAG, 
 					ART, MOR, GEN, GRE, LINF, 
 					SAP, HINF, ARTGUARD, PIKE, LAN,
-					ARMLAN, IRR, HARCH};
+					ARMLAN, IRR, HARCH, LART, LDRAG};
 
 	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS};
 	enum class UI{RECTANGLE, BUTTON};

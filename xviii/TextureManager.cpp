@@ -101,6 +101,14 @@ sf::Sprite TextureManager::getSprite(Unit type){
 	case Unit::HARCH:
 		rekt = {2 * counterSize.x, 5 * counterSize.y , counterSize.x, counterSize.y};
 		break;
+
+	case Unit::LART:
+		rekt = {0, 6 * counterSize.y, counterSize.x, counterSize.y};
+		break;
+
+	case Unit::LDRAG:
+		rekt = {counterSize.x, 6 * counterSize.y, counterSize.x, counterSize.y};
+		break;
 	}
 
 	return{*units, rekt};
