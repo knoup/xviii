@@ -52,13 +52,13 @@ public:
 
 	World mWorld;
 	
-	std::unique_ptr<Player> Player1;
-	std::unique_ptr<Player> Player2;
+	Player* Player1;
+	Player* Player2;
 
 	Player* currentPlayer;
 	sf::View* currentView;
 
-	std::vector<std::unique_ptr<Player>> mPlayers;
+	std::vector<Player*> mPlayers;
 
 	sf::Vector2i mousePos;
 

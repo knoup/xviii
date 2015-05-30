@@ -72,6 +72,9 @@ void Game::gameLoop(){
 		lastFT = ft;
 	}
 
+	delete Player1;
+	delete Player2;
+
 	return;
 }
 
@@ -103,11 +106,11 @@ void Game::setGameStatePlay(){
 }
 
 void Game::nextPlayer(){
-	if (currentPlayer == Player1.get()){
-		currentPlayer = Player2.get();
+	if (currentPlayer == Player1){
+		currentPlayer = Player2;
 	}
-	else if (currentPlayer == Player2.get()){
-		currentPlayer = Player1.get();
+	else if (currentPlayer == Player2){
+		currentPlayer = Player1;
 	}
 
 	currentView = &currentPlayer->view;

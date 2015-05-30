@@ -220,10 +220,10 @@ void GameState_Setup::update(float mFT){
 	setupUI.update();
 
 	if (game->currentPlayer->isReady()){
-		if (game->currentPlayer == game->Player1.get()){
+		if (game->currentPlayer == game->Player1){
 			game->nextPlayer();
 		}
-		else if (game->currentPlayer == game->Player2.get()){
+		else if (game->currentPlayer == game->Player2){
 			game->nextPlayer();
 			game->setGameStatePlay();
 		}
