@@ -3,11 +3,6 @@
 
 #include "global.h"
 
-#include "GameState.h"
-#include "GameState_Play.h"
-#include "GameState_SelectNations.h"
-#include "GameState_Setup.h"
-#include "GameState_Menu.h"
 #include "UnitTile.h"
 #include "Player.h"
 
@@ -35,12 +30,12 @@ mUnitLoader{mTextureManager}
 
 	mUnitLoader.load();
 
-	MenuState = (new GameState_Menu(this));
-	SelectNationsState = (new GameState_SelectNations(this));
-	SetupState = (new GameState_Setup(this));
-	PlayState = (new GameState_Play(this));
+	MenuState = (std::unique_ptr<GameState_Menu>(new GameState_Menu(this)));
+	SelectNationsState = (std::unique_ptr<GameState_SelectNations>(new GameState_SelectNations(this)));
+	SetupState = (std::unique_ptr<GameState_Setup>(new GameState_Setup(this)));
+	PlayState = (std::unique_ptr<GameState_Play>(new GameState_Play(this)));
 
-	state = MenuState;
+	state = MenuState.get();
 
 	gameLoop();
 }
@@ -77,8 +72,6 @@ void Game::gameLoop(){
 		lastFT = ft;
 	}
 
-	delete PlayState;
-
 	return;
 }
 
@@ -97,19 +90,16 @@ void Game::draw(){
 }
 
 void Game::setGameStateSelectNations(){
-	state = SelectNationsState;
+	state = SelectNationsState.get();
 }
 
 void Game::setGameStateSetup(){
-	state = SetupState;
+	state = SetupState.get();
 }
 
 void Game::setGameStatePlay(){
 	PlayState->oneTimeUpdate();
-	state = PlayState;
-
-	delete SetupState;
-	delete MenuState;
+	state = PlayState.get();
 }
 
 void Game::nextPlayer(){

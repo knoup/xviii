@@ -2,6 +2,7 @@
 #include "SetupUI.h"
 
 #include "GameState_Setup.h"
+#include "Game.h"
 
 SetupUI::SetupUI(GameState_Setup* _gameState, TextureManager& _tm, FontManager& _fm) :
 gameState{_gameState},

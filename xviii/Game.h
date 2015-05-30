@@ -10,11 +10,11 @@
 #include <random>
 #include <boost/chrono.hpp>
 
-class GameState;
-class GameState_Setup;
-class GameState_SelectNations;
-class GameState_Play;
-class GameState_Menu;
+#include "GameState_Play.h"
+#include "GameState_SelectNations.h"
+#include "GameState_Setup.h"
+#include "GameState_Menu.h"
+
 class UnitTile;
 
 class Game : public sf::NonCopyable
@@ -42,10 +42,10 @@ public:
 
 	GameState* state;
 
-	GameState_Menu* MenuState;
-	GameState_SelectNations* SelectNationsState;
-	GameState_Setup* SetupState;
-	GameState_Play* PlayState;
+	std::unique_ptr<GameState_Menu> MenuState;
+	std::unique_ptr<GameState_SelectNations> SelectNationsState;
+	std::unique_ptr<GameState_Setup> SetupState;
+	std::unique_ptr<GameState_Play> PlayState;
 
 	TextureManager mTextureManager;
 	FontManager mFontManager;

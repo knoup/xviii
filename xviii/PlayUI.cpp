@@ -2,6 +2,7 @@
 #include "PlayUI.h"
 
 #include "GameState_Play.h"
+#include "Game.h"
 
 PlayUI::PlayUI(GameState_Play* _gameState, TextureManager& _tm, FontManager& _fm) :
 gameState{_gameState},

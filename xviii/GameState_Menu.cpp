@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GameState_Menu.h"
 
+#include "Game.h"
+
 GameState_Menu::GameState_Menu(Game* game) :
 GameState{game},
 menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)},

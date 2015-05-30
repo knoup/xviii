@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GameState_SelectNations.h"
 
+#include "Game.h"
+
 void GameState_SelectNations::updateNationName(){
 	#define X(nationType, textureType, str)\
 		if(flagIterator->nation == nationType){\

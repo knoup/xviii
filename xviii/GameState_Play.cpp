@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GameState_Play.h"
 
+#include "Game.h"
+
 std::string boolToString(bool _value){
 	if (_value){
 		return "YES";

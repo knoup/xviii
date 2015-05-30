@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameState_Setup.h"
 
+#include "Game.h"
 
 GameState_Setup::GameState_Setup(Game* _game) :
 GameState{_game},
