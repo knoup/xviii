@@ -103,11 +103,11 @@ void Game::setGameStatePlay(){
 }
 
 void Game::nextPlayer(){
-	if (currentPlayer == Player1){
-		currentPlayer = Player2;
+	if (currentPlayer == Player1.get()){
+		currentPlayer = Player2.get();
 	}
-	else if (currentPlayer == Player2){
-		currentPlayer = Player1;
+	else if (currentPlayer == Player2.get()){
+		currentPlayer = Player1.get();
 	}
 
 	currentView = &currentPlayer->view;

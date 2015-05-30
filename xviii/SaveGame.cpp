@@ -103,10 +103,10 @@ bool SaveGame::create(){
 	save << "player2Cam=" << game->Player2->view.getCenter().x << " " << game->Player2->view.getCenter().y << std::endl;
 	save << "currentPlayer=";
 
-	if (game->currentPlayer == game->Player1){
+	if (game->currentPlayer == game->Player1.get()){
 		save << "player1";
 	}
-	else if (game->currentPlayer == game->Player2){
+	else if (game->currentPlayer == game->Player2.get()){
 		save << "player2";
 	}
 
@@ -155,10 +155,10 @@ bool SaveGame::create(){
 			save << INDENT << "type=" << unit->getName() << std::endl;
 			save << INDENT << "faction=";
 
-			if (unit->getPlayer() == game->Player1){
+			if (unit->getPlayer() == game->Player1.get()){
 				save  << "player1";
 			}
-			else if (unit->getPlayer() == game->Player2){
+			else if (unit->getPlayer() == game->Player2.get()){
 				save << "player2";
 			}
 
@@ -223,8 +223,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("player1=") != std::string::npos){
 			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
-			game->Player1 = new Player({game->mUnitLoader, game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, true});
-			game->mPlayers.emplace_back(game->Player1);
+			game->Player1 = std::unique_ptr<Player>(new Player({game->mUnitLoader, game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, true}));
+			game->mPlayers.emplace_back(std::move(game->Player1));
 		}
 
 		else if (line.find("player1Cam=") != std::string::npos){
@@ -240,8 +240,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("player2=") != std::string::npos){
 			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
-			game->Player2 = new Player({game->mUnitLoader, game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, false});
-			game->mPlayers.emplace_back(game->Player2);
+			game->Player2 = std::unique_ptr<Player>(new Player({game->mUnitLoader, game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, false}));
+			game->mPlayers.emplace_back(std::move(game->Player2));
 		}
 
 		else if (line.find("player2Cam=") != std::string::npos){
@@ -259,11 +259,11 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			std::string playerStr{AFTEREQUALS};
 
 			if (playerStr == "player1"){
-				game->currentPlayer = game->Player1;
+				game->currentPlayer = game->Player1.get();
 				game->currentView = &game->Player1->view;
 			}
 			else if (playerStr == "player2"){
-				game->currentPlayer = game->Player2;
+				game->currentPlayer = game->Player2.get();
 				game->currentView = &game->Player2->view;
 			}
 		}
@@ -350,10 +350,10 @@ void SaveGame::parse(boost::filesystem::path _dir){
 					std::string nation{(AFTEREQUALS)};
 
 					if (nation == "player1"){
-						player = game->Player1;
+						player = game->Player1.get();
 					}
 					else if (nation == "player2"){
-						player = game->Player2;
+						player = game->Player2.get();
 					}
 				}
 
