@@ -3,14 +3,6 @@
 
 #include "Player.h"
 
-static const float infFrontFlankModifier = 0.5;
-static const float infSideFlankModifier = 1;
-static const float infRearFlankModifier = 2;
-
-static const float cavFrontFlankModifier = 1;
-static const float cavSideFlankModifier = 2;
-static const float cavRearFlankModifier = 2;
-
 bool Cavalry::lancerBonus(UnitTile* defender, float finalAttackerRoll, bool attackBonusReady, float& damageDealt){
 	//If FINAL roll is 8 or above and attack bonus is ready...
 	if (finalAttackerRoll >= 8 && attackBonusReady){

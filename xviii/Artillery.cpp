@@ -6,10 +6,6 @@
 Artillery::Artillery(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
 UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _name, _type, _familyType, _dir)
 {
-	/*
-	rangedAttackDistValues.emplace_back(20, 24, 1, true, 4, 6);
-	rangedAttackDistValues.emplace_back(10, 19, 2, true, 4, 6);
-	rangedAttackDistValues.emplace_back(2, 9, 4, true, 4, 6);*/
 }
 
 void Artillery::reset(){

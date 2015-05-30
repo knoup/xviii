@@ -6,12 +6,6 @@
 General::General(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
 Cavalry(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _name, _type, _familyType, _dir)
 {
-	/*
-	rangedAttackDistValues.clear();
-	rangedAttackDistValues.emplace_back(2, getMaxRange(), 0.5);
-
-	healingRangeValues.clear();
-	healingRangeValues.emplace_back(0, 0, 2);*/
 }
 
 void General::reset(){

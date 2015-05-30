@@ -3,22 +3,9 @@
 
 #include "Player.h"
 
-static const float infFrontFlankModifier = 0.5;
-static const float infSideFlankModifier = 1;
-static const float infRearFlankModifier = 2;
-
-static const float cavFrontFlankModifier = 1;
-static const float cavSideFlankModifier = 1.5;
-static const float cavRearFlankModifier = 2;
-
 Infantry::Infantry(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
 UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _name, _type, _familyType, _dir)
 {
-	/*
-	rangedAttackDistValues.clear();
-	rangedAttackDistValues.emplace_back(6, 6, 0.5);
-	rangedAttackDistValues.emplace_back(3, 5, 1);
-	rangedAttackDistValues.emplace_back(2, 2, 2);*/
 }
 
 std::string Infantry::moveTo(TerrainTile* terrainTile){
