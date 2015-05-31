@@ -10,6 +10,7 @@
 	X("MOR", TextureManager::Unit::MOR)\
 	X("GEN", TextureManager::Unit::GEN)\
 	X("GRE", TextureManager::Unit::GRE)\
+	X("LINF", TextureManager::Unit::LINF)\
 	X("SAP", TextureManager::Unit::SAP)\
 	X("HINF", TextureManager::Unit::HINF)\
 	X("ARTGUARD", TextureManager::Unit::ARTGUARD)\
