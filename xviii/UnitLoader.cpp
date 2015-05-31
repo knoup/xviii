@@ -89,15 +89,24 @@ void UnitLoader::parse(boost::filesystem::path path){
 			#undef X
 		}
 
-		else if (currentLine.find("ERA:") EXISTS){
-			std::string str = AFTERCOLON;
+		else if (currentLine.find("ERA") EXISTS){
+			std::getline(unitData, currentLine);
 
-			#define X(_str, _era)\
-				if(str == _str){\
-					newClass->era = _era;\
+			while (currentLine.find("}") == std::string::npos){
+
+				if (currentLine.find("DEFINE:") EXISTS){
+					std::string str = AFTERCOLON;
+
+					#define X(_str, _era)\
+					if(str == _str){\
+						newClass->eras.push_back(_era);\
+					}
+						ERAPROPERTIES
+					#undef X
+					}
+
+					std::getline(unitData, currentLine);
 			}
-			ERAPROPERTIES
-			#undef X
 		}
 
 		else if (currentLine.find("HP:") EXISTS){

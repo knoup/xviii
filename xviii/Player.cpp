@@ -24,7 +24,16 @@ spawnedAtBottom{_spawnedAtBottom}
 
 	for (auto& customClass : unitLoader.customClasses){
 		for (auto& customNation : customClass.second.nations){
-			if (customNation == nation && (customClass.second.era == world.getEra() || customClass.second.era == World::Era::ALL || world.getEra() == World::Era::ALL)){
+			bool validEra{false};
+
+			for (auto& era : customClass.second.eras){
+				if (era == world.getEra() || era == World::Era::ALL){
+					validEra = true;
+					continue;
+				}
+			}
+
+			if (customNation == nation && (validEra || world.getEra() == World::Era::ALL)){
 				int index = spawnableUnits.size();
 				spawnableUnits.emplace_back(this, customClass.second.name, 
 				sf::Vector2i((index % idealDimensions.x) + 1, (index / idealDimensions.x) + 1));
