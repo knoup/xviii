@@ -37,6 +37,7 @@ public:
 		std::vector<UnitTile::FlankModifiers> flankModifierValues;
 		std::vector<UnitTile::BonusVSMainType> bonusesVsMainTypes;
 		std::vector<UnitTile::BonusVSFamilyType> bonusesVsFamilyTypes;
+		std::vector<UnitTile::BonusVSName> bonusesVsNames;
 
 		bool melee;
 		bool skirmish;

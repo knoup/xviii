@@ -20,12 +20,14 @@ int UnitTile::getLimit() const{ return unitLoader.customClasses.at(name).limit; 
 int UnitTile::getMaxHp() const{ return unitLoader.customClasses.at(name).maxHp; };
 int UnitTile::getMaxMov() const{ return unitLoader.customClasses.at(name).maxMov; };
 
-void UnitTile::preMeleeAttack(UnitTile* _unit, bool _attacking){
+void UnitTile::applyModifiers(UnitTile* _unit, bool _attacking){
 	UnitTile::UnitType mainType = _unit->getUnitType();
 	UnitTile::UnitFamily familyType = _unit->getUnitFamilyType();
+	std::string unitName = _unit->getName();
 
 	auto bonusesVsMainTypes = unitLoader.customClasses.at(name).bonusesVsMainTypes;
 	auto bonusesVsFamilyTypes = unitLoader.customClasses.at(name).bonusesVsFamilyTypes;
+	auto bonusesVsNames = unitLoader.customClasses.at(name).bonusesVsNames;
 
 	for (auto& bonus : bonusesVsMainTypes){
 		if (bonus.mainType == mainType){
@@ -44,6 +46,21 @@ void UnitTile::preMeleeAttack(UnitTile* _unit, bool _attacking){
 
 	for (auto& bonus : bonusesVsFamilyTypes){
 		if (bonus.familyType == familyType){
+			UnitTile::Modifier modType;
+			if ((!_attacking && bonus.whenDefending) || (_attacking && bonus.whenAttacking)){
+				if (bonus.modifierIsAdditional){
+					modType = Modifier::ADDITIONAL;
+				}
+				else{
+					modType = Modifier::MULTIPLICATIONAL;
+				}
+				modVector.emplace_back(modType, bonus.modifier);
+			}
+		}
+	}
+
+	for (auto& bonus : bonusesVsNames){
+		if (bonus.name == unitName){
 			UnitTile::Modifier modType;
 			if ((!_attacking && bonus.whenDefending) || (_attacking && bonus.whenAttacking)){
 				if (bonus.modifierIsAdditional){
@@ -443,8 +460,8 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	
 	//Apply unit-specific modifiers
-	this->preMeleeAttack(unit, true);
-	unit->preMeleeAttack(this, false);
+	this->applyModifiers(unit, true);
+	unit->applyModifiers(this, false);
 
 	//Double dispatch, hence the reverse order
 	return unit->meleeAttack(this);

@@ -373,6 +373,10 @@ void UnitLoader::parse(boost::filesystem::path path){
 							newClass->bonusesVsFamilyTypes.emplace_back(familyType, arg1, arg2, arg3, arg4);
 					}
 
+					else if (first_part == "NAME"){
+						newClass->bonusesVsNames.emplace_back(second_part, arg1, arg2, arg3, arg4);
+					}
+
 					else{
 						break;
 					}

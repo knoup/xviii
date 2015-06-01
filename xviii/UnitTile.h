@@ -152,6 +152,18 @@ public:
 		bool whenDefending;
 	};
 
+	struct BonusVSName{
+		BonusVSName(std::string _name, float _modifier, bool _modifierIsAdditional, bool _whenAttacking, bool _whenDefending) :
+			name{_name}, modifier{_modifier}, modifierIsAdditional{_modifierIsAdditional}, whenAttacking{_whenAttacking}, whenDefending{_whenDefending}
+		{}
+
+		std::string name;
+		float modifier;
+		bool modifierIsAdditional;
+		bool whenAttacking;
+		bool whenDefending;
+	};
+
 	UnitTile(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
@@ -229,7 +241,7 @@ public:
 
 	//This function is unit-specific, and checks for such things as vs. family bonuses/maluses. The bool specifies
 	//whether the unit is attacking or defending
-	void preMeleeAttack(UnitTile* _unit, bool _attacking);
+	void applyModifiers(UnitTile* _unit, bool _attacking);
 
 	//Needed for double dispatch
 	virtual std::string meleeAttack(UnitTile* _unit) = 0;
