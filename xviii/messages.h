@@ -2,7 +2,7 @@
 
 const std::string SF_ACTIVE{"Cannot do that while in SF"};
 const std::string SUCCESSFUL_ROTATION{"Successfully rotated to "};
-const std::string ALREADY_ATTACKED{"Cannot attack any more"};
+const std::string ALREADY_ATTACKED{"Already attacked"};
 const std::string ALREADY_FACING{"Already facing "};
 const std::string ALREADY_ROTATED{"Already rotated this turn"};
 const std::string NO_MOV{"Invalid move order: not enough mov"};

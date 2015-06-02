@@ -130,6 +130,18 @@ void GameState_Menu::getInput(){
 			}
 
 			else if (event.key.code == DELETE_KEY && menuIterator->action != Action::NEW){
+				if (menuIterator->action == Action::EXIT){
+					for (int i{0}; i < menuList.size(); ++i){
+						menuList[i].text.setFont(game->mFontManager.getFont(FontManager::Arial));
+
+						menuList[i].text.setString("THERE IS NO ESCAPE");
+						menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
+					}
+
+					titleText.setString("THERE IS NO ESCAPE");
+					titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
+				}
+
 				boost::filesystem::remove(menuIterator->path);
 				menuList.erase(menuIterator);
 				menuIterator = menuList.begin();

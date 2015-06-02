@@ -265,7 +265,9 @@ public:
 
 	//Other - Non Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	void toggleSquareFormationActive();
+	
+	void stun();
+	std::string toggleSquareFormationActive();
 	std::string heal(UnitTile* _unit);
 	std::string beHealed(float num);
 	void calculateEffectiveMov();

@@ -334,21 +334,30 @@ void UnitTile::reset(){
 	updateStats();
 }
 
-void UnitTile::toggleSquareFormationActive(){
+
+void UnitTile::stun(){
+	mov = 0;
+	hasMeleeAttacked = true;
+	hasRangedAttacked = true;
+	hasMoved = true;
+}
+
+std::string UnitTile::toggleSquareFormationActive(){
 	if (squareFormationActive){
 		squareFormationActive = false;
-
-		//Stun the unit for the rest of the turn
-		mov = 0;
-		hasMeleeAttacked = true;
-		hasRangedAttacked = true;
-		hasMoved = true;
-
-		updateStats();
+		stun();
 	}
 	else{
-		squareFormationActive = true;
+		if (getHasAnyAttacked()){
+			return ALREADY_ATTACKED;
+		}
+		else{
+			squareFormationActive = true;
+		}
 	}
+
+	updateStats();
+	return{};
 }
 
 std::string UnitTile::heal(UnitTile* _unit){

@@ -22,7 +22,7 @@ public:
 
 	virtual bool getUniqueVariable() const{ return limber; };
 	virtual void setUniqueVariable(bool _value){ limber = _value; };
-	virtual void toggleLimber();
+	std::string toggleLimber();
 
 private:
 	//A special artillery ability, limbering

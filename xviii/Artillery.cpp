@@ -93,13 +93,20 @@ std::string Artillery::rangedAttack(UnitTile* unit, int distance){
 	return UnitTile::rangedAttack(unit, distance);
 }
 
-void Artillery::toggleLimber(){
-	mov = 0;
-	hasMeleeAttacked = true;
-	hasRangedAttacked = true;
-	hasMoved = true;
-
-	limber = !limber;
+std::string Artillery::toggleLimber(){
+	if (limber){
+		limber = false;
+		stun();
+	}
+	else{
+		if (getHasAnyAttacked()){
+			return ALREADY_ATTACKED;
+		}
+		else{
+			limber = true;
+		}
+	}
 
 	updateStats();
+	return{};
 }
