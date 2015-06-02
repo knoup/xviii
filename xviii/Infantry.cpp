@@ -147,7 +147,9 @@ std::string Infantry::meleeAttack(Infantry* inf){
 		//if the attacker's ORIGINAL roll is >= 6 AND the defender's ORIGINAL roll is <6
 		//OR
 		//if the attacker's FINAL roll is > than the defender's FINAL roll
-		if ((thisRoll_int == 6 && enemyRoll_int < 6) || (thisRoll > enemyRoll)){
+		//AND
+		//The enemy is not in square formation
+		if (((thisRoll_int == 6 && enemyRoll_int < 6) || (thisRoll > enemyRoll)) && !inf->getSquareFormationActive()){
 			sf::Vector2i enemyPos{inf->getCartesianPos()};
 			sf::Vector2i enemyRetreatPos{enemyPos};
 

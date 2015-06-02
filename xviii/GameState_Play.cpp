@@ -138,7 +138,7 @@ void GameState_Play::getInput(){
 				Artillery* art = dynamic_cast<Artillery*>(selected);
 
 				if (art != nullptr){
-					art->toggleLimber();
+					playUI.setCurrentMessageText(art->toggleLimber());
 				}
 
 				break;
@@ -147,7 +147,7 @@ void GameState_Play::getInput(){
 			case SQUARE_FORMATION_KEY:
 			{
 				if (selected != nullptr){
-					selected->toggleSquareFormationActive();
+					playUI.setCurrentMessageText(selected->toggleSquareFormationActive());
 					break;
 				}
 			}
