@@ -40,6 +40,12 @@ void Cavalry::reset(){
 
 
 std::string Cavalry::rotate(UnitTile::Direction _dir){
+
+	if (getSquareFormationActive()){
+		return SF_ACTIVE;
+	}
+
+
 	bool oppositeRotation{_dir == opposite(dir)};
 
 	if (hasMeleeAttacked || (!getSkirmish() && hasRangedAttacked) || ((getSkirmish() && !oppositeRotation) && getHasAnyAttacked())){

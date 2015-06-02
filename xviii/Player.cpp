@@ -157,7 +157,7 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 }
 
 //For loading from a save game
-void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _uniqueVariable){
+void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _uniqueVariable){
 
 	TextureManager::Unit _texture = unitLoader.customClasses.at(_name).texture;
 	UnitTile::UnitType _type = unitLoader.customClasses.at(_name).unitType;
@@ -185,6 +185,7 @@ void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction 
 	ptr->setHasMeleeAttacked(_hasMeleeAttacked);
 	ptr->setHasRangedAttacked(_hasRangedAttacked);
 	ptr->setHasHealed(_hasHealed);
+	ptr->setSquareFormationActive(_squareFormationActive);
 	ptr->setUniqueVariable(_uniqueVariable);
 
 

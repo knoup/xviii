@@ -181,10 +181,13 @@ bool SaveGame::create(){
 			if (unit->getUnitType() == UnitTile::UnitType::ART){
 				save << INDENT << "limbered=" << unit->getUniqueVariable() << std::endl;
 			}
+			else{
+				save << INDENT << "squareFormationActive=" << unit->getSquareFormationActive() << std::endl;
+			}
 
-			else if (unit->getLancer()){
-					save << INDENT << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
-				}
+			if (unit->getLancer()){
+				save << INDENT << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
+			}
 
 			save << "}u" << std::endl;
 			save << std::endl;
@@ -337,6 +340,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			bool hasMeleeAttacked;
 			bool hasRangedAttacked;
 			bool hasHealed{false};
+			bool squareFormationActive;
 			bool uniqueVariable{false};
 
 			while (line.find("}u") == std::string::npos){
@@ -406,6 +410,9 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				else if (line.find("hasHealed=") != std::string::npos){
 					hasHealed = std::stoi(AFTEREQUALS);
 				}
+				else if (line.find("squareFormationActive=") != std::string::npos){
+					squareFormationActive = std::stoi(AFTEREQUALS);
+				}
 
 				//Unique variable names go in here
 				else{
@@ -422,7 +429,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			}
 
 
-			player->loadUnit(name, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed, uniqueVariable);
+			player->loadUnit(name, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed, squareFormationActive, uniqueVariable);
 
 		}
 

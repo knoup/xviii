@@ -45,7 +45,7 @@ public:
 
 	enum class Direction{ N, E, S, W };
 
-	enum class Modifier{NONE, ADDITIONAL, MULTIPLICATIONAL, ATK, DFND, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK};
+	enum class Modifier{NONE, ADDITIONAL, MULTIPLICATIONAL, ATK, DFND, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK, SQUARE_FORMATION};
 
 	enum class UnitType{INF, CAV, ART, MOR, GEN, ARTGUARD};
 
@@ -216,7 +216,7 @@ public:
 	inline void sethp(float _hp){ hp = _hp; };
 	inline void setMov(float _mov){ mov = _mov; };
 	inline void setDir(Direction _dir){ dir = _dir; };
-	//inline void setSquareFormationActive(bool _value){ squareFormationActive = _value; };
+	inline void setSquareFormationActive(bool _value){ squareFormationActive = _value; };
 	inline void setHasMoved(bool _hasMoved){ hasMoved = _hasMoved; };
 	inline void setHasPartialRotated(bool _hasPartialRotated){ hasPartialRotated = _hasPartialRotated; };
 	inline void setHasFullRotated(bool _hasFullRotated){ hasFullRotated = _hasFullRotated; };
@@ -318,10 +318,7 @@ protected:
 	//where they are easily and efficiently, since a unit must always be on a terrain tile
 	TerrainTile* terrain;
 
-	//For (yellow) outlining
-	sf::RectangleShape yellowOutline;
-	//For (red) outlining
-	sf::RectangleShape redOutline;
+	mutable sf::RectangleShape outline;
 
 	//The visual representations of the stats
     sf::Text dirText;

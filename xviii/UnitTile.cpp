@@ -208,6 +208,10 @@ std::string UnitTile::modToString(ModifierReport _mod){
 	case Modifier::REAR_FLANK:
 		return{"rear flank"};
 		break;
+
+	case Modifier::SQUARE_FORMATION:
+		return{"square formation"};
+		break;
 	}
 }
 
@@ -241,17 +245,11 @@ terrain{nullptr}
     hpText.setColor(sf::Color::Red);
     movText.setColor(sf::Color::Black);
 
-	yellowOutline.setPosition(sprite.getPosition().x, sprite.getPosition().y);
-	yellowOutline.setSize(sf::Vector2f(tm.getSize().x, tm.getSize().y));
-	yellowOutline.setOutlineColor(sf::Color::Yellow);
-	yellowOutline.setOutlineThickness(-1);
-	yellowOutline.setFillColor(sf::Color::Transparent);
-
-	redOutline.setPosition(sprite.getPosition().x, sprite.getPosition().y);
-	redOutline.setSize(sf::Vector2f(tm.getSize().x, tm.getSize().y));
-	redOutline.setOutlineColor(sf::Color::Red);
-	redOutline.setOutlineThickness(-1);
-	redOutline.setFillColor(sf::Color::Transparent);
+	outline.setPosition(sprite.getPosition().x, sprite.getPosition().y);
+	outline.setSize(sf::Vector2f(tm.getSize().x, tm.getSize().y));
+	outline.setOutlineColor(sf::Color::Yellow);
+	outline.setOutlineThickness(-1);
+	outline.setFillColor(sf::Color::Transparent);
 
 	hp = getMaxHp();
 	mov = getMaxMov();
@@ -266,13 +264,16 @@ void UnitTile::spawn(TerrainTile* terrainTile){
 	terrainTile->setUnit(this);
 	sprite.setPosition(terrainTile->getPixelPos());
 	unitFlag.setPosition(terrainTile->getPixelPos());
-	yellowOutline.setPosition(terrainTile->getPixelPos());
-	redOutline.setPosition(terrainTile->getPixelPos());
+	outline.setPosition(terrainTile->getPixelPos());
 	updateStats();
 }
 
 //Virtual
 std::string UnitTile::moveTo(TerrainTile* _terrainTile){
+	if (getSquareFormationActive()){
+		return SF_ACTIVE;
+	}
+
 	bool validMovDirection{false};
 	bool validAttackDirection{false};
 	bool obstructionPresent{false};
@@ -306,8 +307,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 		mov -= movExpended;
 		sprite.setPosition(_terrainTile->getPixelPos());
 		unitFlag.setPosition(_terrainTile->getPixelPos());
-		yellowOutline.setPosition(_terrainTile->getPixelPos());
-		redOutline.setPosition(_terrainTile->getPixelPos());
+		outline.setPosition(_terrainTile->getPixelPos());
 		updateStats();
 		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
 	}
@@ -337,6 +337,14 @@ void UnitTile::reset(){
 void UnitTile::toggleSquareFormationActive(){
 	if (squareFormationActive){
 		squareFormationActive = false;
+
+		//Stun the unit for the rest of the turn
+		mov = 0;
+		hasMeleeAttacked = true;
+		hasRangedAttacked = true;
+		hasMoved = true;
+
+		updateStats();
 	}
 	else{
 		squareFormationActive = true;
@@ -354,12 +362,20 @@ std::string UnitTile::heal(UnitTile* _unit){
 
 		float healingAmount{0};
 
+		//(healingRange.lowerThreshold == 0 && healingRange.upperThreshold == 0)
+		//Infinite range if the thresholds are both 0
+
+		// || difference.axis == 0
+		//This is to ensure that even when one of the axes is 0, the unit will still get properly healed, if in range
+		//(Example: with a range of 1-6, if you are on the same x-axis, you may have a distance of 0, 5. It should still
+		//be considered valid.)
+
 		for (auto & healingRange : unitLoader.customClasses.at(name).healingRangeValues){
 			if ((healingRange.lowerThreshold == 0 && healingRange.upperThreshold == 0)
 				||
-				difference.x >= healingRange.lowerThreshold && difference.y >= healingRange.lowerThreshold
+				(difference.x >= healingRange.lowerThreshold || difference.x == 0) && (difference.y >= healingRange.lowerThreshold || difference.y == 0)
 				&&
-				difference.x <= healingRange.upperThreshold && difference.y <= healingRange.upperThreshold){
+				(difference.x <= healingRange.upperThreshold || difference.x == 0) && (difference.y <= healingRange.upperThreshold || difference.y == 0)){
 
 				healingAmount = healingRange.healingAmount;
 			}
@@ -421,6 +437,10 @@ std::string UnitTile::attack(UnitTile* unit){
 		dist = abs(vectorDist.x);
 	}
 
+	if (getSquareFormationActive()){
+		return SF_ACTIVE;
+	}
+
 	if (hasMeleeAttacked || hasRangedAttacked){
 		return{ALREADY_ATTACKED};
 	}
@@ -448,7 +468,7 @@ std::string UnitTile::attack(UnitTile* unit){
 	if (dist == 1 && !getMelee()){
 		return NO_MELEE;
 	}
-	
+
 	UnitTile::Modifier flank{Modifier::FRONT_FLANK};
 
 	//Determine flank direction
@@ -465,7 +485,23 @@ std::string UnitTile::attack(UnitTile* unit){
 		flank = Modifier::SIDE_FLANK;
 	}
 
-	this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitType(), flank));
+	if (!unit->getSquareFormationActive()){
+		this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitType(), flank));
+	}
+
+	/*
+	Cavalry units attacking units in square formation, get a 0.5d modifier from all flanks.
+	Infantry units attacking units in square formation, get a 1d modifier from all flanks.
+	*/
+
+	else{
+		if (this->getUnitType() == UnitTile::UnitType::INF){
+			this->modVector.emplace_back(Modifier::SQUARE_FORMATION, 1);
+		}
+		else if (this->getUnitType() == UnitTile::UnitType::CAV){
+			this->modVector.emplace_back(Modifier::SQUARE_FORMATION, 0.5);
+		}
+	}
 
 	
 	//Apply unit-specific modifiers
@@ -535,12 +571,19 @@ void UnitTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	target.draw(movText);
 
 	if (hasMeleeAttacked || hasRangedAttacked){
-		target.draw(redOutline);
+		outline.setOutlineColor(sf::Color::Red);
+	}
+	else if (highlighted){
+		outline.setOutlineColor(sf::Color::Yellow);
+	}
+	else if (squareFormationActive){
+		outline.setOutlineColor(sf::Color(0,255,255));
+	}
+	else{
+		outline.setOutlineColor(sf::Color::Transparent);
 	}
 
-	if (highlighted){
-		target.draw(yellowOutline);
-	}
+	target.draw(outline);
 }
 
 /*
@@ -917,6 +960,10 @@ void UnitTile::calculateEffectiveMov(){
 }
 
 std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
+
+	if (getSquareFormationActive()){
+		return SF_ACTIVE;
+	}
 
 	std::uniform_int_distribution<int> distribution(1, 6);
 

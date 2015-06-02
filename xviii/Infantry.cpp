@@ -10,6 +10,10 @@ UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _n
 
 std::string Infantry::moveTo(TerrainTile* terrainTile){
 
+	if (getSquareFormationActive()){
+		return SF_ACTIVE;
+	}
+
 	bool validMovDirection{false};
 	bool validAttackDirection{false};
 	bool obstructionPresent{false};
@@ -44,8 +48,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 		mov -= movExpended;
 		sprite.setPosition(terrainTile->getPixelPos());
 		unitFlag.setPosition(terrainTile->getPixelPos());
-		yellowOutline.setPosition(terrainTile->getPixelPos());
-		redOutline.setPosition(terrainTile->getPixelPos());
+		outline.setPosition(terrainTile->getPixelPos());
 		updateStats();
 		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
 	}
@@ -62,6 +65,10 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 
 std::string Infantry::rotate(UnitTile::Direction _dir){
+	if (getSquareFormationActive()){
+		return SF_ACTIVE;
+	}
+
 	bool oppositeRotation{_dir == opposite(dir)};
 
 	if (hasMeleeAttacked || (!getSkirmish() && hasRangedAttacked) || ((getSkirmish() && !oppositeRotation) && getHasAnyAttacked())){

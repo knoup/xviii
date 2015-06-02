@@ -51,7 +51,7 @@ class Player
 		UnitTile::unitPtr removeUnit(sf::Vector2i _worldCoords);
 		UnitTile::unitPtr removeUnit(UnitTile* _unit);
 		//For loading from a save game
-		void loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _uniqueVariable);
+		void loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _uniqueVariable);
 
 		inline const World& getWorld() const{ return world; };
 		inline int getDeploymentPoints() const{ return deploymentPoints; };
