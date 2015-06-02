@@ -4,6 +4,7 @@ const sf::Keyboard::Key DELETE_KEY = sf::Keyboard::Delete;
 
 const sf::Keyboard::Key RANDOMNATION_KEY = sf::Keyboard::R;
 const sf::Keyboard::Key LIMBER_KEY = sf::Keyboard::L;
+const sf::Keyboard::Key SQUARE_FORMATION_KEY = sf::Keyboard::F;
 const sf::Keyboard::Key NEXT_TURN = sf::Keyboard::Return;
 
 const sf::Keyboard::Key UP_KEY = sf::Keyboard::W;
@@ -16,12 +17,6 @@ const sf::Keyboard::Key ZOOMOUT_KEY = sf::Keyboard::Dash;
 const sf::Keyboard::Key ZOOMIN_KEY = sf::Keyboard::Equal;
 
 const sf::Keyboard::Key HIDE_UI_KEY = sf::Keyboard::H;
-
-const sf::Keyboard::Key SPAWNINF_KEY = sf::Keyboard::T;
-const sf::Keyboard::Key SPAWNCAV_KEY = sf::Keyboard::Y;
-const sf::Keyboard::Key SPAWNART_KEY = sf::Keyboard::F;
-const sf::Keyboard::Key SPAWNMOR_KEY = sf::Keyboard::G;
-const sf::Keyboard::Key SPAWNGEN_KEY = sf::Keyboard::U;
 
 const sf::Keyboard::Key NORTH_KEY = sf::Keyboard::Up;
 const sf::Keyboard::Key EAST_KEY = sf::Keyboard::Right;

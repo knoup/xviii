@@ -36,6 +36,10 @@ UI(_tm, _fm)
 	limberText.setFont(fm.getFont(FontManager::Type::Lucon));
 	limberText.setColor(sf::Color::White);
 	limberText.setPosition(970, -130);
+
+	squareFormationText.setFont(fm.getFont(FontManager::Type::Lucon));
+	limberText.setColor(sf::Color::White);
+	squareFormationText.setPosition(970, -130);
 }
 
 PlayUI::~PlayUI(){
@@ -87,10 +91,19 @@ void PlayUI::update(){
 		}
 		else{
 			drawLimberText = false;
+			if (gameState->selected->getSquareFormationActive()){
+				squareFormationText.setString("S.F. ON");
+			}
+			else{
+				squareFormationText.setString("S.F. OFF");
+			}
+
+			drawSquareFormationText = true;
 		}
 	}
 	else{
 		drawLimberText = false;
+		drawSquareFormationText = false;
 	}
 
 	setCurrentPlayerText(gameState->game->currentPlayer->getName());
@@ -125,6 +138,9 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 
 	if (drawLimberText){
 		target.draw(limberText);
+	}
+	else if (drawSquareFormationText){
+		target.draw(squareFormationText);
 	}
 
 	target.draw(messageLogText);

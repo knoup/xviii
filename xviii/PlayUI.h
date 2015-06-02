@@ -22,8 +22,10 @@ private:
 	sf::Text messageLogText;
 	sf::Text currentMessageText;
 	sf::Text saveText;
+	sf::Text squareFormationText;
 	sf::Text limberText;
 
+	bool drawSquareFormationText{false};
 	bool drawLimberText{false};
 };
 

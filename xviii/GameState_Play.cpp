@@ -144,6 +144,14 @@ void GameState_Play::getInput(){
 				break;
 			}
 
+			case SQUARE_FORMATION_KEY:
+			{
+				if (selected != nullptr){
+					selected->toggleSquareFormationActive();
+					break;
+				}
+			}
+
 			default: break;
 
 			}

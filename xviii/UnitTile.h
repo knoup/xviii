@@ -181,6 +181,7 @@ public:
 	inline UnitTile::Direction getDir() const{ return dir; };
 	inline std::string getName() const{ return name; };
 
+	inline bool getSquareFormationActive(){ return squareFormationActive; };
 	inline bool getHasMoved() const{ return hasMoved; };
 	inline bool getHasPartialRotated() const{ return hasPartialRotated; };
 	inline bool getHasFullRotated() const{ return hasFullRotated; };
@@ -215,6 +216,7 @@ public:
 	inline void sethp(float _hp){ hp = _hp; };
 	inline void setMov(float _mov){ mov = _mov; };
 	inline void setDir(Direction _dir){ dir = _dir; };
+	//inline void setSquareFormationActive(bool _value){ squareFormationActive = _value; };
 	inline void setHasMoved(bool _hasMoved){ hasMoved = _hasMoved; };
 	inline void setHasPartialRotated(bool _hasPartialRotated){ hasPartialRotated = _hasPartialRotated; };
 	inline void setHasFullRotated(bool _hasFullRotated){ hasFullRotated = _hasFullRotated; };
@@ -263,6 +265,7 @@ public:
 
 	//Other - Non Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
+	void toggleSquareFormationActive();
 	std::string heal(UnitTile* _unit);
 	std::string beHealed(float num);
 	void calculateEffectiveMov();
@@ -335,6 +338,9 @@ protected:
 
 	float hp;
 	int mov;
+
+	//Artillery won't make use of this, but others will
+	bool squareFormationActive{false};
 
 	bool hasMoved{false};
 	bool hasPartialRotated{false};

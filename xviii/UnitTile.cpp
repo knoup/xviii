@@ -334,6 +334,15 @@ void UnitTile::reset(){
 	updateStats();
 }
 
+void UnitTile::toggleSquareFormationActive(){
+	if (squareFormationActive){
+		squareFormationActive = false;
+	}
+	else{
+		squareFormationActive = true;
+	}
+}
+
 std::string UnitTile::heal(UnitTile* _unit){
 	if (canHeal()){
 		sf::Vector2i thisPos = getCartesianPos();
