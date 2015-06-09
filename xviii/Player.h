@@ -14,11 +14,10 @@
 
 class UnitLoader;
 
-//Since each nation will only have one unique unit (and different names/flags), I felt it would be
-//unnecessary to create classes for each. The exceptions to these are Crimea, the Ottomans, and
-//the Mughals, who will have different units completely. These can simply be handled in the constructor.
+//The ALL "nation" is not meant to be selectable
 
 #define NATIONPROPERTIES\
+	X(Player::Nation::ALL, TextureManager::Flag::AUS, "ALL")\
 	X(Player::Nation::AUS, TextureManager::Flag::AUS, "Austria")\
 	X(Player::Nation::BAV, TextureManager::Flag::BAV, "Bavaria")\
 	X(Player::Nation::COM, TextureManager::Flag::COM, "Commonwealth")\
@@ -27,7 +26,7 @@ class UnitLoader;
 	X(Player::Nation::GBR, TextureManager::Flag::GBR, "GBR")\
 	X(Player::Nation::IME, TextureManager::Flag::IME, "Imereti")\
 	X(Player::Nation::MOL, TextureManager::Flag::MOL, "Moldavia")\
-	X(Player::Nation::OTO, TextureManager::Flag::OTO, "Ottoman Empire")\
+	X(Player::Nation::OTO, TextureManager::Flag::OTO, "Ottomans")\
 	X(Player::Nation::POR, TextureManager::Flag::POR, "Portugal")\
 	X(Player::Nation::PRU, TextureManager::Flag::PRU, "Prussia")\
 	X(Player::Nation::RUS, TextureManager::Flag::RUS, "Russia")\
@@ -42,7 +41,7 @@ class Player
 {
 	friend class SpawnableUnit;
     public:
-		enum class Nation{ AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER};
+		enum class Nation{ALL, AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER};
 		Player(UnitLoader& _unitLoader, World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
 		
 		//Returns true if successfully spawned unit

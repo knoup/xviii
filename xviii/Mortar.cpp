@@ -8,6 +8,10 @@ UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _n
 
 
 std::string Mortar::rotate(UnitTile::Direction _dir){
+	if (getSquareFormationActive() && hasSquareFormationAbility()){
+		return SF_ACTIVE;
+	}
+
 	bool oppositeRotation{_dir == opposite(dir)};
 
 	if (hasRangedAttacked){

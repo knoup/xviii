@@ -33,7 +33,7 @@ spawnedAtBottom{_spawnedAtBottom}
 				}
 			}
 
-			if (customNation == nation && (validEra || world.getEra() == World::Era::ALL)){
+			if ((customNation == nation || customNation == Nation::ALL) && (validEra || world.getEra() == World::Era::ALL)){
 				int index = spawnableUnits.size();
 				spawnableUnits.emplace_back(this, customClass.second.name, 
 				sf::Vector2i((index % idealDimensions.x) + 1, (index / idealDimensions.x) + 1));

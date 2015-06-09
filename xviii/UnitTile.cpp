@@ -561,7 +561,7 @@ void UnitTile::takeDamage(UnitTile* attacker, float& _dmg, int distance){
 		_dmg += 1;
 	}
 
-	if (distance > 1 && getHalfRangedDamage()){
+	if (distance > 1 && getHalfRangedDamage() && _dmg >= 1){
 		_dmg *= 0.5;
 	}
 
@@ -882,6 +882,10 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	if (attackerInflicted > 0.01){
 		result << defenderInflictedString;
 
+		if (distance > 1 && defender->getHalfRangedDamage()){
+			result << " (half ranged dmg) ";
+		}
+
 		//If the HP is less than 0.5, it means they are about to be deleted due to death...
 		
 		if (defender->gethp() < 0.4){
@@ -995,11 +999,11 @@ void UnitTile::calculateEffectiveMov(){
 
 std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 
-	if (getSquareFormationActive()){
+	if (getSquareFormationActive() && hasSquareFormationAbility()){
 		return SF_ACTIVE;
 	}
 
-	if (limber){
+	if (limber && hasLimberAbility()){
 		return LIMBERED;
 	}
 
@@ -1034,8 +1038,6 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 		damageDealt += thisRoll;
 	}
 	else{
-		modVector.emplace_back(Modifier::DISTANCE, 1);
-
 		multRollByModifiers(thisRoll);
 		damageDealt = distanceModifier;
 	}

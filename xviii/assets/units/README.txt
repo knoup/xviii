@@ -1,78 +1,34 @@
-Flank, Ranged, and Healing entries are optional. Not adding ranged or healing entries will not give the unit those capabilities.
+-------------------------------------------------------------
+All unit definitions must have the following line
 
-Valid nations:
+UNIT DEFINITION
 
-Austria
-Bavaria
-Commonwealth
-Crimea
-France
-GBR
-Imereti
-Moldavia
-Ottoman Empire
-Portugal
-Prussia
-Russia
-Saxony
-Spain
-Sweden
-Venice
-Wallachia
-Persia
+as the first line in the file.
 
-Valid sprites: 
+STRING:inf
+SPRITE:INF
+MAIN_TYPE:INF
+FAMILY_TYPE:INF
 
-INF
-CAV
-CUIR
-LCAV
-DRAG
-ART
-MOR
-GEN
-GRE
-LINF
-SAP
-HINF
-ARTGUARD
-PIKE
-LAN
-ARMLAN
-IRR
-HARCH
-LART
-LDRAG
+STRING is the unit's name. Note that these also serve as unique ID's; no 2 units may have the same name.
+SPRITE specifies the unit's sprite
+MAIN_TYPE specifies the unit's primary type and is vital for behavior.
+FAMILY_TYPE does not have any explicit effects, but is used to further classify units for bonuses.
 
-Valid units:
+SQUAREFORMATION:1
+SQUAREFORMATIONMODIFIER:1
 
-INF
-CAV
-ART
-MOR
-GEN
-ARTGUARD
+SQUAREFORMATION denotes whether the unit is capable of going into square formation,
+while SQUAREFORMATIONMODIFIER specifies the modifier this unit gets when fighting
+units in square formation (no matter the flank)
 
-LINF
-INF
-HINF
-CAV
-ART
+LIMBER:0
+LANCER:0
 
+These determine whether the unit is a lancer (no effect for non-cav units) and whether
+the unit uses the limber mechanic.
 
-ERA ENTRY PROPERTIES:
-
-Era
-	{
-	DEFINE:EARLY
-	DEFINE:MID
-	DEFINE:LATE
-	}
-
-Era
-	{
-	DEFINE:ALL
-	}
+-------------------------------------------------------------
 
 FLANK ENTRY PROPERTIES:
 
@@ -144,4 +100,73 @@ First number is modifier value, second number specifies whether it is additional
 3rd specifies whether this bonus applies when attacking, and 4th when defending
 
 
----------------
+-----------------------------------------------------------------------------------------------------
+
+
+----Valid nations----
+
+DEFINE:ALL
+DEFINE:Austria
+DEFINE:Bavaria
+DEFINE:Commonwealth
+DEFINE:Crimea
+DEFINE:France
+DEFINE:GBR
+DEFINE:Imereti
+DEFINE:Moldavia
+DEFINE:Ottomans
+DEFINE:Portugal
+DEFINE:Prussia
+DEFINE:Russia
+DEFINE:Saxony
+DEFINE:Spain
+DEFINE:Sweden
+DEFINE:Venice
+DEFINE:Wallachia
+DEFINE:Persia
+
+----Valid sprites----
+
+DEFINE:INF			-Infantry
+DEFINE:CAV			-Cavalry
+DEFINE:CUIR		-Cuirassier
+DEFINE:LCAV		-Light Cavalry
+DEFINE:DRAG		-Dragoon
+DEFINE:ART 		-Artillery
+DEFINE:MOR 		-Mortar
+DEFINE:GEN			-General
+DEFINE:GRE			-Grenadier
+DEFINE:LINF		-Light Infantry
+DEFINE:SAP			-Sapper/Engineer
+DEFINE:HINF		-Heavy Infantry
+DEFINE:ARTGUARD	-Artillery Guard
+DEFINE:PIKE		-Pikeman
+DEFINE:LAN			-Lancer
+DEFINE:ARMLAN		-Armoured Lancer
+DEFINE:IRR			-Irregular
+DEFINE:HARCH		-Horse Archer
+DEFINE:LART		-Light Artillery
+DEFINE:LDRAG		-Light Dragoon
+
+----Valid units----
+
+DEFINE:INF 		-Infantry
+DEFINE:CAV 		-Cavalry
+DEFINE:ART 		-Artillery
+DEFINE:MOR 		-Mortar
+DEFINE:GEN 		-General (Cavalry)
+DEFINE:ARTGUARD 	-Artillery Guard
+
+----Valid Family Types---
+
+DEFINE:LINF 		-Light Infantry
+DEFINE:INF 		-Infantry
+DEFINE:HINF 		-Heavy Infantry
+DEFINE:CAV 		-Cavalry
+DEFINE:ART 		-Artillery
+
+----Valid Eras---
+DEFINE:ALL
+DEFINE:MID
+DEFINE:EARLY
+DEFINE:LATE

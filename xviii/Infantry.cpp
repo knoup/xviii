@@ -10,7 +10,7 @@ UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _n
 
 std::string Infantry::moveTo(TerrainTile* terrainTile){
 
-	if (getSquareFormationActive()){
+	if (getSquareFormationActive() && hasSquareFormationAbility()){
 		return SF_ACTIVE;
 	}
 
@@ -65,7 +65,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 
 std::string Infantry::rotate(UnitTile::Direction _dir){
-	if (getSquareFormationActive()){
+	if (getSquareFormationActive() && hasSquareFormationAbility()){
 		return SF_ACTIVE;
 	}
 
