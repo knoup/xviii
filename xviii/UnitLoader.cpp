@@ -109,6 +109,10 @@ void UnitLoader::parse(boost::filesystem::path path){
 			}
 		}
 
+		else if (currentLine.find("SQUAREFORMATION:") EXISTS){
+			newClass->hasSquareFormationAbility = std::stoi(AFTERCOLON);
+		}
+
 		else if (currentLine.find("SQUAREFORMATIONMODIFIER:") EXISTS){
 			std::stringstream ss(AFTERCOLON);
 			ss >> newClass->squareFormationModifier;
@@ -401,10 +405,6 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 	#undef AFTERCOLON
 	#undef EXISTS
-
-	if (newClass->squareFormationModifier != 0){
-		newClass->hasSquareFormationAbility = true;
-	}
 
 	unitData.close();
 	customClasses.emplace(newClass->name, std::move(*newClass));

@@ -530,7 +530,7 @@ std::string UnitTile::attack(UnitTile* unit){
 		flank = Modifier::SIDE_FLANK;
 	}
 
-	if (hasSquareFormationAbility()){
+	if (unit->hasSquareFormationAbility() && unit->getSquareFormationActive()){
 		this->modVector.emplace_back(Modifier::SQUARE_FORMATION, unitLoader.customClasses.at(name).squareFormationModifier);
 	}
 

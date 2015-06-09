@@ -136,7 +136,9 @@ void GameState_Play::getInput(){
 			case LIMBER_KEY:
 			{
 				if (selected != nullptr){
-					playUI.setCurrentMessageText(selected->toggleLimber());
+					if (selected->hasLimberAbility()){
+						playUI.setCurrentMessageText(selected->toggleLimber());
+					}
 				}
 				break;
 			}
@@ -144,7 +146,9 @@ void GameState_Play::getInput(){
 			case SQUARE_FORMATION_KEY:
 			{
 				if (selected != nullptr){
-					playUI.setCurrentMessageText(selected->toggleSquareFormationActive());
+					if (selected->hasSquareFormationAbility()){
+						playUI.setCurrentMessageText(selected->toggleSquareFormationActive());
+					}
 				}
 				break;
 			}
