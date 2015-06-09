@@ -8,21 +8,6 @@ UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _n
 {
 }
 
-void Artillery::reset(){
-	calculateEffectiveMov();	
-
-	if (!limber){
-		mov = 0;
-	}
-
-	hasPartialRotated = false;
-	hasFullRotated = false;
-	hasMeleeAttacked = false;
-	hasRangedAttacked = false;
-	hasMoved = false;
-	updateStats();
-}
-
 std::string Artillery::rotate(UnitTile::Direction _dir){
 	bool oppositeRotation{_dir == opposite(dir)};
 
@@ -82,31 +67,4 @@ std::string Artillery::meleeAttack(UnitTile* _unit){
 	}
 
 	return ARTILLERY_GUARD;
-}
-
-std::string Artillery::rangedAttack(UnitTile* unit, int distance){
-
-	if (limber){
-		return LIMBERED;
-	}
-
-	return UnitTile::rangedAttack(unit, distance);
-}
-
-std::string Artillery::toggleLimber(){
-	if (limber){
-		limber = false;
-		stun();
-	}
-	else{
-		if (getHasAnyAttacked()){
-			return ALREADY_ATTACKED;
-		}
-		else{
-			limber = true;
-		}
-	}
-
-	updateStats();
-	return{};
 }

@@ -24,8 +24,10 @@ private:
 	sf::Text saveText;
 	sf::Text squareFormationText;
 	sf::Text limberText;
+	sf::Text lancerBonusReadyText;
 
 	bool drawSquareFormationText{false};
 	bool drawLimberText{false};
+	bool drawLancerBonusReadyText{false};
 };
 

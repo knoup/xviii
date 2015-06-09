@@ -15,7 +15,7 @@ UI(_tm, _fm)
 
 	elapsedTurnsText.setFont(fm.getFont(FontManager::Type::Lucon));
 	elapsedTurnsText.setColor(sf::Color::Yellow);
-	elapsedTurnsText.setPosition(20, -170);
+	elapsedTurnsText.setPosition(20, -130);
 
 	messageLogText.setFont(fm.getFont(FontManager::Type::Lucon));
 	messageLogText.setColor(sf::Color::White);
@@ -33,13 +33,17 @@ UI(_tm, _fm)
 	saveText.setPosition(20, -80);
 	setSaveStatus(false);
 
+	squareFormationText.setFont(fm.getFont(FontManager::Type::Lucon));
+	limberText.setColor(sf::Color::White);
+	squareFormationText.setPosition(970, -170);
+
 	limberText.setFont(fm.getFont(FontManager::Type::Lucon));
 	limberText.setColor(sf::Color::White);
 	limberText.setPosition(970, -130);
 
-	squareFormationText.setFont(fm.getFont(FontManager::Type::Lucon));
-	limberText.setColor(sf::Color::White);
-	squareFormationText.setPosition(970, -130);
+	lancerBonusReadyText.setFont(fm.getFont(FontManager::Type::Lucon));
+	lancerBonusReadyText.setColor(sf::Color::White);
+	lancerBonusReadyText.setPosition(970, -80);
 }
 
 PlayUI::~PlayUI(){
@@ -73,38 +77,46 @@ void PlayUI::update(){
 		setSaveStatus(false);
 	}
 
+	drawLimberText = false;
+	drawSquareFormationText = false;
+	drawLancerBonusReadyText = false;
+
 	if (gameState->selected != nullptr){
 
-		Artillery* art = dynamic_cast<Artillery*>(gameState->selected);
-
-		if (art != nullptr){
+		if (gameState->selected->hasLimberAbility()){
 			drawLimberText = true;
 
-			switch (art->getUniqueVariable()){
-			case true:
+			if (gameState->selected->getLimber()){
 				limberText.setString("Limber ON");
-				break;
-			case false:
+			}
+			else{
 				limberText.setString("Limber OFF");
-				break;
 			}
 		}
-		else{
-			drawLimberText = false;
+
+		if (gameState->selected->hasSquareFormationAbility()){
+			drawSquareFormationText = true;
+
 			if (gameState->selected->getSquareFormationActive()){
 				squareFormationText.setString("S.F. ON");
 			}
 			else{
 				squareFormationText.setString("S.F. OFF");
 			}
+		}
 
-			drawSquareFormationText = true;
+		if (gameState->selected->hasLancerAbility()){
+			drawLancerBonusReadyText = true;
+
+			if (gameState->selected->getLancerBonusReady()){
+				lancerBonusReadyText.setString("Lncr bns RDY");
+			}
+			else{
+				lancerBonusReadyText.setString("Lncr bns NT RDY");
+			}
 		}
 	}
-	else{
-		drawLimberText = false;
-		drawSquareFormationText = false;
-	}
+
 
 	setCurrentPlayerText(gameState->game->currentPlayer->getName());
 	setElapsedTurnsText(gameState->game->elapsedTurns);
@@ -139,8 +151,11 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	if (drawLimberText){
 		target.draw(limberText);
 	}
-	else if (drawSquareFormationText){
+	if (drawSquareFormationText){
 		target.draw(squareFormationText);
+	}
+	if (drawLancerBonusReadyText){
+		target.draw(lancerBonusReadyText);
 	}
 
 	target.draw(messageLogText);

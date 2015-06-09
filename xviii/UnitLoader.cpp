@@ -109,6 +109,19 @@ void UnitLoader::parse(boost::filesystem::path path){
 			}
 		}
 
+		else if (currentLine.find("SQUAREFORMATIONMODIFIER:") EXISTS){
+			std::stringstream ss(AFTERCOLON);
+			ss >> newClass->squareFormationModifier;
+		}
+
+		else if (currentLine.find("LIMBER:") EXISTS){
+			newClass->hasLimberAbility = std::stoi(AFTERCOLON);
+		}
+
+		else if (currentLine.find("LANCER:") EXISTS){
+			newClass->hasLancerAbility = std::stoi(AFTERCOLON);
+		}
+
 		else if (currentLine.find("HP:") EXISTS){
 			newClass->maxHp = std::stoi(AFTERCOLON);
 		}
@@ -135,10 +148,6 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 		else if (currentLine.find("HALFRANGEDDAMAGE:") EXISTS){
 			newClass->halfRangedDamage = std::stoi(AFTERCOLON);
-		}
-
-		else if (currentLine.find("LANCER:") EXISTS){
-			newClass->lancer = std::stoi(AFTERCOLON);
 		}
 
 		else if (currentLine.find("MELEE:") EXISTS){
@@ -392,6 +401,10 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 	#undef AFTERCOLON
 	#undef EXISTS
+
+	if (newClass->squareFormationModifier != 0){
+		newClass->hasSquareFormationAbility = true;
+	}
 
 	unitData.close();
 	customClasses.emplace(newClass->name, std::move(*newClass));

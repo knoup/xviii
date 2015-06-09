@@ -1,6 +1,8 @@
 #pragma once
 
+const std::string CANNOT_DO_THAT_ANYMORE{"Cannot do that anymore"};
 const std::string SF_ACTIVE{"Cannot do that while in SF"};
+const std::string LIMBERED{"Cannot fire while limbered"};
 const std::string SUCCESSFUL_ROTATION{"Successfully rotated to "};
 const std::string ALREADY_ATTACKED{"Already attacked"};
 const std::string ALREADY_FACING{"Already facing "};
@@ -20,7 +22,6 @@ const std::string HEAL_SUCCESS{"Successfully healed for "};
 const std::string MOV_SUCCESS{"Successfully moved to: "};
 const std::string OUT_OF_RANGE{"Out of max range: "};
 const std::string ARTILLERY_GUARD{"Must kill Artillery Guard"};
-const std::string LIMBERED{"Cannot fire while limbered"};
 const std::string NO_MELEE{"This unit cannot engage in melee combat"};
 
 const std::string NO_ROTATE_AFTER_ATK{"Cannot rotate after attacking"};

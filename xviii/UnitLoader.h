@@ -39,11 +39,18 @@ public:
 		std::vector<UnitTile::BonusVSFamilyType> bonusesVsFamilyTypes;
 		std::vector<UnitTile::BonusVSName> bonusesVsNames;
 
+		//////////////////
+		bool hasSquareFormationAbility{false};
+		bool hasLimberAbility{false};
+		bool hasLancerAbility{false};
+		/////////////////
+
+		float squareFormationModifier{0};
+
 		bool melee;
 		bool skirmish;
 		bool frightening;
 		bool halfRangedDamage;
-		bool lancer;
 
 		float maxHp;
 		int maxMov;

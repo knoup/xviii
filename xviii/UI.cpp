@@ -13,12 +13,12 @@ uiSprite{tm.getSprite(TextureManager::UI::RECTANGLE)}
 	uiSprite.setPosition(0, -174);
 
 	currentPlayerText.setFont(fm.getFont(FontManager::Type::Lucon));
-	currentPlayerText.setColor(sf::Color::White);
-	currentPlayerText.setPosition(970, -170);
+	currentPlayerText.setColor(sf::Color::Green);
+	currentPlayerText.setPosition(20, -170);
 
 	button.sprite = tm.getSprite(TextureManager::UI::BUTTON);
 	button.sprite.setOrigin(button.sprite.getLocalBounds().width / 2, button.sprite.getLocalBounds().height / 2);
-	button.sprite.setPosition(1235, -80);
+	button.sprite.setPosition(1235, -95);
 	button.text.setFont(fm.getFont(FontManager::Type::Lucon));
 	//button.text origin
 	//button.text position

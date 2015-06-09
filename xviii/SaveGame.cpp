@@ -178,15 +178,16 @@ bool SaveGame::create(){
 				save << INDENT << "hasHealed=" << unit->getHasHealed() << std::endl;
 			}
 
-			if (unit->getUnitType() == UnitTile::UnitType::ART){
-				save << INDENT << "limbered=" << unit->getUniqueVariable() << std::endl;
-			}
-			else{
+			if (unit->hasSquareFormationAbility()){
 				save << INDENT << "squareFormationActive=" << unit->getSquareFormationActive() << std::endl;
 			}
 
-			if (unit->getLancer()){
-				save << INDENT << "attackBonusReady=" << unit->getUniqueVariable() << std::endl;
+			if (unit->hasLimberAbility()){
+				save << INDENT << "limber=" << unit->getLimber() << std::endl;
+			}
+
+			if (unit->hasLancerAbility()){
+				save << INDENT << "lancerBonusReady=" << unit->getLancerBonusReady() << std::endl;
 			}
 
 			save << "}u" << std::endl;
@@ -340,8 +341,10 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			bool hasMeleeAttacked;
 			bool hasRangedAttacked;
 			bool hasHealed{false};
-			bool squareFormationActive;
-			bool uniqueVariable{false};
+
+			bool squareFormationActive{false};
+			bool limber{false};
+			bool lancerBonusReady{false};
 
 			while (line.find("}u") == std::string::npos){
 
@@ -410,26 +413,26 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				else if (line.find("hasHealed=") != std::string::npos){
 					hasHealed = std::stoi(AFTEREQUALS);
 				}
+
 				else if (line.find("squareFormationActive=") != std::string::npos){
 					squareFormationActive = std::stoi(AFTEREQUALS);
 				}
 
-				//Unique variable names go in here
-				else{
-					if (line.find("attackBonusReady=") != std::string::npos){
-						uniqueVariable = std::stoi(AFTEREQUALS);
-					}
-					else if (line.find("limbered=") != std::string::npos){
-						uniqueVariable = std::stoi(AFTEREQUALS);
-					}
+				else if (line.find("limber=") != std::string::npos){
+					limber = std::stoi(AFTEREQUALS);
 				}
+				
+				else if (line.find("lancerBonusReady=") != std::string::npos){
+					lancerBonusReady = std::stoi(AFTEREQUALS);
+				}
+				
 
 				std::getline(save, line);
 
 			}
 
 
-			player->loadUnit(name, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed, squareFormationActive, uniqueVariable);
+			player->loadUnit(name, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed, squareFormationActive, limber, lancerBonusReady);
 
 		}
 

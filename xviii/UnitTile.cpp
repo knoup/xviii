@@ -11,9 +11,12 @@ bool UnitTile::getMelee() const{ return unitLoader.customClasses.at(name).melee;
 bool UnitTile::getSkirmish() const{ return unitLoader.customClasses.at(name).skirmish; };
 bool UnitTile::getFrightening() const { return unitLoader.customClasses.at(name).frightening; };
 bool UnitTile::getHalfRangedDamage() const { return unitLoader.customClasses.at(name).halfRangedDamage; };
-bool UnitTile::getLancer() const{ return unitLoader.customClasses.at(name).lancer; };
 bool UnitTile::canHeal() const{ return !(unitLoader.customClasses.at(name).healingRangeValues.empty()); };
 bool UnitTile::canRangedAttack() const{ return !(unitLoader.customClasses.at(name).rangedAttackDistValues.empty()); };
+
+bool UnitTile::hasSquareFormationAbility() const{ return unitLoader.customClasses.at(name).hasSquareFormationAbility; };
+bool UnitTile::hasLimberAbility() const{ return unitLoader.customClasses.at(name).hasLimberAbility; };
+bool UnitTile::hasLancerAbility() const{ return unitLoader.customClasses.at(name).hasLancerAbility; };
 
 int UnitTile::getCost() const{ return unitLoader.customClasses.at(name).cost; };
 int UnitTile::getLimit() const{ return unitLoader.customClasses.at(name).limit; };
@@ -325,6 +328,20 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 //Virtual
 void UnitTile::reset(){
 	calculateEffectiveMov();
+
+	if (!limber && hasLimberAbility()){
+		mov = 0;
+	}
+
+	if (hasLancerAbility()){
+		if (!hasMeleeAttacked){
+			lancerBonusReady = true;
+		}
+		else{
+			lancerBonusReady = false;
+		}
+	}
+
 	hasHealed = false;
 	hasMoved = false;
 	hasPartialRotated = false;
@@ -349,10 +366,29 @@ std::string UnitTile::toggleSquareFormationActive(){
 	}
 	else{
 		if (getHasAnyAttacked()){
-			return ALREADY_ATTACKED;
+			return CANNOT_DO_THAT_ANYMORE;
 		}
 		else{
 			squareFormationActive = true;
+		}
+	}
+
+	updateStats();
+	return{};
+}
+
+
+std::string UnitTile::toggleLimber(){
+	if (limber){
+		limber = false;
+		stun();
+	}
+	else{
+		if (getHasAnyAttacked()){
+			return CANNOT_DO_THAT_ANYMORE;
+		}
+		else{
+			limber = true;
 		}
 	}
 
@@ -494,24 +530,13 @@ std::string UnitTile::attack(UnitTile* unit){
 		flank = Modifier::SIDE_FLANK;
 	}
 
-	if (!unit->getSquareFormationActive()){
-		this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitType(), flank));
+	if (hasSquareFormationAbility()){
+		this->modVector.emplace_back(Modifier::SQUARE_FORMATION, unitLoader.customClasses.at(name).squareFormationModifier);
 	}
-
-	/*
-	Cavalry units attacking units in square formation, get a 0.5d modifier from all flanks.
-	Infantry units attacking units in square formation, get a 1d modifier from all flanks.
-	*/
 
 	else{
-		if (this->getUnitType() == UnitTile::UnitType::INF){
-			this->modVector.emplace_back(Modifier::SQUARE_FORMATION, 1);
-		}
-		else if (this->getUnitType() == UnitTile::UnitType::CAV){
-			this->modVector.emplace_back(Modifier::SQUARE_FORMATION, 0.5);
-		}
+		this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitType(), flank));
 	}
-
 	
 	//Apply unit-specific modifiers
 	this->applyModifiers(unit, true);
@@ -972,6 +997,10 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 
 	if (getSquareFormationActive()){
 		return SF_ACTIVE;
+	}
+
+	if (limber){
+		return LIMBERED;
 	}
 
 	std::uniform_int_distribution<int> distribution(1, 6);

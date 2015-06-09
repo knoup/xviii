@@ -27,18 +27,6 @@ UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _n
 {
 }
 
-void Cavalry::reset(){
-	if (!hasMeleeAttacked){
-		attackBonusReady = true;
-	}
-	else{
-		attackBonusReady = false;
-	}
-
-	UnitTile::reset();
-}
-
-
 std::string Cavalry::rotate(UnitTile::Direction _dir){
 
 	if (getSquareFormationActive()){
@@ -104,8 +92,8 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 	multRollByModifiers(thisRoll);
 	inf->multRollByModifiers(enemyRoll);
 
-	if (getLancer()){
-		if (lancerBonus(inf, thisRoll, getUniqueVariable(), damageDealt)){
+	if (hasLancerAbility()){
+		if (lancerBonus(inf, thisRoll, lancerBonusReady, damageDealt)){
 			mov = 0;
 			this->updateStats();
 			inf->updateStats();
@@ -161,8 +149,8 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 	multRollByModifiers(thisRoll);
 	cav->multRollByModifiers(enemyRoll);
 
-	if (getLancer()){
-		if (lancerBonus(cav, thisRoll, getUniqueVariable(), damageDealt)){
+	if (hasLancerAbility()){
+		if (lancerBonus(cav, thisRoll, lancerBonusReady, damageDealt)){
 			mov = 0;
 			this->updateStats();
 			cav->updateStats();

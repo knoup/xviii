@@ -9,14 +9,21 @@ Cavalry(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _na
 }
 
 void General::reset(){
-	if (!hasMeleeAttacked){
-		attackBonusReady = true;
-	}
-	else{
-		attackBonusReady = false;
+	mov = getMaxMov();
+
+	if (!limber && hasLimberAbility()){
+		mov = 0;
 	}
 
-	mov = getMaxMov();
+	if (hasLancerAbility()){
+		if (!hasMeleeAttacked){
+			lancerBonusReady = true;
+		}
+		else{
+			lancerBonusReady = false;
+		}
+	}
+
 	hasHealed = false;
 	hasMoved = false;
 	hasPartialRotated = false;

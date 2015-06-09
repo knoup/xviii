@@ -157,7 +157,7 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 }
 
 //For loading from a save game
-void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _uniqueVariable){
+void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _limber, bool _lancerBonusReady){
 
 	TextureManager::Unit _texture = unitLoader.customClasses.at(_name).texture;
 	UnitTile::UnitType _type = unitLoader.customClasses.at(_name).unitType;
@@ -186,7 +186,8 @@ void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction 
 	ptr->setHasRangedAttacked(_hasRangedAttacked);
 	ptr->setHasHealed(_hasHealed);
 	ptr->setSquareFormationActive(_squareFormationActive);
-	ptr->setUniqueVariable(_uniqueVariable);
+	ptr->setLimber(_limber);
+	ptr->setLancerBonusReady(_lancerBonusReady);
 
 
 	ptr->spawn(world.terrainAtPixelPos(sf::Vector2i{_pos.x * tm.getSize().x, _pos.y * tm.getSize().y}));

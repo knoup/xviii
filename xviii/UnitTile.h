@@ -181,7 +181,6 @@ public:
 	inline UnitTile::Direction getDir() const{ return dir; };
 	inline std::string getName() const{ return name; };
 
-	inline bool getSquareFormationActive(){ return squareFormationActive; };
 	inline bool getHasMoved() const{ return hasMoved; };
 	inline bool getHasPartialRotated() const{ return hasPartialRotated; };
 	inline bool getHasFullRotated() const{ return hasFullRotated; };
@@ -195,7 +194,6 @@ public:
 	bool getSkirmish() const;
 	bool getFrightening() const;
 	bool getHalfRangedDamage() const;
-	bool getLancer() const;
 
 	int getMaxRange() const;
 	bool canHeal() const;
@@ -216,7 +214,6 @@ public:
 	inline void sethp(float _hp){ hp = _hp; };
 	inline void setMov(float _mov){ mov = _mov; };
 	inline void setDir(Direction _dir){ dir = _dir; };
-	inline void setSquareFormationActive(bool _value){ squareFormationActive = _value; };
 	inline void setHasMoved(bool _hasMoved){ hasMoved = _hasMoved; };
 	inline void setHasPartialRotated(bool _hasPartialRotated){ hasPartialRotated = _hasPartialRotated; };
 	inline void setHasFullRotated(bool _hasFullRotated){ hasFullRotated = _hasFullRotated; };
@@ -224,11 +221,26 @@ public:
 	inline void setHasRangedAttacked(bool _value){ hasRangedAttacked = _value; };
 	inline void setHasHealed(bool _value){ hasHealed = _value; };
 
+
+	//Component-related things
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//The following are applicable only for some children
-	inline virtual void setUniqueVariable(bool _uniqueVariable){};
-	inline virtual bool getUniqueVariable() const{ return false; };
+	inline void setSquareFormationActive(bool _value){ squareFormationActive = _value; };
+	inline void setLimber(bool _value){ limber = _value; };
+	inline void setLancerBonusReady(bool _value){ lancerBonusReady = _value; };
+
+	inline bool getSquareFormationActive() const { return squareFormationActive; };
+	inline bool getLimber() const { return limber; };
+	inline bool getLancerBonusReady() const { return lancerBonusReady; };
+	
+	std::string toggleSquareFormationActive();
+	std::string toggleLimber();
+
+	bool hasSquareFormationAbility() const;
+	bool hasLimberAbility() const;
+	bool hasLancerAbility() const;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -265,9 +277,7 @@ public:
 
 	//Other - Non Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	void stun();
-	std::string toggleSquareFormationActive();
 	std::string heal(UnitTile* _unit);
 	std::string beHealed(float num);
 	void calculateEffectiveMov();
@@ -338,8 +348,20 @@ protected:
 	float hp;
 	int mov;
 
-	//Artillery won't make use of this, but others will
+	//Pseudo-components:not all units will make use of these
+
+	/////////////////////////////////////////
+
+	//Square Formation component
 	bool squareFormationActive{false};
+
+	//Limber component
+	bool limber{true};
+
+	//Lancer bonus component
+	bool lancerBonusReady{false};
+
+	/////////////////////////////////////////
 
 	bool hasMoved{false};
 	bool hasPartialRotated{false};
