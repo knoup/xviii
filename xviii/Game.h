@@ -62,8 +62,6 @@ public:
 
 	sf::Vector2i mousePos;
 
-	int elapsedTurns;
-
 	SaveGame saveCreator;
 	UnitLoader mUnitLoader;
 };

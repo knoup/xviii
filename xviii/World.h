@@ -57,6 +57,9 @@ public:
 	TerrainTile* terrainAtCartesianPos(sf::Vector2i _pos);
 
 	const std::vector<UnitTile*>& getDamagedUnits() const;
+	const int getElapsedTurns() const{ return elapsedTurns;};
+	void setElapsedTurns(int _elapsedTurns){ elapsedTurns = _elapsedTurns; };
+	void incrementElapsedTurns(){ elapsedTurns+=1; };
 
 	sf::Vector2i getDimensions() const;
 	sf::Vector2i getDimensionsInPixels() const;
@@ -73,6 +76,7 @@ private:
 
 	std::mt19937& mt19937;
 
+	int elapsedTurns;
 	Era era;
 
 	//The first layer, or "terrain layer"; always drawn behind the units and only consists

@@ -22,7 +22,6 @@ Player2{nullptr},
 currentPlayer{nullptr},
 currentView{nullptr},
 mousePos{},
-elapsedTurns{1},
 saveCreator{this},
 mUnitLoader{mTextureManager}
 {

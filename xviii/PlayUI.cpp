@@ -119,7 +119,7 @@ void PlayUI::update(){
 
 
 	setCurrentPlayerText(gameState->game->currentPlayer->getName());
-	setElapsedTurnsText(gameState->game->elapsedTurns);
+	setElapsedTurnsText(gameState->game->mWorld.getElapsedTurns());
 
 	//For the highlighting of the next turn button:
 	sf::Vector2f uiCoords{gameState->game->mWindow.mapPixelToCoords(gameState->game->mousePos, uiView)};

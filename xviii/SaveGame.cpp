@@ -69,7 +69,7 @@ bool SaveGame::create(){
 		boost::filesystem::create_directory("save");
 	}
 	 
-	std::string saveName{"turn_" + std::to_string(game->elapsedTurns)};
+	std::string saveName{"turn_" + std::to_string(game->mWorld.getElapsedTurns())};
 
 	//Check if a file with the same name exists
 
@@ -85,7 +85,7 @@ bool SaveGame::create(){
 
 	save.open("save\\" + saveName + ".dat"); 
 
-	save << "turn=" << game->elapsedTurns << std::endl;
+	save << "turn=" << game->mWorld.getElapsedTurns() << std::endl;
 	std::string eraString;
 	World::Era currentEra = game->mWorld.getEra();
 
@@ -211,7 +211,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 	while (save && std::getline(save, line)){
 		if (line.find("turn=") != std::string::npos){
 			int turn{std::stoi(AFTEREQUALS)};
-			game->elapsedTurns = turn;
+			game->mWorld.setElapsedTurns(turn);
 		}
 
 		else if (line.find("era=") != std::string::npos){
