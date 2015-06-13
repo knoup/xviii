@@ -669,7 +669,7 @@ range.
 */
 
 //virtual
-sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth){
+sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser, bool canShootOverUnits, int coneWidth){
 	//coneWidth represents the width units can fire at. It should always be an odd number; 1 for the center, and 2/4/6 etc. for the sides
 
 	//Excluding the center, obviously
@@ -755,6 +755,12 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirect
 				_obstructionPresent = true;
 			}
 		}
+		else if (_terrain->getTerrainType() == TerrainTile::TerrainType::MUD && !mudCrosser){
+			if (!destinationIsUnit){
+				_obstructionPresent = true;
+			}
+		}
+
 		//For loop is for checking if the LoS is clear
 		for (int i{PRIMARYAXIS_POSITIVE - 1}; i > PRIMARYAXIS_NEGATIVE; --i){
 
@@ -777,11 +783,16 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirect
 
 			//Check if the terrain is an obstruction
 			if (terrain != nullptr){
-				if (terrain->getTerrainType() == TerrainTile::TerrainType::WATER && !getCanCrossWater()){
-					if (!destinationIsUnit){
+
+				if (!destinationIsUnit){
+					if (terrain->getTerrainType() == TerrainTile::TerrainType::WATER && !getCanCrossWater()){
+						_obstructionPresent = true;
+					}
+					else if (terrain->getTerrainType() == TerrainTile::TerrainType::MUD && !mudCrosser){
 						_obstructionPresent = true;
 					}
 				}
+
 			}
 
 			//Check if the unit is an obstruction
