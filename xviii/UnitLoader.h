@@ -45,6 +45,8 @@ public:
 		bool hasLancerAbility{false};
 		/////////////////
 
+		bool waterCrosser{false};
+
 		float squareFormationModifier{0};
 
 		bool melee;
@@ -55,7 +57,7 @@ public:
 		float maxHp;
 		int maxMov;
 		int cost;
-		int limit;
+		int limit{0};
 	};
 
 	UnitLoader(TextureManager& _tm);

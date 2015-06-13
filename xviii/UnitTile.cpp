@@ -6,7 +6,17 @@
 
 #include "UnitLoader.h"
 
+bool UnitTile::getCanCrossWater() const{
+	if (unitLoader.customClasses.at(name).waterCrosser){
+		return true;
+	}
 
+	else{
+		//TODO:
+		//else, check if there is a bridge nearby
+		return false;
+	}
+};
 bool UnitTile::getMelee() const{ return unitLoader.customClasses.at(name).melee; };
 bool UnitTile::getSkirmish() const{ return unitLoader.customClasses.at(name).skirmish; };
 bool UnitTile::getFrightening() const { return unitLoader.customClasses.at(name).frightening; };
@@ -336,6 +346,11 @@ void UnitTile::reset(){
 		else{
 			lancerBonusReady = false;
 		}
+	}
+
+	if (getTerrain()->getTerrainType() == TerrainTile::TerrainType::WATER){
+		takeDamage(this, hp, 0);
+		world.addToDamagedUnits(this);
 	}
 
 	hasHealed = false;
@@ -734,23 +749,42 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirect
 			}
 		}
 
+
+		if (_terrain->getTerrainType() == TerrainTile::TerrainType::WATER && !getCanCrossWater()){
+			if (!destinationIsUnit){
+				_obstructionPresent = true;
+			}
+		}
 		//For loop is for checking if the LoS is clear
 		for (int i{PRIMARYAXIS_POSITIVE - 1}; i > PRIMARYAXIS_NEGATIVE; --i){
 
 			//If an obstruction has already been found, no need to keep searching, just exit loop
 			if (_obstructionPresent){
-				break;
+				continue;
 			}
 
 			UnitTile* unit;
+			TerrainTile* terrain;
 
 			if (dir == Direction::N || dir == Direction::S){
-				unit = world.unitAtTerrain(world.terrainAtCartesianPos({SECONDARYAXIS_POSITIVE, i}));
+				terrain = world.terrainAtCartesianPos({SECONDARYAXIS_POSITIVE, i});
 			}
 			else{
-				unit = world.unitAtTerrain(world.terrainAtCartesianPos({i, SECONDARYAXIS_POSITIVE}));
+				terrain = world.terrainAtCartesianPos({i, SECONDARYAXIS_POSITIVE});
 			}
 
+			unit = terrain->getUnit();
+
+			//Check if the terrain is an obstruction
+			if (terrain != nullptr){
+				if (terrain->getTerrainType() == TerrainTile::TerrainType::WATER && !getCanCrossWater()){
+					if (!destinationIsUnit){
+						_obstructionPresent = true;
+					}
+				}
+			}
+
+			//Check if the unit is an obstruction
 			if (unit != nullptr){
 				bool unitIsFriendly{unit->getPlayer() == this->getPlayer()};
 

@@ -29,8 +29,6 @@ void Mud::applyModifiers(UnitTile* _unit, int _distance, bool _attacking){
 	//Ranged modifiers
 	//////////////////////////////////////////////
 	else if (_distance > 1){
-		if (_attacking){
-			_unit->modVector.emplace_back(UnitTile::Modifier::TERRAIN, -1, true);
-		}
+
 	}
 }

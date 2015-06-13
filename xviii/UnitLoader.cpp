@@ -126,6 +126,10 @@ void UnitLoader::parse(boost::filesystem::path path){
 			newClass->hasLancerAbility = std::stoi(AFTERCOLON);
 		}
 
+		else if (currentLine.find("WATERCROSSER:") EXISTS){
+			newClass->waterCrosser = std::stoi(AFTERCOLON);
+		}
+
 		else if (currentLine.find("HP:") EXISTS){
 			newClass->maxHp = std::stoi(AFTERCOLON);
 		}

@@ -193,6 +193,7 @@ public:
 	inline bool getHasAnyAttacked() const{ return (hasMeleeAttacked || hasRangedAttacked); };
 	inline bool getHasHealed() const{ return hasHealed; };
 
+	bool getCanCrossWater() const;
 	bool getMelee() const;
 	bool getSkirmish() const;
 	bool getFrightening() const;

@@ -231,15 +231,7 @@ void GameState_Play::getInput(){
 							selected->modVector.clear();
 							unit->modVector.clear();
 
-							//Remove the unit if it's dead; if it isn't, update stats
-							for (auto& unit : game->mWorld.getDamagedUnits()){
-								if (!unit->removeIfDead()){
-									unit->updateStats();
-								}
-							}
-
 							game->mWorld.clearDamagedUnits();
-
 						}
 						else if (occupied && friendly){
 							playUI.setCurrentMessageText(selected->heal(unit));
@@ -323,6 +315,9 @@ void GameState_Play::update(float mFT){
 				unit->reset();
 		}
 
+		//Call this function again, to kill any units that die from non-combat related reasons 
+		//(ex. drowning)
+		game->mWorld.clearDamagedUnits();
 		game->nextPlayer();
 		game->mWorld.incrementElapsedTurns();
 	}

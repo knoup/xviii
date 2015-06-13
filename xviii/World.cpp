@@ -206,5 +206,12 @@ void World::addToDamagedUnits(UnitTile* unit){
 }
 
 void World::clearDamagedUnits(){
+	//Remove the unit if it's dead; if it isn't, update stats
+	for (auto& unit : damagedUnits){
+		if (!unit->removeIfDead()){
+			unit->updateStats();
+		}
+	}
+
 	damagedUnits.clear();
 }
