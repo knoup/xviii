@@ -67,8 +67,8 @@ void UnitTile::applyFlankModifier(Modifier _flank, UnitTile* _enemy){
 	}
 }
 
-void UnitTile::applyTerrainModifiers(int _distance, bool _attacking){
-	getTerrain()->applyModifiers(this, _distance, _attacking);
+void UnitTile::applyTerrainModifiers(TerrainTile* _terrain, int _distance, bool _attacking){
+	_terrain->applyModifiers(this, _distance, _attacking);
 }
 
 float UnitTile::getFlankModifier(UnitType _mainType, Modifier _flank) const{
@@ -505,28 +505,27 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	//Terrain modifiers
 	////////////////////////////////////////////////////////////////////////////
-	this->applyTerrainModifiers(dist, true);
-	unit->applyTerrainModifiers(dist, false);
+	this->applyTerrainModifiers(this->getTerrain(), dist, true);
+	unit->applyTerrainModifiers(unit->getTerrain(), dist, false);
 	////////////////////////////////////////////////////////////////////////////
 
-
-	// Ranged	////////////////////////////////////////////////////
+	// Ranged	
 	if (dist > 1){
+		//Some terrain types (such as woods) have maluses for the shooter
+		this->applyTerrainModifiers(unit->getTerrain(), dist, true);
 		return this->rangedAttack(unit, dist);
 	}
 
-	// Melee	///////////////////////////////////////////////////
+	// Melee	
 
 
 	UnitTile::Modifier flank{Modifier::FRONT_FLANK};
 
 	//Determine flank direction
 
-	//... both units are facing the same direction:
 	if (this->getDir() == unit->getDir()){
 		flank = Modifier::REAR_FLANK;
 	}
-	//... units are facing opposite directions:
 	else if (this->getDir() == opposite(unit->getDir())){
 		flank = Modifier::FRONT_FLANK;
 	}

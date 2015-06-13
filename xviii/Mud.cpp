@@ -11,16 +11,26 @@ TerrainTile(_world, tm, TextureManager::Terrain::MUD, TerrainType::MUD, _pos)
 
 void Mud::applyModifiers(UnitTile* _unit, int _distance, bool _attacking){
 
-	/* TENTATIVE
-	if (_unit->getUnitType() == UnitTile::UnitType::CAV){
-		if (_distance == 1){
+	//Melee modifiers
+	//////////////////////////////////////////////
+	if (_distance == 1){
+		if (_unit->getUnitType() == UnitTile::UnitType::CAV){
 			_unit->modVector.emplace_back(UnitTile::Modifier::TERRAIN, -2, true);
+		}
+		
+		if (_attacking){
+			 if (_unit->getUnitType() == UnitTile::UnitType::INF){
+				_unit->modVector.emplace_back(UnitTile::Modifier::TERRAIN, -1, true);
+			}
 		}
 	}
 
-	else if (_unit->getUnitType() == UnitTile::UnitType::INF){
-		if (_attacking && _distance == 1){
+
+	//Ranged modifiers
+	//////////////////////////////////////////////
+	else if (_distance > 1){
+		if (_attacking){
 			_unit->modVector.emplace_back(UnitTile::Modifier::TERRAIN, -1, true);
 		}
-	}*/
+	}
 }

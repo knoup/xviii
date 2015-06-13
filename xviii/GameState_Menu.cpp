@@ -138,6 +138,7 @@ void GameState_Menu::getInput(){
 						menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
 					}
 
+					titleText.setCharacterSize(170);
 					titleText.setString("THERE IS NO ESCAPE");
 					titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
 				}
