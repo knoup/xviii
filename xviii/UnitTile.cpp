@@ -89,7 +89,7 @@ void UnitTile::applyFlankModifier(Modifier _flank, UnitTile* _enemy){
 }
 
 void UnitTile::applyTerrainModifiers(int _distance, bool _attacking){
-
+	getTerrain()->applyModifiers(this, _distance, _attacking);
 }
 
 float UnitTile::getFlankModifier(UnitType _mainType, Modifier _flank) const{

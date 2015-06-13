@@ -41,6 +41,7 @@ public:
 	void setUnit(UnitTile* _unit);
 	UnitTile* getUnit();
 	void resetUnit();
+	virtual void applyModifiers(UnitTile* _unit, int _distance, bool _attacking){};
 
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
