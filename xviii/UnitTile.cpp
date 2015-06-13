@@ -179,6 +179,10 @@ std::string UnitTile::modToString(ModifierReport _mod){
 		return{"none"};
 		break;
 
+	case Modifier::TERRAIN:
+		return{"terrain"};
+		break;
+
 	case Modifier::BONUS:
 		if (_mod.modFloat >= 0){
 			return{"bonus"};

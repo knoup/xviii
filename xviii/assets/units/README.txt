@@ -164,6 +164,7 @@ DEFINE:INF 		-Infantry
 DEFINE:HINF 		-Heavy Infantry
 DEFINE:CAV 		-Cavalry
 DEFINE:ART 		-Artillery
+DEFINE:IRR 		-Irregulars
 
 ----Valid Eras---
 DEFINE:ALL

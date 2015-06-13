@@ -28,6 +28,7 @@ class UnitLoader;
 	X("HINF", UnitTile::UnitFamily::HINF_FAMILY)\
 	X("CAV", UnitTile::UnitFamily::CAV_FAMILY)\
 	X("ART", UnitTile::UnitFamily::ART_FAMILY)\
+	X("IRR", UnitTile::UnitFamily::IRR_FAMILY)
 
 class Player;
 
@@ -45,13 +46,13 @@ public:
 
 	enum class Direction{ N, E, S, W };
 
-	enum class Modifier{NONE, BONUS, ATK, DFND, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK, SQUARE_FORMATION};
+	enum class Modifier{NONE, TERRAIN, BONUS, ATK, DFND, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK, SQUARE_FORMATION};
 
 	enum class UnitType{INF, CAV, ART, MOR, GEN, ARTGUARD};
 
 	//Each UnitFamily generally has its own combat rules. LINF, however, does not, and for the moment, HINF's
 	//is identical to INF.
-	enum class UnitFamily{LINF_FAMILY, INF_FAMILY, HINF_FAMILY, CAV_FAMILY, ART_FAMILY};
+	enum class UnitFamily{LINF_FAMILY, INF_FAMILY, HINF_FAMILY, CAV_FAMILY, ART_FAMILY, IRR_FAMILY};
 
 	//Used for storing modifier information
 
