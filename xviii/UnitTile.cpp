@@ -23,7 +23,7 @@ int UnitTile::getLimit() const{ return unitLoader.customClasses.at(name).limit; 
 int UnitTile::getMaxHp() const{ return unitLoader.customClasses.at(name).maxHp; };
 int UnitTile::getMaxMov() const{ return unitLoader.customClasses.at(name).maxMov; };
 
-void UnitTile::applyModifiers(UnitTile* _unit, bool _attacking){
+void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 	UnitTile::UnitType mainType = _unit->getUnitType();
 	UnitTile::UnitFamily familyType = _unit->getUnitFamilyType();
 	std::string unitName = _unit->getName();
@@ -76,6 +76,20 @@ void UnitTile::applyModifiers(UnitTile* _unit, bool _attacking){
 			}
 		}
 	}
+}
+
+void UnitTile::applyFlankModifier(Modifier _flank, UnitTile* _enemy){
+	if (_enemy->hasSquareFormationAbility() && _enemy->getSquareFormationActive()){
+		this->modVector.emplace_back(Modifier::SQUARE_FORMATION, unitLoader.customClasses.at(name).squareFormationModifier);
+	}
+
+	else{
+		this->modVector.emplace_back(_flank, getFlankModifier(_enemy->getUnitType(), _flank));
+	}
+}
+
+void UnitTile::applyTerrainModifiers(int _distance, bool _attacking){
+
 }
 
 float UnitTile::getFlankModifier(UnitType _mainType, Modifier _flank) const{
@@ -503,6 +517,17 @@ std::string UnitTile::attack(UnitTile* unit){
 		return result;
 	}
 
+	if (dist == 1 && !getMelee()){
+		return NO_MELEE;
+	}
+
+	//Terrain modifiers
+	////////////////////////////////////////////////////////////////////////////
+	this->applyTerrainModifiers(dist, true);
+	unit->applyTerrainModifiers(dist, false);
+	////////////////////////////////////////////////////////////////////////////
+
+
 	// Ranged	////////////////////////////////////////////////////
 	if (dist > 1){
 		return this->rangedAttack(unit, dist);
@@ -510,9 +535,6 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	// Melee	///////////////////////////////////////////////////
 
-	if (dist == 1 && !getMelee()){
-		return NO_MELEE;
-	}
 
 	UnitTile::Modifier flank{Modifier::FRONT_FLANK};
 
@@ -530,17 +552,15 @@ std::string UnitTile::attack(UnitTile* unit){
 		flank = Modifier::SIDE_FLANK;
 	}
 
-	if (unit->hasSquareFormationAbility() && unit->getSquareFormationActive()){
-		this->modVector.emplace_back(Modifier::SQUARE_FORMATION, unitLoader.customClasses.at(name).squareFormationModifier);
-	}
+	//Other Modifiers
+	////////////////////////////////////////////////////////////////////////////
 
-	else{
-		this->modVector.emplace_back(flank, getFlankModifier(unit->getUnitType(), flank));
-	}
-	
-	//Apply unit-specific modifiers
-	this->applyModifiers(unit, true);
-	unit->applyModifiers(this, false);
+	applyFlankModifier(flank, unit);
+
+	this->applyBonusModifiers(unit, true);
+	unit->applyBonusModifiers(this, false);
+
+	////////////////////////////////////////////////////////////////////////////
 
 	//Double dispatch, hence the reverse order
 	return unit->meleeAttack(this);

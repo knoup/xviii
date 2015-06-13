@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "TerrainTile.h"
 #include "FontManager.h"
+#include "TerrainTile.h"
 
 #include <random>
 #include <sstream>
@@ -255,7 +255,9 @@ public:
 
 	//This function is unit-specific, and checks for such things as vs. family bonuses/maluses. The bool specifies
 	//whether the unit is attacking or defending
-	void applyModifiers(UnitTile* _unit, bool _attacking);
+	void applyBonusModifiers(UnitTile* _unit, bool _attacking);
+	void applyFlankModifier(Modifier _flank, UnitTile* _enemy);
+	void applyTerrainModifiers(int _distance, bool _attacking);
 
 	//Needed for double dispatch
 	virtual std::string meleeAttack(UnitTile* _unit) = 0;

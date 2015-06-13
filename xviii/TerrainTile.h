@@ -12,7 +12,6 @@
 	X(TerrainTile::TerrainType::WATER, Water, TextureManager::Terrain::WATER, "water")\
 	X(TerrainTile::TerrainType::WOODS, Woods, TextureManager::Terrain::WOODS, "woods")
 
-class UnitTile;
 
 class Meadow;
 class Hills;
@@ -24,7 +23,7 @@ class Water;
 class Woods;
 
 class World;
-
+class UnitTile;
 
 class TerrainTile : public Tile
 {
@@ -42,6 +41,7 @@ public:
 	void setUnit(UnitTile* _unit);
 	UnitTile* getUnit();
 	void resetUnit();
+
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
