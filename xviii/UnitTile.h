@@ -45,7 +45,7 @@ public:
 
 	enum class Direction{ N, E, S, W };
 
-	enum class Modifier{NONE, ADDITIONAL, MULTIPLICATIONAL, ATK, DFND, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK, SQUARE_FORMATION};
+	enum class Modifier{NONE, BONUS, ATK, DFND, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK, SQUARE_FORMATION};
 
 	enum class UnitType{INF, CAV, ART, MOR, GEN, ARTGUARD};
 
@@ -57,14 +57,16 @@ public:
 
 	struct ModifierReport{
 
-		ModifierReport(Modifier _modType, float _modFloat) : 
+		ModifierReport(Modifier _modType, float _modFloat, bool _additional) : 
 		modType{_modType},
-		modFloat{_modFloat}
+		modFloat{_modFloat},
+		additional{_additional}
 		{
 		}
 
 		Modifier modType;
 		float modFloat;
+		bool additional;
 	};
 
 	struct RangedAttackRange{

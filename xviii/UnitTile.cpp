@@ -34,45 +34,24 @@ void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 
 	for (auto& bonus : bonusesVsMainTypes){
 		if (bonus.mainType == mainType){
-			UnitTile::Modifier modType;
 			if ((!_attacking && bonus.whenDefending) || (_attacking && bonus.whenAttacking)){
-				if (bonus.modifierIsAdditional){
-					modType = Modifier::ADDITIONAL;
-				}
-				else{
-					modType = Modifier::MULTIPLICATIONAL;
-				}
-				modVector.emplace_back(modType, bonus.modifier);
+				modVector.emplace_back(Modifier::BONUS, bonus.modifier, bonus.modifierIsAdditional);
 			}
 		}
 	}
 
 	for (auto& bonus : bonusesVsFamilyTypes){
 		if (bonus.familyType == familyType){
-			UnitTile::Modifier modType;
 			if ((!_attacking && bonus.whenDefending) || (_attacking && bonus.whenAttacking)){
-				if (bonus.modifierIsAdditional){
-					modType = Modifier::ADDITIONAL;
-				}
-				else{
-					modType = Modifier::MULTIPLICATIONAL;
-				}
-				modVector.emplace_back(modType, bonus.modifier);
+				modVector.emplace_back(Modifier::BONUS, bonus.modifier, bonus.modifierIsAdditional);
 			}
 		}
 	}
 
 	for (auto& bonus : bonusesVsNames){
 		if (bonus.name == unitName){
-			UnitTile::Modifier modType;
 			if ((!_attacking && bonus.whenDefending) || (_attacking && bonus.whenAttacking)){
-				if (bonus.modifierIsAdditional){
-					modType = Modifier::ADDITIONAL;
-				}
-				else{
-					modType = Modifier::MULTIPLICATIONAL;
-				}
-				modVector.emplace_back(modType, bonus.modifier);
+				modVector.emplace_back(Modifier::BONUS, bonus.modifier, bonus.modifierIsAdditional);
 			}
 		}
 	}
@@ -80,11 +59,11 @@ void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 
 void UnitTile::applyFlankModifier(Modifier _flank, UnitTile* _enemy){
 	if (_enemy->hasSquareFormationAbility() && _enemy->getSquareFormationActive()){
-		this->modVector.emplace_back(Modifier::SQUARE_FORMATION, unitLoader.customClasses.at(name).squareFormationModifier);
+		this->modVector.emplace_back(Modifier::SQUARE_FORMATION, unitLoader.customClasses.at(name).squareFormationModifier, false);
 	}
 
 	else{
-		this->modVector.emplace_back(_flank, getFlankModifier(_enemy->getUnitType(), _flank));
+		this->modVector.emplace_back(_flank, getFlankModifier(_enemy->getUnitType(), _flank), false);
 	}
 }
 
@@ -200,8 +179,7 @@ std::string UnitTile::modToString(ModifierReport _mod){
 		return{"none"};
 		break;
 
-	case Modifier::ADDITIONAL:
-	case Modifier::MULTIPLICATIONAL:
+	case Modifier::BONUS:
 		if (_mod.modFloat >= 0){
 			return{"bonus"};
 		}
@@ -923,7 +901,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 	for (auto& mod : attackerModifiers){
 		if (mod.modFloat != 0){
-			if (mod.modType == UnitTile::Modifier::ADDITIONAL || mod.modType == UnitTile::Modifier::ATK){
+			if (mod.additional){
 				std::string append{mod.modFloat >= 0 ? "+" : ""};
 				result << "[" + modToString(mod) + ": " + append + roundFloat(mod.modFloat) + "]";
 			}
@@ -947,7 +925,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 	for (auto& mod : defenderModifiers){
 		if (mod.modFloat != 0){
-			if (mod.modType == UnitTile::Modifier::ADDITIONAL || mod.modType == UnitTile::Modifier::ATK){
+			if (mod.additional){
 				std::string append{mod.modFloat >= 0 ? "+" : ""};
 				result << "[" + modToString(mod) + ": " + append + roundFloat(mod.modFloat) + "]";
 			}
@@ -966,19 +944,15 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 void UnitTile::multRollByModifiers(float &originalRoll){
 	for (auto& mod : modVector){
-		if (mod.modFloat != 0){
-			if (mod.modType != Modifier::ADDITIONAL){
+		if (mod.modFloat != 0 && !mod.additional){
 				originalRoll *= mod.modFloat;
-			}
 		}
 	}
 
 
 	for (auto& mod : modVector){
-		if (mod.modFloat != 0){
-			if (mod.modType == Modifier::ADDITIONAL){
+		if (mod.modFloat != 0 && mod.additional){
 			originalRoll += mod.modFloat;
-			}
 		}
 	}
 
@@ -1052,7 +1026,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	}
 
 	if (!modifierIsDamage){
-		modVector.emplace_back(Modifier::DISTANCE, distanceModifier);
+		modVector.emplace_back(Modifier::DISTANCE, distanceModifier, false);
 
 		multRollByModifiers(thisRoll);
 		damageDealt += thisRoll;
