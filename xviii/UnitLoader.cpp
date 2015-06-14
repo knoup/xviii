@@ -378,7 +378,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 						UnitTile::UnitFamily familyType;
 
-						#define X(_str, _familyType, cl)\
+						#define X(_str, _familyType)\
 						if(second_part == _str){\
 							familyType = _familyType;\
 												}

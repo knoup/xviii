@@ -51,7 +51,7 @@ public:
 	void setButtonHighlighted(bool val);
 	const Button& getButton() const;
 	inline virtual void update(){};
-	inline virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const = 0{};
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const = 0;
 
 protected:
 	TextureManager& tm;

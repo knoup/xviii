@@ -76,7 +76,7 @@ private:
 
 	std::mt19937& mt19937;
 
-	int elapsedTurns;
+	int elapsedTurns{0};
 	Era era;
 
 	//The first layer, or "terrain layer"; always drawn behind the units and only consists

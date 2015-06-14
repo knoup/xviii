@@ -13,6 +13,7 @@
 #include "global.h"
 
 class UnitLoader;
+class SpawnableUnit;
 
 //The ALL "nation" is not meant to be selectable
 
