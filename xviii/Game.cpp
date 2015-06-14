@@ -49,7 +49,7 @@ void Game::gameLoop(){
 
 	while (mWindow.isOpen()){
 
-		auto timePoint1(boost::chrono::high_resolution_clock::now());
+		auto timePoint1(std::chrono::high_resolution_clock::now());
 
 		//////////////////////////////////////////////////////////
 		getInput();
@@ -64,10 +64,10 @@ void Game::gameLoop(){
 		draw();
 		//////////////////////////////////////////////////////////
 
-		auto timePoint2(boost::chrono::high_resolution_clock::now());
+		auto timePoint2(std::chrono::high_resolution_clock::now());
 		auto elapsedTime(timePoint2 - timePoint1);
 
-		float ft{boost::chrono::duration_cast<boost::chrono::duration<float, boost::milli>>(elapsedTime).count()};
+		float ft{std::chrono::duration_cast<std::chrono::duration<float, std::milli>>(elapsedTime).count()};
 		lastFT = ft;
 	}
 
