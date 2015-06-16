@@ -10,12 +10,14 @@ std::string boolToString(bool _value){
 	else if (!_value){
 		return "NO";
 	}
+
+	return "???";
 }
 
 GameState_Play::GameState_Play(Game* _game) :
 GameState{_game},
-playUI(this, game->mTextureManager, game->mFontManager),
-selected{nullptr}
+selected{nullptr},
+playUI(this, game->mTextureManager, game->mFontManager)
 {
 
 

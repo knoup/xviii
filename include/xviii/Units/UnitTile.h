@@ -97,11 +97,11 @@ public:
 		int lowerThreshold;
 		int upperThreshold;
 
-		int lowerDieThreshold;
-		int upperDieThreshold;
-
 		float distModifier;
 		bool modifierIsDamage;
+
+		int lowerDieThreshold;
+		int upperDieThreshold;
 	};
 
 	struct HealingRange{
@@ -322,6 +322,7 @@ public:
 	std::vector<ModifierReport> modVector;
 
 protected:
+	UnitLoader& unitLoader;
 	std::mt19937& mt19937;
 
 	//Pointer to the player the unit belongs to
@@ -348,8 +349,6 @@ protected:
 
 	UnitType unitType;
 	UnitFamily unitFamilyType;
-
-	UnitLoader& unitLoader;
 
 	float hp;
 	int mov;

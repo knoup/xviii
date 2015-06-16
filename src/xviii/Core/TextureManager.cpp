@@ -171,6 +171,8 @@ sf::Sprite TextureManager::getSprite(UI type){
 		}
 	}
 
+	return{};
+
 }
 
 sf::Sprite TextureManager::getSprite(Flag type){

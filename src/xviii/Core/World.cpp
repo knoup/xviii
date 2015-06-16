@@ -18,8 +18,6 @@ mTerrainTexture(tm.getTerrainTexture())
 	//Begin by filling the map with meadows
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	sf::IntRect terrainRekt = tm.getSprite(TextureManager::Terrain::MEADOW).getTextureRect();
-
 
 	//Initialise an "empty" world
 	for (int c{0}; c < dimensions.y; ++c){

@@ -5,8 +5,8 @@
 #include "xviii/Core/Game.h"
 
 SetupUI::SetupUI(GameState_Setup* _gameState, TextureManager& _tm, FontManager& _fm) :
-gameState{_gameState},
-UI(_tm, _fm)
+UI(_tm, _fm),
+gameState{_gameState}
 {
 	button.setString("READY");
 	button.text.setOrigin(button.text.getLocalBounds().width / 2, button.text.getGlobalBounds().height / 2);

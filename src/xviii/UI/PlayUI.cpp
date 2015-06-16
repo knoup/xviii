@@ -5,8 +5,8 @@
 #include "xviii/Core/Game.h"
 
 PlayUI::PlayUI(GameState_Play* _gameState, TextureManager& _tm, FontManager& _fm) :
-gameState{_gameState},
-UI(_tm, _fm)
+UI(_tm, _fm),
+gameState{_gameState}
 {
 	button.text.setCharacterSize(20);
 	button.setString("NEXT TURN");

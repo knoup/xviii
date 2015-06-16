@@ -13,12 +13,12 @@ const sf::Font& FontManager::getFont(Type _type) const{
 	switch (_type){
 	case Lucon:
 		return lucon;
-		break;
 	case Arial:
 		return arial;
-		break;
 	case Eighteen:
 		return eighteen;
-		break;
+
+	default:
+        return lucon;
 	}
 }

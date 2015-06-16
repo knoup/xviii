@@ -61,6 +61,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 		return{INVALID_DIR_MOV};
 	}
 
+    return{"???"};
 }
 
 
@@ -134,7 +135,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 
 	//Checks if the attack is frontal or not
 
-	for (int i{0}; i < modVector.size(); ++i){
+	for (size_t i{0}; i < modVector.size(); ++i){
 		if (modVector[i].modType == Modifier::FRONT_FLANK){
 			frontal = true;
 			break;

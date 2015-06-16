@@ -44,7 +44,7 @@ void GameState_Setup::getInput(){
 
 					std::vector<SpawnableUnit> current{game->currentPlayer->getSpawnableUnits()};
 
-					for (int i{0}; i < current.size(); ++i){
+					for (size_t i{0}; i < current.size(); ++i){
 						if (uiCoords.x > current[i].left() && uiCoords.x < current[i].right()
 							&&
 							uiCoords.y > current[i].top() && uiCoords.y < current[i].bottom()){

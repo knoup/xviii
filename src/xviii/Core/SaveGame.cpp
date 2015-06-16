@@ -10,6 +10,8 @@ Player::Nation stringToNation(std::string _name){
 		return nat;
 	NATIONPROPERTIES
 	#undef X
+
+	return Player::Nation::ALL;
 }
 
 UnitTile::Direction stringToDir(std::string _dir){
@@ -25,6 +27,8 @@ UnitTile::Direction stringToDir(std::string _dir){
 	else if (_dir == "W"){
 		return UnitTile::Direction::W;
 	}
+
+	return UnitTile::Direction::N;
 }
 
 /*

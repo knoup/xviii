@@ -96,6 +96,8 @@ float UnitTile::getFlankModifier(UnitType _mainType, Modifier _flank) const{
 			case Modifier::REAR_FLANK:
 				return flankModifier.rear;
 				break;
+            default:
+                break;
 			}
 		}
 	}
@@ -108,20 +110,18 @@ UnitTile::Direction UnitTile::opposite(UnitTile::Direction _dir){
 
 	case UnitTile::Direction::N:
 		return UnitTile::Direction::S;
-		break;
 
 	case UnitTile::Direction::S:
 		return UnitTile::Direction::N;
-		break;
 
 	case UnitTile::Direction::E:
 		return UnitTile::Direction::W;
-		break;
 
 	case UnitTile::Direction::W:
 		return UnitTile::Direction::E;
-		break;
 	}
+
+	return UnitTile::Direction::N;
 }
 
 //virtual
@@ -166,20 +166,18 @@ std::string UnitTile::dirToString(){
     switch(dir){
     case UnitTile::Direction::N:
         return "N";
-        break;
 
     case UnitTile::Direction::E:
         return "E";
-        break;
 
     case UnitTile::Direction::S:
         return "S";
-        break;
 
     case UnitTile::Direction::W:
         return "W";
-        break;
     }
+
+    return{"???"};
 }
 
 std::string UnitTile::modToString(ModifierReport _mod){
@@ -187,11 +185,15 @@ std::string UnitTile::modToString(ModifierReport _mod){
 	switch (_mod.modType){
 	case Modifier::NONE:
 		return{"none"};
-		break;
+
+    case Modifier::ATK:
+        return{"atk"};
+
+    case Modifier::DFND:
+        return{"dfnd"};
 
 	case Modifier::TERRAIN:
 		return{"terrain"};
-		break;
 
 	case Modifier::BONUS:
 		if (_mod.modFloat >= 0){
@@ -200,43 +202,38 @@ std::string UnitTile::modToString(ModifierReport _mod){
 		else{
 			return{"malus"};
 		}
-		break;
 
 	case Modifier::DISTANCE:
 		return{"distance"};
-		break;
 
 	case Modifier::FRONT_FLANK:
 		return{"front flank"};
-		break;
 
 	case Modifier::SIDE_FLANK:
 		return{"side flank"};
-		break;
 
 	case Modifier::REAR_FLANK:
 		return{"rear flank"};
-		break;
 
 	case Modifier::SQUARE_FORMATION:
 		return{"square formation"};
-		break;
 	}
+
+	return{"???"};
 }
 
 UnitTile::UnitTile(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, std::string _name, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
-unitLoader(_unitLoader),
 Tile(_world, tm, id),
+unitLoader(_unitLoader),
 mt19937(_mt19937),
+player{_belongsToPlayer},
+dir{_dir},
+terrain{nullptr},
 name{_name},
 unitType{type},
 unitFamilyType{familyType},
-player{_belongsToPlayer},
-dir{_dir},
 hp{0},
-mov{0},
-terrain{nullptr}
-
+mov{0}
 {
 	unitFlag = player->getNationFlag();
 
@@ -329,6 +326,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 		return{INVALID_DIR_MOV};
 	}
 
+    return{"???"};
 }
 
 //Virtual
@@ -429,9 +427,9 @@ std::string UnitTile::heal(UnitTile* _unit){
 		for (auto & healingRange : unitLoader.customClasses.at(name).healingRangeValues){
 			if ((healingRange.lowerThreshold == 0 && healingRange.upperThreshold == 0)
 				||
-				(difference.x >= healingRange.lowerThreshold || difference.x == 0) && (difference.y >= healingRange.lowerThreshold || difference.y == 0)
+				((difference.x >= healingRange.lowerThreshold || difference.x == 0) && (difference.y >= healingRange.lowerThreshold || difference.y == 0)
 				&&
-				(difference.x <= healingRange.upperThreshold || difference.x == 0) && (difference.y <= healingRange.upperThreshold || difference.y == 0)){
+				(difference.x <= healingRange.upperThreshold || difference.x == 0) && (difference.y <= healingRange.upperThreshold || difference.y == 0))){
 
 				healingAmount = healingRange.healingAmount;
 			}
@@ -824,26 +822,23 @@ int UnitTile::distanceFrom(Tile* _tile){
 	switch (dir){
 	case UnitTile::Direction::N:
 		return (currentCoords.y - toMoveToCoords.y);
-		break;
 
 	case UnitTile::Direction::E:
 		return (toMoveToCoords.x - currentCoords.x);
-		break;
 
 	case UnitTile::Direction::S:
 		return (toMoveToCoords.y - currentCoords.y);
-		break;
 
 	case UnitTile::Direction::W:
 		return (currentCoords.x - toMoveToCoords.x);
-		break;
 	}
 
+    return 0;
 }
 
 
 std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* defender, int attackerRoll, int defenderRoll, float attackerInflicted, float defenderInflicted, bool retreat){
-	std::stringstream result;
+	std::stringstream result{};
 
 	std::vector<ModifierReport>& attackerModifiers = attacker->modVector;
 	std::vector<ModifierReport>& defenderModifiers = defender->modVector;

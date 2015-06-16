@@ -24,8 +24,8 @@ public:
 	int bottom() const;
 	int right() const;
 protected:
+	World& world;
 	sf::Sprite sprite;
 	bool highlighted;
-	World& world;
 };
 

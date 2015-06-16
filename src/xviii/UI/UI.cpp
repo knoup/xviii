@@ -6,8 +6,8 @@
 UI::UI(TextureManager& _tm, FontManager& _fm) :
 tm(_tm),
 fm(_fm),
-uiView{sf::FloatRect(0, -174, xResolution, 154)},
-uiSprite{tm.getSprite(TextureManager::UI::RECTANGLE)}
+uiSprite{tm.getSprite(TextureManager::UI::RECTANGLE)},
+uiView{sf::FloatRect(0, -174, xResolution, 154)}
 {
 	uiView.setViewport(sf::FloatRect(0, 0.8f, 1, 0.2f));
 	uiSprite.setPosition(0, -174);

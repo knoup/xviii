@@ -67,9 +67,6 @@ spawnedAtBottom{_spawnedAtBottom}
 
 bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 
-	auto terrain = world.terrainAtPixelPos(_worldCoords);
-	auto cartesianCoords = world.cartesianPosAtIndex(world.indexAtTile(*terrain));
-
 	UnitTile::unitPtr ptr;
 	UnitTile::Direction dir;
 

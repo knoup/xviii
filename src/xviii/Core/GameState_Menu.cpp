@@ -56,7 +56,7 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 
 	menuList.push_back({{"Exit"}, Action::EXIT, World::Era::ALL});
 
-	for (int i{0}; i < menuList.size(); ++i){
+	for (size_t i{0}; i < menuList.size(); ++i){
 		menuList[i].text.setFont(game->mFontManager.getFont(FontManager::Arial));
 		menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
 		menuList[i].text.setColor(sf::Color::White);
@@ -131,7 +131,7 @@ void GameState_Menu::getInput(){
 
 			else if (event.key.code == DELETE_KEY && menuIterator->action != Action::NEW){
 				if (menuIterator->action == Action::EXIT){
-					for (int i{0}; i < menuList.size(); ++i){
+					for (size_t i{0}; i < menuList.size(); ++i){
 						menuList[i].text.setFont(game->mFontManager.getFont(FontManager::Arial));
 
 						menuList[i].text.setString("THERE IS NO ESCAPE");
@@ -147,7 +147,7 @@ void GameState_Menu::getInput(){
 				menuList.erase(menuIterator);
 				menuIterator = menuList.begin();
 
-				for (int i{0}; i < menuList.size(); ++i){
+				for (size_t i{0}; i < menuList.size(); ++i){
 					int textXPos = xResolution / 2;
 					int textYPos = (i * 50);
 
