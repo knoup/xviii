@@ -3,7 +3,7 @@
 
 #include "xviii/Terrain/RiverAnt.h"
 
-World::World(TextureManager& _tm, sf::Vector2i _dimensions, std::mt19937& _mt19937) :
+World::World(TextureManager& _tm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937) :
 tm(_tm),
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * tm.getSize().x, dimensions.y * tm.getSize().y)},

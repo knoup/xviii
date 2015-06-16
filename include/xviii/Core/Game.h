@@ -7,8 +7,8 @@
 #include "xviii/Core/SaveGame.h"
 #include "xviii/Core/UnitLoader.h"
 
-#include <random>
-#include <boost/chrono.hpp>
+#include <boost/random.hpp>
+#include <boost/random/random_device.hpp>
 
 #include "xviii/Core/GameState_Play.h"
 #include "xviii/Core/GameState_SelectNations.h"
@@ -35,8 +35,8 @@ public:
 	//Cycles to the next player; sets currentPlayer and currentView, and resets the ready status
 	void nextPlayer();
 
-	std::random_device randevice;
-	std::mt19937 mtengine;
+	boost::random::random_device randevice;
+	boost::random::mt19937 mtengine;
 
 	sf::RenderWindow mWindow;
 

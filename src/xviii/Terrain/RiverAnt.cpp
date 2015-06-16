@@ -24,7 +24,7 @@ void RiverAnt::crawl(){
 
 		sf::Vector2i newCartesianPos{currentCartesianPos};
 
-		std::uniform_int_distribution<int> randomDirectionDist(1, 8);
+		boost::random::uniform_int_distribution<int> randomDirectionDist(1, 8);
 		int randomDirection{randomDirectionDist(world->mt19937)};
 
 		//initialDirection is initialised as 0; the first direction chosen is assigned
@@ -33,7 +33,7 @@ void RiverAnt::crawl(){
 		}
 
 		//To simulate a 75% chance of flowing in the initial direction
-		std::uniform_int_distribution<int> chance(1, 100);
+		boost::random::uniform_int_distribution<int> chance(1, 100);
 		int randomRoll{chance(world->mt19937)};
 
 		if (randomRoll <= 75){

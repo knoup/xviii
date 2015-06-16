@@ -43,7 +43,7 @@ class Player
 	friend class SpawnableUnit;
     public:
 		enum class Nation{ALL, AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER};
-		Player(UnitLoader& _unitLoader, World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
+		Player(UnitLoader& _unitLoader, World& _world, Nation _nation, boost::random::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
 
 		//Returns true if successfully spawned unit
 		bool spawnUnit(std::string _name, sf::Vector2i _worldCoords);
@@ -91,7 +91,7 @@ class Player
 		sf::Sprite nationFlag;
 		std::string name;
 
-		std::mt19937& mt19937;
+		boost::random::mt19937& mt19937;
 
 		TextureManager& tm;
 		FontManager& fm;

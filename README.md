@@ -1,9 +1,9 @@
-Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and <a href="http://www.boost.org/">Boost's</a> filesystem module. This is my first real project, hence the generally amateurish code. Inspired by, and continutally developed with, the ideas and input of a friend.
+Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and several <a href="http://www.boost.org/">Boost</a> modules. This is my first real project, hence the generally amateurish code. Inspired by, and continutally developed with, the ideas and input of a friend.
 
 Items of Note
 -----------------------
 
- *Currently, a vast amount of new units, nations, and some mechanics are being added. Updating this file after every minor adjustment would be very cumbersome. Therefore, until further notice, assume this file to be outdated.
+ *Currently, a vast amount of new units, nations, and mechanics are being added. Updating this file after every minor adjustment would be very cumbersome. Therefore, until further notice, assume this file to be outdated.
 
  *There is code for random menu wallpapers. My personal collection is nearly 30MB in size, and thus I won't upload it on Github for the time being. However, you are free to place your own images in the dir assets/gfx/backgrounds.
 
@@ -11,35 +11,35 @@ General
 -------
 	There are four types of actions:
 
-	
+
 	1) MOVEMENT
-			
+
 	2) PARTIAL ROTATION
 			*Left/Right (90 degrees)
-			
+
 	3) FULL ROTATION
 			*180 degrees
-	
+
 	4) ATTACK
 			*Includes Firing/Charging
 
-		
+
 *INF can either MOVE, PARTIALLY ROTATE, or FULLY ROTATE in addition to attacking.
-	
+
 *CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving/attacking
 
 *However, unless otherwise stated, units may not ROTATE or MOVE at all AFTER attacking.
-	
-	
+
+
 *d stands for [6-sided] die; the roll result is multiplied by the modifier, such that
  a roll of 4 with modifiers of 0.5d and 1d will yield 2 and 4 DMG respectively
 
- 
+
 *Incremental modifiers always come after multiplicational ones; a Cuirassier 4 rolling
  against a Dragoon will get a resultant roll of 9 [(2x4) + 1], not 10 [2x(4+1)].
 
 
-*When a player's GENERAL dies, inflict 2 DMG to all friendly units. General may 
+*When a player's GENERAL dies, inflict 2 DMG to all friendly units. General may
 heal a friendly unit for 2 HP once per turn.
 
 
@@ -49,7 +49,7 @@ heal a friendly unit for 2 HP once per turn.
 	Dragoon (DRAG)
 	Light Cavalry (LCAV)
 	General (GEN)
-	
+
 
 Unit Types & Stats
 ------------------
@@ -58,17 +58,17 @@ Unit Types & Stats
 		*HP: 18
 		*MOV: 6
 		*MAX RANGED DIST: 6
-		
+
 	Artillery (ART)
 		*HP: 3
 		*MOV: 2
 		*MAX RANGED DIST: 20
-		
+
 	Mortar (MOR)
 		*HP: 2
 		*MOV: 0
 		*MAX RANGED DIST: 15
-		
+
 	Cavalry (CAV)
 		*HP: 13
 		*MOV: 12
@@ -89,25 +89,25 @@ Unit Types & Stats
 		*HP: 8
 		*MOV: 15
 		*MAX RANGED DIST: -
-		
+
 	General (GEN)
 		*HP: 5
 		*MOV: 6
 		*MAX RANGED DIST: 2
 
 ---Shooting Dist. Modifiers---
-	
+
 	INF
 		*6: 	0.5d
 		*5-3: 	1d
 		*2: 	2d
 
 	ART [ONLY IF ROLL IS 4-6]
-		*20-10:	2 DMG 
-		*9-2:	4 DMG 
-		
-	MOR [ONLY IF ROLL IS 4-6]	
-		*15-2:	3 DMG 
+		*20-10:	2 DMG
+		*9-2:	4 DMG
+
+	MOR [ONLY IF ROLL IS 4-6]
+		*15-2:	3 DMG
 
 	DRAG
 		*5-9: 0.5d
@@ -116,19 +116,19 @@ Unit Types & Stats
 
 	GEN
 		*2:	0.5d
-		
----Charge Dir. Modifiers (CAV)---	
+
+---Charge Dir. Modifiers (CAV)---
 
 	vs. INF
 		*Front:	0.5d
 		*Flank:	1d
 		*Rear:	2d
-		
+
 	vs. CAV
 		*Front:	1d
 		*Flank:	2d
 		*Rear:	2d
-		
+
 ---Charge Dir. Modifiers (LCAV)---
 
 	vs. INF
@@ -142,43 +142,43 @@ Unit Types & Stats
 		*Front: 0.5d
 		*Flank: 0.5d
 		*Rear: 1d
-	
-		
+
+
 ---Charge Dir. Modifiers (INF)---
 
 	vs. INF
 		*Front: 0.5d
 		*Flank: 1d
 		*Rear: 1.5d
-		
+
 	vs. CAV
 		*Front: 1d
 		*Flank: 1.5d
 		*Rear: 2d
 
-		
+
 Ranged Combat Rules
 -------------------
 
 
-The player rolls a die and the result is multiplied by the unit's dist./dir. modifier. 
-	 
+The player rolls a die and the result is multiplied by the unit's dist./dir. modifier.
+
 EXAMPLE:
-	 
-Player 1 has INF shooting at Player 2's CAV from 2 tiles away. 
+
+Player 1 has INF shooting at Player 2's CAV from 2 tiles away.
 Since INF has a modifier of 2d while shooting from this distance, his roll is multiplied by 2.
 Player 1 rolls 4 and inflicts 8 DMG on Player  2's CAV.
-	 
-	 
+
+
 ART and MOR are able to fire with a "cone width" of 3, meaning they can shoot not only straight forward, but also one tile to the left and one tile to the right.
 
-	 
+
 Melee Combat Rules
 -------------------
 
 
 	INF vs INF
-	
+
 		*Roll dice
 
 		*If difference between player 1 and 2 is less than 3, player with highest roll inflicts 1 DMG
@@ -186,16 +186,16 @@ Melee Combat Rules
 		*If both get the same roll, both take 1 DMG
 
 		*Otherwise, inflict 2 DMG
-		
-		
+
+
 	CAV vs CAV:
-	
+
 		*Roll dice
 
 		*Same rules as INF vs INF.
 
 	INF vs CAV
-	
+
 		*Roll dice
 
 		*Player with higher roll wins
@@ -205,22 +205,22 @@ Melee Combat Rules
 		*If equal rolls, CAV takes 1 DMG and INF takes 0.5 DMG
 
 		*If INF wins, inflict 2 DMG (and receive 1)
-		
+
 	INF/CAV vs ART
-	
+
 		*Only INF/CAV rolls
 
 		*If INF/CAV rolls 3 or more, inflict 2 DMG. If 2 or less, both INF/CAV and ART take 3 DMG.
 
-		
+
 	INF/CAV vs MOR
-	
+
 		*Only INF/CAV rolls
 
-		*If INF/CAV rolls 3 or more, inflict 2 DMG. If 2 or less, INF/CAV take 0.5 DMG, MOR takes 2 DMG.		
-		
+		*If INF/CAV rolls 3 or more, inflict 2 DMG. If 2 or less, INF/CAV take 0.5 DMG, MOR takes 2 DMG.
 
-	
+
+
 
 Deployment Costs
 ----------------
@@ -229,23 +229,23 @@ Deployment Costs
 Each player begins with 30 deployment points, and each unit spawned costs a certain amount.
 
 	INF: 1
-	
+
 	CAV: 3 		[Can have max of 5]; applies to entire CAV family tentatively
-	
+
 	ARTY: 3 	[Can have max of 5]
-	
+
 	MORTAR: 2	[Can have max of 5]
-	
+
 	GENERAL: 0	[Can have max of 1]
 
-	
-	
+
+
 In-Game
 -------
 
-During the setup phase, each player deploys their units on the game board. 
-Players are limited to the far reaches of the map during this phase. In 
-order to deploy a unit, you may either click on its sprite or use the 
+During the setup phase, each player deploys their units on the game board.
+Players are limited to the far reaches of the map during this phase. In
+order to deploy a unit, you may either click on its sprite or use the
 keyboard shortcuts.
 
 The indicators under the counters represent the unit's current direction,
@@ -253,12 +253,12 @@ health, and movement points, respectively. A unit with W 5 4 under it would
 therefore represent a state in which it is facing westward, has 5 HP remaining,
 and 4 movement points.
 
-Note that the parentheses following the name of a unit is its limit per player, 
+Note that the parentheses following the name of a unit is its limit per player,
 not deployment cost.
 
-During the playing phase, players successively command their units by clicking 
+During the playing phase, players successively command their units by clicking
 on the desired unit and giving it movement/attack/rotation orders while
-selected (see below). The currently selected unit is outlined in yellow, while 
+selected (see below). The currently selected unit is outlined in yellow, while
 units that have already attacked this turn are outlined in red.
 
 Line of Sight
@@ -266,7 +266,7 @@ Line of Sight
 
 In addition to movement points and max attacking range, units are limited by their
 line of sight. A unit can neither move to a tile, nor attack an enemy, that has an
-enemy unit in the way. Friendly units can move past each other; however, with the 
+enemy unit in the way. Friendly units can move past each other; however, with the
 exception of ART and MOR, they cannot fire from behind other friendlies.
 
 
@@ -276,30 +276,30 @@ Keyboard shortcuts & mouse commands
 ---Menu Phase---
 
 	W/Up/S/Down keys & Return
-	
+
 Two premade save files are provided for those who just want to dive in without bothering to set up.
 
 ---Nation Selection Phase---
-	
+
 	Left/A/Right/D keys & Return
 
 ---Setup & Playing Phases---
 
-	R - reset zoom level  
-	WASD - pan view  
-	dash (-) - zoom out  
-	equal (=) - zoom in  
-	Mouse wheel - zoom out/in  
+	R - reset zoom level
+	WASD - pan view
+	dash (-) - zoom out
+	equal (=) - zoom in
+	Mouse wheel - zoom out/in
 
----Setup Phase---  
-	
-	LMB - place unit on tile  
-	RMB - deselect currently selected sprite, or delete unit at tile  
+---Setup Phase---
+
+	LMB - place unit on tile
+	RMB - deselect currently selected sprite, or delete unit at tile
 
 ---Playing Phase---
 
-	LMB - select a unit and issue movement/attack orders  
-	RMB - deselect currently selected unit/dismiss current message  
+	LMB - select a unit and issue movement/attack orders
+	RMB - deselect currently selected unit/dismiss current message
 
 	Up/down/left/right arrow keys - rotate a unit North, South, East, and West respectively
 

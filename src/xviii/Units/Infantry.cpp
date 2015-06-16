@@ -3,7 +3,7 @@
 
 #include "xviii/Core/Player.h"
 
-Infantry::Infantry(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
+Infantry::Infantry(UnitLoader& _unitLoader, World& _world, boost::random::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
 UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _name, _type, _familyType, _dir)
 {
 }
@@ -111,7 +111,7 @@ std::string Infantry::meleeAttack(UnitTile* _unit){
 
 std::string Infantry::meleeAttack(Infantry* inf){
 
-	std::uniform_int_distribution<int> distribution(1, 6);
+	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
 	int thisRoll_int{distribution(mt19937)};
 	int enemyRoll_int{distribution(mt19937)};
@@ -243,7 +243,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 
 std::string Infantry::meleeAttack(Cavalry* cav){
 
-	std::uniform_int_distribution<int> distribution(1, 6);
+	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
 	int thisRoll_int{distribution(mt19937)};
 	int enemyRoll_int{distribution(mt19937)};
@@ -290,7 +290,7 @@ std::string Infantry::meleeAttack(Cavalry* cav){
 
 std::string Infantry::meleeAttack(Artillery* art){
 
-	std::uniform_int_distribution<int> distribution(1, 6);
+	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
 	int thisRoll_int{distribution(mt19937)};
 
@@ -328,7 +328,7 @@ std::string Infantry::meleeAttack(Artillery* art){
 
 std::string Infantry::meleeAttack(Mortar* mor){
 
-	std::uniform_int_distribution<int> distribution(1, 6);
+	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
 	int thisRoll_int{distribution(mt19937)};
 

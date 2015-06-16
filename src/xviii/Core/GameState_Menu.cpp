@@ -13,7 +13,7 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	titleText.setFont(game->mFontManager.getFont(FontManager::Eighteen));
 
 	//Randomise title text colour, for the heck of it:
-	std::uniform_int_distribution<int> distribution(0, 255);
+	boost::random::uniform_int_distribution<int> distribution(0, 255);
 	int randColourR{distribution(game->mtengine)};
 	int randColourG{distribution(game->mtengine)};
 	int randColourB{distribution(game->mtengine)};
@@ -32,7 +32,7 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	}
 
 	if (!paths.empty()){
-		std::uniform_int_distribution<int> dist(0, paths.size() - 1);
+		boost::random::uniform_int_distribution<int> dist(0, paths.size() - 1);
 		int randomIndex{dist(game->mtengine)};
 		std::string randomPath{paths[randomIndex].string()};
 

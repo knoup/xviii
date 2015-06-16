@@ -222,7 +222,7 @@ std::string UnitTile::modToString(ModifierReport _mod){
 	return{"???"};
 }
 
-UnitTile::UnitTile(UnitLoader& _unitLoader, World& _world, std::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, std::string _name, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
+UnitTile::UnitTile(UnitLoader& _unitLoader, World& _world, boost::random::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& tm, FontManager& fm, TextureManager::Unit id, std::string _name, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
 Tile(_world, tm, id),
 unitLoader(_unitLoader),
 mt19937(_mt19937),
@@ -1044,7 +1044,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 		return LIMBERED;
 	}
 
-	std::uniform_int_distribution<int> distribution(1, 6);
+	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
 	int thisRoll_int{distribution(mt19937)};
 

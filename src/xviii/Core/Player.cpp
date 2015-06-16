@@ -8,7 +8,7 @@ static const sf::View bottomView{sf::View{sf::FloatRect(1183, 4800, xResolution,
 static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yResolution)}};
 static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution, yResolution)}};
 
-Player::Player(UnitLoader& _unitLoader, World& _world, Nation _nation, std::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom) :
+Player::Player(UnitLoader& _unitLoader, World& _world, Nation _nation, boost::random::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom) :
 unitLoader(_unitLoader),
 world(_world),
 general{nullptr},

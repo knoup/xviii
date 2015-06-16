@@ -127,7 +127,7 @@ void GameState_SelectNations::getInput(){
 			}
 
 			else if (event.key.code == RANDOMNATION_KEY){
-				std::uniform_int_distribution<int> distribution(0, flagMenuItems.size() - 1);
+				boost::random::uniform_int_distribution<int> distribution(0, flagMenuItems.size() - 1);
 				int randNum{distribution(game->mtengine)};
 
 				flagIterator->highlighted = false;
