@@ -2,7 +2,7 @@
 #include "xviii/Terrain/Hills.h"
 
 
-Hills::Hills(World& _world, TextureManager& tm, sf::Vector2f _pos) :
-TerrainTile(_world, tm, TextureManager::Terrain::HILLS, TerrainType::HILLS, _pos)
+Hills::Hills(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos) :
+TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::HILLS, TerrainType::HILLS, _pos)
 {
 }

@@ -16,18 +16,20 @@ SetupState{nullptr},
 PlayState{nullptr},
 mTextureManager{},
 mFontManager{},
-mWorld{mTextureManager, sf::Vector2i(69, 100), mtengine},
+mUnitLoader{mTextureManager},
+mTerrainLoader{},
+mWorld{mTerrainLoader, mTextureManager, sf::Vector2i(69, 100), mtengine},
 Player1{nullptr},
 Player2{nullptr},
 currentPlayer{nullptr},
 currentView{nullptr},
 mousePos{},
-saveCreator{this},
-mUnitLoader{mTextureManager}
+saveCreator{this}
 {
 	mWindow.setFramerateLimit(120);
 
 	mUnitLoader.load();
+	mTerrainLoader.load();
 
 	MenuState = (std::unique_ptr<GameState_Menu>(new GameState_Menu(this)));
 	SelectNationsState = (std::unique_ptr<GameState_SelectNations>(new GameState_SelectNations(this)));

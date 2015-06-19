@@ -2,6 +2,7 @@
 #include "xviii/Terrain/TerrainTile.h"
 
 #include "xviii/Core/World.h"
+#include "xviii/Core/TerrainLoader.h"
 
 /*
 Here, we create the vertices for the vertex array. The reason we're using
@@ -13,8 +14,9 @@ Unit tiles still use traditional sprites, however, because it greatly simplifies
 It makes sense for terrain tiles though since they never move.
 */
 
-TerrainTile::TerrainTile(World& _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos) :
+TerrainTile::TerrainTile(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos) :
 Tile(_world, tm, textType),
+terrainLoader(_terrainLoader),
 terrainType{terrainType},
 unit{nullptr}
 {
@@ -55,6 +57,52 @@ UnitTile* TerrainTile::getUnit(){
 
 void TerrainTile::resetUnit(){
 	unit = nullptr;
+}
+
+void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking){
+    std::string name = _unit->getName();
+    UnitTile::UnitType mainType = _unit->getUnitType();
+    UnitTile::UnitFamily familyType = _unit->getUnitFamilyType();
+
+
+    auto& unitMainBonuses = (terrainLoader.customDefinitions.at(terrainType).unitMainBonuses);
+    auto& unitFamilyBonuses = (terrainLoader.customDefinitions.at(terrainType).unitFamilyBonuses);
+    auto& unitStringBonuses = (terrainLoader.customDefinitions.at(terrainType).unitStringBonuses);
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+    for(auto& bonus : unitMainBonuses){
+        if(bonus.mainType == mainType){
+            if((bonus.inMelee && _distance == 1 || bonus.inRanged && _distance > 1)
+               &&
+               (bonus.whenAttacking && _attacking || bonus.whenDefending && !_attacking)){
+                    _unit->modVector.emplace_back(UnitTile::Modifier::TERRAIN, bonus.modifier, bonus.isAdditional);
+               }
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+
+     for(auto& bonus : unitFamilyBonuses){
+        if(bonus.familyType == familyType){
+            if((bonus.inMelee && _distance == 1 || bonus.inRanged && _distance > 1)
+               &&
+               (bonus.whenAttacking && _attacking || bonus.whenDefending && !_attacking)){
+                    _unit->modVector.emplace_back(UnitTile::Modifier::TERRAIN, bonus.modifier, bonus.isAdditional);
+               }
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+
+     for(auto& bonus : unitStringBonuses){
+        if(bonus.name == name){
+            if((bonus.inMelee && _distance == 1 || bonus.inRanged && _distance > 1)
+               &&
+               (bonus.whenAttacking && _attacking || bonus.whenDefending && !_attacking)){
+                    _unit->modVector.emplace_back(UnitTile::Modifier::TERRAIN, bonus.modifier, bonus.isAdditional);
+               }
+        }
+    }
 }
 
 void TerrainTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{

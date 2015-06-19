@@ -5,6 +5,6 @@
 class Water : public TerrainTile
 {
 public:
-	Water(World& _world, TextureManager& tm, sf::Vector2f _pos);
+	Water(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos);
 };
 

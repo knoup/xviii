@@ -5,5 +5,5 @@
 class Meadow : public TerrainTile
 {
 public:
-	Meadow(World& _world, TextureManager& tm, sf::Vector2f _pos);
+	Meadow(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos);
 };

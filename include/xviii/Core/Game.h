@@ -6,6 +6,7 @@
 #include "xviii/Core/FontManager.h"
 #include "xviii/Core/SaveGame.h"
 #include "xviii/Core/UnitLoader.h"
+#include "xviii/Core/TerrainLoader.h"
 
 #include <boost/random.hpp>
 #include <boost/random/random_device.hpp>
@@ -50,6 +51,9 @@ public:
 	TextureManager mTextureManager;
 	FontManager mFontManager;
 
+	UnitLoader mUnitLoader;
+	TerrainLoader mTerrainLoader;
+
 	World mWorld;
 
 	Player* Player1;
@@ -63,6 +67,5 @@ public:
 	sf::Vector2i mousePos;
 
 	SaveGame saveCreator;
-	UnitLoader mUnitLoader;
 };
 

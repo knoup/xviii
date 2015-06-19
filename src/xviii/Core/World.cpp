@@ -3,7 +3,8 @@
 
 #include "xviii/Terrain/RiverAnt.h"
 
-World::World(TextureManager& _tm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937) :
+World::World(TerrainLoader& _terrainLoader, TextureManager& _tm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937) :
+terrainLoader(_terrainLoader),
 tm(_tm),
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * tm.getSize().x, dimensions.y * tm.getSize().y)},
@@ -37,7 +38,7 @@ void World::generateRandomWorld(Era _era){
 	//Do a first pass, filling the world with meadows
 	for (int c{0}; c < dimensions.y; ++c){
 		for (int r{0}; r < dimensions.x; ++r){
-			TerrainTile::terrainPtr tile(new Meadow(*this, tm, {float(r * tm.getSize().x), float(c * tm.getSize().y)}));
+			TerrainTile::terrainPtr tile(new Meadow(terrainLoader, *this, tm, {float(r * tm.getSize().x), float(c * tm.getSize().y)}));
 			terrainLayer.push_back(std::move(tile));
 		}
 	}
@@ -47,29 +48,29 @@ void World::generateRandomWorld(Era _era){
 
 	std::vector < std::unique_ptr<Ant> > ants;
 
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 15)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 75)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 50)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 5)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 15)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 15)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 10)));;
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 42)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 20)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 20)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 10)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 25)));
-	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 300)));
-	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 220)));
-	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 400)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 75)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 50)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::URBAN, 5)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::URBAN, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::URBAN, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::URBAN, 10)));;
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::MUD, 42)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::MUD, 20)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::MUD, 20)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::MUD, 10)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::MUD, 25)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 300)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 220)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 400)));
 
 
 	for (auto& ant : ants){

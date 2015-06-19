@@ -1,7 +1,7 @@
 #pragma once
 
 #include "xviii/Core/FontManager.h"
-#include "xviii/Terrain/TerrainTile.h"
+#include "xviii/Core/Tile.h"
 
 #include <boost/random.hpp>
 #include <sstream>
@@ -10,8 +10,6 @@
 #include <math.h>
 
 #include "xviii/Headers/messages.h"
-
-class UnitLoader;
 
 #define MAINTYPEPROPERTIES\
 	X("INF", UnitTile::UnitType::INF, Infantry)\
@@ -30,6 +28,9 @@ class UnitLoader;
 	X("ART", UnitTile::UnitFamily::ART_FAMILY)\
 	X("IRR", UnitTile::UnitFamily::IRR_FAMILY)
 
+
+class TerrainTile;
+class UnitLoader;
 class Player;
 
 class Infantry;
@@ -37,7 +38,6 @@ class Cavalry;
 class Artillery;
 class Mortar;
 class General;
-class Artguard;
 
 class UnitTile : public Tile
 {

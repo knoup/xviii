@@ -12,8 +12,7 @@ bool UnitTile::getCanCrossWater() const{
 	}
 
 	else{
-		//TODO:
-		//else, check if there is a bridge nearby
+		//TODO: else, check if there is a bridge nearby
 		return false;
 	}
 };
@@ -38,9 +37,11 @@ void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 	UnitTile::UnitFamily familyType = _unit->getUnitFamilyType();
 	std::string unitName = _unit->getName();
 
-	auto bonusesVsMainTypes = unitLoader.customClasses.at(name).bonusesVsMainTypes;
-	auto bonusesVsFamilyTypes = unitLoader.customClasses.at(name).bonusesVsFamilyTypes;
-	auto bonusesVsNames = unitLoader.customClasses.at(name).bonusesVsNames;
+	auto& bonusesVsMainTypes = unitLoader.customClasses.at(name).bonusesVsMainTypes;
+	auto& bonusesVsFamilyTypes = unitLoader.customClasses.at(name).bonusesVsFamilyTypes;
+	auto& bonusesVsNames = unitLoader.customClasses.at(name).bonusesVsNames;
+
+	/////////////////////////////////////////////////////////////////////////////////////////
 
 	for (auto& bonus : bonusesVsMainTypes){
 		if (bonus.mainType == mainType){
@@ -50,6 +51,8 @@ void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 		}
 	}
 
+	/////////////////////////////////////////////////////////////////////////////////////////
+
 	for (auto& bonus : bonusesVsFamilyTypes){
 		if (bonus.familyType == familyType){
 			if ((!_attacking && bonus.whenDefending) || (_attacking && bonus.whenAttacking)){
@@ -57,6 +60,8 @@ void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 			}
 		}
 	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////
 
 	for (auto& bonus : bonusesVsNames){
 		if (bonus.name == unitName){
@@ -82,7 +87,7 @@ void UnitTile::applyTerrainModifiers(TerrainTile* _terrain, int _distance, bool 
 }
 
 float UnitTile::getFlankModifier(UnitType _mainType, Modifier _flank) const{
-	auto vec = unitLoader.customClasses.at(name).flankModifierValues;
+	auto& vec = unitLoader.customClasses.at(name).flankModifierValues;
 
 	for (auto& flankModifier : vec){
 		if (flankModifier.type == _mainType){
@@ -524,7 +529,11 @@ std::string UnitTile::attack(UnitTile* unit){
 
 	// Ranged
 	if (dist > 1){
-		//Some terrain types (such as woods) have maluses for the shooter
+		//Generally, the rule is that in melee combat units only get modifiers according to the
+		//current terrain tile they are standing on. When it comes to ranged, however, some terrain
+		//tiles provide a malus to the shooter. Therefore, we call applyTerrainModifiers() on the
+		//attacking unit, using the defender's tile as an argument.
+
 		this->applyTerrainModifiers(unit->getTerrain(), dist, true);
 		return this->rangedAttack(unit, dist);
 	}

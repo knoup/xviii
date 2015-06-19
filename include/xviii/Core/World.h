@@ -21,6 +21,8 @@
 	X("LATE", World::Era::LATE)\
 	X("ALL", World::Era::ALL)
 
+class TerrainLoader;
+
 class World : public sf::Drawable, public sf::NonCopyable
 {
 	friend class Ant;
@@ -33,7 +35,7 @@ class World : public sf::Drawable, public sf::NonCopyable
 public:
 	enum class Era{ EARLY, MID, LATE, ALL };
 
-	World(TextureManager& _tm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937);
+	World(TerrainLoader& _terrainLoader, TextureManager& _tm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937);
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
 	void generateRandomWorld(Era _era);
@@ -70,6 +72,7 @@ public:
 	void clearDamagedUnits();
 
 private:
+    TerrainLoader& terrainLoader;
 	TextureManager& tm;
 	sf::Vector2i dimensions;
 	sf::Vector2i dimensionsInPixels;

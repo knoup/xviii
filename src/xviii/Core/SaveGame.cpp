@@ -304,7 +304,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 				while (trueIndex < currentIndex){
 					currentPos = game->mWorld.pixelPosAtIndex(trueIndex);
-					game->mWorld.terrainLayer[trueIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, game->mTextureManager, currentPos)));
+					game->mWorld.terrainLayer[trueIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
 					trueIndex++;
 				}
 
@@ -313,7 +313,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				//type, class, texture, string
 				#define X(_type, cl, texture, str)\
 					if(currentTypeStr == str)\
-						game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(game->mWorld, game->mTextureManager, currentPos)));
+						game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
 				TERRAINPROPERTIES
 				#undef X
 
@@ -323,7 +323,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 			while (currentIndex <= ((game->mWorld.getDimensions().x * game->mWorld.getDimensions().y) -1 )){
 				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
-				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, game->mTextureManager, currentPos)));
+				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
 				currentIndex++;
 			}
 

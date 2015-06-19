@@ -1,6 +1,7 @@
 #pragma once
 
 #include "xviii/Core/Tile.h"
+#include "xviii/Units/UnitTile.h"
 
 #define TERRAINPROPERTIES\
 	X(TerrainTile::TerrainType::MEADOW, Meadow, TextureManager::Terrain::MEADOW, "meadow")\
@@ -22,16 +23,87 @@ class Urban;
 class Water;
 class Woods;
 
+class TerrainLoader;
 class World;
 class UnitTile;
 
 class TerrainTile : public Tile
 {
 public:
+    struct UnitMainTypeBonus{
+        UnitMainTypeBonus(UnitTile::UnitType _mainType, float _modifier, bool _isAdditional,
+                          bool _inMelee, bool _inRanged, bool _whenAttacking, bool _whenDefending):
+        mainType{_mainType},
+        modifier{_modifier},
+        isAdditional{_isAdditional},
+        inMelee{_inMelee},
+        inRanged{_inRanged},
+        whenAttacking{_whenAttacking},
+        whenDefending{_whenDefending}
+        {
+        }
+
+        UnitTile::UnitType mainType;
+        float modifier;
+        bool isAdditional;
+        bool inMelee;
+        bool inRanged;
+        bool whenAttacking;
+        bool whenDefending;
+    };
+
+    struct UnitFamilyTypeBonus{
+
+     UnitFamilyTypeBonus(UnitTile::UnitFamily _familyType, float _modifier, bool _isAdditional,
+                          bool _inMelee, bool _inRanged, bool _whenAttacking, bool _whenDefending):
+        familyType{_familyType},
+        modifier{_modifier},
+        isAdditional{_isAdditional},
+        inMelee{_inMelee},
+        inRanged{_inRanged},
+        whenAttacking{_whenAttacking},
+        whenDefending{_whenDefending}
+        {
+        }
+
+        UnitTile::UnitFamily familyType;
+        float modifier;
+        bool isAdditional;
+        bool inMelee;
+        bool inRanged;
+        bool whenAttacking;
+        bool whenDefending;
+
+    };
+
+    struct UnitStringBonus{
+
+     UnitStringBonus(std::string _name, float _modifier, bool _isAdditional,
+                          bool _inMelee, bool _inRanged, bool _whenAttacking, bool _whenDefending):
+        name{_name},
+        modifier{_modifier},
+        isAdditional{_isAdditional},
+        inMelee{_inMelee},
+        inRanged{_inRanged},
+        whenAttacking{_whenAttacking},
+        whenDefending{_whenDefending}
+        {
+        }
+
+        std::string name;
+        float modifier;
+        bool isAdditional;
+        bool inMelee;
+        bool inRanged;
+        bool whenAttacking;
+        bool whenDefending;
+
+    };
+
 	using terrainPtr = std::unique_ptr<TerrainTile>;
 	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS };
 
-	TerrainTile(World& _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);
+	TerrainTile(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);
 	virtual ~TerrainTile() = 0;
 
 	void setPos(sf::Vector2f _pos);
@@ -41,12 +113,13 @@ public:
 	void setUnit(UnitTile* _unit);
 	UnitTile* getUnit();
 	void resetUnit();
-	virtual void applyModifiers(UnitTile* _unit, int _distance, bool _attacking){};
+    void applyModifiers(UnitTile* _unit, int _distance, bool _attacking);
 
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 protected:
+    TerrainLoader& terrainLoader;
 	TerrainType terrainType;
 	UnitTile* unit;
 };

@@ -2,7 +2,7 @@
 #include "xviii/Terrain/Slopes.h"
 
 
-Slopes::Slopes(World& _world, TextureManager& tm, sf::Vector2f _pos) :
-TerrainTile(_world, tm, TextureManager::Terrain::SLOPES, TerrainType::SLOPES, _pos)
+Slopes::Slopes(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos) :
+TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::SLOPES, TerrainType::SLOPES, _pos)
 {
 }
