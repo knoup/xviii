@@ -131,7 +131,8 @@ void GameState_SelectNations::getInput(){
 				int randNum{distribution(game->mtengine)};
 
 				flagIterator->highlighted = false;
-				*flagIterator = *(&flagMenuItems.at(randNum));
+				flagIterator = flagMenuItems.begin();
+				flagIterator += randNum;
 				flagIterator->highlighted = true;
 				updateNationName();
 			}

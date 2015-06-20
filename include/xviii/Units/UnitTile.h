@@ -257,8 +257,6 @@ public:
 	virtual void reset();
 	inline virtual std::string rotate(Direction _dir){ return{}; };
 
-	//This function is unit-specific, and checks for such things as vs. family bonuses/maluses. The bool specifies
-	//whether the unit is attacking or defending
 	void applyBonusModifiers(UnitTile* _unit, bool _attacking);
 	void applyFlankModifier(Modifier _flank, UnitTile* _enemy);
 	void applyTerrainModifiers(TerrainTile* _terrain, int _distance, bool _attacking);
@@ -296,8 +294,8 @@ public:
 	//Spawn is very similar to moveTo, but is only used during the setup phase; it costs no movement
 	void spawn(TerrainTile* terrainTile);
 
-	//This function is in charge of initiating combat by determining distance, flank, etc. and calling either
-	//meleeAttack() or rangedAttack()
+	//This function is in charge of initiating combat by determining distance, flank, etc., setting up modifiers,
+	//and calling either meleeAttack() or rangedAttack()
 	std::string attack(UnitTile* _unit);
 
 	bool isHostile(UnitTile* _tile);
@@ -325,13 +323,10 @@ protected:
 	UnitLoader& unitLoader;
 	boost::random::mt19937& mt19937;
 
-	//Pointer to the player the unit belongs to
 	Player* player;
 
-	//The unit's current direction (NESW)
 	Direction dir;
 
-	//In addition to each player having a flag, each unit itself must have a flag sprite too
 	sf::Sprite unitFlag;
 	//Pointer to the terrain tile that the unit is on. This is only to be used for units, to indicate
 	//where they are easily and efficiently, since a unit must always be on a terrain tile

@@ -30,10 +30,6 @@ void TerrainLoader::load(){
 }
 
 void TerrainLoader::parse(boost::filesystem::path path){
-	//Create a new UnitClassData; initialise its name as "temp" while we get it from the file itself
-
-	//= std::move(std::unique_ptr<TerrainClassData>(new TerrainClassData("temp", path)));
-
 	std::ifstream terrainData;
 	terrainData.open(path.string());
 
@@ -86,9 +82,9 @@ void TerrainLoader::parse(boost::filesystem::path path){
 					pos1 += 1;
 					pos2 -= pos1;
 
-					//get "INF"
 					std::string second_part = str.substr(pos1, pos2);
 
+                    //As an example, let's pretend we have this:
 					//str = MAIN:INF:2,1,0,1,1,0
 					//first_part = MAIN
 					//second_part = INF
@@ -173,5 +169,4 @@ void TerrainLoader::parse(boost::filesystem::path path){
 	#undef EXISTS
 
 	terrainData.close();
-	//customDefinitions.emplace(newClass->name, std::move(*newClass));
 }
