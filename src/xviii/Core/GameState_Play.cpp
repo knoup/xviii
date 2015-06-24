@@ -317,9 +317,6 @@ void GameState_Play::update(float mFT){
 				unit->reset();
 		}
 
-		//Call this function again, to kill any units that die from non-combat related reasons
-		//(ex. drowning)
-		game->mWorld.clearDamagedUnits();
 		game->nextPlayer();
 		game->mWorld.incrementElapsedTurns();
 	}

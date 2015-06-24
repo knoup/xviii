@@ -351,11 +351,6 @@ void UnitTile::reset(){
 		}
 	}
 
-	if (getTerrain()->getTerrainType() == TerrainTile::TerrainType::WATER){
-		takeDamage(this, hp, 0);
-		world.addToDamagedUnits(this);
-	}
-
 	hasHealed = false;
 	hasMoved = false;
 	hasPartialRotated = false;
