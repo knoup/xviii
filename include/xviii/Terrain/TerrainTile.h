@@ -12,7 +12,8 @@
 	X(TerrainTile::TerrainType::URBAN, Urban, TextureManager::Terrain::URBAN, "urban")\
 	X(TerrainTile::TerrainType::WATER, Water, TextureManager::Terrain::WATER, "water")\
 	X(TerrainTile::TerrainType::WOODS, Woods, TextureManager::Terrain::WOODS, "woods")\
-	X(TerrainTile::TerrainType::PBRIDGE, PBridge, TextureManager::Terrain::PBRIDGE, "pbridge")
+	X(TerrainTile::TerrainType::PBRIDGE, PBridge, TextureManager::Terrain::PBRIDGE_VER, "pbridge")\
+	X(TerrainTile::TerrainType::TBRIDGE, TBridge, TextureManager::Terrain::TBRIDGE_VER, "tbridge")
 
 
 class Meadow;
@@ -103,7 +104,7 @@ public:
     };
 
 	using terrainPtr = std::unique_ptr<TerrainTile>;
-	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS, PBRIDGE};
+	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS, PBRIDGE, TBRIDGE};
 
 	TerrainTile(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);
 	virtual ~TerrainTile() = 0;
@@ -122,6 +123,8 @@ public:
     virtual void takeDamage(int dmg){};
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	//Needed for double dispatch; hacky solution, possibly fix this in future
+    virtual std::string callTerrainAttack(UnitTile* unit, int distance) = 0;
 
 protected:
     TerrainLoader& terrainLoader;

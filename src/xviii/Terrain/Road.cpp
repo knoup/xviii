@@ -6,3 +6,7 @@ Road::Road(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf:
 TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::ROAD, TerrainType::ROAD, _pos)
 {
 }
+
+std::string Road::callTerrainAttack(UnitTile* unit, int distance){
+    return(unit->terrainAttack(this, distance));
+}

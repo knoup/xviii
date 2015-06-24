@@ -7,3 +7,7 @@ Urban::Urban(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, s
 TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::URBAN, TerrainType::URBAN, _pos)
 {
 }
+
+std::string Urban::callTerrainAttack(UnitTile* unit, int distance){
+    return(unit->terrainAttack(this, distance));
+}

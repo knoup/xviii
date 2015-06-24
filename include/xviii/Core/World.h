@@ -15,7 +15,7 @@
 #include "xviii/Terrain/Water.h"
 #include "xviii/Terrain/Woods.h"
 #include "xviii/Terrain/PBridge.h"
-//#include "xviii/Terrain/TBridge.h"
+#include "xviii/Terrain/TBridge.h"
 
 #define ERAPROPERTIES\
 	X("EARLY", World::Era::EARLY)\
@@ -31,6 +31,7 @@ class World : public sf::Drawable, public sf::NonCopyable
 	friend class RiverAnt;
 	friend class SlopeAnt;
 	friend class HillAnt;
+	friend class BridgeAnt;
 	friend class SaveGame;
 	//For easier access to the vertex array
 	friend class TerrainTile;

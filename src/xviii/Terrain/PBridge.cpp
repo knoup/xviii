@@ -16,3 +16,7 @@ void PBridge::takeDamage(int dmg){
         world.togglePBridge(this);
     }
 };
+
+std::string PBridge::callTerrainAttack(UnitTile* unit, int distance){
+    return(unit->terrainAttack(this, distance));
+}

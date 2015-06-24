@@ -6,3 +6,7 @@ Slopes::Slopes(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm,
 TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::SLOPES, TerrainType::SLOPES, _pos)
 {
 }
+
+std::string Slopes::callTerrainAttack(UnitTile* unit, int distance){
+    return(unit->terrainAttack(this, distance));
+}

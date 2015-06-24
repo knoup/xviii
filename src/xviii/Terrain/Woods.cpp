@@ -7,3 +7,7 @@ Woods::Woods(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, s
 TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::WOODS, TerrainType::WOODS, _pos)
 {
 }
+
+std::string Woods::callTerrainAttack(UnitTile* unit, int distance){
+    return(unit->terrainAttack(this, distance));
+}

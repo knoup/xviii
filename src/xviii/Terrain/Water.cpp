@@ -6,3 +6,7 @@ Water::Water(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, s
 TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::WATER, TerrainType::WATER, _pos)
 {
 }
+
+std::string Water::callTerrainAttack(UnitTile* unit, int distance){
+    return(unit->terrainAttack(this, distance));
+}

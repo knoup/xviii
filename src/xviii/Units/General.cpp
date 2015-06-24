@@ -46,3 +46,4 @@ void General::takeDamage(UnitTile* attacker, float& _dmg, int distance){
 
 	UnitTile::takeDamage(attacker, _dmg, distance);
 }
+

@@ -6,3 +6,7 @@ Hills::Hills(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, s
 TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::HILLS, TerrainType::HILLS, _pos)
 {
 }
+
+std::string Hills::callTerrainAttack(UnitTile* unit, int distance){
+    return(unit->terrainAttack(this, distance));
+}

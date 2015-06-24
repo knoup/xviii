@@ -6,3 +6,7 @@ Meadow::Meadow(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm,
 TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::MEADOW, TerrainType::MEADOW, _pos)
 {
 }
+
+std::string Meadow::callTerrainAttack(UnitTile* unit, int distance){
+    return(unit->terrainAttack(this, distance));
+}

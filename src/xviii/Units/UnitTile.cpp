@@ -541,35 +541,35 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 		resultStr += this->rangedAttack(unit, dist);
 	}
 
-	// Melee
+	//Melee
+    else{
+        UnitTile::Modifier flank{Modifier::FRONT_FLANK};
 
+        //Determine flank direction
 
-	UnitTile::Modifier flank{Modifier::FRONT_FLANK};
+        if (this->getDir() == unit->getDir()){
+            flank = Modifier::REAR_FLANK;
+        }
+        else if (this->getDir() == opposite(unit->getDir())){
+            flank = Modifier::FRONT_FLANK;
+        }
+        else{
+            flank = Modifier::SIDE_FLANK;
+        }
 
-	//Determine flank direction
+        //Other Modifiers
+        ////////////////////////////////////////////////////////////////////////////
 
-	if (this->getDir() == unit->getDir()){
-		flank = Modifier::REAR_FLANK;
-	}
-	else if (this->getDir() == opposite(unit->getDir())){
-		flank = Modifier::FRONT_FLANK;
-	}
-	else{
-		flank = Modifier::SIDE_FLANK;
-	}
+        applyFlankModifier(flank, unit);
 
-	//Other Modifiers
-	////////////////////////////////////////////////////////////////////////////
+        this->applyBonusModifiers(unit, true);
+        unit->applyBonusModifiers(this, false);
 
-	applyFlankModifier(flank, unit);
+        ////////////////////////////////////////////////////////////////////////////
 
-	this->applyBonusModifiers(unit, true);
-	unit->applyBonusModifiers(this, false);
-
-	////////////////////////////////////////////////////////////////////////////
-
-	//Double dispatch, hence the reverse order
-	resultStr += unit->meleeAttack(this);
+        //Double dispatch, hence the reverse order
+        resultStr += unit->meleeAttack(this);
+    }
     }
 
     //Attacking the terrain should always happen if the unit is
@@ -578,12 +578,9 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 	//It makes little sense for melee attacks to damage terrain (of which only
     //bridges are modeled atm; this will change in the future)
 
-	if(canAttackBridge() &&
-        (unit == nullptr)
-        ||
-        (unit != nullptr && dist > 1)){
+	if(canAttackBridge() && ((unit == nullptr) || (unit != nullptr && dist > 1))){
 
-        resultStr += bridgeAttack(_terrain, dist);
+        resultStr += terrainAttack(_terrain, dist);
 	}
 
     return resultStr;
@@ -1137,7 +1134,11 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
 }
 
-std::string UnitTile::bridgeAttack(TerrainTile* terrain, int distance){
+std::string UnitTile::terrainAttack(TerrainTile* terrain, int distance){
+    return terrain->callTerrainAttack(this,distance);
+}
+
+std::string UnitTile::terrainAttack(PBridge* bridge, int distance){
 
     if (getSquareFormationActive() && hasSquareFormationAbility()){
 		return SF_ACTIVE;
@@ -1182,7 +1183,7 @@ std::string UnitTile::bridgeAttack(TerrainTile* terrain, int distance){
 	int damageDealtI = floor(damageDealtF);
 
 	if (thisRoll_int >= lowerDieThreshold && thisRoll_int <= upperDieThreshold){
-		terrain->takeDamage(damageDealtI);
+		bridge->takeDamage(damageDealtI);
 	}
 	else{
 		damageDealtI = 0;

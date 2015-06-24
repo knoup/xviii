@@ -31,6 +31,7 @@
 
 
 class TerrainTile;
+class PBridge;
 class UnitLoader;
 class Player;
 
@@ -271,7 +272,10 @@ public:
 	inline virtual std::string meleeAttack(Mortar* mor){ return{}; };
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
-    virtual std::string bridgeAttack(TerrainTile* terrain, int distance);
+
+
+    virtual std::string terrainAttack(TerrainTile* terrain, int distance);
+    virtual std::string terrainAttack(PBridge* bridge, int distance);
 
 	//Further documented in UnitTile.cpp
 	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser = true, bool canShootOverUnits = false, int coneWidth = 1);

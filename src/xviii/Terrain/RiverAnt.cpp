@@ -14,7 +14,17 @@ void RiverAnt::crawl(){
 
 		sf::Vector2f currentPos{world->terrainLayer[currentIndex]->getPixelPos()};
 
-		world->terrainLayer[currentIndex] = std::move(std::unique_ptr<Water>(new Water{terrainLoader, *world, world->tm, currentPos}));
+
+		boost::random::uniform_int_distribution<int> randomDirectionDist(1, 8);
+		int randomDirection{randomDirectionDist(world->mt19937)};
+
+
+		 boost::random::uniform_int_distribution<int> randDist(1, 100);
+		int randNum{randDist(world->mt19937)};
+
+
+        world->terrainLayer[currentIndex] = std::move(std::unique_ptr<Water>(new Water{terrainLoader, *world, world->tm, currentPos}));
+
 
 		const sf::Vector2i currentCartesianPos{world->cartesianPosAtIndex(currentIndex)};
 
@@ -23,9 +33,6 @@ void RiverAnt::crawl(){
 		//until that is not the case
 
 		sf::Vector2i newCartesianPos{currentCartesianPos};
-
-		boost::random::uniform_int_distribution<int> randomDirectionDist(1, 8);
-		int randomDirection{randomDirectionDist(world->mt19937)};
 
 		//initialDirection is initialised as 0; the first direction chosen is assigned
 		if (initialDirection == 0){
@@ -40,10 +47,13 @@ void RiverAnt::crawl(){
 			randomDirection = initialDirection;
 		}
 
-		//If the tile we are moving to is the same type
+        //For caching purposes, and clarity:
+        int index = world->indexAtCartesianPos(newCartesianPos);
+		//If the tile we are moving to is a water tile
 			//move ant in that direction again until that is not the case
-		while (world->terrainLayer[world->indexAtCartesianPos(newCartesianPos)]->getTerrainType() == type && lifetime > 0){
+		while (world->terrainLayer[index]->getTerrainType() == type && lifetime > 0){
 			increment(randomDirection, newCartesianPos);
+			index = world->indexAtCartesianPos(newCartesianPos);
 		}
 
 		//Set the index to the new coordinates

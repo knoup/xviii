@@ -2,6 +2,7 @@
 #include "xviii/Core/World.h"
 
 #include "xviii/Terrain/RiverAnt.h"
+#include "xviii/Terrain/BridgeAnt.h"
 
 World::World(TerrainLoader& _terrainLoader, TextureManager& _tm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937) :
 terrainLoader(_terrainLoader),
@@ -71,6 +72,8 @@ void World::generateRandomWorld(Era _era){
 	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 300)));
 	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 220)));
 	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 400)));
+
+	ants.push_back(std::unique_ptr<BridgeAnt>(new BridgeAnt(terrainLoader, *this, 999)));
 
 
 	for (auto& ant : ants){
@@ -246,14 +249,35 @@ void World::togglePBridge(TerrainTile* terrain){
     }
 }
 
-/*
+
 void World::toggleTBridge(TerrainTile* terrain){
+    int index = indexAtTile(*terrain);
+    UnitTile* unit = terrain->getUnit();
+
+    //This part gave me headaches for hours.
+    //It is crucial to reset the unit's terrain pointer, because the function spawn() below resets
+    //the terrain pointer's unit pointer; needless to say, spawn() is not designed to be used on
+    //removed tiles. Remove the following check if you want to spend your night debugging cryptic
+    //compiler messages.
+
+    if(unit != nullptr){
+        unit->resetTerrain();
+    }
+
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
-        terrainLayer[indexAtTile(*terrain)] =  std::move(std::unique_ptr<TBridge>(new TBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        terrainLayer[index] =  std::move(std::unique_ptr<TBridge>(new TBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
+
+        if(unit != nullptr){
+        unit->spawn(terrainLayer[index].get());
+        }
     }
 
     else if(terrain->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
-        terrainLayer[indexAtTile(*terrain)] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
+
+        if(unit != nullptr){
+        unit->spawn(terrainLayer[index].get());
+        }
     }
 }
-*/
+
