@@ -27,14 +27,14 @@ class TextureManager : public sf::NonCopyable
 public:
 	using texturePtr = std::unique_ptr<sf::Texture>;
 
-	enum class Unit{INF, CAV, CUIR, LCAV, DRAG, 
-					ART, MOR, GEN, GRE, LINF, 
+	enum class Unit{INF, CAV, CUIR, LCAV, DRAG,
+					ART, MOR, GEN, GRE, LINF,
 					SAP, HINF, ARTGUARD, PIKE, LAN,
 					ARMLAN, IRR, HARCH, LART, LDRAG};
 
 	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS};
 	enum class UI{RECTANGLE, BUTTON};
-	enum class Flag{AUS,PRU,FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER};
+	enum class Flag{AUS,PRU,FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER, DEN};
 
 	TextureManager();
 
@@ -45,7 +45,7 @@ public:
 
 	inline sf::Vector2i getSize() const{ return size; };
 	inline sf::Vector2i getCounterSize() const{ return counterSize; };
-    //Used for the vertex array (for terrain tiles)	
+    //Used for the vertex array (for terrain tiles)
 	inline sf::Texture& getTerrainTexture() const{ return *terrain; };
 	// Used for the vertex array(for unit tiles)
 	inline sf::Texture& getUnitTexture() const{ return *units; };

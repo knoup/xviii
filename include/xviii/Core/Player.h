@@ -36,13 +36,14 @@ class SpawnableUnit;
 	X(Player::Nation::SWE, TextureManager::Flag::SWE, "Sweden")\
 	X(Player::Nation::VEN, TextureManager::Flag::VEN, "Venice")\
 	X(Player::Nation::WAL, TextureManager::Flag::WAL, "Wallachia")\
-	X(Player::Nation::PER, TextureManager::Flag::PER, "Persia")
+	X(Player::Nation::PER, TextureManager::Flag::PER, "Persia")\
+	X(Player::Nation::DEN, TextureManager::Flag::DEN, "Denmark")
 
 class Player
 {
 	friend class SpawnableUnit;
     public:
-		enum class Nation{ALL, AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER};
+		enum class Nation{ALL, AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER, DEN};
 		Player(UnitLoader& _unitLoader, World& _world, Nation _nation, boost::random::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
 
 		//Returns true if successfully spawned unit

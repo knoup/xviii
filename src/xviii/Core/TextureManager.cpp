@@ -251,6 +251,10 @@ sf::Sprite TextureManager::getSprite(Flag type){
 	case Flag::PER:
 		rekt = {counterSize.x, 4 * counterSize.y, counterSize.x, counterSize.y};
 		break;
+
+    case Flag::DEN:
+        rekt = {2 * counterSize.x, 4 * counterSize.y, counterSize.x, counterSize.y};
+		break;
 	}
 
 	return{*flags, rekt};

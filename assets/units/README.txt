@@ -110,6 +110,7 @@ DEFINE:Austria
 DEFINE:Bavaria
 DEFINE:Commonwealth
 DEFINE:Crimea
+DEFINE:Denmark
 DEFINE:France
 DEFINE:GBR
 DEFINE:Imereti
