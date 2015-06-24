@@ -68,6 +68,8 @@ The first and second number are the ranges
 The third number is the modifier
 The fourth number specifies whether the damage is fixed (1) or multiplied by your roll (0)
 The fifth and sixth numbers are the thresholds that your original die roll must be in between to hit
+
+BRIDGE_ATTACK works exactly like this as well.
 ---------------------------------
 HEALING DEFINITION PROPERTIES:
 

@@ -203,6 +203,7 @@ public:
 	int getMaxRange() const;
 	bool canHeal() const;
 	bool canRangedAttack() const;
+	bool canAttackBridge() const;
 
 	int getCost() const;
 	int getLimit() const;
@@ -251,14 +252,6 @@ public:
 
 	//Other - Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //Specifies whether this unit is capable of attacking terrain
-    inline virtual bool canAttackTerrain(){return false;};
-    //If the above variable is true, this specifies whether the unit normally also attacks units
-    //(if any are present) when it attacks terrain
-    inline virtual bool attacksTerrainWithUnits(){return false;};
-
-
 	virtual void takeDamage(UnitTile* attacker, float& _dmg, int distance);
 	virtual std::string moveTo(TerrainTile* _terrainTile);
 	//Called at the end of every turn;
@@ -272,13 +265,13 @@ public:
 	//Needed for double dispatch
 	virtual std::string meleeAttack(UnitTile* _unit) = 0;
 
-    inline virtual std::string terrainAttack(TerrainTile* terrain, int distance){return {"Cannot attack that tile"};};
 	inline virtual std::string meleeAttack(Infantry* inf){ return{}; };
 	inline virtual std::string meleeAttack(Cavalry* cav){ return{}; };
 	inline virtual std::string meleeAttack(Artillery* art){ return{}; };
 	inline virtual std::string meleeAttack(Mortar* mor){ return{}; };
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
+    virtual std::string bridgeAttack(TerrainTile* terrain, int distance);
 
 	//Further documented in UnitTile.cpp
 	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser = true, bool canShootOverUnits = false, int coneWidth = 1);

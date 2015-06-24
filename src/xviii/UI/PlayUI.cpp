@@ -25,7 +25,7 @@ gameState{_gameState}
 
 	currentMessageText.setFont(fm.getFont(FontManager::Type::Lucon));
 	currentMessageText.setColor(sf::Color::Cyan);
-	currentMessageText.setCharacterSize(22);
+	currentMessageText.setCharacterSize(19);
 	currentMessageText.setPosition(220, -150);
 
 	saveText.setFont(fm.getFont(FontManager::Type::Arial));

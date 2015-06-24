@@ -230,7 +230,10 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 		}
 
-		else if (currentLine.find("RANGED") EXISTS){
+		else if (currentLine.find("RANGED") EXISTS || currentLine.find("BRIDGE_ATTACK") EXISTS){
+                bool ranged{currentLine.find("RANGED") EXISTS};
+                bool bridge{currentLine.find("BRIDGE_ATTACK") EXISTS};
+
 			std::getline(unitData, currentLine);
 
 			while (currentLine.find("}") == std::string::npos){
@@ -260,7 +263,12 @@ void UnitLoader::parse(boost::filesystem::path path){
 					ss >> arg;
 					rangeArgs.push_back(arg);
 
-					newClass->rangedAttackDistValues.emplace_back(rangeArgs[0], rangeArgs[1], rangeArgs[2], rangeArgs[3], rangeArgs[4], rangeArgs[5]);
+                    if(ranged){
+                        newClass->rangedAttackDistValues.emplace_back(rangeArgs[0], rangeArgs[1], rangeArgs[2], rangeArgs[3], rangeArgs[4], rangeArgs[5]);
+                    }
+                    else if(bridge){
+                        newClass->bridgeAttackDistValues.emplace_back(rangeArgs[0], rangeArgs[1], rangeArgs[2], rangeArgs[3], rangeArgs[4], rangeArgs[5]);
+                    }
 
 				}
 

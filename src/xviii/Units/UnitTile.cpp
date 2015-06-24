@@ -22,6 +22,7 @@ bool UnitTile::getFrightening() const { return unitLoader.customClasses.at(name)
 bool UnitTile::getHalfRangedDamage() const { return unitLoader.customClasses.at(name).halfRangedDamage; };
 bool UnitTile::canHeal() const{ return !(unitLoader.customClasses.at(name).healingRangeValues.empty()); };
 bool UnitTile::canRangedAttack() const{ return !(unitLoader.customClasses.at(name).rangedAttackDistValues.empty()); };
+bool UnitTile::canAttackBridge() const{ return !(unitLoader.customClasses.at(name).bridgeAttackDistValues.empty()); };
 
 bool UnitTile::hasSquareFormationAbility() const{ return unitLoader.customClasses.at(name).hasSquareFormationAbility; };
 bool UnitTile::hasLimberAbility() const{ return unitLoader.customClasses.at(name).hasLimberAbility; };
@@ -521,13 +522,6 @@ std::string UnitTile::attack(TerrainTile* _terrain){
     std::string resultStr{};
 	//Past this point, it is assumed combat is possible
 	////////////////////////////////////////////////////////////////////////////
-	if(canAttackTerrain() &&
-        (unit == nullptr)
-        ||
-        (unit != nullptr && attacksTerrainWithUnits())){
-
-        resultStr = terrainAttack(_terrain, dist);
-	}
 
     if(unit != nullptr){
 	//Terrain modifiers
@@ -544,7 +538,7 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 		//attacking unit, using the defender's tile as an argument.
 
 		this->applyTerrainModifiers(unit->getTerrain(), dist, true);
-		return this->rangedAttack(unit, dist);
+		resultStr += this->rangedAttack(unit, dist);
 	}
 
 	// Melee
@@ -575,8 +569,22 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 	////////////////////////////////////////////////////////////////////////////
 
 	//Double dispatch, hence the reverse order
-	resultStr = unit->meleeAttack(this);
+	resultStr += unit->meleeAttack(this);
     }
+
+    //Attacking the terrain should always happen if the unit is
+	//a. capable of doing so, and
+	//b. the attack is ranged.
+	//It makes little sense for melee attacks to damage terrain (of which only
+    //bridges are modeled atm; this will change in the future)
+
+	if(canAttackBridge() &&
+        (unit == nullptr)
+        ||
+        (unit != nullptr && dist > 1)){
+
+        resultStr += bridgeAttack(_terrain, dist);
+	}
 
     return resultStr;
 }
@@ -1003,6 +1011,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		result << "[frightening: +1DMG]";
 	}
 
+    result << std::endl;
 	return result.str();
 }
 
@@ -1127,6 +1136,84 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 
 	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
 }
+
+std::string UnitTile::bridgeAttack(TerrainTile* terrain, int distance){
+
+    if (getSquareFormationActive() && hasSquareFormationAbility()){
+		return SF_ACTIVE;
+	}
+
+	if (limber && hasLimberAbility()){
+		return LIMBERED;
+	}
+
+	boost::random::uniform_int_distribution<int> distribution(1, 6);
+	int thisRoll_int{distribution(mt19937)};
+	float thisRoll = thisRoll_int;
+
+	float damageDealtF{0};
+	float distanceModifier{0};
+
+	int lowerDieThreshold{1};
+	int upperDieThreshold{6};
+	bool modifierIsDamage{false};
+
+	for (auto& item : unitLoader.customClasses.at(name).bridgeAttackDistValues){
+		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
+			distanceModifier = item.distModifier;
+			modifierIsDamage = item.modifierIsDamage;
+			lowerDieThreshold = item.lowerDieThreshold;
+			upperDieThreshold = item.upperDieThreshold;
+			continue;
+		}
+	}
+
+	if (!modifierIsDamage){
+		modVector.emplace_back(Modifier::DISTANCE, distanceModifier, false);
+
+		multRollByModifiers(thisRoll);
+		damageDealtF += thisRoll;
+	}
+	else{
+		multRollByModifiers(thisRoll);
+		damageDealtF = distanceModifier;
+	}
+
+	int damageDealtI = floor(damageDealtF);
+
+	if (thisRoll_int >= lowerDieThreshold && thisRoll_int <= upperDieThreshold){
+		terrain->takeDamage(damageDealtI);
+	}
+	else{
+		damageDealtI = 0;
+	}
+
+	mov = 0;
+	this->updateStats();
+
+	if(distance == 1){
+        hasMeleeAttacked = true;
+	}
+	else if (distance > 1){
+        hasRangedAttacked = true;
+	}
+
+	/*
+	Units that can skirmish need to be able to rotate a second time sometimes. Take the following scenario, for instance:
+	A LINF is facing south.
+		-It turns north
+		-It fires at an enemy
+	Its skirmisher bonus should be usable now, and it should be able to turn south again.
+	*/
+
+	if (getSkirmish()){
+		hasFullRotated = false;
+	}
+
+	return{"Attacked bridge"};
+
+}
+
 
 UnitTile::~UnitTile(){
 	//Required for this to be an abstract class

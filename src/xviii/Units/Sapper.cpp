@@ -7,15 +7,3 @@ Sapper::Sapper(UnitLoader& _unitLoader, World& _world, boost::random::mt19937& _
 Infantry(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _name, _type, _familyType, _dir)
 {
 }
-
-std::string Sapper::terrainAttack(TerrainTile* terrain, int distance){
-    if(distance == 1 && terrain->getUnit() == nullptr){
-    terrain->takeDamage(2);
-
-    mov = 0;
-	this->updateStats();
-	hasMeleeAttacked = true;
-    }
-
-    return{"Huzzah!"};
-}
