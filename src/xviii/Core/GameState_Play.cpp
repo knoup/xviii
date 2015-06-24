@@ -219,15 +219,20 @@ void GameState_Play::getInput(){
 							occupied = true;
 						}
 
-						//If vacant, move to the tile
 						if (!occupied){
-							playUI.setCurrentMessageText(selected->moveTo(terrain));
-							playUI.setSaveStatus(false);
+                            if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)){
+                                playUI.setCurrentMessageText(selected->attack(terrain));
+                            }
+                            else{
+                                playUI.setCurrentMessageText(selected->moveTo(terrain));
+                            }
+
+                            playUI.setSaveStatus(false);
 						}
 
 						//If the tile is occupied by an enemy unit, attack
 						if (occupied && !friendly){
-							playUI.setCurrentMessageText(selected->attack(unit));
+							playUI.setCurrentMessageText(selected->attack(terrain));
 							playUI.setSaveStatus(false);
 
 							selected->modVector.clear();

@@ -32,7 +32,7 @@ public:
 					SAP, HINF, ARTGUARD, PIKE, LAN,
 					ARMLAN, IRR, HARCH, LART, LDRAG};
 
-	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS};
+	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS, PBRIDGE_VER, PBRIDGE_HOR, TBRIDGE_VER, TBRIDGE_HOR};
 	enum class UI{RECTANGLE, BUTTON};
 	enum class Flag{AUS,PRU,FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER, DEN};
 
@@ -51,22 +51,19 @@ public:
 	inline sf::Texture& getUnitTexture() const{ return *units; };
 
 private:
-	//The unit sprites
 	texturePtr units;
-	//The terrain
 	texturePtr terrain;
 	//The rectangular UI bar at the bottom
 	texturePtr ui;
 	//Ready/next turn button
 	texturePtr button;
-	//The flags
 	texturePtr flags;
 
 	//This should correspond to the FULL size of each [Terrain] tile
 	//for everything to work properly
 	sf::Vector2i size;
 
-	//The size of the counter itself and only:
+	//The size of the unit counters (ideally smaller than the full terrain tile size)
 	sf::Vector2i counterSize;
 
 };

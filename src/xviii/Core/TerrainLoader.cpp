@@ -3,18 +3,20 @@
 
 TerrainLoader::TerrainLoader()
 {
-    //Initialise a "definition" for each terrain type, except water, with empty parameters. If there is anything relevant in bonuses.txt,
+    //Initialise a "definition" for each terrain type with empty parameters. If there is anything relevant in bonuses.txt,
     //it will modify the contents of the appropriate definition
 
     #define TERRAINDATA std::move(std::unique_ptr<TerrainClassData>(new TerrainClassData()))
 
-    customDefinitions.emplace(TerrainTile::TerrainType::MEADOW, *TERRAINDATA);
-    customDefinitions.emplace(TerrainTile::TerrainType::MUD, *TERRAINDATA);
-    customDefinitions.emplace(TerrainTile::TerrainType::SLOPES, *TERRAINDATA);
-    customDefinitions.emplace(TerrainTile::TerrainType::HILLS, *TERRAINDATA);
-    customDefinitions.emplace(TerrainTile::TerrainType::ROAD, *TERRAINDATA);
-    customDefinitions.emplace(TerrainTile::TerrainType::URBAN, *TERRAINDATA);
-    customDefinitions.emplace(TerrainTile::TerrainType::WOODS, *TERRAINDATA);
+    customDefinitions.emplace(TerrainTile::TerrainType::MEADOW, TERRAINDATA);
+    customDefinitions.emplace(TerrainTile::TerrainType::MUD, TERRAINDATA);
+    customDefinitions.emplace(TerrainTile::TerrainType::SLOPES, TERRAINDATA);
+    customDefinitions.emplace(TerrainTile::TerrainType::HILLS, TERRAINDATA);
+    customDefinitions.emplace(TerrainTile::TerrainType::ROAD, TERRAINDATA);
+    customDefinitions.emplace(TerrainTile::TerrainType::URBAN, TERRAINDATA);
+    customDefinitions.emplace(TerrainTile::TerrainType::WOODS, TERRAINDATA);
+    customDefinitions.emplace(TerrainTile::TerrainType::WATER, TERRAINDATA);
+    customDefinitions.emplace(TerrainTile::TerrainType::PBRIDGE, TERRAINDATA);
 
     #undef TERRAINDATA
 }
@@ -58,7 +60,7 @@ void TerrainLoader::parse(boost::filesystem::path path){
 					TERRAINPROPERTIES
 					#undef X
 
-            TerrainClassData* current = &(customDefinitions.at(terrainType));
+            TerrainClassData* current = (customDefinitions.at(terrainType)).get();
 
 			std::getline(terrainData, currentLine);
 

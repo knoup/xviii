@@ -10,6 +10,7 @@
 #include "xviii/Units/Cavalry.h"
 #include "xviii/Units/Mortar.h"
 #include "xviii/Units/General.h"
+#include "xviii/Units/Sapper.h"
 #include "xviii/Headers/global.h"
 
 class UnitLoader;

@@ -14,6 +14,8 @@
 #include "xviii/Terrain/Urban.h"
 #include "xviii/Terrain/Water.h"
 #include "xviii/Terrain/Woods.h"
+#include "xviii/Terrain/PBridge.h"
+//#include "xviii/Terrain/TBridge.h"
 
 #define ERAPROPERTIES\
 	X("EARLY", World::Era::EARLY)\
@@ -70,6 +72,11 @@ public:
 
 	void addToDamagedUnits(UnitTile* unit);
 	void clearDamagedUnits();
+
+	//These functions replace the water tile with a P/T bridge, or destroy it and replace it
+	//with a water tile
+	void togglePBridge(TerrainTile* terrain);
+	void toggleTBridge(TerrainTile* terrain);
 
 private:
     TerrainLoader& terrainLoader;

@@ -23,7 +23,7 @@ public:
 	TerrainLoader();
 	void load();
 
-	std::map<TerrainTile::TerrainType, TerrainClassData> customDefinitions;
+	std::map<TerrainTile::TerrainType, std::unique_ptr<TerrainClassData>> customDefinitions;
 
 private:
 	void parse(boost::filesystem::path path);

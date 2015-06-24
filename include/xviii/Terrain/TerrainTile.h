@@ -11,7 +11,8 @@
 	X(TerrainTile::TerrainType::SLOPES, Slopes, TextureManager::Terrain::SLOPES, "slopes")\
 	X(TerrainTile::TerrainType::URBAN, Urban, TextureManager::Terrain::URBAN, "urban")\
 	X(TerrainTile::TerrainType::WATER, Water, TextureManager::Terrain::WATER, "water")\
-	X(TerrainTile::TerrainType::WOODS, Woods, TextureManager::Terrain::WOODS, "woods")
+	X(TerrainTile::TerrainType::WOODS, Woods, TextureManager::Terrain::WOODS, "woods")\
+	X(TerrainTile::TerrainType::PBRIDGE, PBridge, TextureManager::Terrain::PBRIDGE, "pbridge")
 
 
 class Meadow;
@@ -22,6 +23,7 @@ class Slopes;
 class Urban;
 class Water;
 class Woods;
+class PBridge;
 
 class TerrainLoader;
 class World;
@@ -101,12 +103,13 @@ public:
     };
 
 	using terrainPtr = std::unique_ptr<TerrainTile>;
-	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS };
+	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS, PBRIDGE};
 
 	TerrainTile(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);
 	virtual ~TerrainTile() = 0;
 
 	void setPos(sf::Vector2f _pos);
+	void refreshVertexArray();
 
 	TerrainType getTerrainType() const;
 
@@ -115,6 +118,8 @@ public:
 	void resetUnit();
     void applyModifiers(UnitTile* _unit, int _distance, bool _attacking);
 
+
+    virtual void takeDamage(int dmg){};
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 

@@ -2,10 +2,75 @@
 #include "xviii/Units/Artillery.h"
 
 #include "xviii/Core/World.h"
+#include "xviii/Core/UnitLoader.h"
 
 Artillery::Artillery(UnitLoader& _unitLoader, World& _world, boost::random::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
 UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _name, _type, _familyType, _dir)
 {
+}
+
+//Rules for artillery attacking terrain are the same as regular rules vs units, with some changes
+std::string Artillery::terrainAttack(TerrainTile* terrain, int distance){
+
+	if (getSquareFormationActive() && hasSquareFormationAbility()){
+		return SF_ACTIVE;
+	}
+
+	if (limber && hasLimberAbility()){
+		return LIMBERED;
+	}
+
+	boost::random::uniform_int_distribution<int> distribution(1, 6);
+
+	int thisRoll_int{distribution(mt19937)};
+
+	float thisRoll = thisRoll_int;
+
+	int damageDealt{0};
+
+	float distanceModifier{0};
+
+	int lowerDieThreshold{1};
+	int upperDieThreshold{6};
+	bool modifierIsDamage{false};
+
+	for (auto& item : unitLoader.customClasses.at(name).rangedAttackDistValues){
+		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
+			distanceModifier = item.distModifier;
+			modifierIsDamage = item.modifierIsDamage;
+			lowerDieThreshold = item.lowerDieThreshold;
+			upperDieThreshold = item.upperDieThreshold;
+			continue;
+		}
+	}
+
+	if (!modifierIsDamage){
+		modVector.emplace_back(Modifier::DISTANCE, distanceModifier, false);
+
+		multRollByModifiers(thisRoll);
+		damageDealt += thisRoll;
+	}
+	else{
+		multRollByModifiers(thisRoll);
+		damageDealt = distanceModifier;
+	}
+
+	if (thisRoll_int >= lowerDieThreshold && thisRoll_int <= upperDieThreshold){
+		terrain->takeDamage(damageDealt);
+	}
+	else{
+		damageDealt = 0;
+	}
+
+	mov = 0;
+	this->updateStats();
+	hasRangedAttacked = true;
+
+	if (getSkirmish()){
+		hasFullRotated = false;
+	}
+
+	return {};
 }
 
 std::string Artillery::rotate(UnitTile::Direction _dir){

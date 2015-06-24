@@ -157,6 +157,7 @@ DEFINE:ART 		-Artillery
 DEFINE:MOR 		-Mortar
 DEFINE:GEN 		-General (Cavalry)
 DEFINE:ARTGUARD 	-Artillery Guard
+DEFINE:SAPPER 	-Sapper
 
 ----Valid Family Types---
 

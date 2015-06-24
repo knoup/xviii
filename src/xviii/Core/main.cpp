@@ -7,6 +7,9 @@ TODO:
 	tile sizes, etc.)
 
 	-Implement specialised MudAnt and HillAnt classes
+
+	-Add a health indicator to PBridges
+    -Make Sappers able to build Pbridges
 */
 
 /*

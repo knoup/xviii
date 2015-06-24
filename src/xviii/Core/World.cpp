@@ -214,3 +214,46 @@ void World::clearDamagedUnits(){
 
 	damagedUnits.clear();
 }
+
+void World::togglePBridge(TerrainTile* terrain){
+    int index = indexAtTile(*terrain);
+    UnitTile* unit = terrain->getUnit();
+
+    //This part gave me headaches for hours.
+    //It is crucial to reset the unit's terrain pointer, because the function spawn() below resets
+    //the terrain pointer's unit pointer; needless to say, spawn() is not designed to be used on
+    //removed tiles. Remove the following check if you want to spend your night debugging cryptic
+    //compiler messages.
+
+    if(unit != nullptr){
+        unit->resetTerrain();
+    }
+
+    if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
+        terrainLayer[index] =  std::move(std::unique_ptr<PBridge>(new PBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
+
+        if(unit != nullptr){
+        unit->spawn(terrainLayer[index].get());
+        }
+    }
+
+    else if(terrain->getTerrainType() == TerrainTile::TerrainType::PBRIDGE){
+        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
+
+        if(unit != nullptr){
+        unit->spawn(terrainLayer[index].get());
+        }
+    }
+}
+
+/*
+void World::toggleTBridge(TerrainTile* terrain){
+    if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
+        terrainLayer[indexAtTile(*terrain)] =  std::move(std::unique_ptr<TBridge>(new TBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
+    }
+
+    else if(terrain->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+        terrainLayer[indexAtTile(*terrain)] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
+    }
+}
+*/

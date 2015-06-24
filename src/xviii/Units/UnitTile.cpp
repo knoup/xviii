@@ -474,14 +474,16 @@ std::string UnitTile::beHealed(float num){
 	return str;
 }
 
-std::string UnitTile::attack(UnitTile* unit){
+std::string UnitTile::attack(TerrainTile* _terrain){
+    UnitTile* unit = _terrain->getUnit();
+
 	bool validMovDirection{false};
 	bool validAttackDirection{false};
 	bool obstructionPresent{false};
 	bool inMovementRange{false};
 	bool inRangedAttackRange{false};
 
-	sf::Vector2i vectorDist = distanceFrom(unit->terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+	sf::Vector2i vectorDist = distanceFrom(_terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
 	int dist{0};
 
 	if (dir == Direction::N || dir == Direction::S){
@@ -516,6 +518,18 @@ std::string UnitTile::attack(UnitTile* unit){
 		return NO_MELEE;
 	}
 
+    std::string resultStr{};
+	//Past this point, it is assumed combat is possible
+	////////////////////////////////////////////////////////////////////////////
+	if(canAttackTerrain() &&
+        (unit == nullptr)
+        ||
+        (unit != nullptr && attacksTerrainWithUnits())){
+
+        resultStr = terrainAttack(_terrain, dist);
+	}
+
+    if(unit != nullptr){
 	//Terrain modifiers
 	////////////////////////////////////////////////////////////////////////////
 	this->applyTerrainModifiers(this->getTerrain(), dist, true);
@@ -561,7 +575,10 @@ std::string UnitTile::attack(UnitTile* unit){
 	////////////////////////////////////////////////////////////////////////////
 
 	//Double dispatch, hence the reverse order
-	return unit->meleeAttack(this);
+	resultStr = unit->meleeAttack(this);
+    }
+
+    return resultStr;
 }
 
 
@@ -588,7 +605,7 @@ void UnitTile::takeDamage(UnitTile* attacker, float& _dmg, int distance){
 }
 
 bool UnitTile::removeIfDead(){
-	if (hp < 0.4){
+	if (hp < 0.4 || terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
 		player->removeUnit(this);
 		return true;
 	}

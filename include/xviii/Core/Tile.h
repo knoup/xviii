@@ -3,6 +3,7 @@
 #include "xviii/Core/TextureManager.h"
 
 class World;
+class UnitTile;
 
 class Tile : public sf::Drawable
 {

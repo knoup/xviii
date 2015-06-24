@@ -17,7 +17,8 @@
 	X("ART", UnitTile::UnitType::ART, Artillery)\
 	X("MOR", UnitTile::UnitType::MOR, Mortar)\
 	X("GEN", UnitTile::UnitType::GEN, General)\
-	X("ARTGUARD", UnitTile::UnitType::ARTGUARD, Infantry)
+	X("ARTGUARD", UnitTile::UnitType::ARTGUARD, Infantry)\
+	X("SAP", UnitTile::UnitType::SAP, Sapper)
 
 
 #define FAMILYTYPEPROPERTIES\
@@ -38,6 +39,7 @@ class Cavalry;
 class Artillery;
 class Mortar;
 class General;
+class Sapper;
 
 class UnitTile : public Tile
 {
@@ -48,7 +50,7 @@ public:
 
 	enum class Modifier{NONE, TERRAIN, BONUS, ATK, DFND, DISTANCE, FRONT_FLANK, SIDE_FLANK, REAR_FLANK, SQUARE_FORMATION};
 
-	enum class UnitType{INF, CAV, ART, MOR, GEN, ARTGUARD};
+	enum class UnitType{INF, CAV, ART, MOR, GEN, ARTGUARD, SAP};
 
 	//Each UnitFamily generally has its own combat rules. LINF, however, does not, and for the moment, HINF's
 	//is identical to INF.
@@ -174,7 +176,6 @@ public:
 	//Getters
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//Non-Virtual
 	inline TerrainTile* getTerrain() const{ return terrain; };
 	inline Player* getPlayer() const{ return player; };
 	inline UnitType getUnitType() const{ return unitType; };
@@ -251,6 +252,13 @@ public:
 	//Other - Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //Specifies whether this unit is capable of attacking terrain
+    inline virtual bool canAttackTerrain(){return false;};
+    //If the above variable is true, this specifies whether the unit normally also attacks units
+    //(if any are present) when it attacks terrain
+    inline virtual bool attacksTerrainWithUnits(){return false;};
+
+
 	virtual void takeDamage(UnitTile* attacker, float& _dmg, int distance);
 	virtual std::string moveTo(TerrainTile* _terrainTile);
 	//Called at the end of every turn;
@@ -264,6 +272,7 @@ public:
 	//Needed for double dispatch
 	virtual std::string meleeAttack(UnitTile* _unit) = 0;
 
+    inline virtual std::string terrainAttack(TerrainTile* terrain, int distance){return {"Cannot attack that tile"};};
 	inline virtual std::string meleeAttack(Infantry* inf){ return{}; };
 	inline virtual std::string meleeAttack(Cavalry* cav){ return{}; };
 	inline virtual std::string meleeAttack(Artillery* art){ return{}; };
@@ -295,8 +304,11 @@ public:
 	void spawn(TerrainTile* terrainTile);
 
 	//This function is in charge of initiating combat by determining distance, flank, etc., setting up modifiers,
-	//and calling either meleeAttack() or rangedAttack()
-	std::string attack(UnitTile* _unit);
+	//and calling either meleeAttack() or rangedAttack(). It takes in a TerrainTile rather than a UnitTile in case
+	//the player wants to attack a tile with no units on it (such as a bridge). If there is a unit on it, we can
+	//easily get it with _terrain->getUnit();
+	//The bool parameter attackTerrain specifies whether terrain damage should be applied.
+	std::string attack(TerrainTile* _terrain);
 
 	bool isHostile(UnitTile* _tile);
 
@@ -313,6 +325,8 @@ public:
 
 	void multRollByModifiers(float &originalRoll);
 	std::string roundFloat(const double x);
+
+	inline void resetTerrain(){terrain = nullptr;};
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
