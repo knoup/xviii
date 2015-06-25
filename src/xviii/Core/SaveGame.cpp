@@ -329,6 +329,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 				if(currentTypeStr.find("pbridge") != std::string::npos){
                     auto ptr = std::move(std::unique_ptr<PBridge>(new PBridge(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
+
                     size_t delimiterPos = currentTypeStr.find(":");
 
                     if(delimiterPos != std::string::npos){
@@ -337,6 +338,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
                         ptr->setHp(hp);
                     }
 
+                    game->mWorld.permanentBridges.push_back(ptr.get());
                     game->mWorld.terrainLayer[currentIndex] = std::move(ptr);
 				}
 
@@ -350,6 +352,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
                         ptr->setHp(hp);
                     }
 
+                    game->mWorld.temporaryBridges.push_back(ptr.get());
                     game->mWorld.terrainLayer[currentIndex] = std::move(ptr);
 				}
 

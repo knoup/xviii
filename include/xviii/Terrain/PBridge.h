@@ -15,9 +15,12 @@ public:
     //By default, the bridge spawns with its VER (vertical) version. You can use this to flip it.
     void flip(Orientation _or);
 
+    Orientation getOrientation(){return orientation;};
+
     virtual std::string callTerrainAttack(UnitTile* unit, int distance);
 
 private:
     int hp;
+    Orientation orientation;
 };
 

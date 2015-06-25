@@ -93,6 +93,9 @@ private:
 	//The first layer, or "terrain layer"; always drawn behind the units and only consists
 	//of Terrain.
 	std::vector<TerrainTile::terrainPtr> terrainLayer;
+	//Also, store regular pointers of bridges in these vectors, for convenience
+	std::vector<PBridge*> permanentBridges;
+	std::vector<TBridge*> temporaryBridges;
 
 
 	//This vector stores pointers to the units that have been damaged during an attack. It is reset afterwards

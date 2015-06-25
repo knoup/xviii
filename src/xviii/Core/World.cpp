@@ -233,7 +233,9 @@ void World::togglePBridge(TerrainTile* terrain){
     }
 
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
-        terrainLayer[index] =  std::move(std::unique_ptr<PBridge>(new PBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        auto ptr =  std::move(std::unique_ptr<PBridge>(new PBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        permanentBridges.push_back(ptr.get());
+        terrainLayer[index] = std::move(ptr);
 
         if(unit != nullptr){
         unit->spawn(terrainLayer[index].get());
@@ -242,6 +244,7 @@ void World::togglePBridge(TerrainTile* terrain){
 
     else if(terrain->getTerrainType() == TerrainTile::TerrainType::PBRIDGE){
         terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        permanentBridges.erase(std::remove(permanentBridges.begin(), permanentBridges.end(), terrainLayer[index].get()), permanentBridges.end());
 
         if(unit != nullptr){
         unit->spawn(terrainLayer[index].get());
@@ -265,7 +268,9 @@ void World::toggleTBridge(TerrainTile* terrain){
     }
 
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
-        terrainLayer[index] =  std::move(std::unique_ptr<TBridge>(new TBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        temporaryBridges.push_back(ptr.get());
+        terrainLayer[index] = std::move(ptr);
 
         if(unit != nullptr){
         unit->spawn(terrainLayer[index].get());
@@ -274,6 +279,7 @@ void World::toggleTBridge(TerrainTile* terrain){
 
     else if(terrain->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
         terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        temporaryBridges.erase(std::remove(temporaryBridges.begin(), temporaryBridges.end(), terrainLayer[index].get()), temporaryBridges.end());
 
         if(unit != nullptr){
         unit->spawn(terrainLayer[index].get());

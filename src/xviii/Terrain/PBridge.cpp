@@ -6,7 +6,8 @@
 
 PBridge::PBridge(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos) :
 TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::PBRIDGE_VER, TerrainType::PBRIDGE, _pos),
-hp{5}
+hp{5},
+orientation{Orientation::VERTICAL}
 {
 }
 
@@ -19,10 +20,12 @@ void PBridge::takeDamage(int dmg){
 
 void PBridge::flip(Orientation _or){
     if(_or == Orientation::HORIZONTAL){
-        sprite = world.tm.getSprite(TextureManager::Terrain::PBRIDGE_HOR);
+        orientation = Orientation::HORIZONTAL;
+        sprite.setTextureRect(world.tm.getSprite(TextureManager::Terrain::PBRIDGE_HOR).getTextureRect());
     }
     else if(_or == Orientation::VERTICAL){
-        sprite = world.tm.getSprite(TextureManager::Terrain::PBRIDGE_VER);
+        orientation = Orientation::VERTICAL;
+        sprite.setTextureRect(world.tm.getSprite(TextureManager::Terrain::PBRIDGE_VER).getTextureRect());
     }
 }
 
