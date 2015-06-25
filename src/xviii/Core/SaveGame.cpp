@@ -144,6 +144,23 @@ bool SaveGame::create(){
 			#undef X
 		}
 
+        //"Duct tape code" - make this cleaner in the future
+        ///////////////////////////////////////////////////////////////
+		if(currentType == TerrainTile::TerrainType::PBRIDGE){
+            PBridge* p = static_cast<PBridge*>(game->mWorld.terrainLayer[i].get());
+            if(p != nullptr){
+                save << ":" << std::to_string(p->getHp());
+            }
+		}
+		else if(currentType == TerrainTile::TerrainType::TBRIDGE){
+            TBridge* t = static_cast<TBridge*>(game->mWorld.terrainLayer[i].get());
+            if(t != nullptr){
+                save << ":" << std::to_string(t->getHp());
+            }
+		}
+
+		///////////////////////////////////////////////////////////////
+
 		save << std::endl;
 	}
 
@@ -310,6 +327,34 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
 
+				if(currentTypeStr.find("pbridge") != std::string::npos){
+                    auto ptr = std::move(std::unique_ptr<PBridge>(new PBridge(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
+                    size_t delimiterPos = currentTypeStr.find(":");
+
+                    if(delimiterPos != std::string::npos){
+                        std::string num = currentTypeStr.substr(delimiterPos + 1, currentTypeStr.length());
+                        int hp = std::stoi(num);
+                        ptr->setHp(hp);
+                    }
+
+                    game->mWorld.terrainLayer[currentIndex] = std::move(ptr);
+				}
+
+				else if(currentTypeStr.find("tbridge") != std::string::npos){
+                    auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
+                    size_t delimiterPos = currentTypeStr.find(":");
+
+                    if(delimiterPos != std::string::npos){
+                        std::string num = currentTypeStr.substr(delimiterPos + 1, currentTypeStr.length());
+                        int hp = std::stoi(num);
+                        ptr->setHp(hp);
+                    }
+
+                    game->mWorld.terrainLayer[currentIndex] = std::move(ptr);
+				}
+
+
+                else{
 				//type, class, texture, string
 				#define X(_type, cl, texture, str)\
 					if(currentTypeStr == str)\
@@ -317,7 +362,9 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				TERRAINPROPERTIES
 				#undef X
 
-					trueIndex++;
+                }
+
+                trueIndex++;
 				std::getline(save, line);
 			}
 

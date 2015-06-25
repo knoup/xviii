@@ -32,6 +32,15 @@
 
 class TerrainTile;
 class PBridge;
+class Hills;
+class Meadow;
+class Mud;
+class Road;
+class Slopes;
+class TBridge;
+class Urban;
+class Water;
+class Woods;
 class UnitLoader;
 class Player;
 
@@ -275,7 +284,19 @@ public:
 
 
     virtual std::string terrainAttack(TerrainTile* terrain, int distance);
+
+    //Bridge attacking behavior is shared by all units
     virtual std::string terrainAttack(PBridge* bridge, int distance);
+    virtual std::string terrainAttack(TBridge* tBridge, int distance);
+
+    //Whereas the rest, not necessarily
+    virtual std::string terrainAttack(Hills* hills, int distance){return {};};
+    virtual std::string terrainAttack(Slopes* slopes, int distance){return {};};
+    virtual std::string terrainAttack(Meadow* meadow, int distance){return {"meadows!"};};
+    virtual std::string terrainAttack(Mud* mud, int distance){return {};};
+    virtual std::string terrainAttack(Urban* urban, int distance){return {};};
+    virtual std::string terrainAttack(Water* water, int distance){return {"not working"};};
+    virtual std::string terrainAttack(Woods* woods, int distance){return {};};
 
 	//Further documented in UnitTile.cpp
 	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser = true, bool canShootOverUnits = false, int coneWidth = 1);

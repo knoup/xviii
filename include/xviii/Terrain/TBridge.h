@@ -13,7 +13,7 @@ public:
     virtual void takeDamage(int dmg);
 
     //By default, the bridge spawns with its VER (vertical) version. You can use this to flip it.
-    void flip(sf::Sprite _sprite){sprite = _sprite;};
+    void flip(Orientation _or);
 
     virtual std::string callTerrainAttack(UnitTile* unit, int distance);
 

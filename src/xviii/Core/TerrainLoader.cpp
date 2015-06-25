@@ -17,6 +17,7 @@ TerrainLoader::TerrainLoader()
     customDefinitions.emplace(TerrainTile::TerrainType::WOODS, TERRAINDATA);
     customDefinitions.emplace(TerrainTile::TerrainType::WATER, TERRAINDATA);
     customDefinitions.emplace(TerrainTile::TerrainType::PBRIDGE, TERRAINDATA);
+    customDefinitions.emplace(TerrainTile::TerrainType::TBRIDGE, TERRAINDATA);
 
     #undef TERRAINDATA
 }

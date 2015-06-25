@@ -17,6 +17,15 @@ void PBridge::takeDamage(int dmg){
     }
 };
 
+void PBridge::flip(Orientation _or){
+    if(_or == Orientation::HORIZONTAL){
+        sprite = world.tm.getSprite(TextureManager::Terrain::PBRIDGE_HOR);
+    }
+    else if(_or == Orientation::VERTICAL){
+        sprite = world.tm.getSprite(TextureManager::Terrain::PBRIDGE_VER);
+    }
+}
+
 std::string PBridge::callTerrainAttack(UnitTile* unit, int distance){
     return(unit->terrainAttack(this, distance));
 }

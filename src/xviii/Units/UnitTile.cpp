@@ -502,7 +502,9 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 		return{ALREADY_ATTACKED};
 	}
 
-	if (obstructionPresent){
+    //the dist >1 part is a fix for sappers not being able to build bridges over water due to it being considered an obstruction.
+    //This should be revisisted.
+	if (obstructionPresent && dist > 1){
 		return{OBSTRUCTION_PRESENT_ATK};
 	}
 
@@ -578,7 +580,7 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 	//It makes little sense for melee attacks to damage terrain (of which only
     //bridges are modeled atm; this will change in the future)
 
-	if(canAttackBridge() && ((unit == nullptr) || (unit != nullptr && dist > 1))){
+	if((unit == nullptr) || (unit != nullptr && dist > 1)){
 
         resultStr += terrainAttack(_terrain, dist);
 	}
@@ -1140,6 +1142,10 @@ std::string UnitTile::terrainAttack(TerrainTile* terrain, int distance){
 
 std::string UnitTile::terrainAttack(PBridge* bridge, int distance){
 
+    if(!canAttackBridge()){
+        return {"Cannot attack bridges"};
+    }
+
     if (getSquareFormationActive() && hasSquareFormationAbility()){
 		return SF_ACTIVE;
 	}
@@ -1212,7 +1218,85 @@ std::string UnitTile::terrainAttack(PBridge* bridge, int distance){
 	}
 
 	return{"Attacked bridge"};
+}
 
+std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
+    if(!canAttackBridge()){
+        return {"Cannot attack bridges"};
+    }
+
+    if (getSquareFormationActive() && hasSquareFormationAbility()){
+		return SF_ACTIVE;
+	}
+
+	if (limber && hasLimberAbility()){
+		return LIMBERED;
+	}
+
+	boost::random::uniform_int_distribution<int> distribution(1, 6);
+	int thisRoll_int{distribution(mt19937)};
+	float thisRoll = thisRoll_int;
+
+	float damageDealtF{0};
+	float distanceModifier{0};
+
+	int lowerDieThreshold{1};
+	int upperDieThreshold{6};
+	bool modifierIsDamage{false};
+
+	for (auto& item : unitLoader.customClasses.at(name).bridgeAttackDistValues){
+		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
+			distanceModifier = item.distModifier;
+			modifierIsDamage = item.modifierIsDamage;
+			lowerDieThreshold = item.lowerDieThreshold;
+			upperDieThreshold = item.upperDieThreshold;
+			continue;
+		}
+	}
+
+	if (!modifierIsDamage){
+		modVector.emplace_back(Modifier::DISTANCE, distanceModifier, false);
+
+		multRollByModifiers(thisRoll);
+		damageDealtF += thisRoll;
+	}
+	else{
+		multRollByModifiers(thisRoll);
+		damageDealtF = distanceModifier;
+	}
+
+	int damageDealtI = floor(damageDealtF);
+
+	if (thisRoll_int >= lowerDieThreshold && thisRoll_int <= upperDieThreshold){
+		bridge->takeDamage(damageDealtI);
+	}
+	else{
+		damageDealtI = 0;
+	}
+
+	mov = 0;
+	this->updateStats();
+
+	if(distance == 1){
+        hasMeleeAttacked = true;
+	}
+	else if (distance > 1){
+        hasRangedAttacked = true;
+	}
+
+	/*
+	Units that can skirmish need to be able to rotate a second time sometimes. Take the following scenario, for instance:
+	A LINF is facing south.
+		-It turns north
+		-It fires at an enemy
+	Its skirmisher bonus should be usable now, and it should be able to turn south again.
+	*/
+
+	if (getSkirmish()){
+		hasFullRotated = false;
+	}
+
+	return{"Attacked bridge"};
 }
 
 

@@ -79,9 +79,9 @@ public:
 	void togglePBridge(TerrainTile* terrain);
 	void toggleTBridge(TerrainTile* terrain);
 
+	TextureManager& tm;
 private:
     TerrainLoader& terrainLoader;
-	TextureManager& tm;
 	sf::Vector2i dimensions;
 	sf::Vector2i dimensionsInPixels;
 
