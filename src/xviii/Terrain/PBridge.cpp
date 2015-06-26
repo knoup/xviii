@@ -14,7 +14,7 @@ orientation{Orientation::VERTICAL}
 void PBridge::takeDamage(int dmg){
     hp -= dmg;
     if(hp < 0.9){
-        world.togglePBridge(this);
+        world.togglePBridge(this, TerrainTile::Orientation::VERTICAL);
     }
 };
 
@@ -27,6 +27,8 @@ void PBridge::flip(Orientation _or){
         orientation = Orientation::VERTICAL;
         sprite.setTextureRect(world.tm.getSprite(TextureManager::Terrain::PBRIDGE_VER).getTextureRect());
     }
+
+    refreshVertexArray();
 }
 
 std::string PBridge::callTerrainAttack(UnitTile* unit, int distance){

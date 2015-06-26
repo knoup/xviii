@@ -13,7 +13,16 @@ std::string Sapper::terrainAttack(Water* water, int distance){
         return {"Must be adjacent to water tile to construct bridge"};
     }
     else{
-        world.toggleTBridge(water);
+        TerrainTile::Orientation orientation;
+
+        if(dir == Direction::N || dir == Direction::S){
+            orientation = TerrainTile::Orientation::VERTICAL;
+        }
+        else{
+           orientation = TerrainTile::Orientation::HORIZONTAL;
+        }
+
+        world.toggleTBridge(water, orientation);
         return {"Bridge built!"};
     }
 }

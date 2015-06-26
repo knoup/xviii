@@ -14,7 +14,7 @@ orientation{Orientation::VERTICAL}
 void TBridge::takeDamage(int dmg){
     hp -= dmg;
     if(hp < 0.9){
-        world.toggleTBridge(this);
+        world.toggleTBridge(this, TerrainTile::Orientation::VERTICAL);
     }
 };
 
@@ -28,6 +28,8 @@ void TBridge::flip(Orientation _or){
         orientation = Orientation::VERTICAL;
         sprite.setTextureRect(world.tm.getSprite(TextureManager::Terrain::TBRIDGE_VER).getTextureRect());
     }
+
+    refreshVertexArray();
 }
 
 

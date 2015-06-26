@@ -19,6 +19,11 @@ public:
 
     virtual std::string callTerrainAttack(UnitTile* unit, int distance);
 
+    bool northernConnection{false};
+    bool southernConnection{false};
+    bool easternConnection{false};
+    bool westernConnection{false};
+
 private:
     int hp;
     Orientation orientation;

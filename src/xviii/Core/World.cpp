@@ -73,7 +73,7 @@ void World::generateRandomWorld(Era _era){
 	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 220)));
 	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 400)));
 
-	ants.push_back(std::unique_ptr<BridgeAnt>(new BridgeAnt(terrainLoader, *this, 999)));
+	ants.push_back(std::unique_ptr<BridgeAnt>(new BridgeAnt(terrainLoader, *this, 5)));
 
 
 	for (auto& ant : ants){
@@ -218,7 +218,7 @@ void World::clearDamagedUnits(){
 	damagedUnits.clear();
 }
 
-void World::togglePBridge(TerrainTile* terrain){
+void World::togglePBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
     int index = indexAtTile(*terrain);
     UnitTile* unit = terrain->getUnit();
 
@@ -235,6 +235,7 @@ void World::togglePBridge(TerrainTile* terrain){
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
         auto ptr =  std::move(std::unique_ptr<PBridge>(new PBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
         permanentBridges.push_back(ptr.get());
+        ptr->flip(_or);
         terrainLayer[index] = std::move(ptr);
 
         if(unit != nullptr){
@@ -253,7 +254,7 @@ void World::togglePBridge(TerrainTile* terrain){
 }
 
 
-void World::toggleTBridge(TerrainTile* terrain){
+void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
     int index = indexAtTile(*terrain);
     UnitTile* unit = terrain->getUnit();
 
@@ -270,6 +271,7 @@ void World::toggleTBridge(TerrainTile* terrain){
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
         auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
         temporaryBridges.push_back(ptr.get());
+        ptr->flip(_or);
         terrainLayer[index] = std::move(ptr);
 
         if(unit != nullptr){

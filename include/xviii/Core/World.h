@@ -76,8 +76,8 @@ public:
 
 	//These functions replace the water tile with a P/T bridge, or destroy it and replace it
 	//with a water tile
-	void togglePBridge(TerrainTile* terrain);
-	void toggleTBridge(TerrainTile* terrain);
+	void togglePBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
+	void toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
 
 	TextureManager& tm;
 private:
