@@ -12,7 +12,7 @@
 	X(TerrainTile::TerrainType::URBAN, Urban, TextureManager::Terrain::URBAN, "urban")\
 	X(TerrainTile::TerrainType::WATER, Water, TextureManager::Terrain::WATER, "water")\
 	X(TerrainTile::TerrainType::WOODS, Woods, TextureManager::Terrain::WOODS, "woods")\
-	X(TerrainTile::TerrainType::PBRIDGE, PBridge, TextureManager::Terrain::PBRIDGE_VER, "pbridge")\
+	X(TerrainTile::TerrainType::BRIDGE, Bridge, TextureManager::Terrain::BRIDGE_VER, "bridge")\
 	X(TerrainTile::TerrainType::TBRIDGE, TBridge, TextureManager::Terrain::TBRIDGE_VER, "tbridge")
 
 
@@ -24,7 +24,7 @@ class Slopes;
 class Urban;
 class Water;
 class Woods;
-class PBridge;
+class Bridge;
 
 class TerrainLoader;
 class World;
@@ -104,7 +104,7 @@ public:
     };
 
 	using terrainPtr = std::unique_ptr<TerrainTile>;
-	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS, PBRIDGE, TBRIDGE};
+	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS, BRIDGE, TBRIDGE};
 	enum class Orientation{VERTICAL, HORIZONTAL};
 
 	TerrainTile(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);

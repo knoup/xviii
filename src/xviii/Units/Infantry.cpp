@@ -16,7 +16,8 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 	bool validMovDirection{false};
 	bool validAttackDirection{false};
-	bool obstructionPresent{false};
+	bool rangedObstructionPresent{false};
+	bool meleeObstructionPresent{false};
 	bool inMovementRange{false};
 	bool inRangedAttackRange{false};
 	int movExpended{0};
@@ -27,7 +28,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 	//Get the coordinates of the tile to be moved to
 	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrainTile))};
 
-	sf::Vector2i vectorDist = distanceFrom(terrainTile, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+	sf::Vector2i vectorDist = distanceFrom(terrainTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 
 	if (dir == Direction::N || dir == Direction::S){
 		movExpended = abs(vectorDist.y);
@@ -36,7 +37,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 		movExpended = abs(vectorDist.x);
 	}
 
-	if (obstructionPresent){
+	if (meleeObstructionPresent){
 		return OBSTRUCTION_PRESENT_MOV;
 	}
 

@@ -152,11 +152,11 @@ sf::Sprite TextureManager::getSprite(Terrain type){
 		rekt = {3 * size.x, size.y, size.x, size.y};
 		break;
 
-    case Terrain::PBRIDGE_VER:
+    case Terrain::BRIDGE_VER:
         rekt = {0, 2*size.y, size.x, size.y};
         break;
 
-    case Terrain::PBRIDGE_HOR:
+    case Terrain::BRIDGE_HOR:
         rekt = {size.x, 2*size.y, size.x, size.y};
         break;
 
@@ -167,6 +167,9 @@ sf::Sprite TextureManager::getSprite(Terrain type){
     case Terrain::TBRIDGE_HOR:
         rekt = {3*size.x, 2*size.y, size.x, size.y};
         break;
+
+    case Terrain::BLANK:
+        return{};
 	}
 
 	return{*terrain, rekt};

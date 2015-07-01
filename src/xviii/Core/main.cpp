@@ -8,8 +8,14 @@ TODO:
 
 	-Implement specialised MudAnt and HillAnt classes
 
-	-Add a health indicator to PBridges
-    -Make Sappers able to build Pbridges
+	-Add a health indicator to Bridges
+    -Make Sappers able to build Bridges
+
+
+    RIGHT NOW:
+
+    -Make TBridge a child of Bridge; implement the whole bridge being destroyed if 1 tile is broken
+
 */
 
 /*

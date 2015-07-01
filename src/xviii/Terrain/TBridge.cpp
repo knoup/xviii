@@ -5,18 +5,9 @@
 
 
 TBridge::TBridge(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos) :
-TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::TBRIDGE_VER, TerrainType::TBRIDGE, _pos),
-hp{5},
-orientation{Orientation::VERTICAL}
+Bridge(_terrainLoader, _world, tm, _pos)
 {
 }
-
-void TBridge::takeDamage(int dmg){
-    hp -= dmg;
-    if(hp < 0.9){
-        world.toggleTBridge(this, TerrainTile::Orientation::VERTICAL);
-    }
-};
 
 
 void TBridge::flip(Orientation _or){

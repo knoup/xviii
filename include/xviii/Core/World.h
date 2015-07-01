@@ -14,7 +14,7 @@
 #include "xviii/Terrain/Urban.h"
 #include "xviii/Terrain/Water.h"
 #include "xviii/Terrain/Woods.h"
-#include "xviii/Terrain/PBridge.h"
+#include "xviii/Terrain/Bridge.h"
 #include "xviii/Terrain/TBridge.h"
 
 #define ERAPROPERTIES\
@@ -76,8 +76,10 @@ public:
 
 	//These functions replace the water tile with a P/T bridge, or destroy it and replace it
 	//with a water tile
-	void togglePBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
+	void toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
 	void toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
+
+    void connectBridges();
 
 	TextureManager& tm;
 private:
@@ -94,7 +96,7 @@ private:
 	//of Terrain.
 	std::vector<TerrainTile::terrainPtr> terrainLayer;
 	//Also, store regular pointers of bridges in these vectors, for convenience
-	std::vector<PBridge*> permanentBridges;
+	std::vector<Bridge*> permanentBridges;
 	std::vector<TBridge*> temporaryBridges;
 
 

@@ -343,12 +343,13 @@ void GameState_Play::update(float mFT){
 
 		bool validMovDirection{false};
 		bool validAttackDirection{false};
-		bool obstructionPresent{false};
+		bool rangedObstructionPresent{false};
+		bool meleeObstructionPresent{false};
 		bool inMovementRange{false};
 		bool inRangedAttackRange{false};
 
 		//Store the distance between the selected tile and currently moused over tile in vectorDist
-		sf::Vector2i vectorDist = selected->distanceFrom(terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+		sf::Vector2i vectorDist = selected->distanceFrom(terrain, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 
 
 		int primaryAxisDistance{0};
@@ -382,13 +383,13 @@ void GameState_Play::update(float mFT){
 		//If you aren't mousing over an enemy unit
 		if (unit == nullptr && terrain != nullptr){
 
-			if (inMovementRange && !obstructionPresent){
+			if (inMovementRange && !rangedObstructionPresent && !meleeObstructionPresent){
 				tileDistanceText.setColor(sf::Color::Black);
 			}
 			else if (!inMovementRange && inRangedAttackRange){
 				tileDistanceText.setColor(sf::Color::Magenta);
 			}
-			else if (obstructionPresent || !validMovDirection || !inMovementRange){
+			else if (rangedObstructionPresent || meleeObstructionPresent|| !validMovDirection || !inMovementRange){
 				tileDistanceText.setColor(sf::Color::Red);
 			}
 
@@ -399,7 +400,7 @@ void GameState_Play::update(float mFT){
 			//Check if it is an enemy unit
 			bool friendly = (unit->getPlayer() == game->currentPlayer);
 
-			if ((!validAttackDirection && (!selected->canHeal())) || obstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || selected->getHasMeleeAttacked() || selected->getHasMeleeAttacked()){
+			if ((!validAttackDirection && (!selected->canHeal())) || meleeObstructionPresent || rangedObstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || selected->getHasMeleeAttacked() || selected->getHasMeleeAttacked()){
 					tileDistanceText.setColor(sf::Color::Red);
 				}
 				else{

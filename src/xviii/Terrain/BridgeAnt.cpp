@@ -3,7 +3,7 @@
 
 
 BridgeAnt::BridgeAnt(TerrainLoader& _terrainLoader, World& _world, int _lifetime) :
-Ant{_terrainLoader, _world, TerrainTile::TerrainType::PBRIDGE, _lifetime}
+Ant{_terrainLoader, _world, TerrainTile::TerrainType::BRIDGE, _lifetime}
 {
 }
 
@@ -100,8 +100,8 @@ void BridgeAnt::crawl(){
                 if(northTile->getTerrainType() == TerrainTile::TerrainType::WATER){
                     northernLandConnection = false;
                 }
-                else if(northTile->getTerrainType() == TerrainTile::TerrainType::PBRIDGE){
-                    PBridge* p = static_cast<PBridge*>(northTile);
+                else if(northTile->getTerrainType() == TerrainTile::TerrainType::BRIDGE){
+                    Bridge* p = static_cast<Bridge*>(northTile);
                     if(p->getOrientation() != orientation){
                        northernLandConnection = false;
                     }
@@ -112,8 +112,8 @@ void BridgeAnt::crawl(){
                 if(southTile->getTerrainType() == TerrainTile::TerrainType::WATER){
                     southernLandConnection = false;
                 }
-                else if(southTile->getTerrainType() == TerrainTile::TerrainType::PBRIDGE){
-                    PBridge* p = static_cast<PBridge*>(southTile);
+                else if(southTile->getTerrainType() == TerrainTile::TerrainType::BRIDGE){
+                    Bridge* p = static_cast<Bridge*>(southTile);
                     if(p->getOrientation() != orientation){
                        southernLandConnection = false;
                     }
@@ -124,8 +124,8 @@ void BridgeAnt::crawl(){
                 if(eastTile->getTerrainType() == TerrainTile::TerrainType::WATER){
                     easternLandConnection = false;
                 }
-                else if(eastTile->getTerrainType() == TerrainTile::TerrainType::PBRIDGE){
-                    PBridge* p = static_cast<PBridge*>(eastTile);
+                else if(eastTile->getTerrainType() == TerrainTile::TerrainType::BRIDGE){
+                    Bridge* p = static_cast<Bridge*>(eastTile);
                     if(p->getOrientation() != orientation){
                        easternLandConnection = false;
                     }
@@ -136,8 +136,8 @@ void BridgeAnt::crawl(){
                 if(westTile->getTerrainType() == TerrainTile::TerrainType::WATER){
                     westernLandConnection = false;
                 }
-                else if(westTile->getTerrainType() == TerrainTile::TerrainType::PBRIDGE){
-                    PBridge* p = static_cast<PBridge*>(westTile);
+                else if(westTile->getTerrainType() == TerrainTile::TerrainType::BRIDGE){
+                    Bridge* p = static_cast<Bridge*>(westTile);
                     if(p->getOrientation() != orientation){
                        westernLandConnection = false;
                     }
@@ -162,8 +162,8 @@ void BridgeAnt::crawl(){
                         if(nextTile->getTerrainType() == TerrainTile::TerrainType::WATER){
                             bridgesToBuild.push_back(world->terrainAtCartesianPos(tempCartesianPos));
                         }
-                        else if(nextTile->getTerrainType() == TerrainTile::TerrainType::PBRIDGE){
-                            PBridge* p = static_cast<PBridge*>(nextTile);
+                        else if(nextTile->getTerrainType() == TerrainTile::TerrainType::BRIDGE){
+                            Bridge* p = static_cast<Bridge*>(nextTile);
                             if(p->getOrientation() != orientation){
                                 validSequenceOfBridges = false;
                             }
@@ -190,8 +190,8 @@ void BridgeAnt::crawl(){
                         if(nextTile->getTerrainType() == TerrainTile::TerrainType::WATER){
                             bridgesToBuild.push_back(world->terrainAtCartesianPos(tempCartesianPos));
                         }
-                        else if(nextTile->getTerrainType() == TerrainTile::TerrainType::PBRIDGE){
-                            PBridge* p = static_cast<PBridge*>(nextTile);
+                        else if(nextTile->getTerrainType() == TerrainTile::TerrainType::BRIDGE){
+                            Bridge* p = static_cast<Bridge*>(nextTile);
                             if(p->getOrientation() != orientation){
                                 validSequenceOfBridges = false;
                             }
@@ -221,8 +221,8 @@ void BridgeAnt::crawl(){
                         if(nextTile->getTerrainType() == TerrainTile::TerrainType::WATER){
                             bridgesToBuild.push_back(world->terrainAtCartesianPos(tempCartesianPos));
                         }
-                        else if(nextTile->getTerrainType() == TerrainTile::TerrainType::PBRIDGE){
-                            PBridge* p = static_cast<PBridge*>(nextTile);
+                        else if(nextTile->getTerrainType() == TerrainTile::TerrainType::BRIDGE){
+                            Bridge* p = static_cast<Bridge*>(nextTile);
                             if(p->getOrientation() != orientation){
                                 validSequenceOfBridges = false;
                             }
@@ -249,8 +249,8 @@ void BridgeAnt::crawl(){
                         if(nextTile->getTerrainType() == TerrainTile::TerrainType::WATER){
                             bridgesToBuild.push_back(world->terrainAtCartesianPos(tempCartesianPos));
                         }
-                        else if(nextTile->getTerrainType() == TerrainTile::TerrainType::PBRIDGE){
-                            PBridge* p = static_cast<PBridge*>(nextTile);
+                        else if(nextTile->getTerrainType() == TerrainTile::TerrainType::BRIDGE){
+                            Bridge* p = static_cast<Bridge*>(nextTile);
                             if(p->getOrientation() != orientation){
                                 validSequenceOfBridges = false;
                             }
@@ -271,7 +271,7 @@ void BridgeAnt::crawl(){
 
             if(validSequenceOfBridges){
                 for (auto& bridge : bridgesToBuild){
-                    world->togglePBridge(bridge, orientation);
+                    world->toggleBridge(bridge, orientation);
                 }
             }
 

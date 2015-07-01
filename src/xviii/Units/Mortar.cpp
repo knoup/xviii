@@ -39,8 +39,8 @@ std::string Mortar::rotate(UnitTile::Direction _dir){
 	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
 
-sf::Vector2i Mortar::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser, bool canShootOverUnits, int coneWidth){
-	return UnitTile::distanceFrom(_terrain, _validMovDirection, _validAttackDirection, _obstructionPresent, _inMovementRange, _inRangedAttackRange, false, true, 5);
+sf::Vector2i Mortar::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser, bool canShootOverUnits, int coneWidth){
+	return UnitTile::distanceFrom(_terrain, _validMovDirection, _validAttackDirection, _rangedObstructionPresent, _meleeObstructionPresent, _inMovementRange, _inRangedAttackRange, false, true, 5);
 }
 
 std::string Mortar::meleeAttack(UnitTile* _unit){

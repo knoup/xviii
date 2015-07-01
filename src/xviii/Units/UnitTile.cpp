@@ -288,7 +288,8 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 
 	bool validMovDirection{false};
 	bool validAttackDirection{false};
-	bool obstructionPresent{false};
+	bool rangedObstructionPresent{false};
+	bool meleeObstructionPresent{false};
 	bool inMovementRange{false};
 	bool inRangedAttackRange{false};
 	int movExpended{0};
@@ -299,7 +300,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	//Get the coordinates of the tile to be moved to
 	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*_terrainTile))};
 
-	sf::Vector2i vectorDist = distanceFrom(_terrainTile, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+	sf::Vector2i vectorDist = distanceFrom(_terrainTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 
 	if (dir == Direction::N || dir == Direction::S){
 		movExpended = abs(vectorDist.y);
@@ -308,7 +309,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 		movExpended = abs(vectorDist.x);
 	}
 
-	if (obstructionPresent){
+	if (meleeObstructionPresent){
 		return OBSTRUCTION_PRESENT_MOV;
 	}
 
@@ -478,13 +479,16 @@ std::string UnitTile::beHealed(float num){
 std::string UnitTile::attack(TerrainTile* _terrain){
     UnitTile* unit = _terrain->getUnit();
 
+    std::string resultStr{};
+
 	bool validMovDirection{false};
 	bool validAttackDirection{false};
-	bool obstructionPresent{false};
+	bool rangedObstructionPresent{false};
+	bool meleeObstructionPresent{false};
 	bool inMovementRange{false};
 	bool inRangedAttackRange{false};
 
-	sf::Vector2i vectorDist = distanceFrom(_terrain, validMovDirection, validAttackDirection, obstructionPresent, inMovementRange, inRangedAttackRange);
+	sf::Vector2i vectorDist = distanceFrom(_terrain, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 	int dist{0};
 
 	if (dir == Direction::N || dir == Direction::S){
@@ -502,11 +506,16 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 		return{ALREADY_ATTACKED};
 	}
 
-    //the dist >1 part is a fix for sappers not being able to build bridges over water due to it being considered an obstruction.
-    //This should be revisisted.
-	if (obstructionPresent && dist > 1){
-		return{OBSTRUCTION_PRESENT_ATK};
+
+	if ((dist > 1 && rangedObstructionPresent)
+        ||
+        (dist == 1 && meleeObstructionPresent)){
+
+
+        return{OBSTRUCTION_PRESENT_ATK};
+
 	}
+
 
 	if (!validAttackDirection){
 		return{INVALID_DIR_ATK};
@@ -521,7 +530,6 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 		return NO_MELEE;
 	}
 
-    std::string resultStr{};
 	//Past this point, it is assumed combat is possible
 	////////////////////////////////////////////////////////////////////////////
 
@@ -544,7 +552,7 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 	}
 
 	//Melee
-    else{
+    else {
         UnitTile::Modifier flank{Modifier::FRONT_FLANK};
 
         //Determine flank direction
@@ -577,8 +585,6 @@ std::string UnitTile::attack(TerrainTile* _terrain){
     //Attacking the terrain should always happen if the unit is
 	//a. capable of doing so, and
 	//b. the attack is ranged.
-	//It makes little sense for melee attacks to damage terrain (of which only
-    //bridges are modeled atm; this will change in the future)
 
 	if((unit == nullptr) || (unit != nullptr && dist > 1)){
 
@@ -695,7 +701,7 @@ range.
 */
 
 //virtual
-sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _obstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser, bool canShootOverUnits, int coneWidth){
+sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser, bool canShootOverUnits, int coneWidth){
 	//coneWidth represents the width units can fire at. It should always be an odd number; 1 for the center, and 2/4/6 etc. for the sides
 
 	//Excluding the center, obviously
@@ -706,8 +712,8 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirect
 
 	//Check if there is a unit at the terrain tile;
 	UnitTile* unitAtTile = world.unitAtTerrain(_terrain);
-
 	bool destinationIsUnit = (unitAtTile != nullptr);
+
 
 	int dist{0};
 
@@ -775,47 +781,121 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirect
 			}
 		}
 
+        //Check if the current tile is a bridge, and if so, if the exit path is a valid one:
+        if(terrain->getTerrainType() == TerrainTile::TerrainType::BRIDGE || terrain->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+            Bridge* p = static_cast<Bridge*>(terrain);
+            bool validDirection{false};
 
+            switch (dir){
+            case Direction::N:
+                validDirection = p->northernConnection;
+                break;
+            case Direction::E:
+                validDirection = p->easternConnection;
+                break;
+            case Direction::S:
+                validDirection = p->southernConnection;
+                break;
+            case Direction::W:
+                validDirection = p->westernConnection;
+                break;
+            }
+
+            if(!validDirection && dist == 1){
+                _meleeObstructionPresent = true;
+            }
+        }
+
+        //Because all tiles BEFORE (exclusive of) the destination tile are checked, we're going to do a few checks
+        //here right away to ensure if the destination tile itself is not a valid tile to move on.
 		if (_terrain->getTerrainType() == TerrainTile::TerrainType::WATER && !getCanCrossWater()){
 			if (!destinationIsUnit){
-				_obstructionPresent = true;
+				_meleeObstructionPresent = true;
 			}
 		}
 		else if (_terrain->getTerrainType() == TerrainTile::TerrainType::MUD && !mudCrosser){
 			if (!destinationIsUnit){
-				_obstructionPresent = true;
+				_meleeObstructionPresent = true;
 			}
 		}
 
+		else if(_terrain->getTerrainType() == TerrainTile::TerrainType::BRIDGE || _terrain->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+            Bridge* p = static_cast<Bridge*>(_terrain);
+            bool validDirection{false};
+
+            switch (dir){
+            case Direction::N:
+                validDirection = p->southernConnection;
+                break;
+            case Direction::E:
+                validDirection = p->westernConnection;
+                break;
+            case Direction::S:
+                validDirection = p->northernConnection;
+                break;
+            case Direction::W:
+                validDirection = p->easternConnection;
+                break;
+            }
+
+            if(!validDirection){
+                _meleeObstructionPresent = true;
+            }
+        }
+
 		//For loop is for checking if the LoS is clear
+		//Some parts of the above code will be repeated for every tile in the way.
 		for (int i{PRIMARYAXIS_POSITIVE - 1}; i > PRIMARYAXIS_NEGATIVE; --i){
 
-			//If an obstruction has already been found, no need to keep searching, just exit loop
-			if (_obstructionPresent){
+			//If obstructions have already been found, no need to keep searching, just exit loop
+			if (_rangedObstructionPresent && _meleeObstructionPresent){
 				continue;
 			}
 
 			UnitTile* unit;
-			TerrainTile* terrain;
+			TerrainTile* terrainInTheWay;
 
 			if (dir == Direction::N || dir == Direction::S){
-				terrain = world.terrainAtCartesianPos({SECONDARYAXIS_POSITIVE, i});
+				terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_POSITIVE, i});
 			}
 			else{
-				terrain = world.terrainAtCartesianPos({i, SECONDARYAXIS_POSITIVE});
+				terrainInTheWay = world.terrainAtCartesianPos({i, SECONDARYAXIS_POSITIVE});
 			}
 
-			unit = terrain->getUnit();
+			unit = terrainInTheWay->getUnit();
 
 			//Check if the terrain is an obstruction
-			if (terrain != nullptr){
+			if (terrainInTheWay != nullptr){
 
 				if (!destinationIsUnit){
-					if (terrain->getTerrainType() == TerrainTile::TerrainType::WATER && !getCanCrossWater()){
-						_obstructionPresent = true;
+					if (terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::WATER && !getCanCrossWater()){
+						_meleeObstructionPresent = true;
 					}
-					else if (terrain->getTerrainType() == TerrainTile::TerrainType::MUD && !mudCrosser){
-						_obstructionPresent = true;
+					else if (terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::MUD && !mudCrosser){
+						_meleeObstructionPresent = true;
+					}
+					else if(terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::BRIDGE || terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+                        Bridge* p = static_cast<Bridge*>(terrainInTheWay);
+					    bool validDirection{false};
+
+                        switch (dir){
+                        case Direction::N:
+                            validDirection = p->southernConnection;
+                            break;
+                        case Direction::E:
+                            validDirection = p->westernConnection;
+                            break;
+                        case Direction::S:
+                            validDirection = p->northernConnection;
+                            break;
+                        case Direction::W:
+                            validDirection = p->easternConnection;
+                            break;
+                        }
+
+                        if(!validDirection){
+                            _meleeObstructionPresent = true;
+                        }
 					}
 				}
 
@@ -825,21 +905,19 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _terrain, bool& _validMovDirect
 			if (unit != nullptr){
 				bool unitIsFriendly{unit->getPlayer() == this->getPlayer()};
 
-				if (destinationIsUnit){
-					if (!canShootOverUnits){
-						_obstructionPresent = true;
-					}
-				}
-				else if (!destinationIsUnit){
-					if (!unitIsFriendly){
-						_obstructionPresent = true;
-					}
-				}
+                if (!unitIsFriendly){
+                    _meleeObstructionPresent = true;
+                }
+
+                if (!canShootOverUnits){
+                    _rangedObstructionPresent = true;
+                }
+
 			}
 		}
 	}
 
-	return{toMoveToCoords - currentCoords};
+	return {toMoveToCoords - currentCoords};
 
 }
 
@@ -1140,7 +1218,7 @@ std::string UnitTile::terrainAttack(TerrainTile* terrain, int distance){
     return terrain->callTerrainAttack(this,distance);
 }
 
-std::string UnitTile::terrainAttack(PBridge* bridge, int distance){
+std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 
     if(!canAttackBridge()){
         return {"Cannot attack bridges"};
@@ -1161,8 +1239,8 @@ std::string UnitTile::terrainAttack(PBridge* bridge, int distance){
 	float damageDealtF{0};
 	float distanceModifier{0};
 
-	int lowerDieThreshold{1};
-	int upperDieThreshold{6};
+	int lowerDieThreshold{0};
+	int upperDieThreshold{0};
 	bool modifierIsDamage{false};
 
 	for (auto& item : unitLoader.customClasses.at(name).bridgeAttackDistValues){
@@ -1217,7 +1295,11 @@ std::string UnitTile::terrainAttack(PBridge* bridge, int distance){
 		hasFullRotated = false;
 	}
 
-	return{"Attacked bridge"};
+    if(damageDealtI > 0){
+        return{"Attacked bridge"};
+    }
+
+    return{};
 }
 
 std::string UnitTile::terrainAttack(TBridge* bridge, int distance){

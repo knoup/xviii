@@ -2,6 +2,7 @@
 #include "xviii/Core/SaveGame.h"
 
 #include "xviii/Core/Game.h"
+#include <boost/algorithm/string/find.hpp>
 
 Player::Nation stringToNation(std::string _name){
 	//nation, flag, name
@@ -146,17 +147,28 @@ bool SaveGame::create(){
 
         //"Duct tape code" - make this cleaner in the future
         ///////////////////////////////////////////////////////////////
-		if(currentType == TerrainTile::TerrainType::PBRIDGE){
-            PBridge* p = static_cast<PBridge*>(game->mWorld.terrainLayer[i].get());
-            if(p != nullptr){
-                save << ":" << std::to_string(p->getHp());
+		if(currentType == TerrainTile::TerrainType::BRIDGE){
+            Bridge* p = static_cast<Bridge*>(game->mWorld.terrainLayer[i].get());
+
+            if(p->getOrientation() == TerrainTile::Orientation::VERTICAL){
+                save << ":" << 0;
             }
+            else{
+                save << ":" << 1;
+            }
+            save << ":" << std::to_string(p->getHp());
 		}
+
 		else if(currentType == TerrainTile::TerrainType::TBRIDGE){
             TBridge* t = static_cast<TBridge*>(game->mWorld.terrainLayer[i].get());
-            if(t != nullptr){
-                save << ":" << std::to_string(t->getHp());
+
+            if(t->getOrientation() == TerrainTile::Orientation::VERTICAL){
+                save << ":" << 0;
             }
+            else{
+                save << ":" << 1;
+            }
+            save << ":" << std::to_string(t->getHp());
 		}
 
 		///////////////////////////////////////////////////////////////
@@ -327,14 +339,33 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
 
-				if(currentTypeStr.find("pbridge") != std::string::npos){
-                    auto ptr = std::move(std::unique_ptr<PBridge>(new PBridge(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
+				if(currentTypeStr.find("bridge") != std::string::npos){
+                    auto ptr = std::move(std::unique_ptr<Bridge>(new Bridge(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
 
-                    size_t delimiterPos = currentTypeStr.find(":");
+                    //Our string might look like
+                    //bridge:0:4
 
-                    if(delimiterPos != std::string::npos){
-                        std::string num = currentTypeStr.substr(delimiterPos + 1, currentTypeStr.length());
-                        int hp = std::stoi(num);
+                    size_t pos1{0};
+                    //Find the position of the first colon
+                    pos1 = currentTypeStr.find(":");
+                    //And the second
+                    size_t pos2{0};
+                    pos2 = currentTypeStr.find(":", pos1+1);
+
+
+
+                    if(pos1 != std::string::npos && pos2 != std::string::npos){
+                        std::string num1 = currentTypeStr.substr(pos1 + 1, pos2-1 - pos1);
+
+                        if(std::stoi(num1) == 0){
+                            ptr->flip(TerrainTile::Orientation::VERTICAL);
+                        }
+                        else{
+                            ptr->flip(TerrainTile::Orientation::HORIZONTAL);
+                        }
+
+                        std::string num2 = currentTypeStr.substr(pos2+1, currentTypeStr.size() - 1);
+                        int hp = std::stoi(num2);
                         ptr->setHp(hp);
                     }
 
@@ -344,11 +375,28 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 				else if(currentTypeStr.find("tbridge") != std::string::npos){
                     auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
-                    size_t delimiterPos = currentTypeStr.find(":");
 
-                    if(delimiterPos != std::string::npos){
-                        std::string num = currentTypeStr.substr(delimiterPos + 1, currentTypeStr.length());
-                        int hp = std::stoi(num);
+                    size_t pos1{0};
+                    //Find the position of the first colon
+                    pos1 = currentTypeStr.find(":");
+                    //And the second
+                    size_t pos2{0};
+                    pos2 = currentTypeStr.find(":", pos1+1);
+
+
+
+                    if(pos1 != std::string::npos && pos2 != std::string::npos){
+                        std::string num1 = currentTypeStr.substr(pos1 + 1, pos2-1 - pos1);
+
+                        if(std::stoi(num1) == 0){
+                            ptr->flip(TerrainTile::Orientation::VERTICAL);
+                        }
+                        else{
+                            ptr->flip(TerrainTile::Orientation::HORIZONTAL);
+                        }
+
+                        std::string num2 = currentTypeStr.substr(pos2+1, currentTypeStr.size() - 1);
+                        int hp = std::stoi(num2);
                         ptr->setHp(hp);
                     }
 
@@ -377,6 +425,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				currentIndex++;
 			}
 
+            game->mWorld.connectBridges();
 		}
 
 		else if (line.find("u{") != std::string::npos){
