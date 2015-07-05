@@ -507,28 +507,38 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 	}
 
 
-	if ((dist > 1 && rangedObstructionPresent)
-        ||
-        (dist == 1 && meleeObstructionPresent)){
-
-
-        return{OBSTRUCTION_PRESENT_ATK};
-
-	}
-
-
 	if (!validAttackDirection){
 		return{INVALID_DIR_ATK};
 	}
 
-	if (dist > 1 && dist > getMaxRange()){
-		std::string result{OUT_OF_RANGE + std::to_string(getMaxRange())};
-		return result;
+
+	if(dist > 1){
+        if(rangedObstructionPresent){
+            return{OBSTRUCTION_PRESENT_ATK};
+        }
+
+        if(dist > getMaxRange()){
+            return{OUT_OF_RANGE + std::to_string(getMaxRange())};
+        }
+
 	}
 
-	if (dist == 1 && !getMelee()){
-		return NO_MELEE;
+	else if (dist == 1){
+
+	    //A little hardcoded check is made here. Specifically, engineers need to be able to "attack" water,
+	    //which would normally be impossible because water counts as a melee obstruction, to construct bridges
+
+        if(meleeObstructionPresent){
+            if (!(_terrain->getTerrainType() == TerrainTile::TerrainType::WATER && unitType == UnitType::SAP)){
+                    return{OBSTRUCTION_PRESENT_ATK};
+               }
+        }
+
+        if(!getMelee()){
+            return NO_MELEE;
+        }
 	}
+
 
 	//Past this point, it is assumed combat is possible
 	////////////////////////////////////////////////////////////////////////////
