@@ -10,7 +10,7 @@ public:
     inline void setHp(int _hp){hp = _hp;};
     inline int getHp(){return hp;};
 
-    void takeDamage(int dmg);
+    virtual void takeDamage(int dmg);
 
     //By default, the bridges spawn with a blank texture; flip() must be called after spawning to determine its
     //correct direction. I know I should probably have this in the constructor, but then the bridge constructor signature

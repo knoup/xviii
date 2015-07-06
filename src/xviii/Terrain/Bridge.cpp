@@ -14,7 +14,8 @@ orientation{Orientation::VERTICAL}
 void Bridge::takeDamage(int dmg){
     hp -= dmg;
     if(hp < 0.9){
-        world.toggleBridge(this, TerrainTile::Orientation::VERTICAL);
+        //When "untoggling" a bridge, the second argument doesn't really matter
+        world.toggleBridge(this, orientation);
     }
 };
 

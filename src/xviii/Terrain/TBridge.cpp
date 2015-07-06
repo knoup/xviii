@@ -7,8 +7,19 @@
 TBridge::TBridge(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos) :
 Bridge(_terrainLoader, _world, tm, _pos)
 {
+    //If we don't manually change this, TBridge's type will default to Bridge's, which is TerrainType::BRIDGE
+    //It's a hacky solution but rather than change all terrain constructors just for this case, I opted for this
+    //instead.
+    terrainType = TerrainType::TBRIDGE;
 }
 
+void TBridge::takeDamage(int dmg){
+    hp -= dmg;
+    if(hp < 0.9){
+        //When "untoggling" a bridge, the second argument doesn't really matter
+        world.toggleTBridge(this, orientation);
+    }
+};
 
 void TBridge::flip(Orientation _or){
     if(_or == Orientation::HORIZONTAL){

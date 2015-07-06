@@ -1230,6 +1230,16 @@ std::string UnitTile::terrainAttack(TerrainTile* terrain, int distance){
 
 std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 
+    int maxRange{0};
+
+    if(!unitLoader.customClasses.at(name).bridgeAttackDistValues.empty()){
+        maxRange = unitLoader.customClasses.at(name).bridgeAttackDistValues[0].upperThreshold;
+    }
+
+	if(distance > maxRange){
+        return {OUT_OF_RANGE + std::to_string(maxRange)};
+	}
+
     if(!canAttackBridge()){
         return {"Cannot attack bridges"};
     }
@@ -1313,6 +1323,18 @@ std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 }
 
 std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
+
+    int maxRange{0};
+
+    if(!unitLoader.customClasses.at(name).bridgeAttackDistValues.empty()){
+        maxRange = unitLoader.customClasses.at(name).bridgeAttackDistValues[0].upperThreshold;
+    }
+
+	if(distance > maxRange){
+        return {OUT_OF_RANGE + std::to_string(maxRange)};
+	}
+
+
     if(!canAttackBridge()){
         return {"Cannot attack bridges"};
     }
@@ -1332,8 +1354,8 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
 	float damageDealtF{0};
 	float distanceModifier{0};
 
-	int lowerDieThreshold{1};
-	int upperDieThreshold{6};
+	int lowerDieThreshold{0};
+	int upperDieThreshold{0};
 	bool modifierIsDamage{false};
 
 	for (auto& item : unitLoader.customClasses.at(name).bridgeAttackDistValues){
@@ -1388,7 +1410,11 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
 		hasFullRotated = false;
 	}
 
-	return{"Attacked bridge"};
+    if(damageDealtI > 0){
+        return{"Attacked bridge"};
+    }
+
+    return{};
 }
 
 

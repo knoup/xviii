@@ -339,7 +339,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
 
-				if(currentTypeStr.find("bridge") != std::string::npos){
+				if(currentTypeStr.find("permbridge") != std::string::npos){
                     auto ptr = std::move(std::unique_ptr<Bridge>(new Bridge(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
 
                     //Our string might look like
@@ -373,7 +373,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
                     game->mWorld.terrainLayer[currentIndex] = std::move(ptr);
 				}
 
-				else if(currentTypeStr.find("tbridge") != std::string::npos){
+				else if(currentTypeStr.find("tempbridge") != std::string::npos){
                     auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
 
                     size_t pos1{0};

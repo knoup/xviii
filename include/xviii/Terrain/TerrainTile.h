@@ -12,8 +12,8 @@
 	X(TerrainTile::TerrainType::URBAN, Urban, TextureManager::Terrain::URBAN, "urban")\
 	X(TerrainTile::TerrainType::WATER, Water, TextureManager::Terrain::WATER, "water")\
 	X(TerrainTile::TerrainType::WOODS, Woods, TextureManager::Terrain::WOODS, "woods")\
-	X(TerrainTile::TerrainType::BRIDGE, Bridge, TextureManager::Terrain::BRIDGE_VER, "bridge")\
-	X(TerrainTile::TerrainType::TBRIDGE, TBridge, TextureManager::Terrain::TBRIDGE_VER, "tbridge")
+	X(TerrainTile::TerrainType::BRIDGE, Bridge, TextureManager::Terrain::BRIDGE_VER, "permbridge")\
+	X(TerrainTile::TerrainType::TBRIDGE, TBridge, TextureManager::Terrain::TBRIDGE_VER, "tempbridge")
 
 
 class Meadow;

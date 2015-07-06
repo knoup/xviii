@@ -305,7 +305,15 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
 }
 
 void World::connectBridges(){
+    //Potential TODO:
+    //Optimise the algorithm for bridge connecting. As it is, some redundant checks may be redone. It doesn't matter
+    //too much performance-wise, but still
+
     for (auto& Bridge : permanentBridges){
+        Bridge->connect();
+    }
+
+    for (auto& Bridge : temporaryBridges){
         Bridge->connect();
     }
 }
