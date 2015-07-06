@@ -129,6 +129,9 @@ std::string Infantry::meleeAttack(Infantry* inf){
 
 	//BREAKTHROUGH ABILITY
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//The retreat bool does not specify whether the retreat was successful (in that the unit was actually able to retreat),
+	//but rather that the breakthrough bonus was procced. Its only purpose is to give information to attackReport()
 	bool retreat{false};
 	bool frontal{false};
 
@@ -152,6 +155,9 @@ std::string Infantry::meleeAttack(Infantry* inf){
 		//AND
 		//The enemy is not in square formation
 		if (((thisRoll_int == 6 && enemyRoll_int < 6) || (thisRoll > enemyRoll)) && !inf->getSquareFormationActive()){
+
+            retreat = true;
+
 			sf::Vector2i enemyPos{inf->getCartesianPos()};
 			sf::Vector2i enemyRetreatPos{enemyPos};
 
@@ -170,9 +176,34 @@ std::string Infantry::meleeAttack(Infantry* inf){
 				break;
 			}
 
+            TerrainTile* retreatTile = world.terrainAtCartesianPos(enemyRetreatPos);
+
+            bool validRetreatTile{false};
+            bool retreatTileIsWater{false};
+
+            //In the case of the retreat tile being water, there will be a 50% chance that the
+            //unit will actually retreat into it, thus killing it instantly, or get the regular
+            //extra damage that is dealt when units cannot retreat
+
+            if(retreatTile != nullptr){
+
+                if(retreatTile->getTerrainType() == TerrainTile::TerrainType::WATER){
+                    retreatTileIsWater = true;
+                }
+                else if (retreatTile->getUnit() == nullptr){
+                    validRetreatTile = true;
+                }
+            }
+
+            bool willRetreat{0};
+
+            if(retreatTileIsWater){
+                boost::random::uniform_int_distribution<int> randomChance(0, 1);
+                willRetreat = randomChance(mt19937);
+            }
+
 			//Now check if the tile to retreat to is not occupied:
-			if (world.canBePlacedAtCartesianPos(enemyRetreatPos)){
-				retreat = true;
+			if (validRetreatTile || (retreatTileIsWater && willRetreat)){
 				//Here, we use the spawn function since it is essentially an instant teleport
 				inf->spawn(world.terrainAtCartesianPos(enemyRetreatPos));
 				inf->setDir(opposite(inf->getDir()));
@@ -183,7 +214,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 				inf->setHasMoved(true);
 				inf->setMov(0);
 			}
-			else{
+			else if (!validRetreatTile || (retreatTileIsWater && !willRetreat)){
 				//If the unit is unable to retreat, they suffer 6 damage
 				retreatDamageDealt += 6;
 			}
