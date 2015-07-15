@@ -9,9 +9,9 @@ TODO:
 	-Implement specialised MudAnt and HillAnt classes
 
     CURRENT:
+    -Do something about the abominable UnitTile::distanceFrom() function
 	-Add a health indicator to Bridges
     -Make entire TBridge be destroyed if 1 tile is broken
-    -Make TBridges crossable only 4 times before it breaks
     -Add watercrosser, mudcrosser, and cone width attributes
 */
 

@@ -79,7 +79,12 @@ public:
 	void toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
 	void toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
 
+    //This function ensures the connection variables for bridges are properly set
     void connectBridges();
+
+    //This function finds all temporary bridges between the current and destination tile (inclusive) and decrements
+    //one hit point (used when units cross it)
+    void wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinationTile);
 
 	TextureManager& tm;
 private:

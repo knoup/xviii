@@ -314,6 +314,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	}
 
 	else if (validMovDirection && inMovementRange){
+        world.wearDownTempBridges(terrain, _terrainTile);
 		terrain->resetUnit();
 		terrain = _terrainTile;
 		_terrainTile->setUnit(this);

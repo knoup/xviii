@@ -318,3 +318,84 @@ void World::connectBridges(){
     }
 }
 
+void World::wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinationTile){
+    sf::Vector2i currentCoords = currentTile->getCartesianPos();
+    sf::Vector2i destinationCoords = destinationTile->getCartesianPos();
+
+    //Do a quick check to see if they do not share any coordinates
+
+    if((currentCoords.x != destinationCoords.x) && (currentCoords.y != destinationCoords.y)){
+        return;
+    }
+
+    int CURRENTCOORDS_PRIMARY;
+	int CURRENTCOORDS_SECONDARY;
+	int DESTINATIONCOORDS_PRIMARY;
+	int DESTINATIONCOORDS_SECONDARY;
+	bool VERTICAL{false};
+	bool HORIZONTAL{false};
+	bool POSITIVE{false};
+
+    //North || South
+	if(currentCoords.y > destinationCoords.y || currentCoords.y < destinationCoords.y){
+
+        if(currentCoords.y < destinationCoords.y){
+            POSITIVE = true;
+        }
+
+		CURRENTCOORDS_PRIMARY = currentCoords.y;
+		CURRENTCOORDS_SECONDARY = currentCoords.x;
+		DESTINATIONCOORDS_PRIMARY = destinationCoords.y;
+		DESTINATIONCOORDS_SECONDARY = destinationCoords.x;
+		VERTICAL = true;
+    }
+
+    //East || west
+	else if(currentCoords.x < destinationCoords.x || currentCoords.x > destinationCoords.x){
+
+        if(currentCoords.x < destinationCoords.x){
+            POSITIVE = true;
+        }
+		CURRENTCOORDS_PRIMARY = currentCoords.x;
+		CURRENTCOORDS_SECONDARY = currentCoords.y;
+		DESTINATIONCOORDS_PRIMARY = destinationCoords.x;
+		DESTINATIONCOORDS_SECONDARY = destinationCoords.y;
+		HORIZONTAL = true;
+    }
+
+
+    //We don't want the actual destination tile to be worn down; it will be worn down
+    //when the unit moves away from it afterwards
+
+    int i{CURRENTCOORDS_PRIMARY };
+
+    do{
+        TerrainTile* terrainHere{nullptr};
+
+        if(VERTICAL){
+            terrainHere = terrainAtCartesianPos({CURRENTCOORDS_SECONDARY, i});
+        }
+        else if(HORIZONTAL){
+            terrainHere = terrainAtCartesianPos({i,CURRENTCOORDS_SECONDARY});
+        }
+
+
+        if(terrainHere->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+            TBridge* t = static_cast<TBridge*>(terrainHere);
+            t->takeDamage(1);
+        }
+
+        if(POSITIVE){
+            i += 1;
+        }
+        else{
+            i -= 1;
+        }
+    }
+
+    while((i < DESTINATIONCOORDS_PRIMARY && POSITIVE) || (i > DESTINATIONCOORDS_PRIMARY && !POSITIVE));
+
+
+	return;
+}
+

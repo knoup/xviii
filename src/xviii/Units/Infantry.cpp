@@ -42,6 +42,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 	}
 
 	else if (validMovDirection && inMovementRange){
+        world.wearDownTempBridges(terrain, terrainTile);
 		hasMoved = true;
 		terrain->resetUnit();
 		terrain = terrainTile;
