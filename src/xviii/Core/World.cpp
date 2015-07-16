@@ -4,9 +4,10 @@
 #include "xviii/Terrain/RiverAnt.h"
 #include "xviii/Terrain/BridgeAnt.h"
 
-World::World(TerrainLoader& _terrainLoader, TextureManager& _tm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937) :
+World::World(TerrainLoader& _terrainLoader, TextureManager& _tm, FontManager& _fm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937) :
 terrainLoader(_terrainLoader),
 tm(_tm),
+fm(_fm),
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * tm.getSize().x, dimensions.y * tm.getSize().y)},
 mt19937(_mt19937),
@@ -192,6 +193,14 @@ TerrainTile* World::terrainAtCartesianPos(sf::Vector2i _pos){
 
 void World::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	target.draw(mTerrainVertices, &mTerrainTexture);
+
+	for(auto& t : temporaryBridges){
+        target.draw(t->hpText);
+	}
+
+	for(auto& b : permanentBridges){
+        target.draw(b->hpText);
+	}
 }
 
 sf::Vector2i World::getDimensions() const{
@@ -255,8 +264,8 @@ void World::toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         Bridge* b = static_cast<Bridge*>(terrainLayer[index].get());
         b->disconnect();
 
-        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
         permanentBridges.erase(std::remove(permanentBridges.begin(), permanentBridges.end(), terrainLayer[index].get()), permanentBridges.end());
+        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
 
         if(unit != nullptr){
         unit->spawn(terrainLayer[index].get());
@@ -295,8 +304,8 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         Bridge* b = static_cast<Bridge*>(terrainLayer[index].get());
         b->disconnect();
 
-        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
         temporaryBridges.erase(std::remove(temporaryBridges.begin(), temporaryBridges.end(), terrainLayer[index].get()), temporaryBridges.end());
+        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
 
         if(unit != nullptr){
         unit->spawn(terrainLayer[index].get());

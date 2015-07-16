@@ -15,6 +15,8 @@ Bridge(_terrainLoader, _world, tm, _pos)
 
 void TBridge::takeDamage(int dmg){
     hp -= dmg;
+    hpText.setString(std::to_string(hp));
+
     if(hp < 0.9){
         //When "untoggling" a bridge, the second argument doesn't really matter
         world.toggleTBridge(this, orientation);

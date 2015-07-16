@@ -9,10 +9,23 @@ TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::BLANK, TerrainT
 hp{5},
 orientation{Orientation::VERTICAL}
 {
+    hpText.setFont(world.fm.getFont(FontManager::Type::Arial));
+    hpText.setCharacterSize(18);
+    hpText.setColor(sf::Color::Black);
+    hpText.setString(std::to_string(hp));
+
+    hpText.setPosition(sprite.getPosition());
+}
+
+void Bridge::setHp(int _hp){
+    hp = _hp;
+    hpText.setString(std::to_string(hp));
 }
 
 void Bridge::takeDamage(int dmg){
     hp -= dmg;
+    hpText.setString(std::to_string(hp));
+
     if(hp < 0.9){
         //When "untoggling" a bridge, the second argument doesn't really matter
         world.toggleBridge(this, orientation);

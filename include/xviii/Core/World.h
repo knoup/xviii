@@ -38,7 +38,7 @@ class World : public sf::Drawable, public sf::NonCopyable
 public:
 	enum class Era{ EARLY, MID, LATE, ALL };
 
-	World(TerrainLoader& _terrainLoader, TextureManager& _tm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937);
+	World(TerrainLoader& _terrainLoader, TextureManager& _tm, FontManager& _fm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937);
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
 	void generateRandomWorld(Era _era);
@@ -87,6 +87,7 @@ public:
     void wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinationTile);
 
 	TextureManager& tm;
+	FontManager& fm;
 private:
     TerrainLoader& terrainLoader;
 	sf::Vector2i dimensions;

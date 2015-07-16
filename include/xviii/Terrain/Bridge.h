@@ -7,7 +7,7 @@ class Bridge : public TerrainTile
 public:
 	Bridge(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos);
 
-    inline void setHp(int _hp){hp = _hp;};
+    void setHp(int _hp);
     inline int getHp(){return hp;};
 
     virtual void takeDamage(int dmg);
@@ -31,6 +31,9 @@ public:
 
     //Disconnects the bridge from all surrounding bridges; used just before the bridge is deleted
     void disconnect();
+
+public:
+    sf::Text hpText;
 
 protected:
     int hp;
