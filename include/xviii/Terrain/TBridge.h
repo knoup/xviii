@@ -5,7 +5,7 @@
 class TBridge : public Bridge
 {
 public:
-	TBridge(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos);
+	TBridge(World& _world, sf::Vector2f _pos);
 
     virtual void takeDamage(int dmg);
 

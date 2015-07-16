@@ -4,12 +4,12 @@
 #include "xviii/Core/World.h"
 
 
-Bridge::Bridge(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos) :
-TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::BLANK, TerrainType::BRIDGE, _pos),
+Bridge::Bridge(World& _world, sf::Vector2f _pos) :
+TerrainTile(_world, TextureManager::Terrain::BLANK, TerrainType::BRIDGE, _pos),
 hp{5},
 orientation{Orientation::VERTICAL}
 {
-    hpText.setFont(world.fm.getFont(FontManager::Type::Arial));
+    hpText.setFont(world.masterManager.fontManager->getFont(FontManager::Type::Arial));
     hpText.setCharacterSize(18);
     hpText.setColor(sf::Color::Black);
     hpText.setString(std::to_string(hp));
@@ -35,11 +35,11 @@ void Bridge::takeDamage(int dmg){
 void Bridge::flip(Orientation _or){
     if(_or == Orientation::HORIZONTAL){
         orientation = Orientation::HORIZONTAL;
-        sprite.setTextureRect(world.tm.getSprite(TextureManager::Terrain::BRIDGE_HOR).getTextureRect());
+        sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::BRIDGE_HOR).getTextureRect());
     }
     else if(_or == Orientation::VERTICAL){
         orientation = Orientation::VERTICAL;
-        sprite.setTextureRect(world.tm.getSprite(TextureManager::Terrain::BRIDGE_VER).getTextureRect());
+        sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::BRIDGE_VER).getTextureRect());
     }
 
     refreshVertexArray();

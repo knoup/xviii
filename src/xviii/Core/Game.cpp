@@ -3,10 +3,13 @@
 
 #include "xviii/Headers/global.h"
 
-#include "xviii/Units/UnitTile.h"
 #include "xviii/Core/Player.h"
 
+#include "xviii/Core/UnitLoader.h"
+#include "xviii/Core/TerrainLoader.h"
+
 Game::Game() :
+mManager{},
 randevice{},
 mtengine{randevice()},
 mWindow{{xResolution, yResolution}, "Dong Bong Military Board Game"},
@@ -14,11 +17,7 @@ state{nullptr},
 MenuState{nullptr},
 SetupState{nullptr},
 PlayState{nullptr},
-mTextureManager{},
-mFontManager{},
-mUnitLoader{mTextureManager},
-mTerrainLoader{},
-mWorld{mTerrainLoader, mTextureManager, mFontManager, sf::Vector2i(69, 100), mtengine},
+mWorld{mManager, sf::Vector2i(69, 100), mtengine},
 Player1{nullptr},
 Player2{nullptr},
 currentPlayer{nullptr},
@@ -28,8 +27,8 @@ saveCreator{this}
 {
 	mWindow.setFramerateLimit(120);
 
-	mUnitLoader.load();
-	mTerrainLoader.load();
+	mManager.unitLoader->load();
+	mManager.terrainLoader->load();
 
 	MenuState = (std::unique_ptr<GameState_Menu>(new GameState_Menu(this)));
 	SelectNationsState = (std::unique_ptr<GameState_SelectNations>(new GameState_SelectNations(this)));

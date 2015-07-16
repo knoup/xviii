@@ -8,21 +8,19 @@ static const sf::View bottomView{sf::View{sf::FloatRect(1183, 4800, xResolution,
 static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yResolution)}};
 static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution, yResolution)}};
 
-Player::Player(UnitLoader& _unitLoader, World& _world, Nation _nation, boost::random::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom) :
-unitLoader(_unitLoader),
+Player::Player(MasterManager& _masterManager, World& _world, Nation _nation, boost::random::mt19937& _mt19937, bool _spawnedAtBottom) :
+masterManager(_masterManager),
 world(_world),
 general{nullptr},
 nation{_nation},
 mt19937(_mt19937),
-tm(_tm),
-fm(_fm),
 deploymentPoints{maxDeploymentPoints},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
 	sf::Vector2i idealDimensions{7, 2};
 
-	for (auto& customClass : unitLoader.customClasses){
+	for (auto& customClass : masterManager.unitLoader->customClasses){
 		for (auto& customNation : customClass.second.nations){
 			bool validEra{false};
 
@@ -46,7 +44,7 @@ spawnedAtBottom{_spawnedAtBottom}
 			//nation, flag, name
 	#define X(nat,fla,str)\
 		case(nat):\
-		nationFlag = tm.getSprite(fla);\
+		nationFlag = masterManager.textureManager->getSprite(fla);\
 		name = str;\
 		break;
 		NATIONPROPERTIES
@@ -92,16 +90,16 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 		dir = UnitTile::Direction::S;
 	}
 
-	TextureManager::Unit _texture = unitLoader.customClasses.at(_name).texture;
-	UnitTile::UnitType _type = unitLoader.customClasses.at(_name).unitType;
-	UnitTile::UnitFamily _familyType = unitLoader.customClasses.at(_name).unitFamilyType;
+	TextureManager::Unit _texture = masterManager.unitLoader->customClasses.at(_name).texture;
+	UnitTile::UnitType _type = masterManager.unitLoader->customClasses.at(_name).unitType;
+	UnitTile::UnitFamily _familyType =masterManager.unitLoader->customClasses.at(_name).unitFamilyType;
 
 	//Create the appropriate unit
 	switch (_type){
 		//string, type, class
 		#define X(str, type, cl)\
 		case(type):\
-			ptr = std::move(std::unique_ptr<cl>(new cl(unitLoader, world, mt19937, this, tm, fm, _texture, _name, _type, _familyType, dir)));\
+			ptr = std::move(std::unique_ptr<cl>(new cl(world, mt19937, this, _texture, _name, _type, _familyType, dir)));\
 			break;
 		MAINTYPEPROPERTIES
 		#undef X
@@ -156,9 +154,9 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 //For loading from a save game
 void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _limber, bool _lancerBonusReady){
 
-	TextureManager::Unit _texture = unitLoader.customClasses.at(_name).texture;
-	UnitTile::UnitType _type = unitLoader.customClasses.at(_name).unitType;
-	UnitTile::UnitFamily _familyType = unitLoader.customClasses.at(_name).unitFamilyType;
+	TextureManager::Unit _texture = masterManager.unitLoader->customClasses.at(_name).texture;
+	UnitTile::UnitType _type = masterManager.unitLoader->customClasses.at(_name).unitType;
+	UnitTile::UnitFamily _familyType = masterManager.unitLoader->customClasses.at(_name).unitFamilyType;
 
 	UnitTile::unitPtr ptr;
 
@@ -167,7 +165,7 @@ void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction 
 		//string, type, class
 		#define X(str, type, cl)\
 			case(type):\
-				ptr = std::move(std::unique_ptr<cl>(new cl(unitLoader, world, mt19937, this, tm, fm, _texture, _name, _type, _familyType, _dir)));\
+				ptr = std::move(std::unique_ptr<cl>(new cl(world, mt19937, this, _texture, _name, _type, _familyType, _dir)));\
 				break;
 		MAINTYPEPROPERTIES
 		#undef X
@@ -187,7 +185,7 @@ void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction 
 	ptr->setLancerBonusReady(_lancerBonusReady);
 
 
-	ptr->spawn(world.terrainAtPixelPos(sf::Vector2i{_pos.x * tm.getSize().x, _pos.y * tm.getSize().y}));
+	ptr->spawn(world.terrainAtPixelPos(sf::Vector2i{_pos.x * masterManager.textureManager->getSize().x, _pos.y * masterManager.textureManager->getSize().y}));
 
 	if (_type == UnitTile::UnitType::GEN){
 		general = ptr.get();

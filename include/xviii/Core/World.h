@@ -1,6 +1,6 @@
 #pragma once
 
-#include "xviii/Core/TextureManager.h"
+#include "xviii/Core/MasterManager.h"
 
 #include "xviii/Units/UnitTile.h"
 #include "xviii/Terrain/TerrainTile.h"
@@ -38,7 +38,7 @@ class World : public sf::Drawable, public sf::NonCopyable
 public:
 	enum class Era{ EARLY, MID, LATE, ALL };
 
-	World(TerrainLoader& _terrainLoader, TextureManager& _tm, FontManager& _fm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937);
+	World(MasterManager& _mManager, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937);
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
 	void generateRandomWorld(Era _era);
@@ -55,7 +55,6 @@ public:
 
 	//Returns a [regular] pointer to the unit at this mouse coordinate position, if there is any
 	UnitTile* unitAtPixelPos(sf::Vector2i _pos);
-	//Takes in terrain ptr
 	UnitTile* unitAtTerrain(TerrainTile* _terrain);
 
 	TerrainTile* terrainAtPixelPos(sf::Vector2i _pos);
@@ -75,21 +74,22 @@ public:
 	void clearDamagedUnits();
 
 	//These functions replace the water tile with a P/T bridge, or destroy it and replace it
-	//with a water tile
+	//with a water tile, depending on what the tile is.
 	void toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
 	void toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
 
     //This function ensures the connection variables for bridges are properly set
     void connectBridges();
 
-    //This function finds all temporary bridges between the current and destination tile (inclusive) and decrements
+    //This function finds all temporary bridges between the current and destination tile (minus one) and decrements
     //one hit point (used when units cross it)
     void wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinationTile);
 
-	TextureManager& tm;
-	FontManager& fm;
+    //Ants and Tiles use this too; since they will always exist in a world, there is no point in them having
+    //duplicate references to the master manager.
+    MasterManager& masterManager;
+
 private:
-    TerrainLoader& terrainLoader;
 	sf::Vector2i dimensions;
 	sf::Vector2i dimensionsInPixels;
 

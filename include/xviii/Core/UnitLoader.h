@@ -3,7 +3,6 @@
 #include "boost/filesystem.hpp"
 #include "boost/filesystem/fstream.hpp"
 
-#include "xviii/Units/UnitTile.h"
 #include "xviii/Core/TextureManager.h"
 #include "xviii/Core/Player.h"
 

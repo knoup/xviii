@@ -2,8 +2,8 @@
 #include "xviii/Terrain/Meadow.h"
 
 
-Meadow::Meadow(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos) :
-TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::MEADOW, TerrainType::MEADOW, _pos)
+Meadow::Meadow(World& _world, sf::Vector2f _pos) :
+TerrainTile(_world, TextureManager::Terrain::MEADOW, TerrainType::MEADOW, _pos)
 {
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "xviii/Core/Player.h"
+
 #include "xviii/Core/UnitLoader.h"
 
 class SpawnableUnit
@@ -16,14 +17,14 @@ public:
 	SpawnableUnit(Player* _player, std::string _name, sf::Vector2i _coords) :
 		player{_player}
 	{
-		unitName.setFont(player->fm.getFont(FontManager::Type::Lucon));
+		unitName.setFont(player->masterManager.fontManager->getFont(FontManager::Type::Lucon));
 		unitName.setColor(sf::Color::White);
 		unitName.setCharacterSize(12);
 
 		unitName.setString(_name);
 
-		TextureManager::Unit textureType = player->unitLoader.customClasses.at(_name).texture;
-		unitSprite = player->tm.getSprite(textureType);
+		TextureManager::Unit textureType = player->masterManager.unitLoader->customClasses.at(_name).texture;
+		unitSprite = player->masterManager.textureManager->getSprite(textureType);
 
 		unitSprite.setOrigin(unitSprite.getGlobalBounds().width / 2, unitSprite.getGlobalBounds().height / 2);
 		unitName.setOrigin(unitName.getLocalBounds().width / 2, unitName.getLocalBounds().height / 2);

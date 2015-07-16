@@ -5,7 +5,7 @@
 class Bridge : public TerrainTile
 {
 public:
-	Bridge(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos);
+	Bridge(World& _world, sf::Vector2f _pos);
 
     void setHp(int _hp);
     inline int getHp(){return hp;};

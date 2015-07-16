@@ -4,8 +4,8 @@
 #include "xviii/Core/GameState_Play.h"
 #include "xviii/Core/Game.h"
 
-PlayUI::PlayUI(GameState_Play* _gameState, TextureManager& _tm, FontManager& _fm) :
-UI(_tm, _fm),
+PlayUI::PlayUI(MasterManager& _masterManager, GameState_Play* _gameState) :
+UI(_masterManager),
 gameState{_gameState}
 {
 	button.text.setCharacterSize(20);
@@ -13,35 +13,35 @@ gameState{_gameState}
 	button.text.setOrigin(button.text.getLocalBounds().width / 2, button.text.getGlobalBounds().height / 2);
 	button.text.setPosition(button.sprite.getPosition().x, button.sprite.getPosition().y - 10);
 
-	elapsedTurnsText.setFont(fm.getFont(FontManager::Type::Lucon));
+	elapsedTurnsText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	elapsedTurnsText.setColor(sf::Color::Yellow);
 	elapsedTurnsText.setPosition(20, -130);
 
-	messageLogText.setFont(fm.getFont(FontManager::Type::Lucon));
+	messageLogText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	messageLogText.setColor(sf::Color::White);
 	messageLogText.setCharacterSize(15);
 	messageLogText.setPosition(580, -170);
 	messageLogText.setString("Messages");
 
-	currentMessageText.setFont(fm.getFont(FontManager::Type::Lucon));
+	currentMessageText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	currentMessageText.setColor(sf::Color::Cyan);
 	currentMessageText.setCharacterSize(19);
 	currentMessageText.setPosition(220, -150);
 
-	saveText.setFont(fm.getFont(FontManager::Type::Arial));
+	saveText.setFont(masterManager.fontManager->getFont(FontManager::Type::Arial));
 	saveText.setCharacterSize(20);
 	saveText.setPosition(20, -80);
 	setSaveStatus(false);
 
-	squareFormationText.setFont(fm.getFont(FontManager::Type::Lucon));
+	squareFormationText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	limberText.setColor(sf::Color::White);
 	squareFormationText.setPosition(970, -170);
 
-	limberText.setFont(fm.getFont(FontManager::Type::Lucon));
+	limberText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	limberText.setColor(sf::Color::White);
 	limberText.setPosition(970, -130);
 
-	lancerBonusReadyText.setFont(fm.getFont(FontManager::Type::Lucon));
+	lancerBonusReadyText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	lancerBonusReadyText.setColor(sf::Color::White);
 	lancerBonusReadyText.setPosition(970, -80);
 }

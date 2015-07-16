@@ -2,8 +2,8 @@
 #include "xviii/Terrain/Road.h"
 
 
-Road::Road(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos) :
-TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::ROAD, TerrainType::ROAD, _pos)
+Road::Road(World& _world, sf::Vector2f _pos) :
+TerrainTile(_world, TextureManager::Terrain::ROAD, TerrainType::ROAD, _pos)
 {
 }
 

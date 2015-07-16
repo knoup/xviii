@@ -3,16 +3,16 @@
 
 #include "xviii/Core/World.h"
 
-Tile::Tile(World& _world, TextureManager& tm, TextureManager::Terrain type) :
+Tile::Tile(World& _world, TextureManager::Terrain type) :
 world(_world),
-sprite{tm.getSprite(type)},
+sprite{world.masterManager.textureManager->getSprite(type)},
 highlighted{false}
 {
 }
 
-Tile::Tile(World& _world, TextureManager& tm, TextureManager::Unit type) :
+Tile::Tile(World& _world, TextureManager::Unit type) :
 world(_world),
-sprite{tm.getSprite(type)},
+sprite{_world.masterManager.textureManager->getSprite(type)},
 highlighted{false}
 {
 }

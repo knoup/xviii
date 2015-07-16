@@ -7,7 +7,7 @@ class GameState_Play;
 class PlayUI : public UI
 {
 public:
-	PlayUI(GameState_Play* _gameState, TextureManager& _tm, FontManager& _fm);
+	PlayUI(MasterManager& _masterManager, GameState_Play* _gameState);
 	virtual ~PlayUI();
 	void setElapsedTurnsText(int _num);
 	void setCurrentMessageText(std::string _str);

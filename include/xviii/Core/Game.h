@@ -1,12 +1,10 @@
 #pragma once
 
+#include "xviii/Core/MasterManager.h"
+
 #include "xviii/Core/World.h"
 #include "xviii/Core/Player.h"
-#include "xviii/Core/TextureManager.h"
-#include "xviii/Core/FontManager.h"
 #include "xviii/Core/SaveGame.h"
-#include "xviii/Core/UnitLoader.h"
-#include "xviii/Core/TerrainLoader.h"
 
 #include <boost/random.hpp>
 #include <boost/random/random_device.hpp>
@@ -48,11 +46,7 @@ public:
 	std::unique_ptr<GameState_Setup> SetupState;
 	std::unique_ptr<GameState_Play> PlayState;
 
-	TextureManager mTextureManager;
-	FontManager mFontManager;
-
-	UnitLoader mUnitLoader;
-	TerrainLoader mTerrainLoader;
+	MasterManager mManager;
 
 	World mWorld;
 

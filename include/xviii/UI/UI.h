@@ -1,7 +1,6 @@
 #pragma once
 
-#include "xviii/Core/TextureManager.h"
-#include "xviii/Core/FontManager.h"
+#include "xviii/Core/MasterManager.h"
 
 #include "xviii/Headers/global.h"
 
@@ -44,7 +43,7 @@ public:
 		}
 	};
 
-	UI(TextureManager& _tm, FontManager& _fm);
+	UI(MasterManager& _masterManager);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UI() = 0;
 	void setCurrentPlayerText(std::string str);
@@ -54,10 +53,8 @@ public:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const = 0;
 
 protected:
-	TextureManager& tm;
-	FontManager& fm;
+	MasterManager& masterManager;
 
-	//
 	sf::Sprite uiSprite;
 	sf::Text currentPlayerText;
 	Button button;

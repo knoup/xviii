@@ -1,16 +1,17 @@
 #pragma once
 
-#include "xviii/Core/TextureManager.h"
+#include "xviii/Core/MasterManager.h"
 
 class World;
 class UnitTile;
+class MasterManager;
 
 class Tile : public sf::Drawable
 {
 public:
 	using tilePtr = std::unique_ptr<Tile>;
-	Tile(World& _world, TextureManager& tm, TextureManager::Unit id);
-	Tile(World& _world, TextureManager& tm, TextureManager::Terrain id);
+	Tile(World& _world, TextureManager::Unit id);
+	Tile(World& _world, TextureManager::Terrain id);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~Tile() = 0;
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;

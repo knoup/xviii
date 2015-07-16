@@ -17,11 +17,11 @@ std::string boolToString(bool _value){
 GameState_Play::GameState_Play(Game* _game) :
 GameState{_game},
 selected{nullptr},
-playUI(this, game->mTextureManager, game->mFontManager)
+playUI(game->mManager, this)
 {
 
 
-	tileDistanceText.setFont(game->mFontManager.getFont(FontManager::Type::Lucon));
+	tileDistanceText.setFont(game->mManager.fontManager->getFont(FontManager::Type::Lucon));
 	tileDistanceText.setString("");
 	tileDistanceText.setCharacterSize(20);
 

@@ -10,7 +10,7 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 {
 	titleText.setString("X V I I I");
 	titleText.setCharacterSize(275);
-	titleText.setFont(game->mFontManager.getFont(FontManager::Eighteen));
+	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Eighteen));
 
 	//Randomise title text colour, for the heck of it:
 	boost::random::uniform_int_distribution<int> distribution(0, 255);
@@ -57,7 +57,7 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	menuList.push_back({{"Exit"}, Action::EXIT, World::Era::ALL});
 
 	for (size_t i{0}; i < menuList.size(); ++i){
-		menuList[i].text.setFont(game->mFontManager.getFont(FontManager::Arial));
+		menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
 		menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
 		menuList[i].text.setColor(sf::Color::White);
 		menuList[i].text.setStyle(sf::Text::Bold);
@@ -132,7 +132,7 @@ void GameState_Menu::getInput(){
 			else if (event.key.code == Key::DELETE_KEY && menuIterator->action != Action::NEW){
 				if (menuIterator->action == Action::EXIT){
 					for (size_t i{0}; i < menuList.size(); ++i){
-						menuList[i].text.setFont(game->mFontManager.getFont(FontManager::Arial));
+						menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
 
 						menuList[i].text.setString("THERE IS NO ESCAPE");
 						menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);

@@ -3,8 +3,8 @@
 
 #include "xviii/Core/Player.h"
 
-Infantry::Infantry(UnitLoader& _unitLoader, World& _world, boost::random::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager& _tm, FontManager& _fm, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
-UnitTile(_unitLoader, _world, _mt19937, _belongsToPlayer, _tm, _fm, _texture, _name, _type, _familyType, _dir)
+Infantry::Infantry(World& _world, boost::random::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
+UnitTile(_world, _mt19937, _belongsToPlayer, _texture, _name, _type, _familyType, _dir)
 {
 }
 

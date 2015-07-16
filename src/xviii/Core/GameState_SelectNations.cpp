@@ -22,25 +22,25 @@ flagView{sf::FloatRect({}, {}, xResolution, yResolution)},
 uiView{sf::FloatRect({}, {}, xResolution, yResolution)}
 {
 
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::AUS), Player::Nation::AUS});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::BAV), Player::Nation::BAV});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::COM), Player::Nation::COM});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::CRI), Player::Nation::CRI});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::DEN), Player::Nation::DEN});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::FRA), Player::Nation::FRA});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::GBR), Player::Nation::GBR});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::IME), Player::Nation::IME});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::MOL), Player::Nation::MOL});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::OTO), Player::Nation::OTO});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::PER), Player::Nation::PER});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::POR), Player::Nation::POR});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::PRU), Player::Nation::PRU});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::RUS), Player::Nation::RUS});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::SAX), Player::Nation::SAX});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::SPA), Player::Nation::SPA});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::SWE), Player::Nation::SWE});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::VEN), Player::Nation::VEN});
-	flagMenuItems.push_back({game->mTextureManager.getSprite(TextureManager::Flag::WAL), Player::Nation::WAL});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::AUS), Player::Nation::AUS});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::BAV), Player::Nation::BAV});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::COM), Player::Nation::COM});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::CRI), Player::Nation::CRI});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::DEN), Player::Nation::DEN});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::FRA), Player::Nation::FRA});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::GBR), Player::Nation::GBR});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::IME), Player::Nation::IME});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::MOL), Player::Nation::MOL});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::OTO), Player::Nation::OTO});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::PER), Player::Nation::PER});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::POR), Player::Nation::POR});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::PRU), Player::Nation::PRU});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::RUS), Player::Nation::RUS});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::SAX), Player::Nation::SAX});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::SPA), Player::Nation::SPA});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::SWE), Player::Nation::SWE});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::VEN), Player::Nation::VEN});
+	flagMenuItems.push_back({game->mManager.textureManager->getSprite(TextureManager::Flag::WAL), Player::Nation::WAL});
 
 	for (size_t i{0}; i < flagMenuItems.size(); ++i){
 		int spriteXPos = (i * 75);
@@ -53,14 +53,14 @@ uiView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	flagIterator = flagMenuItems.begin() + flagMenuItems.size() / 2;
 	flagIterator->highlighted = true;
 
-	currentPlayerText.setFont(game->mFontManager.getFont(FontManager::Arial));
+	currentPlayerText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
 	currentPlayerText.setString("Player 1");
 	currentPlayerText.setColor(sf::Color::White);
 	currentPlayerText.setCharacterSize(55);;
 	currentPlayerText.setOrigin(currentPlayerText.getLocalBounds().width / 2, currentPlayerText.getLocalBounds().height / 2);
 	currentPlayerText.setPosition(xResolution / 2, yResolution / 4);
 
-	currentNationName.setFont(game->mFontManager.getFont(FontManager::Arial));
+	currentNationName.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
 	currentNationName.setColor(sf::Color::Black);
 	currentNationName.setCharacterSize(50);
 
@@ -76,7 +76,7 @@ void GameState_SelectNations::getInput(){
 			if (event.key.code == Key::CONFIRM_KEY){
 
 				if (game->Player1 == nullptr){
-					game->Player1 = new Player({game->mUnitLoader, game->mWorld, flagIterator->nation, game->mtengine, game->mTextureManager, game->mFontManager, true});
+					game->Player1 = new Player({game->mManager, game->mWorld, flagIterator->nation, game->mtengine, true});
 					game->mPlayers.emplace_back(game->Player1);
 					//Once player 1's made their selection, delete the country he chose
 					flagMenuItems.erase(flagIterator);
@@ -95,7 +95,7 @@ void GameState_SelectNations::getInput(){
 					currentPlayerText.setString("Player 2");
 				}
 				else{
-					game->Player2 = new Player({game->mUnitLoader, game->mWorld, flagIterator->nation, game->mtengine, game->mTextureManager, game->mFontManager, false});
+					game->Player2 = new Player({game->mManager, game->mWorld, flagIterator->nation, game->mtengine, false});
 					game->mPlayers.emplace_back(game->Player2);
 					game->currentPlayer = game->Player1;
 					game->currentView = &game->currentPlayer->view;

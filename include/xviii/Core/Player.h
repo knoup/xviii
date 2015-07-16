@@ -2,8 +2,8 @@
 
 #include "xviii/Core/World.h"
 #include "xviii/Units/UnitTile.h"
-#include "xviii/Core/TextureManager.h"
-#include "xviii/Core/FontManager.h"
+
+#include "xviii/Core/MasterManager.h"
 
 #include "xviii/Units/Infantry.h"
 #include "xviii/Units/Artillery.h"
@@ -13,7 +13,6 @@
 #include "xviii/Units/Sapper.h"
 #include "xviii/Headers/global.h"
 
-class UnitLoader;
 class SpawnableUnit;
 
 //The ALL "nation" is not meant to be selectable
@@ -45,7 +44,7 @@ class Player
 	friend class SpawnableUnit;
     public:
 		enum class Nation{ALL, AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER, DEN};
-		Player(UnitLoader& _unitLoader, World& _world, Nation _nation, boost::random::mt19937& _mt19937, TextureManager& _tm, FontManager& _fm, bool _spawnedAtBottom);
+		Player(MasterManager& _masterManager, World& _world, Nation _nation, boost::random::mt19937& _mt19937, bool _spawnedAtBottom);
 
 		//Returns true if successfully spawned unit
 		bool spawnUnit(std::string _name, sf::Vector2i _worldCoords);
@@ -81,7 +80,8 @@ class Player
 		void drawUnits(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
     private:
-		UnitLoader& unitLoader;
+        MasterManager& masterManager;
+
         World& world;
 		std::vector<UnitTile::unitPtr> units;
 		UnitTile* general;
@@ -94,9 +94,6 @@ class Player
 		std::string name;
 
 		boost::random::mt19937& mt19937;
-
-		TextureManager& tm;
-		FontManager& fm;
 
 		int deploymentPoints;
 		bool ready;

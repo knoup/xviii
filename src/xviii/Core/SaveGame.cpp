@@ -260,7 +260,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("player1=") != std::string::npos){
 			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
-			game->Player1 = new Player({game->mUnitLoader, game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, true});
+			game->Player1 = new Player({game->mManager, game->mWorld, nation, game->mtengine, true});
 			game->mPlayers.emplace_back(game->Player1);
 		}
 
@@ -277,7 +277,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("player2=") != std::string::npos){
 			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
-			game->Player2 = new Player({game->mUnitLoader, game->mWorld, nation, game->mtengine, game->mTextureManager, game->mFontManager, false});
+			game->Player2 = new Player({game->mManager, game->mWorld, nation, game->mtengine, false});
 			game->mPlayers.emplace_back(game->Player2);
 		}
 
@@ -333,14 +333,14 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 				while (trueIndex < currentIndex){
 					currentPos = game->mWorld.pixelPosAtIndex(trueIndex);
-					game->mWorld.terrainLayer[trueIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
+					game->mWorld.terrainLayer[trueIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, currentPos)));
 					trueIndex++;
 				}
 
 				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
 
 				if(currentTypeStr.find("permbridge") != std::string::npos){
-                    auto ptr = std::move(std::unique_ptr<Bridge>(new Bridge(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
+                    auto ptr = std::move(std::unique_ptr<Bridge>(new Bridge(game->mWorld, currentPos)));
 
                     //Our string might look like
                     //bridge:0:4
@@ -374,7 +374,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				}
 
 				else if(currentTypeStr.find("tempbridge") != std::string::npos){
-                    auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
+                    auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge(game->mWorld, currentPos)));
 
                     size_t pos1{0};
                     //Find the position of the first colon
@@ -409,7 +409,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				//type, class, texture, string
 				#define X(_type, cl, texture, str)\
 					if(currentTypeStr == str)\
-						game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
+						game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(game->mWorld, currentPos)));
 				TERRAINPROPERTIES
 				#undef X
 
@@ -421,7 +421,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 			while (currentIndex <= ((game->mWorld.getDimensions().x * game->mWorld.getDimensions().y) -1 )){
 				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
-				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mTerrainLoader, game->mWorld, game->mTextureManager, currentPos)));
+				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, currentPos)));
 				currentIndex++;
 			}
 

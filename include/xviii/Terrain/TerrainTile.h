@@ -107,7 +107,7 @@ public:
 	enum class TerrainType{ MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS, BRIDGE, TBRIDGE};
 	enum class Orientation{VERTICAL, HORIZONTAL};
 
-	TerrainTile(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);
+	TerrainTile(World& _world, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);
 	virtual ~TerrainTile() = 0;
 
 	void setPos(sf::Vector2f _pos);
@@ -128,7 +128,6 @@ public:
     virtual std::string callTerrainAttack(UnitTile* unit, int distance) = 0;
 
 protected:
-    TerrainLoader& terrainLoader;
 	TerrainType terrainType;
 	UnitTile* unit;
 };

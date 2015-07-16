@@ -4,20 +4,20 @@
 #include "xviii/Core/GameState_Setup.h"
 #include "xviii/Core/Game.h"
 
-SetupUI::SetupUI(GameState_Setup* _gameState, TextureManager& _tm, FontManager& _fm) :
-UI(_tm, _fm),
+SetupUI::SetupUI(MasterManager& _masterManager, GameState_Setup* _gameState) :
+UI(_masterManager),
 gameState{_gameState}
 {
 	button.setString("READY");
 	button.text.setOrigin(button.text.getLocalBounds().width / 2, button.text.getGlobalBounds().height / 2);
 	button.text.setPosition(button.sprite.getPosition().x, button.sprite.getPosition().y - 10);
 
-	numbRemaining.setFont(fm.getFont(FontManager::Type::Lucon));
+	numbRemaining.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	numbRemaining.setCharacterSize(70);
 	numbRemaining.setColor(sf::Color::Green);
 	numbRemaining.setPosition(50, -140);
 
-	deploymentPointsTextRemaining.setFont(fm.getFont(FontManager::Type::Lucon));
+	deploymentPointsTextRemaining.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	deploymentPointsTextRemaining.setCharacterSize(19);
 	deploymentPointsTextRemaining.setColor(sf::Color::White);
 	deploymentPointsTextRemaining.setPosition(10, -60);

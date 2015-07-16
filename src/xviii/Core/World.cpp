@@ -4,17 +4,13 @@
 #include "xviii/Terrain/RiverAnt.h"
 #include "xviii/Terrain/BridgeAnt.h"
 
-World::World(TerrainLoader& _terrainLoader, TextureManager& _tm, FontManager& _fm, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937) :
-terrainLoader(_terrainLoader),
-tm(_tm),
-fm(_fm),
+World::World(MasterManager& _mManager, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937) :
+masterManager{_mManager},
 dimensions{_dimensions},
-dimensionsInPixels{sf::Vector2i(dimensions.x * tm.getSize().x, dimensions.y * tm.getSize().y)},
+dimensionsInPixels{sf::Vector2i(dimensions.x * masterManager.textureManager->getSize().x, dimensions.y * masterManager.textureManager->getSize().y)},
 mt19937(_mt19937),
-mTerrainTexture(tm.getTerrainTexture())
+mTerrainTexture(masterManager.textureManager->getTerrainTexture())
 {
-	//era = Era::ALL;
-
 	mTerrainVertices.setPrimitiveType(sf::PrimitiveType::Quads);
 	mTerrainVertices.resize(dimensions.x * dimensions.y * 4);
 
@@ -40,7 +36,7 @@ void World::generateRandomWorld(Era _era){
 	//Do a first pass, filling the world with meadows
 	for (int c{0}; c < dimensions.y; ++c){
 		for (int r{0}; r < dimensions.x; ++r){
-			TerrainTile::terrainPtr tile(new Meadow(terrainLoader, *this, tm, {float(r * tm.getSize().x), float(c * tm.getSize().y)}));
+			TerrainTile::terrainPtr tile(new Meadow(*this, {float(r * masterManager.textureManager->getSize().x), float(c * masterManager.textureManager->getSize().y)}));
 			terrainLayer.push_back(std::move(tile));
 		}
 	}
@@ -50,31 +46,31 @@ void World::generateRandomWorld(Era _era){
 
 	std::vector < std::unique_ptr<Ant> > ants;
 
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 15)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 75)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 50)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::URBAN, 5)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::URBAN, 15)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::URBAN, 15)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::URBAN, 10)));;
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::MUD, 42)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::MUD, 20)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::MUD, 20)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::MUD, 10)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(terrainLoader, *this, TerrainTile::TerrainType::MUD, 25)));
-	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 300)));
-	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 220)));
-	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(terrainLoader, *this, 400)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 75)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 50)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 5)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 10)));;
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 42)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 20)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 20)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 10)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 25)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 300)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 220)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 400)));
 
-	ants.push_back(std::unique_ptr<BridgeAnt>(new BridgeAnt(terrainLoader, *this, 5)));
+	ants.push_back(std::unique_ptr<BridgeAnt>(new BridgeAnt(*this, 5)));
 
 
 	for (auto& ant : ants){
@@ -96,7 +92,7 @@ Depending on the dimensions of the world, obviously
 
 */
 int World::indexAtPixelPos(sf::Vector2i _pos) const{
-	return  int{_pos.x / tm.getSize().x} +int{_pos.y / tm.getSize().y} *dimensions.x;
+	return  int{_pos.x / masterManager.textureManager->getSize().x} +int{_pos.y / masterManager.textureManager->getSize().y} *dimensions.x;
 }
 
 //This function is somewhat similar to the one above, except it takes in the x and y coords directly:
@@ -120,7 +116,7 @@ sf::Vector2i World::cartesianPosAtIndex(int _index) const{
 //Does not access terrainLayer, therefore making it useful when you want to find what the position
 //of an uninitialised terrain tile tile would be
 sf::Vector2f World::pixelPosAtIndex(int _index) const{
-	return {sf::Vector2f(cartesianPosAtIndex(_index).x * tm.getSize().x, cartesianPosAtIndex(_index).y * tm.getSize().y)};
+	return {sf::Vector2f(cartesianPosAtIndex(_index).x * masterManager.textureManager->getSize().x, cartesianPosAtIndex(_index).y * masterManager.textureManager->getSize().y)};
 }
 
 //Returns true if can be placed at this position
@@ -249,7 +245,7 @@ void World::toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
     }
 
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
-        auto ptr =  std::move(std::unique_ptr<Bridge>(new Bridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        auto ptr =  std::move(std::unique_ptr<Bridge>(new Bridge{*this, terrain->getPixelPos()}));
         permanentBridges.push_back(ptr.get());
         ptr->flip(_or);
         ptr->connect();
@@ -265,7 +261,7 @@ void World::toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         b->disconnect();
 
         permanentBridges.erase(std::remove(permanentBridges.begin(), permanentBridges.end(), terrainLayer[index].get()), permanentBridges.end());
-        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{*this, terrain->getPixelPos()}));
 
         if(unit != nullptr){
         unit->spawn(terrainLayer[index].get());
@@ -289,7 +285,7 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
     }
 
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
-        auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge{*this, terrain->getPixelPos()}));
         temporaryBridges.push_back(ptr.get());
         ptr->flip(_or);
         ptr->connect();
@@ -305,7 +301,7 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         b->disconnect();
 
         temporaryBridges.erase(std::remove(temporaryBridges.begin(), temporaryBridges.end(), terrainLayer[index].get()), temporaryBridges.end());
-        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{terrainLoader, *this, tm, terrain->getPixelPos()}));
+        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{*this, terrain->getPixelPos()}));
 
         if(unit != nullptr){
         unit->spawn(terrainLayer[index].get());

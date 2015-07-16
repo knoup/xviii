@@ -5,7 +5,7 @@
 
 GameState_Setup::GameState_Setup(Game* _game) :
 GameState{_game},
-setupUI(this, game->mTextureManager, game->mFontManager),
+setupUI(game->mManager, this),
 selectedSpawnableUnit{nullptr}
 {
 }

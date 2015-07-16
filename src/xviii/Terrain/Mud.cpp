@@ -4,8 +4,8 @@
 #include "xviii/Units/UnitTile.h"
 
 
-Mud::Mud(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos) :
-TerrainTile(_terrainLoader, _world, tm, TextureManager::Terrain::MUD, TerrainType::MUD, _pos)
+Mud::Mud(World& _world, sf::Vector2f _pos) :
+TerrainTile(_world, TextureManager::Terrain::MUD, TerrainType::MUD, _pos)
 {
 }
 

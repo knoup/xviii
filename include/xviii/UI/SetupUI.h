@@ -8,7 +8,7 @@ class GameState_Setup;
 class SetupUI : public UI
 {
 public:
-	SetupUI(GameState_Setup* _gameState, TextureManager& _tm, FontManager& _fm);
+	SetupUI(MasterManager& _masterManager, GameState_Setup* _gameState);
 	virtual ~SetupUI();
 	virtual void update();
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;

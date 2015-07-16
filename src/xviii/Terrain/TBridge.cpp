@@ -4,13 +4,15 @@
 #include "xviii/Core/World.h"
 
 
-TBridge::TBridge(TerrainLoader& _terrainLoader, World& _world, TextureManager& tm, sf::Vector2f _pos) :
-Bridge(_terrainLoader, _world, tm, _pos)
+TBridge::TBridge(World& _world, sf::Vector2f _pos) :
+Bridge(_world, _pos)
 {
     //If we don't manually change this, TBridge's type will default to Bridge's, which is TerrainType::BRIDGE
     //It's a hacky solution but rather than change all terrain constructors just for this case, I opted for this
-    //instead.
+    //instead
     terrainType = TerrainType::TBRIDGE;
+    //Same for health initialisation
+    hp = 3;
 }
 
 void TBridge::takeDamage(int dmg){
@@ -26,11 +28,11 @@ void TBridge::takeDamage(int dmg){
 void TBridge::flip(Orientation _or){
     if(_or == Orientation::HORIZONTAL){
         orientation = Orientation::HORIZONTAL;
-        sprite.setTextureRect(world.tm.getSprite(TextureManager::Terrain::TBRIDGE_HOR).getTextureRect());
+        sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_HOR).getTextureRect());
     }
     else if(_or == Orientation::VERTICAL){
         orientation = Orientation::VERTICAL;
-        sprite.setTextureRect(world.tm.getSprite(TextureManager::Terrain::TBRIDGE_VER).getTextureRect());
+        sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_VER).getTextureRect());
     }
 
     refreshVertexArray();
