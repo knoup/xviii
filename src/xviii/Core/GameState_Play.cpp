@@ -60,73 +60,73 @@ void GameState_Play::getInput(){
 
 			switch (event.key.code){
 
-			case UP_KEY:
+			case Key::UP_KEY:
 				cameraVelocity = {0.f, -2.f};
 				break;
 
-			case RIGHT_KEY:
+			case Key::RIGHT_KEY:
 				cameraVelocity = {2.f, 0.f};
 				break;
 
-			case DOWN_KEY:
+			case Key::DOWN_KEY:
 				cameraVelocity = {0.f, 2.f};
 				break;
 
-			case LEFT_KEY:
+			case Key::LEFT_KEY:
 				cameraVelocity = {-2.f, 0.f};
 				break;
 
-			case RESETZOOM_KEY:
+			case Key::RESETZOOM_KEY:
 				game->currentView->setSize(xResolution, yResolution);
 				break;
 
-			case ZOOMIN_KEY:
+			case Key::ZOOMIN_KEY:
 				game->currentView->setSize(game->currentView->getSize().x - xResolution / 10, game->currentView->getSize().y - yResolution / 10);
 				break;
 
-			case ZOOMOUT_KEY:
+			case Key::ZOOMOUT_KEY:
 				game->currentView->setSize(game->currentView->getSize().x + xResolution / 10, game->currentView->getSize().y + yResolution / 10);
 				break;
 
-			case NORTH_KEY:
+			case Key::NORTH_KEY:
 				if (selected != nullptr){
 					playUI.setCurrentMessageText(selected->rotate(UnitTile::Direction::N));
 					playUI.setSaveStatus(false);
 				}
 				break;
 
-			case EAST_KEY:
+			case Key::EAST_KEY:
 				if (selected != nullptr){
 					playUI.setCurrentMessageText(selected->rotate(UnitTile::Direction::E));
 					playUI.setSaveStatus(false);
 				}
 				break;
 
-			case SOUTH_KEY:
+			case Key::SOUTH_KEY:
 				if (selected != nullptr){
 					playUI.setCurrentMessageText(selected->rotate(UnitTile::Direction::S));
 					playUI.setSaveStatus(false);
 				}
 				break;
 
-			case WEST_KEY:
+			case Key::WEST_KEY:
 				if (selected != nullptr){
 					playUI.setCurrentMessageText(selected->rotate(UnitTile::Direction::W));
 					playUI.setSaveStatus(false);
 				}
 				break;
 
-			case TOGGLE_SAVE:
+			case Key::TOGGLE_SAVE:
 				if (game->saveCreator.create()){
 					playUI.setSaveStatus(true);
 				}
 				break;
 
-			case NEXT_TURN:
+			case Key::NEXT_TURN:
 				game->currentPlayer->setReady(true);
 				break;
 
-			case HIDE_UI_KEY:
+			case Key::HIDE_UI_KEY:
 				if (drawUI){
 					drawUI = false;
 				}
@@ -135,7 +135,7 @@ void GameState_Play::getInput(){
 				}
 				break;
 
-			case LIMBER_KEY:
+			case Key::LIMBER_KEY:
 			{
 				if (selected != nullptr){
 					if (selected->hasLimberAbility()){
@@ -145,7 +145,7 @@ void GameState_Play::getInput(){
 				break;
 			}
 
-			case SQUARE_FORMATION_KEY:
+			case Key::SQUARE_FORMATION_KEY:
 			{
 				if (selected != nullptr){
 					if (selected->hasSquareFormationAbility()){

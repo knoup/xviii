@@ -121,35 +121,35 @@ void GameState_Setup::getInput(){
 
 			switch (event.key.code){
 
-			case UP_KEY:
+			case Key::UP_KEY:
 				cameraVelocity = {0.f, -2.f};
 				break;
 
-			case RIGHT_KEY:
+			case Key::RIGHT_KEY:
 				cameraVelocity = {2.f, 0.f};
 				break;
 
-			case DOWN_KEY:
+			case Key::DOWN_KEY:
 				cameraVelocity = {0.f, 2.f};
 				break;
 
-			case LEFT_KEY:
+			case Key::LEFT_KEY:
 				cameraVelocity = {-2.f, 0.f};
 				break;
 
-			case RESETZOOM_KEY:
+			case Key::RESETZOOM_KEY:
 				game->currentView->setSize(xResolution, yResolution);
 				break;
 
-            case ZOOMIN_KEY:
+            case Key::ZOOMIN_KEY:
 				game->currentView->setSize(game->currentView->getSize().x - xResolution / 10, game->currentView->getSize().y - yResolution / 10);
                 break;
 
-            case ZOOMOUT_KEY:
+            case Key::ZOOMOUT_KEY:
 				game->currentView->setSize(game->currentView->getSize().x + xResolution / 10, game->currentView->getSize().y + yResolution / 10);
                 break;
 
-			case HIDE_UI_KEY:
+			case Key::HIDE_UI_KEY:
 				if (drawUI){
 					drawUI = false;
 				}

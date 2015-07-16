@@ -73,7 +73,7 @@ void GameState_SelectNations::getInput(){
 	while (game->mWindow.pollEvent(event)){
 		switch (event.type){
 		case sf::Event::KeyPressed:
-			if (event.key.code == CONFIRM_KEY){
+			if (event.key.code == Key::CONFIRM_KEY){
 
 				if (game->Player1 == nullptr){
 					game->Player1 = new Player({game->mUnitLoader, game->mWorld, flagIterator->nation, game->mtengine, game->mTextureManager, game->mFontManager, true});
@@ -103,10 +103,10 @@ void GameState_SelectNations::getInput(){
 				}
 
 			}
-			else if (event.key.code == RIGHT_ARROW || event.key.code == LEFT_ARROW || event.key.code == LEFT_KEY || event.key.code == RIGHT_KEY){
+			else if (event.key.code == Key::RIGHT_ARROW || event.key.code == Key::LEFT_ARROW || event.key.code == Key::LEFT_KEY || event.key.code == Key::RIGHT_KEY){
 				flagIterator->highlighted = false;
 
-				if (event.key.code == LEFT_ARROW || event.key.code == LEFT_KEY){
+				if (event.key.code == Key::LEFT_ARROW || event.key.code == Key::LEFT_KEY){
 					if (flagIterator == flagMenuItems.begin()){
 						flagIterator = --flagMenuItems.end();
 					}
@@ -114,7 +114,7 @@ void GameState_SelectNations::getInput(){
 						--flagIterator;
 					}
 				}
-				else if (event.key.code == RIGHT_ARROW || event.key.code == RIGHT_KEY){
+				else if (event.key.code == Key::RIGHT_ARROW || event.key.code == Key::RIGHT_KEY){
 					if (flagIterator == --flagMenuItems.end()){
 						flagIterator = flagMenuItems.begin();
 					}
@@ -127,7 +127,7 @@ void GameState_SelectNations::getInput(){
 
 			}
 
-			else if (event.key.code == RANDOMNATION_KEY){
+			else if (event.key.code == Key::RANDOMNATION_KEY){
 				boost::random::uniform_int_distribution<int> distribution(0, flagMenuItems.size() - 1);
 				int randNum{distribution(game->mtengine)};
 

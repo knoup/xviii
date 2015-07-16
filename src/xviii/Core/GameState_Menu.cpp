@@ -84,7 +84,7 @@ void GameState_Menu::getInput(){
 			break;
 
 		case sf::Event::KeyPressed:
-			if (event.key.code == CONFIRM_KEY){
+			if (event.key.code == Key::CONFIRM_KEY){
 				switch (menuIterator->action){
 					case Action::NEW:
 						game->mWorld.generateRandomWorld(menuIterator->era);
@@ -106,12 +106,12 @@ void GameState_Menu::getInput(){
 			//--menuList.end() because menuList.end() would point to a undereferencable reference
 			//(after the end of the vector); --menuList.end() rather points to the last element
 
-			else if ((event.key.code == UP_ARROW || event.key.code == DOWN_ARROW || event.key.code == UP_KEY || event.key.code == DOWN_KEY) && menuList.size() > 1){
+			else if ((event.key.code == Key::UP_ARROW || event.key.code == Key::DOWN_ARROW || event.key.code == Key::UP_KEY || event.key.code == Key::DOWN_KEY) && menuList.size() > 1){
 
 				//Unhighlight current object
 				menuIterator->text.setColor((sf::Color::White));
 
-				if (event.key.code == UP_ARROW || event.key.code == UP_KEY){
+				if (event.key.code == Key::UP_ARROW || event.key.code == Key::UP_KEY){
 					if (menuIterator == menuList.begin()){
 						menuIterator = --menuList.end();
 					}
@@ -119,7 +119,7 @@ void GameState_Menu::getInput(){
 						--menuIterator;
 					}
 				}
-				else if (event.key.code == DOWN_ARROW || event.key.code == DOWN_KEY){
+				else if (event.key.code == Key::DOWN_ARROW || event.key.code == Key::DOWN_KEY){
 					if (menuIterator == --menuList.end()){
 						menuIterator = menuList.begin();
 					}
@@ -129,7 +129,7 @@ void GameState_Menu::getInput(){
 				}
 			}
 
-			else if (event.key.code == DELETE_KEY && menuIterator->action != Action::NEW){
+			else if (event.key.code == Key::DELETE_KEY && menuIterator->action != Action::NEW){
 				if (menuIterator->action == Action::EXIT){
 					for (size_t i{0}; i < menuList.size(); ++i){
 						menuList[i].text.setFont(game->mFontManager.getFont(FontManager::Arial));

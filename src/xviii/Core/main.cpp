@@ -11,7 +11,6 @@ TODO:
     CURRENT:
     -Do something about the abominable UnitTile::distanceFrom() function
 	-Add a health indicator to Bridges
-    -Make entire TBridge be destroyed if 1 tile is broken
     -Add watercrosser, mudcrosser, and cone width attributes
 */
 
