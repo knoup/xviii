@@ -13,6 +13,7 @@ Bridge(_world, _pos)
     terrainType = TerrainType::TBRIDGE;
     //Same for health initialisation
     hp = 3;
+    hpText.setString(std::to_string(hp));
 }
 
 void TBridge::takeDamage(int dmg){
