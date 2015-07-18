@@ -22,8 +22,8 @@ bool Cavalry::lancerBonus(UnitTile* defender, float finalAttackerRoll, bool atta
 	return false;
 }
 
-Cavalry::Cavalry(World& _world, boost::random::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
-UnitTile(_world, _mt19937, _belongsToPlayer, _texture, _name, _type, _familyType, _dir)
+Cavalry::Cavalry(World& _world, Player* _belongsToPlayer, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
+UnitTile(_world, _belongsToPlayer, _texture, _name, _type, _familyType, _dir)
 {
 }
 
@@ -80,8 +80,8 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
+	int enemyRoll_int{distribution(world.masterManager.randomEngine)};
 
 	float thisRoll = thisRoll_int;
 	float enemyRoll = enemyRoll_int;
@@ -137,8 +137,8 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
+	int enemyRoll_int{distribution(world.masterManager.randomEngine)};
 
 	float thisRoll = thisRoll_int;
 	float enemyRoll = enemyRoll_int;
@@ -209,7 +209,7 @@ std::string Cavalry::meleeAttack(Artillery* art){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
 
 	float thisRoll = thisRoll_int;
 
@@ -245,7 +245,7 @@ std::string Cavalry::meleeAttack(Mortar* mor){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
 
 	float thisRoll = thisRoll_int;
 

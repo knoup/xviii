@@ -4,7 +4,10 @@
 #include "xviii/Core/UnitLoader.h"
 #include "xviii/Core/TerrainLoader.h"
 
-MasterManager::MasterManager()
+MasterManager::MasterManager():
+randevice{},
+randomEngine{randevice()},
+mapSeedEngine{randevice()}
 {
 	fontManager = std::unique_ptr<FontManager>(new FontManager());
 	textureManager = std::unique_ptr<TextureManager>(new TextureManager());

@@ -38,7 +38,7 @@ class World : public sf::Drawable, public sf::NonCopyable
 public:
 	enum class Era{ EARLY, MID, LATE, ALL };
 
-	World(MasterManager& _mManager, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937);
+	World(MasterManager& _mManager, sf::Vector2i _dimensions);
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
 	void generateRandomWorld(Era _era);
@@ -92,8 +92,6 @@ public:
 private:
 	sf::Vector2i dimensions;
 	sf::Vector2i dimensionsInPixels;
-
-	boost::random::mt19937& mt19937;
 
 	int elapsedTurns{0};
 	Era era;

@@ -3,8 +3,8 @@
 
 #include "xviii/Core/Player.h"
 
-Infantry::Infantry(World& _world, boost::random::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
-UnitTile(_world, _mt19937, _belongsToPlayer, _texture, _name, _type, _familyType, _dir)
+Infantry::Infantry(World& _world, Player* _belongsToPlayer, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
+UnitTile(_world, _belongsToPlayer, _texture, _name, _type, _familyType, _dir)
 {
 }
 
@@ -115,8 +115,8 @@ std::string Infantry::meleeAttack(Infantry* inf){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
+	int enemyRoll_int{distribution(world.masterManager.randomEngine)};
 
 	float thisRoll = thisRoll_int;
 	float enemyRoll = enemyRoll_int;
@@ -200,7 +200,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 
             if(retreatTileIsWater){
                 boost::random::uniform_int_distribution<int> randomChance(0, 1);
-                willRetreat = randomChance(mt19937);
+                willRetreat = randomChance(world.masterManager.randomEngine);
             }
 
 			//Now check if the tile to retreat to is not occupied:
@@ -278,8 +278,8 @@ std::string Infantry::meleeAttack(Cavalry* cav){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(mt19937)};
-	int enemyRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
+	int enemyRoll_int{distribution(world.masterManager.randomEngine)};
 
 	float thisRoll = thisRoll_int;
 	float enemyRoll = enemyRoll_int;
@@ -325,7 +325,7 @@ std::string Infantry::meleeAttack(Artillery* art){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -363,7 +363,7 @@ std::string Infantry::meleeAttack(Mortar* mor){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
 
 	float damageDealt{0};
 	float damageReceived{0};

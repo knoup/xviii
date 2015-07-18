@@ -14,9 +14,9 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 
 	//Randomise title text colour, for the heck of it:
 	boost::random::uniform_int_distribution<int> distribution(0, 255);
-	int randColourR{distribution(game->mtengine)};
-	int randColourG{distribution(game->mtengine)};
-	int randColourB{distribution(game->mtengine)};
+	int randColourR{distribution(game->mManager.randomEngine)};
+	int randColourG{distribution(game->mManager.randomEngine)};
+	int randColourB{distribution(game->mManager.randomEngine)};
 	titleText.setColor(sf::Color(randColourR, randColourG, randColourB));
 
 	titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
@@ -33,7 +33,7 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 
 	if (!paths.empty()){
 		boost::random::uniform_int_distribution<int> dist(0, paths.size() - 1);
-		int randomIndex{dist(game->mtengine)};
+		int randomIndex{dist(game->mManager.randomEngine)};
 		std::string randomPath{paths[randomIndex].string()};
 
 		backgroundTexture = std::move(std::unique_ptr<sf::Texture>(new sf::Texture()));

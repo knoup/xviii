@@ -10,14 +10,12 @@
 
 Game::Game() :
 mManager{},
-randevice{},
-mtengine{randevice()},
 mWindow{{xResolution, yResolution}, "Dong Bong Military Board Game"},
 state{nullptr},
 MenuState{nullptr},
 SetupState{nullptr},
 PlayState{nullptr},
-mWorld{mManager, sf::Vector2i(69, 100), mtengine},
+mWorld{mManager, sf::Vector2i(69, 100)},
 Player1{nullptr},
 Player2{nullptr},
 currentPlayer{nullptr},

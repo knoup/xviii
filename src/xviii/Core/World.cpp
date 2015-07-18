@@ -4,11 +4,10 @@
 #include "xviii/Terrain/RiverAnt.h"
 #include "xviii/Terrain/BridgeAnt.h"
 
-World::World(MasterManager& _mManager, sf::Vector2i _dimensions, boost::random::mt19937& _mt19937) :
+World::World(MasterManager& _mManager, sf::Vector2i _dimensions) :
 masterManager{_mManager},
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * masterManager.textureManager->getSize().x, dimensions.y * masterManager.textureManager->getSize().y)},
-mt19937(_mt19937),
 mTerrainTexture(masterManager.textureManager->getTerrainTexture())
 {
 	mTerrainVertices.setPrimitiveType(sf::PrimitiveType::Quads);

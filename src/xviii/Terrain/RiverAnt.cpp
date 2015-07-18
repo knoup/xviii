@@ -16,11 +16,11 @@ void RiverAnt::crawl(){
 
 
 		boost::random::uniform_int_distribution<int> randomDirectionDist(1, 8);
-		int randomDirection{randomDirectionDist(world->mt19937)};
+		int randomDirection{randomDirectionDist(world->masterManager.mapSeedEngine)};
 
 
 		 boost::random::uniform_int_distribution<int> randDist(1, 100);
-		int randNum{randDist(world->mt19937)};
+		int randNum{randDist(world->masterManager.mapSeedEngine)};
 
 
         world->terrainLayer[currentIndex] = std::move(std::unique_ptr<Water>(new Water{*world, currentPos}));
@@ -41,7 +41,7 @@ void RiverAnt::crawl(){
 
 		//To simulate a 75% chance of flowing in the initial direction
 		boost::random::uniform_int_distribution<int> chance(1, 100);
-		int randomRoll{chance(world->mt19937)};
+		int randomRoll{chance(world->masterManager.mapSeedEngine)};
 
 		if (randomRoll <= 75){
 			randomDirection = initialDirection;

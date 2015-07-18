@@ -8,12 +8,11 @@ static const sf::View bottomView{sf::View{sf::FloatRect(1183, 4800, xResolution,
 static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yResolution)}};
 static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution, yResolution)}};
 
-Player::Player(MasterManager& _masterManager, World& _world, Nation _nation, boost::random::mt19937& _mt19937, bool _spawnedAtBottom) :
+Player::Player(MasterManager& _masterManager, World& _world, Nation _nation, bool _spawnedAtBottom) :
 masterManager(_masterManager),
 world(_world),
 general{nullptr},
 nation{_nation},
-mt19937(_mt19937),
 deploymentPoints{maxDeploymentPoints},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
@@ -99,7 +98,7 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 		//string, type, class
 		#define X(str, type, cl)\
 		case(type):\
-			ptr = std::move(std::unique_ptr<cl>(new cl(world, mt19937, this, _texture, _name, _type, _familyType, dir)));\
+			ptr = std::move(std::unique_ptr<cl>(new cl(world, this, _texture, _name, _type, _familyType, dir)));\
 			break;
 		MAINTYPEPROPERTIES
 		#undef X
@@ -165,7 +164,7 @@ void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction 
 		//string, type, class
 		#define X(str, type, cl)\
 			case(type):\
-				ptr = std::move(std::unique_ptr<cl>(new cl(world, mt19937, this, _texture, _name, _type, _familyType, _dir)));\
+				ptr = std::move(std::unique_ptr<cl>(new cl(world, this, _texture, _name, _type, _familyType, _dir)));\
 				break;
 		MAINTYPEPROPERTIES
 		#undef X

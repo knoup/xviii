@@ -16,7 +16,7 @@ void BridgeAnt::crawl(){
             //Simulate a lifetime% chance of a bridge spawning..
 
             boost::random::uniform_int_distribution<int> chance(1, 100);
-            int randomRoll{chance(world->mt19937)};
+            int randomRoll{chance(world->masterManager.mapSeedEngine)};
 
             if(!(randomRoll <= lifetime)){
                 continue;
@@ -57,7 +57,7 @@ void BridgeAnt::crawl(){
             sf::Vector2i currentPos = terrainTile->getCartesianPos();
 
             boost::random::uniform_int_distribution<int> randDirGen(1, 2);
-            int randDir{randDirGen(world->mt19937)};
+            int randDir{randDirGen(world->masterManager.mapSeedEngine)};
 
             TerrainTile::Orientation orientation;
 

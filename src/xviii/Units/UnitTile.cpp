@@ -228,9 +228,8 @@ std::string UnitTile::modToString(ModifierReport _mod){
 	return{"???"};
 }
 
-UnitTile::UnitTile(World& _world, boost::random::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager::Unit id, std::string _name, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
+UnitTile::UnitTile(World& _world, Player* _belongsToPlayer, TextureManager::Unit id, std::string _name, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
 Tile(_world, id),
-mt19937(_mt19937),
 player{_belongsToPlayer},
 dir{_dir},
 terrain{nullptr},
@@ -1163,7 +1162,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
 
 	float thisRoll = thisRoll_int;
 
@@ -1253,7 +1252,7 @@ std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 	}
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
-	int thisRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
 	float thisRoll = thisRoll_int;
 
 	float damageDealtF{0};
@@ -1348,7 +1347,7 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
 	}
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
-	int thisRoll_int{distribution(mt19937)};
+	int thisRoll_int{distribution(world.masterManager.randomEngine)};
 	float thisRoll = thisRoll_int;
 
 	float damageDealtF{0};

@@ -3,6 +3,9 @@
 #include "xviii/Core/FontManager.h"
 #include "xviii/Core/TextureManager.h"
 
+#include <boost/random.hpp>
+#include <boost/random/random_device.hpp>
+
 class UnitLoader;
 class TerrainLoader;
 
@@ -36,4 +39,12 @@ public:
 
     std::unique_ptr<UnitLoader> unitLoader;
     std::unique_ptr<TerrainLoader> terrainLoader;
+
+
+    //randomEngine will always be seeded with a random seed and used for rolls.
+    //mapSeedEngine will (at the moment) also be seeded randomly, but will later have an
+    //option for a specific seed; it is used for world generation
+	boost::random::random_device randevice;
+	boost::random::mt19937 randomEngine;
+	boost::random::mt19937 mapSeedEngine;
 };

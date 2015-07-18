@@ -179,7 +179,7 @@ public:
 		bool whenDefending;
 	};
 
-	UnitTile(World& _world, boost::random::mt19937& _mt19937, Player* _belongsToPlayer, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir);
+	UnitTile(World& _world, Player* _belongsToPlayer, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
 
@@ -352,8 +352,6 @@ public:
 	std::vector<ModifierReport> modVector;
 
 protected:
-	boost::random::mt19937& mt19937;
-
 	Player* player;
 
 	Direction dir;

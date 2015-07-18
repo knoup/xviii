@@ -14,8 +14,8 @@ currentIndex{0}
 	boost::random::uniform_int_distribution<int> xDist{0, world->getDimensions().x - 1};
 	boost::random::uniform_int_distribution<int> yDist{0, world->getDimensions().y - 1};
 
-	int xCoord = xDist(world->mt19937);
-	int yCoord = yDist(world->mt19937);
+	int xCoord = xDist(world->masterManager.mapSeedEngine);
+	int yCoord = yDist(world->masterManager.mapSeedEngine);
 
 	currentIndex = world->indexAtCartesianPos({xCoord, yCoord});
 }
@@ -92,7 +92,7 @@ void Ant::crawl(){
 		sf::Vector2i newCartesianPos{currentCartesianPos};
 
 		boost::random::uniform_int_distribution<int> randomDirectionDist(1, 8);
-		int randomDirection{randomDirectionDist(world->mt19937)};
+		int randomDirection{randomDirectionDist(world->masterManager.mapSeedEngine)};
 
 		//If the tile we are moving to is the same type
 		//move ant in that direction again until that is not the case

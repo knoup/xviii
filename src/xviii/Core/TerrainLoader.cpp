@@ -26,7 +26,7 @@ void TerrainLoader::load(){
 	boost::filesystem::recursive_directory_iterator end;
 
 	for (boost::filesystem::recursive_directory_iterator it("assets/terrain"); it != end; ++it){
-        if(it->path().filename().leaf().stem() == "bonuses"){
+        if(it->path().filename().leaf().stem() == "properties"){
             parse(it->path());
         }
 	}
@@ -67,16 +67,15 @@ void TerrainLoader::parse(boost::filesystem::path path){
 
 			while (currentLine.find("}") == std::string::npos){
 
-				if (currentLine.find("DEFINE:") EXISTS){
+                //Since the code for parsing is nearly identical for both (except that BONUS takes in
+                //more arguments at the end), we can share the code for the similar parts.
+
+				if (currentLine.find("BONUS:") EXISTS || currentLine.find("MOV") EXISTS){
 					std::string str(AFTERCOLON);
-					//2:modifier
-					//1: modifier is additional
-					//0: not in melee
-					//1: in ranged
-					//1: when attacking
-					//0: not when defending
 
 					////MAIN:INF:2,1,0,1,1,0
+					//or
+					//MOV:Artillery:0,0
 					std::string first_part = str.substr(0, str.find_first_of(":"));
 
 					size_t pos1 = str.find_first_of(":");
@@ -87,12 +86,20 @@ void TerrainLoader::parse(boost::filesystem::path path){
 
 					std::string second_part = str.substr(pos1, pos2);
 
-                    //As an example, let's pretend we have this:
 					//str = MAIN:INF:2,1,0,1,1,0
 					//first_part = MAIN
 					//second_part = INF
 
+					//or
+
+					//str = MOV:Artillery:0,0
+					//first_part = MOV
+					//second_part = Artillery
+
+
 					//get "2,1,0,1,1,0 "
+					//or
+					//get "0,0"
 					std::string last_part(str.substr(str.find_last_of(":") + 1, str.size()));
 
 					std::vector<std::string> argsAsStrings;
@@ -104,59 +111,77 @@ void TerrainLoader::parse(boost::filesystem::path path){
 						argsAsStrings.push_back(item);
 					}
 
-					std::stringstream arg1AsString(argsAsStrings[0]);
-					std::stringstream arg2AsString(argsAsStrings[1]);
-					std::stringstream arg3AsString(argsAsStrings[2]);
-					std::stringstream arg4AsString(argsAsStrings[3]);
-					std::stringstream arg5AsString(argsAsStrings[4]);
-					std::stringstream arg6AsString(argsAsStrings[5]);
+					//At this point, argsAsStrings should have a size of 6 if it's a BONUS entry, or a size of 2
+					//if it's a MOV entry.
 
-					float arg1; //2
-					int arg2;   //1
-					int arg3;   //0
-					int arg4;   //1
-					int arg5;   //1
-					int arg6;   //0
+                    if(currentLine.find("MOV:") EXISTS){
+                        std::stringstream arg1AsString(argsAsStrings[0]);
+                        std::stringstream arg2AsString(argsAsStrings[1]);
 
-					arg1AsString >> arg1;
-					arg2AsString >> arg2;
-					arg3AsString >> arg3;
-					arg4AsString >> arg4;
-					arg5AsString >> arg5;
-					arg6AsString >> arg6;
+                        float arg1; //0
+                        float arg2; //0
 
-                    if(first_part == "MAIN"){
-                        UnitTile::UnitType mainType;
+                        arg1AsString >> arg1;
+                        arg2AsString >> arg2;
 
-						#define X(_str, _mainType, cl)\
-						if(second_part == _str){\
-							mainType = _mainType;\
-						}
-						MAINTYPEPROPERTIES
-						#undef X
-
-                        //mainType = INF;
-
-                        current->unitMainBonuses.emplace_back(mainType, arg1, arg2, arg3, arg4, arg5, arg6);
+                        current->unitStringMovementCapabilities.insert({second_part, {arg1,arg2}});
                     }
 
-                    else if (first_part == "FAMILY"){
-                        UnitTile::UnitFamily familyType;
+                    else if(currentLine.find("BONUS:") EXISTS){
+                        std::stringstream arg1AsString(argsAsStrings[0]);
+                        std::stringstream arg2AsString(argsAsStrings[1]);
+                        std::stringstream arg3AsString(argsAsStrings[2]);
+                        std::stringstream arg4AsString(argsAsStrings[3]);
+                        std::stringstream arg5AsString(argsAsStrings[4]);
+                        std::stringstream arg6AsString(argsAsStrings[5]);
 
-						#define X(_str, _familyType)\
-						if(second_part == _str){\
-							familyType = _familyType;\
+                        float arg1; //2
+                        int arg2;   //1
+                        int arg3;   //0
+                        int arg4;   //1
+                        int arg5;   //1
+                        int arg6;   //0
+
+                        arg1AsString >> arg1;
+                        arg2AsString >> arg2;
+                        arg3AsString >> arg3;
+                        arg4AsString >> arg4;
+                        arg5AsString >> arg5;
+                        arg6AsString >> arg6;
+
+                        if(first_part == "MAIN"){
+                            UnitTile::UnitType mainType;
+
+                            #define X(_str, _mainType, cl)\
+                            if(second_part == _str){\
+                                mainType = _mainType;\
+                            }
+                            MAINTYPEPROPERTIES
+                            #undef X
+
+                            //mainType = INF;
+
+                            current->unitMainBonuses.emplace_back(mainType, arg1, arg2, arg3, arg4, arg5, arg6);
                         }
-						FAMILYTYPEPROPERTIES
-						#undef X
 
-                        //familyType = INF;
+                        else if (first_part == "FAMILY"){
+                            UnitTile::UnitFamily familyType;
 
-                        current->unitFamilyBonuses.emplace_back(familyType, arg1, arg2, arg3, arg4, arg5, arg6);
-                    }
+                            #define X(_str, _familyType)\
+                            if(second_part == _str){\
+                                familyType = _familyType;\
+                            }
+                            FAMILYTYPEPROPERTIES
+                            #undef X
 
-                    else if(first_part == "STRING"){
-                        current->unitStringBonuses.emplace_back(second_part, arg1, arg2, arg3, arg4, arg5, arg6);
+                            //familyType = INF;
+
+                            current->unitFamilyBonuses.emplace_back(familyType, arg1, arg2, arg3, arg4, arg5, arg6);
+                        }
+
+                        else if(first_part == "STRING"){
+                            current->unitStringBonuses.emplace_back(second_part, arg1, arg2, arg3, arg4, arg5, arg6);
+                        }
                     }
 
 				}

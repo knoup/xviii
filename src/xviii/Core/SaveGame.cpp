@@ -260,7 +260,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("player1=") != std::string::npos){
 			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
-			game->Player1 = new Player({game->mManager, game->mWorld, nation, game->mtengine, true});
+			game->Player1 = new Player({game->mManager, game->mWorld, nation, true});
 			game->mPlayers.emplace_back(game->Player1);
 		}
 
@@ -277,7 +277,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("player2=") != std::string::npos){
 			Player::Nation nation{stringToNation(AFTEREQUALS)};
 
-			game->Player2 = new Player({game->mManager, game->mWorld, nation, game->mtengine, false});
+			game->Player2 = new Player({game->mManager, game->mWorld, nation, false});
 			game->mPlayers.emplace_back(game->Player2);
 		}
 
@@ -419,6 +419,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				std::getline(save, line);
 			}
 
+            //If the last entry was, say, 6558, we want to fill everything PAST that with meadows.
+            //Therefore, increment the index by 1.
 			currentIndex += 1;
 
 			while (currentIndex <= ((game->mWorld.getDimensions().x * game->mWorld.getDimensions().y) -1 )){
