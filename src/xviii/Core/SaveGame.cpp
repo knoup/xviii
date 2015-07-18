@@ -419,6 +419,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				std::getline(save, line);
 			}
 
+			currentIndex += 1;
+
 			while (currentIndex <= ((game->mWorld.getDimensions().x * game->mWorld.getDimensions().y) -1 )){
 				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
 				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, currentPos)));
