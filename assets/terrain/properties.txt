@@ -1,0 +1,7 @@
+TERRAIN DEFINITION
+
+DEFINE_TERRAIN:woods
+{
+	BONUS:MAIN:INF:-2,1,0,1,1,0
+	MOV:Artillery:0,0
+}
