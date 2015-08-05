@@ -57,14 +57,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 		}
 
 		else if (currentLine.find("SPRITE:") EXISTS){
-			std::string str = AFTERCOLON;
-
-				#define X(_str, texType)\
-					if(str == _str){\
-						newClass->texture = texType;\
-					}
-				TEXTUREPROPERTIES
-				#undef X
+			newClass->textureID = AFTERCOLON;
 		}
 
 		else if (currentLine.find("MAIN_TYPE:") EXISTS){

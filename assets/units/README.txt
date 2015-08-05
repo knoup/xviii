@@ -6,12 +6,13 @@ UNIT DEFINITION
 as the first line in the file.
 
 STRING:inf
-SPRITE:INF
+SPRITE:inf
 MAIN_TYPE:INF
 FAMILY_TYPE:INF
 
 STRING is the unit's name. Note that these also serve as unique ID's; no 2 units may have the same name.
-SPRITE specifies the unit's sprite
+SPRITE specifies the unit's sprite. These are simply filenames of sprites in assets/gfx/units. Note that
+these images must be in a .png format.
 MAIN_TYPE specifies the unit's primary type and is vital for behavior.
 FAMILY_TYPE does not have any explicit effects, but is used to further classify units for bonuses.
 
@@ -127,29 +128,6 @@ DEFINE:Sweden
 DEFINE:Venice
 DEFINE:Wallachia
 DEFINE:Persia
-
-----Valid sprites----
-
-DEFINE:INF			-Infantry
-DEFINE:CAV			-Cavalry
-DEFINE:CUIR		-Cuirassier
-DEFINE:LCAV		-Light Cavalry
-DEFINE:DRAG		-Dragoon
-DEFINE:ART 		-Artillery
-DEFINE:MOR 		-Mortar
-DEFINE:GEN			-General
-DEFINE:GRE			-Grenadier
-DEFINE:LINF		-Light Infantry
-DEFINE:SAP			-Sapper/Engineer
-DEFINE:HINF		-Heavy Infantry
-DEFINE:ARTGUARD	-Artillery Guard
-DEFINE:PIKE		-Pikeman
-DEFINE:LAN			-Lancer
-DEFINE:ARMLAN		-Armoured Lancer
-DEFINE:IRR			-Irregular
-DEFINE:HARCH		-Horse Archer
-DEFINE:LART		-Light Artillery
-DEFINE:LDRAG		-Light Dragoon
 
 ----Valid units----
 

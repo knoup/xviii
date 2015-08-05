@@ -228,8 +228,8 @@ std::string UnitTile::modToString(ModifierReport _mod){
 	return{"???"};
 }
 
-UnitTile::UnitTile(World& _world, Player* _belongsToPlayer, TextureManager::Unit id, std::string _name, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
-Tile(_world, id),
+UnitTile::UnitTile(World& _world, Player* _belongsToPlayer, std::string _textureID, std::string _name, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
+Tile(_world, _textureID),
 player{_belongsToPlayer},
 dir{_dir},
 terrain{nullptr},

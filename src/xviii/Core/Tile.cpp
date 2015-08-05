@@ -10,9 +10,9 @@ highlighted{false}
 {
 }
 
-Tile::Tile(World& _world, TextureManager::Unit type) :
+Tile::Tile(World& _world, std::string textureID) :
 world(_world),
-sprite{_world.masterManager.textureManager->getSprite(type)},
+sprite{_world.masterManager.textureManager->getUnitSprite(textureID)},
 highlighted{false}
 {
 }

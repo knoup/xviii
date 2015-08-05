@@ -179,7 +179,7 @@ public:
 		bool whenDefending;
 	};
 
-	UnitTile(World& _world, Player* _belongsToPlayer, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir);
+	UnitTile(World& _world, Player* _belongsToPlayer, std::string _textureID, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
 
@@ -292,10 +292,10 @@ public:
     //Whereas the rest, not necessarily
     virtual std::string terrainAttack(Hills* hills, int distance){return {};};
     virtual std::string terrainAttack(Slopes* slopes, int distance){return {};};
-    virtual std::string terrainAttack(Meadow* meadow, int distance){return {"meadows!"};};
+    virtual std::string terrainAttack(Meadow* meadow, int distance){return {};};
     virtual std::string terrainAttack(Mud* mud, int distance){return {};};
     virtual std::string terrainAttack(Urban* urban, int distance){return {};};
-    virtual std::string terrainAttack(Water* water, int distance){return {"not working"};};
+    virtual std::string terrainAttack(Water* water, int distance){return {};};
     virtual std::string terrainAttack(Woods* woods, int distance){return {};};
 
 	//Further documented in UnitTile.cpp

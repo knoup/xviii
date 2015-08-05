@@ -89,7 +89,7 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 		dir = UnitTile::Direction::S;
 	}
 
-	TextureManager::Unit _texture = masterManager.unitLoader->customClasses.at(_name).texture;
+	std::string _textureID = masterManager.unitLoader->customClasses.at(_name).textureID;
 	UnitTile::UnitType _type = masterManager.unitLoader->customClasses.at(_name).unitType;
 	UnitTile::UnitFamily _familyType =masterManager.unitLoader->customClasses.at(_name).unitFamilyType;
 
@@ -98,7 +98,7 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 		//string, type, class
 		#define X(str, type, cl)\
 		case(type):\
-			ptr = std::move(std::unique_ptr<cl>(new cl(world, this, _texture, _name, _type, _familyType, dir)));\
+			ptr = std::move(std::unique_ptr<cl>(new cl(world, this, _textureID, _name, _type, _familyType, dir)));\
 			break;
 		MAINTYPEPROPERTIES
 		#undef X
@@ -153,7 +153,7 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 //For loading from a save game
 void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _limber, bool _lancerBonusReady){
 
-	TextureManager::Unit _texture = masterManager.unitLoader->customClasses.at(_name).texture;
+	std::string _textureID = masterManager.unitLoader->customClasses.at(_name).textureID;
 	UnitTile::UnitType _type = masterManager.unitLoader->customClasses.at(_name).unitType;
 	UnitTile::UnitFamily _familyType = masterManager.unitLoader->customClasses.at(_name).unitFamilyType;
 
@@ -164,7 +164,7 @@ void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction 
 		//string, type, class
 		#define X(str, type, cl)\
 			case(type):\
-				ptr = std::move(std::unique_ptr<cl>(new cl(world, this, _texture, _name, _type, _familyType, _dir)));\
+				ptr = std::move(std::unique_ptr<cl>(new cl(world, this, _textureID, _name, _type, _familyType, _dir)));\
 				break;
 		MAINTYPEPROPERTIES
 		#undef X

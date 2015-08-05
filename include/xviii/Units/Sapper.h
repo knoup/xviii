@@ -5,7 +5,7 @@
 class Sapper : public Infantry
 {
 public:
-	Sapper(World& _world, Player* _belongsToPlayer, TextureManager::Unit _texture, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir);
+	Sapper(World& _world, Player* _belongsToPlayer, std::string _textureID, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir);
 	virtual std::string terrainAttack(Water* water, int distance);
 };
 

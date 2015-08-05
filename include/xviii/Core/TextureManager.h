@@ -38,7 +38,7 @@ public:
 
 	TextureManager();
 
-	sf::Sprite getSprite(Unit type);
+	sf::Sprite getUnitSprite(std::string _textureID);
 	sf::Sprite getSprite(Terrain type);
 	sf::Sprite getSprite(UI type);
 	sf::Sprite getSprite(Flag type);
@@ -47,11 +47,9 @@ public:
 	inline sf::Vector2i getCounterSize() const{ return counterSize; };
     //Used for the vertex array (for terrain tiles)
 	inline sf::Texture& getTerrainTexture() const{ return *terrain; };
-	// Used for the vertex array(for unit tiles)
-	inline sf::Texture& getUnitTexture() const{ return *units; };
 
 private:
-	texturePtr units;
+	std::map<std::string, texturePtr> units;
 	texturePtr terrain;
 	//The rectangular UI bar at the bottom
 	texturePtr ui;

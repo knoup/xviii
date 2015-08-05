@@ -23,8 +23,8 @@ public:
 
 		unitName.setString(_name);
 
-		TextureManager::Unit textureType = player->masterManager.unitLoader->customClasses.at(_name).texture;
-		unitSprite = player->masterManager.textureManager->getSprite(textureType);
+		std::string textureID = player->masterManager.unitLoader->customClasses.at(_name).textureID;
+		unitSprite = player->masterManager.textureManager->getUnitSprite(textureID);
 
 		unitSprite.setOrigin(unitSprite.getGlobalBounds().width / 2, unitSprite.getGlobalBounds().height / 2);
 		unitName.setOrigin(unitName.getLocalBounds().width / 2, unitName.getLocalBounds().height / 2);

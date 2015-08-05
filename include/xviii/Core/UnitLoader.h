@@ -19,13 +19,14 @@ public:
 		}
 
 		std::string name;
+		std::string textureID;
+
 		boost::filesystem::path mPath;
 
 		std::vector<Player::Nation> nations;
 		std::string unitName;
 		UnitTile::UnitType unitType;
 		UnitTile::UnitFamily unitFamilyType;
-		TextureManager::Unit texture;
 
 		std::vector<World::Era> eras;
 		//Elements must be inserted in order of furthest to shortest distances; the first
