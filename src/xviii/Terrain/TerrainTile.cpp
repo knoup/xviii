@@ -58,6 +58,32 @@ void TerrainTile::resetUnit(){
 	unit = nullptr;
 }
 
+bool TerrainTile::unitCanStopHere(UnitTile* _unit){
+    auto& vec = world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitStringMovementCapabilities;
+
+    auto it = vec.find(_unit->getName());
+
+    if(it != vec.end()){
+        return (it->second).second;
+    }
+    else{
+        return true;
+    }
+}
+
+bool TerrainTile::unitCanCrossHere(UnitTile* _unit){
+    auto& vec = world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitStringMovementCapabilities;
+
+    auto it = vec.find(_unit->getName());
+
+    if(it != vec.end()){
+        return (it->second).first;
+    }
+    else{
+        return true;
+    }
+}
+
 void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking){
     std::string name = _unit->getName();
     UnitTile::UnitType mainType = _unit->getUnitType();

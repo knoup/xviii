@@ -120,6 +120,8 @@ public:
 	void resetUnit();
     void applyModifiers(UnitTile* _unit, int _distance, bool _attacking);
 
+    virtual bool unitCanStopHere(UnitTile* _unit);
+    virtual bool unitCanCrossHere(UnitTile* _unit);
 
     virtual void takeDamage(int dmg){};
 

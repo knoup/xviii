@@ -70,7 +70,7 @@ void TerrainLoader::parse(boost::filesystem::path path){
                 //Since the code for parsing is nearly identical for both (except that BONUS takes in
                 //more arguments at the end), we can share the code for the similar parts.
 
-				if (currentLine.find("BONUS:") EXISTS || currentLine.find("MOV") EXISTS){
+				if (currentLine.find("BONUS:") EXISTS){
 					std::string str(AFTERCOLON);
 
 					////MAIN:INF:2,1,0,1,1,0

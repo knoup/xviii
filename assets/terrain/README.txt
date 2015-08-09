@@ -36,12 +36,19 @@ The meaning of the parameters are as follows:
 
 -----------------------------------
 
-To specify movement capabilities, begin the entry with MOV. Only STRING (the unit's name) is possible, at the moment.
+To specify movement capabilities, begin the entry with BONUS:MOV. Only STRING (the unit's name) is possible, at the moment. 
+
+The first number should be true (1) if a unit can CROSS this tile, and 0 if not.
+
+The second number should be true (1) if a unit can STOP in this tile, and 0
+if not.
+
+Note that by default, units can cross and stop in all tiles except water. Note that units need to be able to both stop in and cross a tile in order to be able to stop in it.
 
 DEFINE_TERRAIN:woods
 {
 	BONUS:MAIN:INF:-2,1,0,1,1,0
-	MOV:Artillery:0,0
+	BONUS:MOV:Artillery:0,0
 }
 
 IMPORTANT: Do not make seperate DEFINE { } blocks for BONUS and MOV entries

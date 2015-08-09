@@ -2,16 +2,16 @@
 #include "xviii/Core/Game.h"
 
 /*
+
 TODO:
+    CURRENT:
+    -Add watercrosser, mudcrosser, and cone width attributes
+
+    MISC:
+    -Do something about the abominable UnitTile::distanceFrom() function
+    -Implement specialised MudAnt and HillAnt classes
 	-Have a basic readable config file where several simple parameters can be set (resolution, deployment points,
 	tile sizes, etc.)
-
-	-Implement specialised MudAnt and HillAnt classes
-
-    CURRENT:
-    -Do something about the abominable UnitTile::distanceFrom() function
-	-Add a health indicator to Bridges
-    -Add watercrosser, mudcrosser, and cone width attributes
 */
 
 /*

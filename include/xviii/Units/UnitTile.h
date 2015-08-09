@@ -299,7 +299,7 @@ public:
     virtual std::string terrainAttack(Woods* woods, int distance){return {};};
 
 	//Further documented in UnitTile.cpp
-	virtual sf::Vector2i distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser = true, bool canShootOverUnits = false, int coneWidth = 1);
+	virtual sf::Vector2i distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser = true, bool canShootOverUnits = false, int coneWidth = 1);
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
