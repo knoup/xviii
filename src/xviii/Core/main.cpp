@@ -2,10 +2,9 @@
 #include "xviii/Core/Game.h"
 
 /*
-
 TODO:
     CURRENT:
-    -Add watercrosser, mudcrosser, and cone width attributes
+    -Add cone width attribute
 
     MISC:
     -Do something about the abominable UnitTile::distanceFrom() function

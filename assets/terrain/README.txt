@@ -51,4 +51,5 @@ DEFINE_TERRAIN:woods
 	BONUS:MOV:Artillery:0,0
 }
 
-IMPORTANT: Do not make seperate DEFINE { } blocks for BONUS and MOV entries
+
+In the case of water, only crossing it is possible, and this is defined via the WATERCROSSER flag in the unit's definition file. Entries for water in this file won't have any effect.

@@ -6,16 +6,6 @@
 
 #include "xviii/Core/UnitLoader.h"
 
-bool UnitTile::getCanCrossWater() const{
-	if (world.masterManager.unitLoader->customClasses.at(name).waterCrosser){
-		return true;
-	}
-
-	else{
-		//TODO: else, check if there is a bridge nearby
-		return false;
-	}
-};
 bool UnitTile::getMelee() const{ return world.masterManager.unitLoader->customClasses.at(name).melee; };
 bool UnitTile::getSkirmish() const{ return world.masterManager.unitLoader->customClasses.at(name).skirmish; };
 bool UnitTile::getFrightening() const { return world.masterManager.unitLoader->customClasses.at(name).frightening; };
@@ -710,7 +700,7 @@ range.
 */
 
 //virtual
-sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool mudCrosser, bool canShootOverUnits, int coneWidth){
+sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth){
 	//coneWidth represents the width units can fire at. It should always be an odd number; 1 for the center, and 2/4/6 etc. for the sides
 
 	//Exclude the center
@@ -788,31 +778,6 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 			}
 		}
 
-        //Check if the current tile is a bridge, and if so, if the exit path is a valid one:
-        if(terrain->getTerrainType() == TerrainTile::TerrainType::BRIDGE || terrain->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
-            Bridge* p = static_cast<Bridge*>(terrain);
-            bool validDirection{false};
-
-            switch (dir){
-            case Direction::N:
-                validDirection = p->northernConnection;
-                break;
-            case Direction::E:
-                validDirection = p->easternConnection;
-                break;
-            case Direction::S:
-                validDirection = p->southernConnection;
-                break;
-            case Direction::W:
-                validDirection = p->westernConnection;
-                break;
-            }
-
-            if(!validDirection && dist == 1){
-                _meleeObstructionPresent = true;
-            }
-        }
-
         ///////////////////////////////////////////////////////////////////
 
         //A unit's destination tile needs to both be able to be crossable and stoppable in.
@@ -821,8 +786,9 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
             _meleeObstructionPresent = true;
         }
 
-		//For loop is for checking if the LoS is clear
-		for (int i{PRIMARYAXIS_POSITIVE}; i > PRIMARYAXIS_NEGATIVE; --i){
+		//For loop is for checking if the LoS is clear. Note that the coordinates begin at the destination tile, and end at the
+		//current tile the unit is in (inclusive).
+		for (int i{PRIMARYAXIS_POSITIVE}; i >= PRIMARYAXIS_NEGATIVE; --i){
 
 			//If obstructions have already been found, no need to keep searching, just exit loop
 			if (_rangedObstructionPresent && _meleeObstructionPresent){
@@ -844,13 +810,8 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 			if (terrainInTheWay != nullptr){
 
 				if (!destinationIsUnit){
-					if (terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::WATER && !getCanCrossWater()){
-						_meleeObstructionPresent = true;
-					}
-					else if (terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::MUD && !mudCrosser){
-						_meleeObstructionPresent = true;
-					}
-					else if(terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::BRIDGE || terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+
+                    if(terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::BRIDGE || terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
                         Bridge* p = static_cast<Bridge*>(terrainInTheWay);
 					    bool validDirection{false};
 
@@ -878,8 +839,10 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 			}
 
 			//Check if the unit is an obstruction, or if the unit cannot cross the terrain here
-			//The loop begins at the destination tile, and we don't want this part to be included for the destination tile.
-            if(i < PRIMARYAXIS_POSITIVE){
+			//The loop begins at the destination tile, and we don't want this part to be included for the destination tile
+			//( < PRIMARYAXIS_POSITIVE) or the current tile ( > PRIMARYAXIS_NEGATIVE)
+
+            if(i < PRIMARYAXIS_POSITIVE && i > PRIMARYAXIS_NEGATIVE){
 
                 if (unitInTheWay != nullptr){
                     bool unitIsFriendly{unitInTheWay->getPlayer() == this->getPlayer()};

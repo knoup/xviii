@@ -20,7 +20,7 @@ SQUAREFORMATION:1
 SQUAREFORMATIONMODIFIER:1
 
 SQUAREFORMATION denotes whether the unit is capable of going into square formation,
-while SQUAREFORMATIONMODIFIER specifies the modifier this unit gets when fighting
+while SQUAREFORMATIONMODIFIER specifies the (multiplicational) modifier this unit gets when fighting
 units in square formation (no matter the flank)
 
 LIMBER:0
@@ -28,6 +28,10 @@ LANCER:0
 
 These determine whether the unit is a lancer (no effect for non-cav units) and whether
 the unit uses the limber mechanic.
+
+WATERCROSSER:1
+
+This determines whether the unit is capable of crossing water tiles without the need for a bridge.
 
 -------------------------------------------------------------
 
