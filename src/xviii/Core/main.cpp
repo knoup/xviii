@@ -3,12 +3,11 @@
 
 /*
 TODO:
-    CURRENT:
-    -Add cone width attribute
+    TOFIX:
+    -The "out of max range" message for terrain attacks also showing up when a unit attacks an enemy
 
     MISC:
-    -Do something about the abominable UnitTile::distanceFrom() function
-    -Implement specialised MudAnt and HillAnt classes
+    -Implement a specialised HillAnt class (for slopes and hills)
 	-Have a basic readable config file where several simple parameters can be set (resolution, deployment points,
 	tile sizes, etc.)
 */

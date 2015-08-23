@@ -9,7 +9,9 @@ Ant{_world, TerrainTile::TerrainType::BRIDGE, _lifetime}
 
 void BridgeAnt::crawl(){
     //BridgeAnt is unique in that its lifetime is actually the % chance that each
-    //water tile will be converted to a bridge
+    //water tile will spawn a bridge (or series of bridges). Note that even when
+    //this happens, there is a chance for the bridge to be discarded if it
+    //intersects other bridges inappropriately (further outlined below)
 
     for(auto& terrainTile : world->terrainLayer){
         if(terrainTile->getTerrainType() == TerrainTile::TerrainType::WATER){

@@ -60,16 +60,20 @@ void World::generateRandomWorld(Era _era){
 	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
 	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
 	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 42)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 20)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 20)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 10)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 25)));
+
+	//Mud undergoing an overhaul; currently disabled
+
+	//ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 42)));
+	//ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 20)));
+	//ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 20)));
+	//ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 10)));
+	//ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 25)));
+
 	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 300)));
 	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 220)));
 	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 400)));
 
-	ants.push_back(std::unique_ptr<BridgeAnt>(new BridgeAnt(*this, 5)));
+	ants.push_back(std::unique_ptr<BridgeAnt>(new BridgeAnt(*this, 2)));
 
 
 	for (auto& ant : ants){
