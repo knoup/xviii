@@ -1,11 +1,12 @@
 UNIT DEFINITION
 
 NATIONS:
-	{
-	DEFINE:ALL
-	}
+{
+	DEFINE:Austria
+	DEFINE:Germany
+}
 
-STRING:sapper
+STRING:sap
 SPRITE:sappers
 MAIN_TYPE:SAP
 FAMILY_TYPE:INF

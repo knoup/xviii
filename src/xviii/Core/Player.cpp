@@ -2,17 +2,18 @@
 #include "xviii/Core/Player.h"
 
 #include "xviii/Core/UnitLoader.h"
+#include "xviii/Core/FactionLoader.h"
 #include "xviii/UI/SpawnableUnit.h"
 
 static const sf::View bottomView{sf::View{sf::FloatRect(1183, 4800, xResolution, yResolution)}};
 static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yResolution)}};
 static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution, yResolution)}};
 
-Player::Player(MasterManager& _masterManager, World& _world, Nation _nation, bool _spawnedAtBottom) :
+Player::Player(MasterManager& _masterManager, World& _world, std::string _factionID, bool _spawnedAtBottom) :
 masterManager(_masterManager),
 world(_world),
+factionID{_factionID},
 general{nullptr},
-nation{_nation},
 deploymentPoints{maxDeploymentPoints},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
@@ -20,7 +21,7 @@ spawnedAtBottom{_spawnedAtBottom}
 	sf::Vector2i idealDimensions{7, 2};
 
 	for (auto& customClass : masterManager.unitLoader->customClasses){
-		for (auto& customNation : customClass.second.nations){
+		for (auto& availableFaction : customClass.second.availableFactions){
 			bool validEra{false};
 
 			for (auto& era : customClass.second.eras){
@@ -30,7 +31,7 @@ spawnedAtBottom{_spawnedAtBottom}
 				}
 			}
 
-			if ((customNation == nation || customNation == Nation::ALL) && (validEra || world.getEra() == World::Era::ALL)){
+			if ((availableFaction == factionID || availableFaction == "ALL") && (validEra || world.getEra() == World::Era::ALL)){
 				int index = spawnableUnits.size();
 				spawnableUnits.emplace_back(this, customClass.second.name,
 				sf::Vector2i((index % idealDimensions.x) + 1, (index / idealDimensions.x) + 1));
@@ -39,16 +40,8 @@ spawnedAtBottom{_spawnedAtBottom}
 		}
 	}
 
-	switch (nation){
-			//nation, flag, name
-	#define X(nat,fla,str)\
-		case(nat):\
-		nationFlag = masterManager.textureManager->getSprite(fla);\
-		name = str;\
-		break;
-		NATIONPROPERTIES
-	#undef X
-	}
+    std::string flagTextureID = masterManager.factionLoader->customFactions.at(factionID).textureID;
+    nationFlag = masterManager.textureManager->getFlagSprite(flagTextureID);
 
 	//DISABLED FOR TESTING PURPOSES
 	/*

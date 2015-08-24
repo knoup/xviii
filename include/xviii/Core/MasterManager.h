@@ -6,6 +6,7 @@
 #include <boost/random.hpp>
 #include <boost/random/random_device.hpp>
 
+class FactionLoader;
 class UnitLoader;
 class TerrainLoader;
 
@@ -13,8 +14,6 @@ class TerrainLoader;
 //required stuff.
 //Instead of passing in references to each desired manager to whatever class
 //needs it, we can pass just one (this) and access any manager we need.
-
-//TODO: add the mt engine
 
 class MasterManager
 {
@@ -37,6 +36,7 @@ public:
     //make use of unitLoader or terrainLoader can include their respective class headers
     //as needed and everything will work splendidly.
 
+    std::unique_ptr<FactionLoader> factionLoader;
     std::unique_ptr<UnitLoader> unitLoader;
     std::unique_ptr<TerrainLoader> terrainLoader;
 

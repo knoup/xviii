@@ -1,9 +1,10 @@
 UNIT DEFINITION
 
 NATIONS:
-	{
-	DEFINE:ALL
-	}
+{
+	DEFINE:Austria
+	DEFINE:Germany
+}
 
 STRING:inf
 SPRITE:infantry

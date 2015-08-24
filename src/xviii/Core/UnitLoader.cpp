@@ -33,26 +33,22 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 	while (unitData && std::getline(unitData, currentLine)){
 
-		if (currentLine.find("NATIONS:") EXISTS){
+        if (currentLine.find("NATIONS:") EXISTS){
 			std::getline(unitData, currentLine);
 
-			while (currentLine.find("}") == std::string::npos){
+            while (currentLine.find("}") == std::string::npos){
 				if (currentLine.find("DEFINE:") EXISTS){
-					std::string str = AFTERCOLON;
 
-					#define X(nationType, textureType, _str)\
-					if(str == _str){\
-						newClass->nations.emplace_back(nationType);\
-					}
-					NATIONPROPERTIES
-					#undef X
+					std::string str = AFTERCOLON;
+                    newClass->availableFactions.emplace_back(str);
+
 				}
 
 				std::getline(unitData, currentLine);
 			}
 		}
 
-		else if (currentLine.find("STRING:") EXISTS){
+        else if (currentLine.find("STRING:") EXISTS){
 			newClass->name = AFTERCOLON;
 		}
 

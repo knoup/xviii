@@ -21,9 +21,6 @@ counterSize{54, 34} //Current: 54,34
 	button = std::move(texturePtr(new sf::Texture()));
 	button->loadFromFile("assets/gfx/button.png");
 
-	flags = std::move(texturePtr(new sf::Texture()));
-	flags->loadFromFile("assets/gfx/flags.png");
-
 	boost::filesystem::recursive_directory_iterator end;
 
 	for (boost::filesystem::recursive_directory_iterator it("assets/gfx/units"); it != end; ++it){
@@ -37,11 +34,33 @@ counterSize{54, 34} //Current: 54,34
             units[name]->setSmooth(true);
        }
 	}
+
+	for (boost::filesystem::recursive_directory_iterator it("assets/gfx/factions"); it != end; ++it){
+       std::string name = it->path().filename().leaf().stem().string();
+
+       texturePtr texture = texturePtr(new sf::Texture());
+       texture->loadFromFile("assets/gfx/factions/" + name + ".png");
+
+       if(!flags.count(name)){
+            flags.insert(std::pair<std::string, texturePtr>(name, std::move(texture)));
+            flags[name]->setSmooth(true);
+       }
+	}
 }
 
 sf::Sprite TextureManager::getUnitSprite(std::string _textureID){
     if(units.count(_textureID)){
         return sf::Sprite{*(units[_textureID])};
+    }
+    //If the ID does not exist, return an empty sprite; to be changed later (?)
+    else{
+        return{};
+    }
+}
+
+sf::Sprite TextureManager::getFlagSprite(std::string _textureID){
+    if(flags.count(_textureID)){
+        return sf::Sprite{*(flags[_textureID])};
     }
     //If the ID does not exist, return an empty sprite; to be changed later (?)
     else{
@@ -125,91 +144,5 @@ sf::Sprite TextureManager::getSprite(UI type){
 	}
 
 	return{};
-
-}
-
-sf::Sprite TextureManager::getSprite(Flag type){
-
-	sf::IntRect rekt;
-
-	switch (type){
-	case Flag::AUS:
-		rekt = {0, 0, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::PRU:
-		rekt = {counterSize.x, 0, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::FRA:
-		rekt = {2 * counterSize.x, 0, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::GBR:
-		rekt = {3 * counterSize.x, 0, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::RUS:
-		rekt = {0, counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::BAV:
-		rekt = {counterSize.x, counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::COM:
-		rekt = {2 * counterSize.x, counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::SPA:
-		rekt = {3 * counterSize.x, counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::POR:
-		rekt = {0, 2 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::VEN:
-		rekt = {counterSize.x, 2 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::SAX:
-		rekt = {2 * counterSize.x, 2 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::SWE:
-		rekt = {3 * counterSize.x, 2 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::OTO:
-		rekt = {0, 3 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::CRI:
-		rekt = {counterSize.x, 3 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::IME:
-		rekt = {2 * counterSize.x, 3 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::MOL:
-		rekt = {3 * counterSize.x, 3 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::WAL:
-		rekt = {0, 4 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-	case Flag::PER:
-		rekt = {counterSize.x, 4 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-
-    case Flag::DEN:
-        rekt = {2 * counterSize.x, 4 * counterSize.y, counterSize.x, counterSize.y};
-		break;
-	}
-
-	return{*flags, rekt};
 
 }

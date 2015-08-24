@@ -27,21 +27,15 @@ class TextureManager : public sf::NonCopyable
 public:
 	using texturePtr = std::unique_ptr<sf::Texture>;
 
-	enum class Unit{INF, CAV, CUIR, LCAV, DRAG,
-					ART, MOR, GEN, GRE, LINF,
-					SAP, HINF, ARTGUARD, PIKE, LAN,
-					ARMLAN, IRR, HARCH, LART, LDRAG};
-
 	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS, BRIDGE_VER, BRIDGE_HOR, TBRIDGE_VER, TBRIDGE_HOR, BLANK};
 	enum class UI{RECTANGLE, BUTTON};
-	enum class Flag{AUS,PRU,FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER, DEN};
 
 	TextureManager();
 
 	sf::Sprite getUnitSprite(std::string _textureID);
+	sf::Sprite getFlagSprite(std::string _textureID);
 	sf::Sprite getSprite(Terrain type);
 	sf::Sprite getSprite(UI type);
-	sf::Sprite getSprite(Flag type);
 
 	inline sf::Vector2i getSize() const{ return size; };
 	inline sf::Vector2i getCounterSize() const{ return counterSize; };
@@ -50,12 +44,13 @@ public:
 
 private:
 	std::map<std::string, texturePtr> units;
+	std::map<std::string, texturePtr> flags;
 	texturePtr terrain;
+
 	//The rectangular UI bar at the bottom
 	texturePtr ui;
 	//Ready/next turn button
 	texturePtr button;
-	texturePtr flags;
 
 	//This should correspond to the FULL size of each [Terrain] tile
 	//for everything to work properly

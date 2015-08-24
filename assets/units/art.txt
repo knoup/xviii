@@ -1,11 +1,12 @@
 UNIT DEFINITION
 
 NATIONS:
-	{
-	DEFINE:ALL
-	}
+{
+	DEFINE:Austria
+	DEFINE:Germany
+}
 
-STRING:Artillery
+STRING:art
 SPRITE:artillery
 MAIN_TYPE:ART
 FAMILY_TYPE:ART

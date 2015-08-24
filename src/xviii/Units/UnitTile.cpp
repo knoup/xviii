@@ -230,6 +230,7 @@ hp{0},
 mov{0}
 {
 	unitFlag = player->getNationFlag();
+	unitFlag.setColor(sf::Color(255,255,255, 100));
 
     dirText.setString(dirToString());
 
@@ -905,10 +906,10 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 		this->multRollByModifiers(finalAttackerRoll);
 
-		attackerRollString = attacker->getPlayer()->getName().substr(0, 3) + " " + std::to_string(attackerRoll) + " -> " + roundFloat(finalAttackerRoll);
+		attackerRollString = attacker->getPlayer()->getFactionID().substr(0, 3) + " " + std::to_string(attackerRoll) + " -> " + roundFloat(finalAttackerRoll);
 	}
 	else{
-		attackerRollString = attacker->getPlayer()->getName().substr(0, 3) + " " + std::to_string(attackerRoll);
+		attackerRollString = attacker->getPlayer()->getFactionID().substr(0, 3) + " " + std::to_string(attackerRoll);
 	}
 
 	std::string defenderRollString{};
@@ -918,16 +919,16 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 		defender->multRollByModifiers(finalDefenderRoll);
 
-		defenderRollString = defender->getPlayer()->getName().substr(0, 3) + " " + std::to_string(defenderRoll) + " -> " + roundFloat(finalDefenderRoll);
+		defenderRollString = defender->getPlayer()->getFactionID().substr(0, 3) + " " + std::to_string(defenderRoll) + " -> " + roundFloat(finalDefenderRoll);
 	}
 	else{
-		defenderRollString = defender->getPlayer()->getName().substr(0, 3) + " " + std::to_string(defenderRoll);
+		defenderRollString = defender->getPlayer()->getFactionID().substr(0, 3) + " " + std::to_string(defenderRoll);
 	}
 
-	std::string attackerInflictedString{attacker->getPlayer()->getName().substr(0, 3) + " -" + roundFloat(defenderInflicted)};
-	std::string defenderInflictedString{defender->getPlayer()->getName().substr(0, 3) + " -" + roundFloat(attackerInflicted)};
+	std::string attackerInflictedString{attacker->getPlayer()->getFactionID().substr(0, 3) + " -" + roundFloat(defenderInflicted)};
+	std::string defenderInflictedString{defender->getPlayer()->getFactionID().substr(0, 3) + " -" + roundFloat(attackerInflicted)};
 
-	result << "Combat:    " << attacker->getPlayer()->getName().substr(0, 3) + " " + attacker->name + "[" + attacker->dirToString() + "] " << " vs. " << defender->getPlayer()->getName().substr(0, 3) + " " + defender->name + "[" + defender->dirToString() + "]" << "; ";
+	result << "Combat:    " << attacker->getPlayer()->getFactionID().substr(0, 3) + " " + attacker->name + "[" + attacker->dirToString() + "] " << " vs. " << defender->getPlayer()->getFactionID().substr(0, 3) + " " + defender->name + "[" + defender->dirToString() + "]" << "; ";
 
 	if (distance == 1){
 		result << "melee";
@@ -965,7 +966,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		if (attacker->gethp() < 0.4){
 			result << " (killed)";
 			if (attacker->getUnitType() == UnitTile::UnitType::GEN){
-				result << "; -2HP to all " + attacker->getPlayer()->getName().substr(0, 3) + "!";
+				result << "; -2HP to all " + attacker->getPlayer()->getFactionID().substr(0, 3) + "!";
 			}
 		}
 	}
@@ -986,7 +987,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 		if (defender->gethp() < 0.4){
 			result << " (killed)";
 			if (defender->getUnitType() == UnitTile::UnitType::GEN){
-				result << "; -2HP to all " + defender->getPlayer()->getName().substr(0, 3) + "!";
+				result << "; -2HP to all " + defender->getPlayer()->getFactionID().substr(0, 3) + "!";
 			}
 		}
 	}
@@ -994,7 +995,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	result << "\n";
 
 
-	result << attacker->getPlayer()->getName().substr(0, 3) + " Mod:   ";
+	result << attacker->getPlayer()->getFactionID().substr(0, 3) + " Mod:   ";
 
 	for (auto& mod : attackerModifiers){
 		if (mod.modFloat != 0){
@@ -1014,7 +1015,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 
 	result << "\n";
 
-	result << defender->getPlayer()->getName().substr(0, 3) + " Mod:   ";
+	result << defender->getPlayer()->getFactionID().substr(0, 3) + " Mod:   ";
 
 	if (retreat){
 		result << "(retreat!) ";

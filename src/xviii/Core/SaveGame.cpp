@@ -4,16 +4,6 @@
 #include "xviii/Core/Game.h"
 #include <boost/algorithm/string/find.hpp>
 
-Player::Nation stringToNation(std::string _name){
-	//nation, flag, name
-	#define X(nat, fla, str)\
-	if (_name == str)\
-		return nat;
-	NATIONPROPERTIES
-	#undef X
-
-	return Player::Nation::ALL;
-}
 
 UnitTile::Direction stringToDir(std::string _dir){
 	if (_dir == "N"){
@@ -102,8 +92,8 @@ bool SaveGame::create(){
 		#undef X
 
 	save << "era=" << eraString << std::endl;
-	save << "player1=" << game->Player1->getName() << std::endl;
-	save << "player2=" << game->Player2->getName() << std::endl;
+	save << "player1=" << game->Player1->getFactionID() << std::endl;
+	save << "player2=" << game->Player2->getFactionID() << std::endl;
 	save << "player1Cam=" << game->Player1->view.getCenter().x << " " << game->Player1->view.getCenter().y << std::endl;
 	save << "player2Cam=" << game->Player2->view.getCenter().x << " " << game->Player2->view.getCenter().y << std::endl;
 	save << "currentPlayer=";
@@ -258,9 +248,9 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		}
 
 		else if (line.find("player1=") != std::string::npos){
-			Player::Nation nation{stringToNation(AFTEREQUALS)};
+			std::string factionID = AFTEREQUALS;
 
-			game->Player1 = new Player({game->mManager, game->mWorld, nation, true});
+			game->Player1 = new Player({game->mManager, game->mWorld, factionID, true});
 			game->mPlayers.emplace_back(game->Player1);
 		}
 
@@ -275,9 +265,9 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		}
 
 		else if (line.find("player2=") != std::string::npos){
-			Player::Nation nation{stringToNation(AFTEREQUALS)};
+			std::string factionID = AFTEREQUALS;
 
-			game->Player2 = new Player({game->mManager, game->mWorld, nation, false});
+			game->Player2 = new Player({game->mManager, game->mWorld, factionID, false});
 			game->mPlayers.emplace_back(game->Player2);
 		}
 

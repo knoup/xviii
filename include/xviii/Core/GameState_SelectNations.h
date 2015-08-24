@@ -16,12 +16,12 @@ private:
 	void updateNationName();
 
 	struct FlagMenuItem{
-		FlagMenuItem(sf::Sprite _sprite, Player::Nation _nation) :
+		FlagMenuItem(std::string _name, sf::Sprite _sprite) :
+			name{_name},
 			sprite{_sprite},
-			nation{_nation},
 			highlighted{false}
 		{
-			sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+		    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
 			rekt.setSize({sprite.getLocalBounds().width, sprite.getLocalBounds().height});
 			rekt.setOrigin(rekt.getLocalBounds().width / 2, rekt.getLocalBounds().height / 2);
 			rekt.setFillColor(sf::Color::Transparent);
@@ -29,8 +29,8 @@ private:
 			rekt.setOutlineThickness(2);
 		};
 
+        std::string name;
 		sf::Sprite sprite;
-		Player::Nation nation;
 
 		bool highlighted;
 		sf::RectangleShape rekt;

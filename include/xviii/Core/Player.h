@@ -43,8 +43,7 @@ class Player
 {
 	friend class SpawnableUnit;
     public:
-		enum class Nation{ALL, AUS, PRU, FRA, GBR, RUS, BAV, COM, SPA, POR, VEN, SAX, SWE, OTO, CRI, IME, MOL, WAL, PER, DEN};
-		Player(MasterManager& _masterManager, World& _world, Nation _nation, bool _spawnedAtBottom);
+		Player(MasterManager& _masterManager, World& _world, std::string _factionID, bool _spawnedAtBottom);
 
 		//Returns true if successfully spawned unit
 		bool spawnUnit(std::string _name, sf::Vector2i _worldCoords);
@@ -57,9 +56,8 @@ class Player
 		inline const World& getWorld() const{ return world; };
 		inline int getDeploymentPoints() const{ return deploymentPoints; };
 		inline int getMaxDeploymentPoints() const{ return maxDeploymentPoints; };
-		inline std::string getName() const { return name; };
 		inline sf::Color getnationColour() const{ return nationColour; };
-		inline Nation getNation() const{ return nation; };
+		inline std::string getFactionID() const{ return factionID; };
 		inline bool isReady() const{ return ready; };
 		inline void setReady(bool _value){ ready = _value; };
 		inline sf::Sprite getNationFlag() const{ return nationFlag; };
@@ -88,10 +86,9 @@ class Player
 
 		std::vector<SpawnableUnit> spawnableUnits;
 
-		Nation nation;
+		std::string factionID;
 		sf::Color nationColour{sf::Color::White};
 		sf::Sprite nationFlag;
-		std::string name;
 
 		int deploymentPoints;
 		bool ready;

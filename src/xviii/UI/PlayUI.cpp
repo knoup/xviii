@@ -118,7 +118,7 @@ void PlayUI::update(){
 	}
 
 
-	setCurrentPlayerText(gameState->game->currentPlayer->getName());
+	setCurrentPlayerText(gameState->game->currentPlayer->getFactionID());
 	setElapsedTurnsText(gameState->game->mWorld.getElapsedTurns());
 
 	//For the highlighting of the next turn button:

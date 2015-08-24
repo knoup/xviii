@@ -1,0 +1,5 @@
+FACTION DEFINITION
+
+NAME:Austria
+SPRITE:austria
+LANGUAGE:german
