@@ -1,0 +1,5 @@
+FACTION DEFINITION
+
+NAME:Cmnwealth
+SPRITE:commonwealth
+LANGUAGE:polish

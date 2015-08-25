@@ -5,6 +5,14 @@ UNIT DEFINITION
 
 as the first line in the file.
 
+NATION:
+{
+	DEFINE:Austria
+	DEFINE:Prussia
+}
+
+In the shown format, nations to whom this unit is available must be defined. The names of the nations must be one of those of the factions defined in assets/factions. Optionally, DEFINE:ALL can be used to make the unit available to all nations.
+
 STRING:inf
 SPRITE:inf
 MAIN_TYPE:INF
@@ -32,6 +40,52 @@ the unit uses the limber mechanic.
 WATERCROSSER:1
 
 This determines whether the unit is capable of crossing water tiles without the need for a bridge.
+
+HP:
+MOV:
+COST:
+LIMIT
+
+COST specifies the unit's deployment point cost
+LIMIT specifies the maximum amount of units of this type that can be deployed per player (0 for unlimited)
+
+SKIRMISH:
+FRIGHTENING:
+HALFRANGEDDAMAGE:
+MELEE:
+
+SKIRMISH specifies whether the unit is capable of skirmishing. Depending on certain criteria, the unit may still be able to move after attacking with this flag activated.
+
+FRIGHTENING specifies whether the unit gets the frightening bonus against other units.
+
+HALFRANGEDDAMAGE specifies whether the unit takes half the damage from ranged attacks.
+
+MELEE specifies whether the unit is capable of melee combat.
+
+
+FULL LIST OF ESSENTIAL FLAGS (these must be included in every unit description):
+
+NATIONS:
+STRING:
+SPRITE:
+MAIN_TYPE:
+FAMILY_TYPE:
+ERA:
+SQUAREFORMATION:
+SQUAREFORMATIONMODIFIER:
+LIMBER:
+LANCER:
+WATERCROSSER:
+HP:
+MOV:
+COST:
+LIMIT:
+SKIRMISH:
+FRIGHTENING:
+HALFRANGEDDDAMAGE:
+MELEE:
+
+The remaining (FLANK, RANGED, BRIDGE_ATTACK, HEALING, MELEE_BONUS) can optionally be excluded if they are not needed.
 
 -------------------------------------------------------------
 
@@ -108,30 +162,6 @@ First number is modifier value, second number specifies whether it is additional
 
 
 -----------------------------------------------------------------------------------------------------
-
-
-----Valid nations----
-
-DEFINE:ALL
-DEFINE:Austria
-DEFINE:Bavaria
-DEFINE:Commonwealth
-DEFINE:Crimea
-DEFINE:Denmark
-DEFINE:France
-DEFINE:GBR
-DEFINE:Imereti
-DEFINE:Moldavia
-DEFINE:Ottomans
-DEFINE:Portugal
-DEFINE:Prussia
-DEFINE:Russia
-DEFINE:Saxony
-DEFINE:Spain
-DEFINE:Sweden
-DEFINE:Venice
-DEFINE:Wallachia
-DEFINE:Persia
 
 ----Valid units----
 

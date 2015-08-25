@@ -6,6 +6,10 @@ TODO:
     TOFIX:
     -The "out of max range" message for terrain attacks also showing up when a unit attacks an enemy
 
+    -Change UnitTile::name to unitID, for consistency
+    -Remove now unneccessary macros (textureproperties and nationproperties and unitproperties and such)
+    -Manually get new flag files, since transparency is now handled in SFML
+
     MISC:
     -Implement a specialised HillAnt class (for slopes and hills)
 	-Have a basic readable config file where several simple parameters can be set (resolution, deployment points,

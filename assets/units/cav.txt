@@ -2,8 +2,7 @@ UNIT DEFINITION
 
 NATIONS:
 {
-	DEFINE:Austria
-	DEFINE:Germany
+	DEFINE:ALL
 }
 
 STRING:cav

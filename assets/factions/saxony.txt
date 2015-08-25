@@ -1,0 +1,5 @@
+FACTION DEFINITION
+
+NAME:Saxony
+SPRITE:saxony
+LANGUAGE:german

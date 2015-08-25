@@ -1,5 +1,5 @@
 FACTION DEFINITION
 
-NAME:Germany
-SPRITE:austria
+NAME:Prussia
+SPRITE:prussia
 LANGUAGE:german

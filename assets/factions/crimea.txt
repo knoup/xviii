@@ -1,0 +1,5 @@
+FACTION DEFINITION
+
+NAME:Crimea
+SPRITE:crimea
+LANGUAGE:tatar
