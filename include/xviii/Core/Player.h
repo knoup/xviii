@@ -15,30 +15,6 @@
 
 class SpawnableUnit;
 
-//The ALL "nation" is not meant to be selectable
-
-#define NATIONPROPERTIES\
-	X(Player::Nation::ALL, TextureManager::Flag::AUS, "ALL")\
-	X(Player::Nation::AUS, TextureManager::Flag::AUS, "Austria")\
-	X(Player::Nation::BAV, TextureManager::Flag::BAV, "Bavaria")\
-	X(Player::Nation::COM, TextureManager::Flag::COM, "Commonwealth")\
-	X(Player::Nation::CRI, TextureManager::Flag::CRI, "Crimea")\
-	X(Player::Nation::FRA, TextureManager::Flag::FRA, "France")\
-	X(Player::Nation::GBR, TextureManager::Flag::GBR, "GBR")\
-	X(Player::Nation::IME, TextureManager::Flag::IME, "Imereti")\
-	X(Player::Nation::MOL, TextureManager::Flag::MOL, "Moldavia")\
-	X(Player::Nation::OTO, TextureManager::Flag::OTO, "Ottomans")\
-	X(Player::Nation::POR, TextureManager::Flag::POR, "Portugal")\
-	X(Player::Nation::PRU, TextureManager::Flag::PRU, "Prussia")\
-	X(Player::Nation::RUS, TextureManager::Flag::RUS, "Russia")\
-	X(Player::Nation::SAX, TextureManager::Flag::SAX, "Saxony")\
-	X(Player::Nation::SPA, TextureManager::Flag::SPA, "Spain")\
-	X(Player::Nation::SWE, TextureManager::Flag::SWE, "Sweden")\
-	X(Player::Nation::VEN, TextureManager::Flag::VEN, "Venice")\
-	X(Player::Nation::WAL, TextureManager::Flag::WAL, "Wallachia")\
-	X(Player::Nation::PER, TextureManager::Flag::PER, "Persia")\
-	X(Player::Nation::DEN, TextureManager::Flag::DEN, "Denmark")
-
 class Player
 {
 	friend class SpawnableUnit;

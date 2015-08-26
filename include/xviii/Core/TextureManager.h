@@ -1,27 +1,5 @@
 #pragma once
 
-#define TEXTUREPROPERTIES\
-	X("INF", TextureManager::Unit::INF)\
-	X("CAV", TextureManager::Unit::CAV)\
-	X("CUIR", TextureManager::Unit::CUIR)\
-	X("LCAV", TextureManager::Unit::LCAV)\
-	X("DRAG", TextureManager::Unit::DRAG)\
-	X("ART", TextureManager::Unit::ART)\
-	X("MOR", TextureManager::Unit::MOR)\
-	X("GEN", TextureManager::Unit::GEN)\
-	X("GRE", TextureManager::Unit::GRE)\
-	X("LINF", TextureManager::Unit::LINF)\
-	X("SAP", TextureManager::Unit::SAP)\
-	X("HINF", TextureManager::Unit::HINF)\
-	X("ARTGUARD", TextureManager::Unit::ARTGUARD)\
-	X("PIKE", TextureManager::Unit::PIKE)\
-	X("LAN", TextureManager::Unit::LAN)\
-	X("ARMLAN", TextureManager::Unit::ARMLAN)\
-	X("IRR", TextureManager::Unit::IRR)\
-	X("HARCH", TextureManager::Unit::HARCH)\
-	X("LART", TextureManager::Unit::LART)\
-	X("LDRAG", TextureManager::Unit::LDRAG)
-
 class TextureManager : public sf::NonCopyable
 {
 public:
