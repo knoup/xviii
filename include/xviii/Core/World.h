@@ -43,7 +43,7 @@ class World : public sf::Drawable, public sf::NonCopyable
 public:
 
     ////////////////////////////////////////////
-    const int minutesPerTurn{15};
+    static const int minutesPerTurn{15};
     ////////////////////////////////////////////
 
 	enum class Era{ EARLY, MID, LATE, ALL };
