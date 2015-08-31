@@ -149,6 +149,12 @@ void PlayUI::update(){
 	}
 }
 
+void PlayUI::turnlyUpdate(){
+    setCurrentPlayerText(gameState->game->currentPlayer->getFactionID());
+    setElapsedTurnsText(gameState->game->mWorld.getElapsedTurns());
+    setCurrentTimeText(gameState->game->mWorld.getCurrentTime().getTime());
+}
+
 void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	//Don't forget to set the view first
 

@@ -318,19 +318,24 @@ void GameState_Play::update(float mFT){
 
 	playUI.update();
 
+    //////////////////////////////////////////////////////////////////////////////
+	//TURNLY UPDATES
+	//////////////////////////////////////////////////////////////////////////////
+
 	if (game->currentPlayer->isReady()){
 		for (auto& unit : game->currentPlayer->getUnits()){
 				unit->reset();
 		}
 
 		game->nextPlayer();
-		game->mWorld.incrementElapsedTurns();
-        game->mWorld.getCurrentTime().increment();
 
-        playUI.setCurrentPlayerText(game->currentPlayer->getFactionID());
-        playUI.setElapsedTurnsText(game->mWorld.getElapsedTurns());
-        playUI.setCurrentTimeText(game->mWorld.getCurrentTime().getTime());
+        game->mWorld.turnlyUpdate();
+        playUI.turnlyUpdate();
 	}
+
+	//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
 
 	//Code for the mouse indicator of distance:
 

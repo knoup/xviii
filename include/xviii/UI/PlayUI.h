@@ -14,6 +14,9 @@ public:
 	void setCurrentTimeText(std::pair<int,int> _time);
 	void clearCurrentMessageText();
 	void setSaveStatus(bool val);
+
+	void turnlyUpdate();
+
 	virtual void update();
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 private:

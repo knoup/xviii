@@ -422,3 +422,8 @@ void World::wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinati
 	return;
 }
 
+void World::turnlyUpdate(){
+    incrementElapsedTurns();
+    getCurrentTime().increment();
+}
+
