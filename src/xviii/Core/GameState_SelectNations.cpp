@@ -2,11 +2,10 @@
 #include "xviii/Core/GameState_SelectNations.h"
 
 #include "xviii/Core/Game.h"
-
 #include "xviii/Core/FactionLoader.h"
 
 void GameState_SelectNations::updateNationName(){
-	currentNationName.setString(flagIterator->name);
+	currentNationName.setString(flagIterator->displayName);
 
 	sf::FloatRect textRect = currentNationName.getLocalBounds();
 	currentNationName.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
@@ -20,7 +19,7 @@ uiView{sf::FloatRect({}, {}, xResolution, yResolution)}
 {
 
 	for(auto& faction : game->mManager.factionLoader->customFactions){
-        flagMenuItems.emplace_back(faction.second.name, game->mManager.textureManager->getFlagSprite(faction.second.textureID));
+        flagMenuItems.emplace_back(faction.second.factionID, faction.second.displayName, game->mManager.textureManager->getFlagSprite(faction.second.textureID));
 	}
 
 	for (size_t i{0}; i < flagMenuItems.size(); ++i){
@@ -59,7 +58,7 @@ void GameState_SelectNations::getInput(){
 			if (event.key.code == Key::CONFIRM_KEY){
 
 				if (game->Player1 == nullptr){
-					game->Player1 = new Player({game->mManager, game->mWorld, flagIterator->name, true});
+					game->Player1 = new Player({game->mManager, game->mWorld, flagIterator->factionID, true});
 					game->mPlayers.emplace_back(game->Player1);
 					//Once player 1's made their selection, delete the country he chose
 					flagMenuItems.erase(flagIterator);
@@ -78,7 +77,7 @@ void GameState_SelectNations::getInput(){
 					currentPlayerText.setString("Player 2");
 				}
 				else{
-					game->Player2 = new Player({game->mManager, game->mWorld, flagIterator->name, false});
+					game->Player2 = new Player({game->mManager, game->mWorld, flagIterator->factionID, false});
 					game->mPlayers.emplace_back(game->Player2);
 					game->currentPlayer = game->Player1;
 					game->currentView = &game->currentPlayer->view;

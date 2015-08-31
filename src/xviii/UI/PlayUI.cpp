@@ -70,6 +70,14 @@ void PlayUI::setCurrentTimeText(std::pair<int,int> _time){
         minutesStr = std::to_string(_time.second);
     }
 	currentTimeText.setString(std::to_string(_time.first) + ":" + minutesStr);
+
+	if(_time.first >= 19 || _time.first < 5){
+        currentTimeText.setColor(sf::Color::Cyan);
+	}
+	else{
+        currentTimeText.setColor(sf::Color::Yellow);
+	}
+
 }
 
 void PlayUI::setCurrentMessageText(std::string _str){
@@ -150,7 +158,7 @@ void PlayUI::update(){
 }
 
 void PlayUI::turnlyUpdate(){
-    setCurrentPlayerText(gameState->game->currentPlayer->getFactionID());
+    setCurrentPlayerText(gameState->game->currentPlayer->getDisplayName());
     setElapsedTurnsText(gameState->game->mWorld.getElapsedTurns());
     setCurrentTimeText(gameState->game->mWorld.getCurrentTime().getTime());
 }

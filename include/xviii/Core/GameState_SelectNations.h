@@ -16,8 +16,9 @@ private:
 	void updateNationName();
 
 	struct FlagMenuItem{
-		FlagMenuItem(std::string _name, sf::Sprite _sprite) :
-			name{_name},
+		FlagMenuItem(std::string _factionID, std::string _displayName, sf::Sprite _sprite) :
+			factionID{_factionID},
+			displayName{_displayName},
 			sprite{_sprite},
 			highlighted{false}
 		{
@@ -29,7 +30,8 @@ private:
 			rekt.setOutlineThickness(2);
 		};
 
-        std::string name;
+        std::string factionID;
+        std::string displayName;
 		sf::Sprite sprite;
 
 		bool highlighted;

@@ -38,7 +38,7 @@ void SetupUI::setNumbRemainingColour(sf::Color col){
 }
 
 void SetupUI::update(){
-	setCurrentPlayerText(gameState->game->currentPlayer->getFactionID());
+	setCurrentPlayerText(gameState->game->currentPlayer->getDisplayName());
 	setNumbRemaining(gameState->game->currentPlayer->getDeploymentPoints());
 
 

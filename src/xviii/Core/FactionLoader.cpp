@@ -32,10 +32,12 @@ void FactionLoader::parse(boost::filesystem::path path){
 		return;
 	}
 
+	newClass->factionID = path.filename().leaf().stem().string();
+
 	while (factionData && std::getline(factionData, currentLine)){
 
         if (currentLine.find("NAME:") EXISTS){
-			newClass->name = AFTERCOLON;
+			newClass->displayName = AFTERCOLON;
 		}
 
         else if (currentLine.find("SPRITE:") EXISTS){
@@ -48,6 +50,6 @@ void FactionLoader::parse(boost::filesystem::path path){
 
 	}
 
-	customFactions.emplace(newClass->name, std::move(*newClass));
+	customFactions.emplace(newClass->factionID, std::move(*newClass));
 
 }

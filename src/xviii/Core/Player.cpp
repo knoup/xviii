@@ -18,6 +18,8 @@ deploymentPoints{maxDeploymentPoints},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
+    displayName = masterManager.factionLoader->customFactions.at(factionID).displayName;
+
 	sf::Vector2i idealDimensions{7, 2};
 
 	for (auto& customClass : masterManager.unitLoader->customClasses){

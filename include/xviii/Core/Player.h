@@ -33,7 +33,8 @@ class Player
 		inline int getDeploymentPoints() const{ return deploymentPoints; };
 		inline int getMaxDeploymentPoints() const{ return maxDeploymentPoints; };
 		inline sf::Color getnationColour() const{ return nationColour; };
-		inline std::string getFactionID() const{ return factionID; };
+		inline std::string getFactionID() const{return factionID;};
+		inline std::string getDisplayName() const{ return displayName; };
 		inline bool isReady() const{ return ready; };
 		inline void setReady(bool _value){ ready = _value; };
 		inline sf::Sprite getNationFlag() const{ return nationFlag; };
@@ -63,6 +64,8 @@ class Player
 		std::vector<SpawnableUnit> spawnableUnits;
 
 		std::string factionID;
+		std::string displayName;
+
 		sf::Color nationColour{sf::Color::White};
 		sf::Sprite nationFlag;
 

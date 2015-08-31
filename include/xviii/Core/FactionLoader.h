@@ -12,13 +12,25 @@ public:
 
     struct FactionClassData{
 
-        FactionClassData(std::string _name, boost::filesystem::path _path) :
-			name{_name},
+        FactionClassData(std::string _factionID, boost::filesystem::path _path) :
+			factionID{_factionID},
 			mPath{_path}
 		{
 		}
 
-        std::string name;
+        //A faction's display name is the way it appears in-game.
+        //ex: Prussia
+        //It is initialised as the factionID just in case a name is not specified
+        //(which shouldn't happen, but whatever)
+
+        //A faction's ID is the way it appears in the files. For example,
+        //PRU. The nation's ID is the name of the .txt defining the faction
+
+        //A faction's textureID is the name of the file (png) located in
+        //assets/gfx/factions that the faction uses as its flag.
+
+        std::string displayName;
+        std::string factionID;
         std::string textureID;
 
         boost::filesystem::path mPath;

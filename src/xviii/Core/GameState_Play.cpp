@@ -31,7 +31,7 @@ playUI(game->mManager, this)
 }
 
 void GameState_Play::oneTimeUpdate(){
-	playUI.setCurrentPlayerText(game->currentPlayer->getFactionID());
+	playUI.setCurrentPlayerText(game->currentPlayer->getDisplayName());
 	playUI.setElapsedTurnsText(game->mWorld.getElapsedTurns());
 	playUI.setCurrentTimeText(game->mWorld.getCurrentTime().getTime());
 }
