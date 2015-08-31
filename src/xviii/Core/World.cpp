@@ -8,7 +8,9 @@ World::World(MasterManager& _mManager, sf::Vector2i _dimensions) :
 masterManager{_mManager},
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * masterManager.textureManager->getSize().x, dimensions.y * masterManager.textureManager->getSize().y)},
-mTerrainTexture(masterManager.textureManager->getTerrainTexture())
+mTerrainTexture(masterManager.textureManager->getTerrainTexture()),
+weatherTime{0},
+currentTime{}
 {
 	mTerrainVertices.setPrimitiveType(sf::PrimitiveType::Quads);
 	mTerrainVertices.resize(dimensions.x * dimensions.y * 4);
@@ -29,6 +31,19 @@ mTerrainTexture(masterManager.textureManager->getTerrainTexture())
 void World::generateRandomWorld(Era _era){
 
 	setEra(_era);
+
+	boost::random::uniform_int_distribution<int> distribution(1, 3);
+	int randWeather{distribution(masterManager.randomEngine)};
+
+	if(randWeather == 1){
+        currentWeather = Weather::CLEAR;
+	}
+	else if(randWeather == 2){
+        currentWeather = Weather::FOGGY;
+	}
+	else if(randWeather == 3){
+        currentWeather = Weather::RAINY;
+	}
 
 	terrainLayer.clear();
 

@@ -11,6 +11,7 @@ public:
 	virtual ~PlayUI();
 	void setElapsedTurnsText(int _num);
 	void setCurrentMessageText(std::string _str);
+	void setCurrentTimeText(std::pair<int,int> _time);
 	void clearCurrentMessageText();
 	void setSaveStatus(bool val);
 	virtual void update();
@@ -21,6 +22,7 @@ private:
 	sf::Text elapsedTurnsText;
 	sf::Text messageLogText;
 	sf::Text currentMessageText;
+	sf::Text currentTimeText;
 	sf::Text saveText;
 	sf::Text squareFormationText;
 	sf::Text limberText;

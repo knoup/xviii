@@ -23,6 +23,11 @@
 	X("LATE", World::Era::LATE)\
 	X("ALL", World::Era::ALL)
 
+#define WEATHERPROPERTIES\
+	X("CLEAR", World::Weather::CLEAR)\
+	X("FOGGY", World::Weather::FOGGY)\
+	X("RAINY", World::Weather::RAINY)
+
 class TerrainLoader;
 
 class World : public sf::Drawable, public sf::NonCopyable
@@ -36,7 +41,54 @@ class World : public sf::Drawable, public sf::NonCopyable
 	//For easier access to the vertex array
 	friend class TerrainTile;
 public:
+
+    ////////////////////////////////////////////
+    const int minutesPerTurn{15};
+    ////////////////////////////////////////////
+
 	enum class Era{ EARLY, MID, LATE, ALL };
+
+	enum class Weather{CLEAR, FOGGY, RAINY};
+
+    //A basic 24h clock
+	struct Time{
+
+        Time(){
+            set(10, 0);
+        }
+
+        void set(int _hour, int _minutes){
+            int appendedHours = _minutes/60;
+            int resultantMinutes = _minutes%60;
+
+            _hour += appendedHours;
+            HHMM.second = resultantMinutes;
+
+            if(_hour > 23){
+                HHMM.first = 0;
+            }
+            //In case a negative hour is somehow passed as an argument
+            else if(_hour < 0){
+                HHMM.first = 12;
+            }
+
+            else{
+                HHMM.first = _hour;
+            }
+        }
+
+        void increment(){
+            set(HHMM.first, HHMM.second+minutesPerTurn);
+        }
+
+        std::pair<int,int> getTime(){
+            return HHMM;
+        }
+
+        private:
+            std::pair<int,int> HHMM;
+
+	};
 
 	World(MasterManager& _mManager, sf::Vector2i _dimensions);
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
@@ -67,8 +119,14 @@ public:
 
 	sf::Vector2i getDimensions() const;
 	sf::Vector2i getDimensionsInPixels() const;
-	World::Era getEra() const{ return era; };
-	void setEra(Era _era){era = _era;}
+	inline World::Era getEra() const{ return era; };
+	inline World::Weather getWeather() const {return currentWeather;};
+	inline int getWeatherTime() const {return weatherTime;};
+	inline void setEra(Era _era){era = _era;}
+	inline void setWeather(Weather _weather){currentWeather = _weather;};
+	inline void setWeatherTime(int _weatherTime){weatherTime = _weatherTime;};
+
+	inline Time& getCurrentTime(){return currentTime;};
 
 	void addToDamagedUnits(UnitTile* unit);
 	void clearDamagedUnits();
@@ -95,6 +153,11 @@ private:
 
 	int elapsedTurns{0};
 	Era era;
+
+	Weather currentWeather;
+	//The last time (in minutes) the weather has changed
+	int weatherTime;
+	Time currentTime;
 
 	//The first layer, or "terrain layer"; always drawn behind the units and only consists
 	//of Terrain.

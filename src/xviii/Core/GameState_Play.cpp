@@ -33,6 +33,7 @@ playUI(game->mManager, this)
 void GameState_Play::oneTimeUpdate(){
 	playUI.setCurrentPlayerText(game->currentPlayer->getFactionID());
 	playUI.setElapsedTurnsText(game->mWorld.getElapsedTurns());
+	playUI.setCurrentTimeText(game->mWorld.getCurrentTime().getTime());
 }
 
 void GameState_Play::getInput(){
@@ -324,6 +325,11 @@ void GameState_Play::update(float mFT){
 
 		game->nextPlayer();
 		game->mWorld.incrementElapsedTurns();
+        game->mWorld.getCurrentTime().increment();
+
+        playUI.setCurrentPlayerText(game->currentPlayer->getFactionID());
+        playUI.setElapsedTurnsText(game->mWorld.getElapsedTurns());
+        playUI.setCurrentTimeText(game->mWorld.getCurrentTime().getTime());
 	}
 
 	//Code for the mouse indicator of distance:

@@ -91,7 +91,20 @@ bool SaveGame::create(){
 		ERAPROPERTIES
 		#undef X
 
+    std::string weatherString;
+    World::Weather currentWeather = game->mWorld.getWeather();
+
+    #define X(_str, _weather)\
+		if(_weather == currentWeather){\
+			weatherString = _str;\
+		}
+		WEATHERPROPERTIES
+		#undef X
+
 	save << "era=" << eraString << std::endl;
+	save << "weather=" << weatherString << std::endl;
+	save << "weatherTime=" << std::to_string(game->mWorld.getWeatherTime()) << std::endl;
+	save << "time=" << std::to_string(game->mWorld.currentTime.getTime().first) + ":" + std::to_string(game->mWorld.currentTime.getTime().second) << std::endl;
 	save << "player1=" << game->Player1->getFactionID() << std::endl;
 	save << "player2=" << game->Player2->getFactionID() << std::endl;
 	save << "player1Cam=" << game->Player1->view.getCenter().x << " " << game->Player1->view.getCenter().y << std::endl;
@@ -245,6 +258,32 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				game->mWorld.setEra(_era);\
 			ERAPROPERTIES
 			#undef X
+		}
+
+		else if (line.find("weather=") != std::string::npos){
+			std::string str = AFTEREQUALS;
+
+			#define X(_str, _weather)\
+			if(str == _str):\
+				game->mWorld.setWeather(_weather);\
+			WEATHERPROPERTIES
+			#undef X
+		}
+
+		else if (line.find("weatherTime=") != std::string::npos){
+			std::string str = AFTEREQUALS;
+            int strToInt = std::stoi(str);
+
+            game->mWorld.setWeatherTime(strToInt);
+		}
+
+		else if (line.find("time=") != std::string::npos){
+			std::string str = AFTEREQUALS;
+
+            int hh = std::stoi(str.substr(0, str.find(":")));
+            int mm = std::stoi(str.substr(str.find(":") + 1, line.size() - 1));
+
+            game->mWorld.currentTime.set(hh,mm);
 		}
 
 		else if (line.find("player1=") != std::string::npos){

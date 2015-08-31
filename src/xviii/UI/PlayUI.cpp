@@ -28,6 +28,12 @@ gameState{_gameState}
 	currentMessageText.setCharacterSize(19);
 	currentMessageText.setPosition(220, -150);
 
+	currentTimeText.setFont(masterManager.fontManager->getFont(FontManager::Type::Eighteen));
+	currentTimeText.setColor(sf::Color::Cyan);
+	currentTimeText.setCharacterSize(40);
+	currentTimeText.setPosition(135, -80);
+
+
 	saveText.setFont(masterManager.fontManager->getFont(FontManager::Type::Arial));
 	saveText.setCharacterSize(20);
 	saveText.setPosition(20, -80);
@@ -52,6 +58,18 @@ PlayUI::~PlayUI(){
 
 void PlayUI::setElapsedTurnsText(int _num){
 	elapsedTurnsText.setString("Turn " + std::to_string(_num));
+}
+
+void PlayUI::setCurrentTimeText(std::pair<int,int> _time){
+    std::string minutesStr;
+
+    if(_time.second < 10){
+        minutesStr = "0" + std::to_string(_time.second);
+    }
+    else{
+        minutesStr = std::to_string(_time.second);
+    }
+	currentTimeText.setString(std::to_string(_time.first) + ":" + minutesStr);
 }
 
 void PlayUI::setCurrentMessageText(std::string _str){
@@ -117,10 +135,6 @@ void PlayUI::update(){
 		}
 	}
 
-
-	setCurrentPlayerText(gameState->game->currentPlayer->getFactionID());
-	setElapsedTurnsText(gameState->game->mWorld.getElapsedTurns());
-
 	//For the highlighting of the next turn button:
 	sf::Vector2f uiCoords{gameState->game->mWindow.mapPixelToCoords(gameState->game->mousePos, uiView)};
 
@@ -140,10 +154,11 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 
 	target.draw(uiSprite);
 	target.draw(currentPlayerText);
+	target.draw(currentTimeText);
 	target.draw(elapsedTurnsText);
 	target.draw(saveText);
 
-
+    //TODO: REMOVE THIS CHECK?
 	if (!currentMessageText.getString().isEmpty()){
 		target.draw(currentMessageText);
 	}
