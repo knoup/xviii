@@ -36,6 +36,7 @@ public:
         boost::filesystem::path mPath;
 
         std::string languageID{"english"};
+        bool availableInCustomBattles{true};
 
     };
 

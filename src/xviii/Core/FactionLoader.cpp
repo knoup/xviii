@@ -48,8 +48,14 @@ void FactionLoader::parse(boost::filesystem::path path){
 			newClass->languageID = AFTERCOLON;
 		}
 
+		else if (currentLine.find("CUSTOMBATTLES:") EXISTS){
+			newClass->availableInCustomBattles = std::stoi(AFTERCOLON);
+		}
+
 	}
 
 	customFactions.emplace(newClass->factionID, std::move(*newClass));
 
+	#undef AFTERCOLON
+    #undef EXISTS
 }

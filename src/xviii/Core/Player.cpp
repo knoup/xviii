@@ -12,8 +12,9 @@ static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution,
 Player::Player(MasterManager& _masterManager, World& _world, std::string _factionID, bool _spawnedAtBottom) :
 masterManager(_masterManager),
 world(_world),
-factionID{_factionID},
 general{nullptr},
+factionID{_factionID},
+displayName{},
 deploymentPoints{maxDeploymentPoints},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}
@@ -99,6 +100,11 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 		#undef X
 	}
 
+    //First of all, a hardcoded check to ensure there is no more than 1 general, despite the limit set
+
+    if(ptr->getUnitType() == UnitTile::UnitType::GEN && general != nullptr){
+        return false;
+    }
 
 	//Check its deployment cost
 
