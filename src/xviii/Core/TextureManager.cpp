@@ -7,7 +7,7 @@
 #include <string.h>
 
 
-TextureManager::TextureManager() :
+TextureManager::TextureManager(boost::random::mt19937& _randomEngine) :
 units{},
 size{54, 54}, //Current: 54,54
 counterSize{54, 34} //Current: 54,34
@@ -21,9 +21,9 @@ counterSize{54, 34} //Current: 54,34
 	button = std::move(texturePtr(new sf::Texture()));
 	button->loadFromFile("assets/gfx/button.png");
 
-	boost::filesystem::recursive_directory_iterator end;
+	boost::filesystem::recursive_directory_iterator rEnd;
 
-	for (boost::filesystem::recursive_directory_iterator it("assets/gfx/units"); it != end; ++it){
+	for (boost::filesystem::recursive_directory_iterator it("assets/gfx/units"); it != rEnd; ++it){
        std::string name = it->path().filename().leaf().stem().string();
 
        texturePtr texture = texturePtr(new sf::Texture());
@@ -35,7 +35,7 @@ counterSize{54, 34} //Current: 54,34
        }
 	}
 
-	for (boost::filesystem::recursive_directory_iterator it("assets/gfx/factions"); it != end; ++it){
+	for (boost::filesystem::recursive_directory_iterator it("assets/gfx/factions"); it != rEnd; ++it){
        std::string name = it->path().filename().leaf().stem().string();
 
        texturePtr texture = texturePtr(new sf::Texture());
@@ -45,6 +45,26 @@ counterSize{54, 34} //Current: 54,34
             flags.insert(std::pair<std::string, texturePtr>(name, std::move(texture)));
             flags[name]->setSmooth(true);
        }
+	}
+
+
+	randomBackground = std::move(std::unique_ptr<sf::Texture>(new sf::Texture()));
+
+	std::vector<boost::filesystem::path> paths;
+	boost::filesystem::directory_iterator end;
+
+	if (boost::filesystem::exists("assets/gfx/backgrounds")){
+		for (boost::filesystem::directory_iterator it("assets/gfx/backgrounds"); it != end; ++it){
+			paths.push_back(it->path());
+		}
+	}
+
+	if (!paths.empty()){
+		boost::random::uniform_int_distribution<int> dist(0, paths.size() - 1);
+		int randomIndex{dist(_randomEngine)};
+		std::string randomPath{paths[randomIndex].string()};
+
+		randomBackground->loadFromFile(randomPath);
 	}
 }
 
@@ -144,5 +164,8 @@ sf::Sprite TextureManager::getSprite(UI type){
 	}
 
 	return{};
+}
 
+sf::Sprite TextureManager::getRandomBackground(){
+    return {*randomBackground, {0,0,randomBackground->getSize().x, randomBackground->getSize().y}};
 }

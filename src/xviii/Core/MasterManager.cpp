@@ -11,7 +11,7 @@ randomEngine{randevice()},
 mapSeedEngine{randevice()}
 {
 	fontManager = std::unique_ptr<FontManager>(new FontManager());
-	textureManager = std::unique_ptr<TextureManager>(new TextureManager());
+	textureManager = std::unique_ptr<TextureManager>(new TextureManager(randomEngine));
 
     factionLoader = std::unique_ptr<FactionLoader>(new FactionLoader(*(textureManager.get())));
     unitLoader = std::unique_ptr<UnitLoader>(new UnitLoader(*(textureManager.get())));

@@ -15,9 +15,8 @@ void GameState_SelectNations::updateNationName(){
 GameState_SelectNations::GameState_SelectNations(Game* _game) :
 GameState{_game},
 flagView{sf::FloatRect({}, {}, xResolution, yResolution)},
-uiView{sf::FloatRect({}, {}, xResolution, yResolution)}
+backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 {
-
 	for(auto& faction : game->mManager.factionLoader->customFactions){
         flagMenuItems.emplace_back(faction.second.factionID, faction.second.displayName, game->mManager.textureManager->getFlagSprite(faction.second.textureID));
 	}
@@ -29,7 +28,6 @@ uiView{sf::FloatRect({}, {}, xResolution, yResolution)}
 		flagMenuItems[i].sprite.setPosition(spriteXPos, spriteYPos);
 		flagMenuItems[i].rekt.setPosition(spriteXPos, spriteYPos);
 	}
-
 
     flagIterator = flagMenuItems.begin() + flagMenuItems.size() / 2;
     flagIterator->highlighted = true;
@@ -43,8 +41,16 @@ uiView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	currentPlayerText.setPosition(xResolution / 2, yResolution / 4);
 
 	currentNationName.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
-	currentNationName.setColor(sf::Color::Black);
+	currentNationName.setColor(sf::Color::Yellow);
 	currentNationName.setCharacterSize(50);
+
+    flagBackgroundRekt.setFillColor(sf::Color(120,120,120));
+    backgroundSprite = game->mManager.textureManager->getRandomBackground();
+
+    sf::Vector2i boundingRekSize{game->mManager.textureManager->getSize()};
+    flagBackgroundRekt.setSize({abs(flagMenuItems[0].sprite.getPosition().x - flagMenuItems[flagMenuItems.size()-1].sprite.getPosition().x) + (boundingRekSize.x * 2), boundingRekSize.y});
+    flagBackgroundRekt.setOrigin(flagBackgroundRekt.getOrigin().x, flagBackgroundRekt.getLocalBounds().height / 2);
+    flagBackgroundRekt.setPosition(flagMenuItems[0].sprite.getPosition().x - boundingRekSize.x, flagMenuItems[0].sprite.getPosition().y);
 
 	updateNationName();
 }
@@ -72,6 +78,11 @@ void GameState_SelectNations::getInput(){
 						flagMenuItems[i].sprite.setPosition(spriteXPos, spriteYPos);
 						flagMenuItems[i].rekt.setPosition(spriteXPos, spriteYPos);
 					}
+
+					sf::Vector2i boundingRekSize{game->mManager.textureManager->getSize()};
+                    flagBackgroundRekt.setSize({abs(flagMenuItems[0].sprite.getPosition().x - flagMenuItems[flagMenuItems.size()-1].sprite.getPosition().x) + (boundingRekSize.x * 2), boundingRekSize.y});
+                    flagBackgroundRekt.setOrigin(flagBackgroundRekt.getOrigin().x, flagBackgroundRekt.getLocalBounds().height / 2);
+                    flagBackgroundRekt.setPosition(flagMenuItems[0].sprite.getPosition().x - boundingRekSize.x, flagMenuItems[0].sprite.getPosition().y);
 
 					updateNationName();
 					currentPlayerText.setString("Player 2");
@@ -127,7 +138,7 @@ void GameState_SelectNations::getInput(){
 			break;
 
 		case sf::Event::Resized:
-			uiView.setSize(event.size.width, event.size.height);
+			backgroundView.setSize(event.size.width, event.size.height);
 			flagView.setSize(event.size.width, event.size.height);
 			break;
 
@@ -147,12 +158,14 @@ void GameState_SelectNations::update(float mFT){
 void GameState_SelectNations::draw(){
 	game->mWindow.clear(sf::Color(120,120,120));
 
-	game->mWindow.setView(uiView);
+	game->mWindow.setView(backgroundView);
+	game->mWindow.draw(backgroundSprite);
 	game->mWindow.draw(currentPlayerText);
 	game->mWindow.draw(currentNationName);
 
 
 	game->mWindow.setView(flagView);
+	game->mWindow.draw(flagBackgroundRekt);
 	for (auto& flag : flagMenuItems){
 		flag.draw(game->mWindow);
 	}

@@ -48,9 +48,12 @@ private:
 	std::vector<FlagMenuItem> flagMenuItems;
 	std::vector<FlagMenuItem>::iterator flagIterator;
 
+	sf::Sprite backgroundSprite;;
+
+    sf::RectangleShape flagBackgroundRekt;
 	sf::Text currentPlayerText;
 	sf::Text currentNationName;
 	sf::View flagView;
-	sf::View uiView;
+	sf::View backgroundView;
 };
 

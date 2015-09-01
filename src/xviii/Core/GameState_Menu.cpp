@@ -22,24 +22,8 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
 	titleText.setPosition(xResolution / 2, -(yResolution / 2.5f));
 
-	std::vector<boost::filesystem::path> paths;
-	boost::filesystem::directory_iterator end;
+    backgroundSprite = game->mManager.textureManager->getRandomBackground();
 
-	if (boost::filesystem::exists("assets/gfx/backgrounds")){
-		for (boost::filesystem::directory_iterator it("assets/gfx/backgrounds"); it != end; ++it){
-			paths.push_back(it->path());
-		}
-	}
-
-	if (!paths.empty()){
-		boost::random::uniform_int_distribution<int> dist(0, paths.size() - 1);
-		int randomIndex{dist(game->mManager.randomEngine)};
-		std::string randomPath{paths[randomIndex].string()};
-
-		backgroundTexture = std::move(std::unique_ptr<sf::Texture>(new sf::Texture()));
-		backgroundTexture->loadFromFile(randomPath);
-		backgroundSprite.setTexture(*backgroundTexture);
-	}
 
 	////////////////////////////////////////////////////////////////////////
 
@@ -47,6 +31,10 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	menuList.push_back({{"New Game (Early Era)"}, Action::NEW, World::Era::EARLY});
 	menuList.push_back({{"New Game (Mid Era)"}, Action::NEW, World::Era::MID});
 	menuList.push_back({{"New Game (Late Era)"}, Action::NEW, World::Era::LATE});
+
+
+
+	boost::filesystem::directory_iterator end;
 
 	if (boost::filesystem::exists("save")){
 		for (boost::filesystem::directory_iterator it("save"); it != end; ++it){

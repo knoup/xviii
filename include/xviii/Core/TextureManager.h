@@ -1,5 +1,8 @@
 #pragma once
 
+#include <boost/random.hpp>
+#include <boost/random/random_device.hpp>
+
 class TextureManager : public sf::NonCopyable
 {
 public:
@@ -8,12 +11,13 @@ public:
 	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS, BRIDGE_VER, BRIDGE_HOR, TBRIDGE_VER, TBRIDGE_HOR, BLANK};
 	enum class UI{RECTANGLE, BUTTON};
 
-	TextureManager();
+	TextureManager(boost::random::mt19937& _randomEngine);
 
 	sf::Sprite getUnitSprite(std::string _textureID);
 	sf::Sprite getFlagSprite(std::string _textureID);
 	sf::Sprite getSprite(Terrain type);
 	sf::Sprite getSprite(UI type);
+    sf::Sprite getRandomBackground();
 
 	inline sf::Vector2i getSize() const{ return size; };
 	inline sf::Vector2i getCounterSize() const{ return counterSize; };
@@ -23,8 +27,11 @@ public:
 private:
 	std::map<std::string, texturePtr> units;
 	std::map<std::string, texturePtr> flags;
-	texturePtr terrain;
 
+    //A random image from the backgrounds folder. Note that it is only randomised once on launch.
+    texturePtr randomBackground;
+    //The terrain tileset
+	texturePtr terrain;
 	//The rectangular UI bar at the bottom
 	texturePtr ui;
 	//Ready/next turn button
