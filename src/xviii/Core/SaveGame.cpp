@@ -254,8 +254,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			std::string str = AFTEREQUALS;
 
 			#define X(_str, _era)\
-			if(str == _str):\
-				game->mWorld.setEra(_era);\
+			if(str == _str)\
+				game->mWorld.setEra(_era);
 			ERAPROPERTIES
 			#undef X
 		}
@@ -264,8 +264,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			std::string str = AFTEREQUALS;
 
 			#define X(_str, _weather)\
-			if(str == _str):\
-				game->mWorld.setWeather(_weather);\
+			if(str == _str)\
+				game->mWorld.setWeather(_weather);
 			WEATHERPROPERTIES
 			#undef X
 		}
