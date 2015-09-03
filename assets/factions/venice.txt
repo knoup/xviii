@@ -1,0 +1,5 @@
+FACTION DEFINITION
+
+NAME:Venice
+SPRITE:venice
+LANGUAGE:italian

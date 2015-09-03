@@ -1,0 +1,5 @@
+FACTION DEFINITION
+
+NAME:GB
+SPRITE:greatbritain
+LANGUAGE:english

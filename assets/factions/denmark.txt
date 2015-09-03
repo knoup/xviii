@@ -1,0 +1,5 @@
+FACTION DEFINITION
+
+NAME:Denmark
+SPRITE:denmark
+LANGUAGE:danish

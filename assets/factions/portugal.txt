@@ -1,0 +1,5 @@
+FACTION DEFINITION
+
+NAME:Portugal
+SPRITE:portugal
+LANGUAGE:portugese

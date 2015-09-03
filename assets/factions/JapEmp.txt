@@ -1,0 +1,5 @@
+FACTION DEFINITION
+
+NAME:The Emperor of Japan
+SPRITE:japemp
+LANGUAGE:Japanese
