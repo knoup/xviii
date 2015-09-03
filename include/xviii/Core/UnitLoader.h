@@ -28,6 +28,8 @@ public:
 		UnitTile::UnitFamily unitFamilyType;
 
         std::vector<std::string> availableFactions;
+        std::vector<std::string> availableCultures;
+
 		std::vector<World::Era> eras;
 		//Elements must be inserted in order of furthest to shortest distances; the first
 		//element's upper threshold should represent the furthest a unit can shoot

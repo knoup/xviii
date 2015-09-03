@@ -40,7 +40,14 @@ void UnitLoader::parse(boost::filesystem::path path){
 				if (currentLine.find("DEFINE:") EXISTS){
 
 					std::string str = AFTERCOLON;
-                    newClass->availableFactions.emplace_back(str);
+
+					if(str.find("CULTURE:") == std::string::npos){
+                        newClass->availableFactions.emplace_back(str);
+					}
+					else{
+                        str = str.substr(str.find(":") + 1, str.size() - 1);
+                        newClass->availableCultures.emplace_back(str);
+					}
 
 				}
 

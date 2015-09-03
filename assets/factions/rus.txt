@@ -1,5 +1,0 @@
-FACTION DEFINITION
-
-NAME:Russia
-SPRITE:russia
-LANGUAGE:russian

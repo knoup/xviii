@@ -1,5 +1,0 @@
-FACTION DEFINITION
-
-NAME:France
-SPRITE:france
-LANGUAGE:french

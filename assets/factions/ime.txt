@@ -1,5 +1,0 @@
-FACTION DEFINITION
-
-NAME:Imereti
-SPRITE:imereti
-LANGUAGE:georgian

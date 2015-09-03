@@ -65,6 +65,8 @@ class Player
 
 		std::string factionID;
 		std::string displayName;
+		//std::string shortDisplayName;
+		std::string factionCulture;
 
 		sf::Color nationColour{sf::Color::White};
 		sf::Sprite nationFlag;

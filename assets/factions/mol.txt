@@ -1,5 +1,0 @@
-FACTION DEFINITION
-
-NAME:Moldavia
-SPRITE:moldavia
-LANGUAGE:romanian

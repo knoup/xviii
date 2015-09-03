@@ -1,5 +1,0 @@
-FACTION DEFINITION
-
-NAME:Bavaria
-SPRITE:bavaria
-LANGUAGE:german

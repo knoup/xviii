@@ -1,5 +1,0 @@
-FACTION DEFINITION
-
-NAME:Prussia
-SPRITE:prussia
-LANGUAGE:german

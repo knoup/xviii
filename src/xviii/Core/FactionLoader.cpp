@@ -48,6 +48,10 @@ void FactionLoader::parse(boost::filesystem::path path){
 			newClass->languageID = AFTERCOLON;
 		}
 
+		else if (currentLine.find("CULTURE:") EXISTS){
+			newClass->factionCulture = AFTERCOLON;
+		}
+
 		else if (currentLine.find("CUSTOMBATTLES:") EXISTS){
 			newClass->availableInCustomBattles = std::stoi(AFTERCOLON);
 		}

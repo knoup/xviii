@@ -36,6 +36,7 @@ public:
         boost::filesystem::path mPath;
 
         std::string languageID{"english"};
+        std::string factionCulture;
         bool availableInCustomBattles{true};
 
     };

@@ -20,11 +20,14 @@ ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
     displayName = masterManager.factionLoader->customFactions.at(factionID).displayName;
+    //shortDisplayName = masterManager.factionLoader->customFactions.at(factionID).shortDisplayName;
+    factionCulture = masterManager.factionLoader->customFactions.at(factionID).factionCulture;
 
 	sf::Vector2i idealDimensions{7, 2};
 
 	for (auto& customClass : masterManager.unitLoader->customClasses){
 		for (auto& availableFaction : customClass.second.availableFactions){
+
 			bool validEra{false};
 
 			for (auto& era : customClass.second.eras){
@@ -40,6 +43,39 @@ spawnedAtBottom{_spawnedAtBottom}
 				sf::Vector2i((index % idealDimensions.x) + 1, (index / idealDimensions.x) + 1));
 				break;
 			}
+		}
+
+		for(auto& availableCulture : customClass.second.availableCultures){
+
+            //First, a quick check to see if this faction was already defined in availableFactions (to avoid duplicate units).
+            //If it was, then skip this completely. Otherwise, add the unit to spawnableUnits just like above.
+
+            bool duplicateFaction{false};
+
+            for(auto& availableFaction : customClass.second.availableFactions){
+
+                if(availableFaction == factionID){
+                    duplicateFaction = true;
+                }
+            }
+
+            if(!duplicateFaction){
+                bool validEra{false};
+
+                for (auto& era : customClass.second.eras){
+                    if (era == world.getEra() || era == World::Era::ALL){
+                        validEra = true;
+                        continue;
+                    }
+                }
+
+                if ((availableCulture == factionCulture) && (validEra || world.getEra() == World::Era::ALL)){
+                    int index = spawnableUnits.size();
+                    spawnableUnits.emplace_back(this, customClass.second.name,
+                    sf::Vector2i((index % idealDimensions.x) + 1, (index / idealDimensions.x) + 1));
+                    break;
+                }
+            }
 		}
 	}
 

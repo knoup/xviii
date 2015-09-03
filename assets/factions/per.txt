@@ -1,5 +1,0 @@
-FACTION DEFINITION
-
-NAME:Persia
-SPRITE:persia
-LANGUAGE:persian
