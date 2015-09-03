@@ -40,6 +40,10 @@ void FactionLoader::parse(boost::filesystem::path path){
 			newClass->displayName = AFTERCOLON;
 		}
 
+		else if(currentLine.find("SHORT:") EXISTS){
+            newClass->shortDisplayName = AFTERCOLON;
+		}
+
         else if (currentLine.find("SPRITE:") EXISTS){
 			newClass->textureID = AFTERCOLON;
 		}

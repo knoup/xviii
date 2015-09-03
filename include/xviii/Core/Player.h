@@ -35,6 +35,7 @@ class Player
 		inline sf::Color getnationColour() const{ return nationColour; };
 		inline std::string getFactionID() const{return factionID;};
 		inline std::string getDisplayName() const{ return displayName; };
+		inline std::string getShortDisplayName() const{return shortDisplayName;};
 		inline bool isReady() const{ return ready; };
 		inline void setReady(bool _value){ ready = _value; };
 		inline sf::Sprite getNationFlag() const{ return nationFlag; };
@@ -65,7 +66,7 @@ class Player
 
 		std::string factionID;
 		std::string displayName;
-		//std::string shortDisplayName;
+		std::string shortDisplayName;
 		std::string factionCulture;
 
 		sf::Color nationColour{sf::Color::White};

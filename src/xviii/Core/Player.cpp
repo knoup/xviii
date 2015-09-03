@@ -20,7 +20,7 @@ ready{false},
 spawnedAtBottom{_spawnedAtBottom}
 {
     displayName = masterManager.factionLoader->customFactions.at(factionID).displayName;
-    //shortDisplayName = masterManager.factionLoader->customFactions.at(factionID).shortDisplayName;
+    shortDisplayName = masterManager.factionLoader->customFactions.at(factionID).shortDisplayName;
     factionCulture = masterManager.factionLoader->customFactions.at(factionID).factionCulture;
 
 	sf::Vector2i idealDimensions{7, 2};

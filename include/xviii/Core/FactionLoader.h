@@ -29,8 +29,9 @@ public:
         //A faction's textureID is the name of the file (png) located in
         //assets/gfx/factions that the faction uses as its flag.
 
-        std::string displayName;
         std::string factionID;
+        std::string displayName;
+        std::string shortDisplayName;
         std::string textureID;
 
         boost::filesystem::path mPath;
