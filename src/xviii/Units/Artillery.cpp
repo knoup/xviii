@@ -4,8 +4,8 @@
 #include "xviii/Core/World.h"
 #include "xviii/Core/UnitLoader.h"
 
-Artillery::Artillery(World& _world, Player* _belongsToPlayer, std::string _textureID, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
-UnitTile(_world, _belongsToPlayer, _textureID, _name, _type, _familyType, _dir)
+Artillery::Artillery(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir) :
+UnitTile(_world, _belongsToPlayer, _unitID, _type, _familyType, _dir)
 {
 }
 

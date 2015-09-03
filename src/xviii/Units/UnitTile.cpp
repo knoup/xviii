@@ -6,31 +6,31 @@
 
 #include "xviii/Core/UnitLoader.h"
 
-bool UnitTile::getMelee() const{ return world.masterManager.unitLoader->customClasses.at(name).melee; };
-bool UnitTile::getSkirmish() const{ return world.masterManager.unitLoader->customClasses.at(name).skirmish; };
-bool UnitTile::getFrightening() const { return world.masterManager.unitLoader->customClasses.at(name).frightening; };
-bool UnitTile::getHalfRangedDamage() const { return world.masterManager.unitLoader->customClasses.at(name).halfRangedDamage; };
-bool UnitTile::canHeal() const{ return !(world.masterManager.unitLoader->customClasses.at(name).healingRangeValues.empty()); };
-bool UnitTile::canRangedAttack() const{ return !(world.masterManager.unitLoader->customClasses.at(name).rangedAttackDistValues.empty()); };
-bool UnitTile::canAttackBridge() const{ return !(world.masterManager.unitLoader->customClasses.at(name).bridgeAttackDistValues.empty()); };
+bool UnitTile::getMelee() const{ return world.masterManager.unitLoader->customClasses.at(unitID).melee; };
+bool UnitTile::getSkirmish() const{ return world.masterManager.unitLoader->customClasses.at(unitID).skirmish; };
+bool UnitTile::getFrightening() const { return world.masterManager.unitLoader->customClasses.at(unitID).frightening; };
+bool UnitTile::getHalfRangedDamage() const { return world.masterManager.unitLoader->customClasses.at(unitID).halfRangedDamage; };
+bool UnitTile::canHeal() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).healingRangeValues.empty()); };
+bool UnitTile::canRangedAttack() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues.empty()); };
+bool UnitTile::canAttackBridge() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()); };
 
-bool UnitTile::hasSquareFormationAbility() const{ return world.masterManager.unitLoader->customClasses.at(name).hasSquareFormationAbility; };
-bool UnitTile::hasLimberAbility() const{ return world.masterManager.unitLoader->customClasses.at(name).hasLimberAbility; };
-bool UnitTile::hasLancerAbility() const{ return world.masterManager.unitLoader->customClasses.at(name).hasLancerAbility; };
+bool UnitTile::hasSquareFormationAbility() const{ return world.masterManager.unitLoader->customClasses.at(unitID).hasSquareFormationAbility; };
+bool UnitTile::hasLimberAbility() const{ return world.masterManager.unitLoader->customClasses.at(unitID).hasLimberAbility; };
+bool UnitTile::hasLancerAbility() const{ return world.masterManager.unitLoader->customClasses.at(unitID).hasLancerAbility; };
 
-int UnitTile::getCost() const{ return world.masterManager.unitLoader->customClasses.at(name).cost; };
-int UnitTile::getLimit() const{ return world.masterManager.unitLoader->customClasses.at(name).limit; };
-int UnitTile::getMaxHp() const{ return world.masterManager.unitLoader->customClasses.at(name).maxHp; };
-int UnitTile::getMaxMov() const{ return world.masterManager.unitLoader->customClasses.at(name).maxMov; };
+int UnitTile::getCost() const{ return world.masterManager.unitLoader->customClasses.at(unitID).cost; };
+int UnitTile::getLimit() const{ return world.masterManager.unitLoader->customClasses.at(unitID).limit; };
+int UnitTile::getMaxHp() const{ return world.masterManager.unitLoader->customClasses.at(unitID).maxHp; };
+int UnitTile::getMaxMov() const{ return world.masterManager.unitLoader->customClasses.at(unitID).maxMov; };
 
 void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 	UnitTile::UnitType mainType = _unit->getUnitType();
 	UnitTile::UnitFamily familyType = _unit->getUnitFamilyType();
-	std::string unitName = _unit->getName();
+	std::string enemyUnitID = _unit->getUnitID();
 
-	auto& bonusesVsMainTypes = world.masterManager.unitLoader->customClasses.at(name).bonusesVsMainTypes;
-	auto& bonusesVsFamilyTypes = world.masterManager.unitLoader->customClasses.at(name).bonusesVsFamilyTypes;
-	auto& bonusesVsNames = world.masterManager.unitLoader->customClasses.at(name).bonusesVsNames;
+	auto& bonusesVsMainTypes = world.masterManager.unitLoader->customClasses.at(unitID).bonusesVsMainTypes;
+	auto& bonusesVsFamilyTypes = world.masterManager.unitLoader->customClasses.at(unitID).bonusesVsFamilyTypes;
+	auto& bonusesVsNames = world.masterManager.unitLoader->customClasses.at(unitID).bonusesVsNames;
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,7 +55,7 @@ void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 	/////////////////////////////////////////////////////////////////////////////////////////
 
 	for (auto& bonus : bonusesVsNames){
-		if (bonus.name == unitName){
+		if (bonus.name == enemyUnitID){
 			if ((!_attacking && bonus.whenDefending) || (_attacking && bonus.whenAttacking)){
 				modVector.emplace_back(Modifier::BONUS, bonus.modifier, bonus.modifierIsAdditional);
 			}
@@ -65,7 +65,7 @@ void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 
 void UnitTile::applyFlankModifier(Modifier _flank, UnitTile* _enemy){
 	if (_enemy->hasSquareFormationAbility() && _enemy->getSquareFormationActive()){
-		this->modVector.emplace_back(Modifier::SQUARE_FORMATION, world.masterManager.unitLoader->customClasses.at(name).squareFormationModifier, false);
+		this->modVector.emplace_back(Modifier::SQUARE_FORMATION, world.masterManager.unitLoader->customClasses.at(unitID).squareFormationModifier, false);
 	}
 
 	else{
@@ -78,7 +78,7 @@ void UnitTile::applyTerrainModifiers(TerrainTile* _terrain, int _distance, bool 
 }
 
 float UnitTile::getFlankModifier(UnitType _mainType, Modifier _flank) const{
-	auto& vec = world.masterManager.unitLoader->customClasses.at(name).flankModifierValues;
+	auto& vec = world.masterManager.unitLoader->customClasses.at(unitID).flankModifierValues;
 
 	for (auto& flankModifier : vec){
 		if (flankModifier.type == _mainType){
@@ -129,7 +129,7 @@ int UnitTile::getMaxRange() const{
 		//Of course, assuming the elements of rangedAttackDistValues were inserted in order of
 		//furthest to shortest distances, the first element's upper threshold should represent
 		//the furthest a unit can possibly shoot
-		return world.masterManager.unitLoader->customClasses.at(name).rangedAttackDistValues[0].upperThreshold;
+		return world.masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues[0].upperThreshold;
 	}
 }
 
@@ -218,17 +218,20 @@ std::string UnitTile::modToString(ModifierReport _mod){
 	return{"???"};
 }
 
-UnitTile::UnitTile(World& _world, Player* _belongsToPlayer, std::string _textureID, std::string _name, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
-Tile(_world, _textureID),
+UnitTile::UnitTile(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
+Tile(_world, _world.masterManager.unitLoader->customClasses.at(_unitID).textureID),
 player{_belongsToPlayer},
 dir{_dir},
 terrain{nullptr},
-name{_name},
+unitID{_unitID},
 unitType{type},
 unitFamilyType{familyType},
 hp{0},
 mov{0}
 {
+    displayName = world.masterManager.unitLoader->customClasses.at(unitID).displayName;
+    shortDisplayName = world.masterManager.unitLoader->customClasses.at(unitID).shortDisplayName;
+
 	unitFlag = player->getNationFlag();
 	unitFlag.setColor(sf::Color(255,255,255, 100));
 
@@ -416,7 +419,7 @@ std::string UnitTile::heal(UnitTile* _unit){
 		//(Example: with a range of 1-6, if you are on the same x-axis, you may have a distance of 0, 5. It should still
 		//be considered valid.)
 
-		for (auto & healingRange : world.masterManager.unitLoader->customClasses.at(name).healingRangeValues){
+		for (auto & healingRange : world.masterManager.unitLoader->customClasses.at(unitID).healingRangeValues){
 			if ((healingRange.lowerThreshold == 0 && healingRange.upperThreshold == 0)
 				||
 				((difference.x >= healingRange.lowerThreshold || difference.x == 0) && (difference.y >= healingRange.lowerThreshold || difference.y == 0)
@@ -428,7 +431,7 @@ std::string UnitTile::heal(UnitTile* _unit){
 		}
 
 		if (healingAmount == 0){
-			return OUT_OF_RANGE + std::to_string(world.masterManager.unitLoader->customClasses.at(name).healingRangeValues[0].upperThreshold);
+			return OUT_OF_RANGE + std::to_string(world.masterManager.unitLoader->customClasses.at(unitID).healingRangeValues[0].upperThreshold);
 		}
 		else if (_unit == this){
 			return CANNOT_HEAL_SELF;
@@ -928,7 +931,7 @@ std::string UnitTile::attackReport(int distance, UnitTile* attacker, UnitTile* d
 	std::string attackerInflictedString{attacker->getPlayer()->getShortDisplayName().substr(0, 3) + " -" + roundFloat(defenderInflicted)};
 	std::string defenderInflictedString{defender->getPlayer()->getShortDisplayName().substr(0, 3) + " -" + roundFloat(attackerInflicted)};
 
-	result << "Combat:    " << attacker->getPlayer()->getShortDisplayName().substr(0, 3) + " " + attacker->name + "[" + attacker->dirToString() + "] " << " vs. " << defender->getPlayer()->getShortDisplayName().substr(0, 3) + " " + defender->name + "[" + defender->dirToString() + "]" << "; ";
+	result << "Combat:    " << attacker->getPlayer()->getShortDisplayName().substr(0, 3) + " " + attacker->getShortDisplayName() + "[" + attacker->dirToString() + "] " << " vs. " << defender->getPlayer()->getShortDisplayName().substr(0, 3) + " " + defender->getShortDisplayName() + "[" + defender->dirToString() + "]" << "; ";
 
 	if (distance == 1){
 		result << "melee";
@@ -1114,7 +1117,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	int upperDieThreshold{6};
 	bool modifierIsDamage{false};
 
-	for (auto& item : world.masterManager.unitLoader->customClasses.at(name).rangedAttackDistValues){
+	for (auto& item : world.masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues){
 		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
 			distanceModifier = item.distModifier;
 			modifierIsDamage = item.modifierIsDamage;
@@ -1171,8 +1174,8 @@ std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 
     int maxRange{0};
 
-    if(!world.masterManager.unitLoader->customClasses.at(name).bridgeAttackDistValues.empty()){
-        maxRange = world.masterManager.unitLoader->customClasses.at(name).bridgeAttackDistValues[0].upperThreshold;
+    if(!world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()){
+        maxRange = world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues[0].upperThreshold;
     }
 
 	if(distance > maxRange){
@@ -1202,7 +1205,7 @@ std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 	int upperDieThreshold{0};
 	bool modifierIsDamage{false};
 
-	for (auto& item : world.masterManager.unitLoader->customClasses.at(name).bridgeAttackDistValues){
+	for (auto& item : world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues){
 		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
 			distanceModifier = item.distModifier;
 			modifierIsDamage = item.modifierIsDamage;
@@ -1265,8 +1268,8 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
 
     int maxRange{0};
 
-    if(!world.masterManager.unitLoader->customClasses.at(name).bridgeAttackDistValues.empty()){
-        maxRange = world.masterManager.unitLoader->customClasses.at(name).bridgeAttackDistValues[0].upperThreshold;
+    if(!world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()){
+        maxRange = world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues[0].upperThreshold;
     }
 
 	if(distance > maxRange){
@@ -1297,7 +1300,7 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
 	int upperDieThreshold{0};
 	bool modifierIsDamage{false};
 
-	for (auto& item : world.masterManager.unitLoader->customClasses.at(name).bridgeAttackDistValues){
+	for (auto& item : world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues){
 		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
 			distanceModifier = item.distModifier;
 			modifierIsDamage = item.modifierIsDamage;

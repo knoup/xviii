@@ -9,21 +9,23 @@ class SpawnableUnit
 public:
 	//Data members
 
+    std::string unitID;
 	sf::Text unitName;
 	sf::Sprite unitSprite;
 	Player* player;
 	UnitTile::UnitType type;
 
-	SpawnableUnit(Player* _player, std::string _name, sf::Vector2i _coords) :
-		player{_player}
+	SpawnableUnit(Player* _player, std::string _unitID, sf::Vector2i _coords) :
+		player{_player},
+		unitID{_unitID}
 	{
 		unitName.setFont(player->masterManager.fontManager->getFont(FontManager::Type::Lucon));
 		unitName.setColor(sf::Color::White);
 		unitName.setCharacterSize(12);
 
-		unitName.setString(_name);
+		unitName.setString(player->masterManager.unitLoader->customClasses.at(_unitID).shortDisplayName);
 
-		std::string textureID = player->masterManager.unitLoader->customClasses.at(_name).textureID;
+		std::string textureID = player->masterManager.unitLoader->customClasses.at(_unitID).textureID;
 		unitSprite = player->masterManager.textureManager->getUnitSprite(textureID);
 
 		unitSprite.setOrigin(unitSprite.getGlobalBounds().width / 2, unitSprite.getGlobalBounds().height / 2);

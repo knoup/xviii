@@ -5,7 +5,8 @@ NATIONS:
 	DEFINE:ALL
 }
 
-STRING:Cavalry Regiment
+NAME:Cavalry Regiment
+SHORT: cav
 SPRITE:cavalry
 MAIN_TYPE:CAV
 FAMILY_TYPE:CAV

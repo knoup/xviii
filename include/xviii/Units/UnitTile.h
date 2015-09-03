@@ -179,7 +179,7 @@ public:
 		bool whenDefending;
 	};
 
-	UnitTile(World& _world, Player* _belongsToPlayer, std::string _textureID, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir);
+	UnitTile(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
 
@@ -193,7 +193,9 @@ public:
 	inline float gethp() const{ return hp; };
 	inline int getMov() const{	return mov;	};
 	inline UnitTile::Direction getDir() const{ return dir; };
-	inline std::string getName() const{ return name; };
+	inline std::string getUnitID() const{return unitID;};
+	inline std::string getDisplayName() const{ return displayName; };
+	inline std::string getShortDisplayName() const {return shortDisplayName;};
 
 	inline bool getHasMoved() const{ return hasMoved; };
 	inline bool getHasPartialRotated() const{ return hasPartialRotated; };
@@ -367,8 +369,9 @@ protected:
 	sf::Text hpText;
 	sf::Text movText;
 
-	//This string serves both as a name and as a unique ID to the custom defined unit type
-	std::string name;
+	std::string unitID;
+	std::string displayName;
+	std::string shortDisplayName;
 
 	UnitType unitType;
 	UnitFamily unitFamilyType;

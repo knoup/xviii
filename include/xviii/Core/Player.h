@@ -22,12 +22,12 @@ class Player
 		Player(MasterManager& _masterManager, World& _world, std::string _factionID, bool _spawnedAtBottom);
 
 		//Returns true if successfully spawned unit
-		bool spawnUnit(std::string _name, sf::Vector2i _worldCoords);
+		bool spawnUnit(std::string _unitID, sf::Vector2i _worldCoords);
 		//Returns the unit's unique ptr if successfully removed
 		UnitTile::unitPtr removeUnit(sf::Vector2i _worldCoords);
 		UnitTile::unitPtr removeUnit(UnitTile* _unit);
 		//For loading from a save game
-		void loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _limber, bool _lancerBonusReady);
+		void loadUnit(std::string _unitID, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _limber, bool _lancerBonusReady);
 
 		inline const World& getWorld() const{ return world; };
 		inline int getDeploymentPoints() const{ return deploymentPoints; };

@@ -3,7 +3,7 @@ All unit definitions must have the following line
 
 UNIT DEFINITION
 
-as the first line in the file.
+as the first line in the file. The name of the file will serve as the unit's ID, the name with which you will be able to define bonuses.
 
 NATION:
 {
@@ -13,12 +13,14 @@ NATION:
 
 In the shown format, nations to whom this unit is available must be defined. The names of the nations must be one of those of the factions defined in assets/factions. Optionally, DEFINE:ALL can be used to make the unit available to all nations.
 
-STRING:inf
+NAME:Infantry
+SHORT: inf
 SPRITE:inf
 MAIN_TYPE:INF
 FAMILY_TYPE:INF
 
-STRING is the unit's name. Note that these also serve as unique ID's; no 2 units may have the same name.
+NAME is the unit's name. Note that 2 units may have the same name, as long as the ID (name of the .txt file itself) is different.
+SHORT is the shorthand version of the name.
 SPRITE specifies the unit's sprite. These are simply filenames of sprites in assets/gfx/units. Note that
 these images must be in a .png format.
 MAIN_TYPE specifies the unit's primary type and is vital for behavior.
@@ -150,6 +152,7 @@ MELEE_BONUS
 	{
 		DEFINE:MAIN:INF:2,0,1,1
 		DEFINE:FAMILY:HINF:3,1,1,0
+		DEFINE:UNITID:inf:3,1,0,0
 	}
 
 DEFINE:MAIN for main types

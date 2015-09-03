@@ -3,8 +3,8 @@
 
 #include "xviii/Core/World.h"
 
-Sapper::Sapper(World& _world, Player* _belongsToPlayer, std::string _textureID, std::string _name, UnitType _type, UnitFamily _familyType, Direction _dir) :
-Infantry(_world, _belongsToPlayer, _textureID, _name, _type, _familyType, _dir)
+Sapper::Sapper(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir) :
+Infantry(_world, _belongsToPlayer, _unitID, _type, _familyType, _dir)
 {
 }
 

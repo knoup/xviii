@@ -38,6 +38,8 @@ void FactionLoader::parse(boost::filesystem::path path){
 
         if (currentLine.find("NAME:") EXISTS){
 			newClass->displayName = AFTERCOLON;
+			//Just in case a short name isn't defined
+			newClass->shortDisplayName = AFTERCOLON.substr(0,3);
 		}
 
 		else if(currentLine.find("SHORT:") EXISTS){

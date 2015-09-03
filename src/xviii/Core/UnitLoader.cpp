@@ -26,6 +26,8 @@ void UnitLoader::parse(boost::filesystem::path path){
 	#define AFTERCOLON currentLine.substr(currentLine.find(":") + 1, currentLine.size() - 1)
 	#define EXISTS != std::string::npos
 
+    newClass->unitID = path.filename().leaf().stem().string();
+
 	std::getline(unitData, currentLine);
 	if (!(currentLine.find("UNIT DEFINITION") EXISTS)){
 		return;
@@ -55,8 +57,14 @@ void UnitLoader::parse(boost::filesystem::path path){
 			}
 		}
 
-        else if (currentLine.find("STRING:") EXISTS){
-			newClass->name = AFTERCOLON;
+        else if (currentLine.find("NAME:") EXISTS){
+			newClass->displayName = AFTERCOLON;
+			//Just in case a short name isn't defined
+			newClass->shortDisplayName = AFTERCOLON.substr(0,3);
+		}
+
+		else if(currentLine.find("SHORT:") EXISTS){
+            newClass->shortDisplayName = AFTERCOLON;
 		}
 
 		else if (currentLine.find("SPRITE:") EXISTS){
@@ -394,7 +402,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 							newClass->bonusesVsFamilyTypes.emplace_back(familyType, arg1, arg2, arg3, arg4);
 					}
 
-					else if (first_part == "NAME"){
+					else if (first_part == "UNITID"){
 						newClass->bonusesVsNames.emplace_back(second_part, arg1, arg2, arg3, arg4);
 					}
 
@@ -415,5 +423,5 @@ void UnitLoader::parse(boost::filesystem::path path){
 	#undef EXISTS
 
 	unitData.close();
-	customClasses.emplace(newClass->name, std::move(*newClass));
+	customClasses.emplace(newClass->unitID, std::move(*newClass));
 }

@@ -61,7 +61,7 @@ void TerrainTile::resetUnit(){
 bool TerrainTile::unitCanStopHere(UnitTile* _unit){
     auto& vec = world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitStringMovementCapabilities;
 
-    auto it = vec.find(_unit->getName());
+    auto it = vec.find(_unit->getUnitID());
 
     if(it != vec.end()){
         return (it->second).second;
@@ -74,7 +74,7 @@ bool TerrainTile::unitCanStopHere(UnitTile* _unit){
 bool TerrainTile::unitCanCrossHere(UnitTile* _unit){
     auto& vec = world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitStringMovementCapabilities;
 
-    auto it = vec.find(_unit->getName());
+    auto it = vec.find(_unit->getUnitID());
 
     if(it != vec.end()){
         return (it->second).first;
@@ -85,7 +85,7 @@ bool TerrainTile::unitCanCrossHere(UnitTile* _unit){
 }
 
 void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking){
-    std::string name = _unit->getName();
+    std::string unitID = _unit->getUnitID();
     UnitTile::UnitType mainType = _unit->getUnitType();
     UnitTile::UnitFamily familyType = _unit->getUnitFamilyType();
 
@@ -119,7 +119,7 @@ void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking
     /////////////////////////////////////////////////////////////////////////////////////////
 
      for(auto& bonus : unitStringBonuses){
-        if(bonus.name == name){
+        if(bonus.unitID == unitID){
             if((bonus.inMelee && _distance == 1 || bonus.inRanged && _distance > 1)
                &&
                (bonus.whenAttacking && _attacking || bonus.whenDefending && !_attacking)){

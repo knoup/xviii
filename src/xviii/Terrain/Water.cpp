@@ -14,5 +14,5 @@ std::string Water::callTerrainAttack(UnitTile* unit, int distance){
 }
 
 bool Water::unitCanCrossHere(UnitTile* _unit){
-   return (world.masterManager.unitLoader->customClasses.at(_unit->getName()).waterCrosser);
+   return (world.masterManager.unitLoader->customClasses.at(_unit->getUnitID()).waterCrosser);
 }

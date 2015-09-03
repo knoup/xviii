@@ -81,9 +81,9 @@ public:
 
     struct UnitStringBonus{
 
-     UnitStringBonus(std::string _name, float _modifier, bool _isAdditional,
+     UnitStringBonus(std::string _unitID, float _modifier, bool _isAdditional,
                           bool _inMelee, bool _inRanged, bool _whenAttacking, bool _whenDefending):
-        name{_name},
+        unitID{_unitID},
         modifier{_modifier},
         isAdditional{_isAdditional},
         inMelee{_inMelee},
@@ -93,7 +93,7 @@ public:
         {
         }
 
-        std::string name;
+        std::string unitID;
         float modifier;
         bool isAdditional;
         bool inMelee;

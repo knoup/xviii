@@ -3,10 +3,11 @@ UNIT DEFINITION
 NATIONS:
 {
 	DEFINE:JapEmp
-        DEFINE:JapShog
+    DEFINE:JapShog
 }
 
-STRING:Samurai Infantry
+NAME:Samurai Infantry
+SHORT:SInf
 SPRITE:heavyinfantry
 MAIN_TYPE:INF
 FAMILY_TYPE:HINF

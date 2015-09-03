@@ -188,7 +188,7 @@ bool SaveGame::create(){
 
 			save << "u{" << std::endl;
 
-			save << INDENT << "type=" << unit->getName() << std::endl;
+			save << INDENT << "type=" << unit->getUnitID() << std::endl;
 			save << INDENT << "faction=";
 
 			if (unit->getPlayer() == game->Player1){
@@ -465,7 +465,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 			//Keeping these uninitialised for the moment to ensure I catch any bugs
 
-			std::string name;
+			std::string unitID;
 			Player* player{nullptr};
 			sf::Vector2i pos;
 			UnitTile::Direction dir;
@@ -486,7 +486,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 
 				if (line.find("type=") != std::string::npos){
-					name = AFTEREQUALS;
+					unitID = AFTEREQUALS;
 				}
 
 				else if (line.find("faction=") != std::string::npos){
@@ -568,7 +568,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			}
 
 
-			player->loadUnit(name, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed, squareFormationActive, limber, lancerBonusReady);
+			player->loadUnit(unitID, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed, squareFormationActive, limber, lancerBonusReady);
 
 		}
 

@@ -5,7 +5,8 @@ NATIONS:
 	DEFINE:ALL
 }
 
-STRING:art
+NAME:Artillery
+SHORT:art
 SPRITE:artillery
 MAIN_TYPE:ART
 FAMILY_TYPE:ART

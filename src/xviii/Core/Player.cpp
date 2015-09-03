@@ -39,7 +39,7 @@ spawnedAtBottom{_spawnedAtBottom}
 
 			if ((availableFaction == factionID || availableFaction == "ALL") && (validEra || world.getEra() == World::Era::ALL)){
 				int index = spawnableUnits.size();
-				spawnableUnits.emplace_back(this, customClass.second.name,
+				spawnableUnits.emplace_back(this, customClass.second.unitID,
 				sf::Vector2i((index % idealDimensions.x) + 1, (index / idealDimensions.x) + 1));
 				break;
 			}
@@ -71,7 +71,7 @@ spawnedAtBottom{_spawnedAtBottom}
 
                 if ((availableCulture == factionCulture) && (validEra || world.getEra() == World::Era::ALL)){
                     int index = spawnableUnits.size();
-                    spawnableUnits.emplace_back(this, customClass.second.name,
+                    spawnableUnits.emplace_back(this, customClass.second.unitID,
                     sf::Vector2i((index % idealDimensions.x) + 1, (index / idealDimensions.x) + 1));
                     break;
                 }
@@ -94,7 +94,7 @@ spawnedAtBottom{_spawnedAtBottom}
 	view = centerView;
 }
 
-bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
+bool Player::spawnUnit(std::string _unitID, sf::Vector2i _worldCoords){
 
 	UnitTile::unitPtr ptr;
 	UnitTile::Direction dir;
@@ -121,16 +121,15 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 		dir = UnitTile::Direction::S;
 	}
 
-	std::string _textureID = masterManager.unitLoader->customClasses.at(_name).textureID;
-	UnitTile::UnitType _type = masterManager.unitLoader->customClasses.at(_name).unitType;
-	UnitTile::UnitFamily _familyType =masterManager.unitLoader->customClasses.at(_name).unitFamilyType;
+	UnitTile::UnitType _type = masterManager.unitLoader->customClasses.at(_unitID).unitType;
+	UnitTile::UnitFamily _familyType =masterManager.unitLoader->customClasses.at(_unitID).unitFamilyType;
 
 	//Create the appropriate unit
 	switch (_type){
 		//string, type, class
 		#define X(str, type, cl)\
 		case(type):\
-			ptr = std::move(std::unique_ptr<cl>(new cl(world, this, _textureID, _name, _type, _familyType, dir)));\
+			ptr = std::move(std::unique_ptr<cl>(new cl(world, this, _unitID, _type, _familyType, dir)));\
 			break;
 		MAINTYPEPROPERTIES
 		#undef X
@@ -188,11 +187,10 @@ bool Player::spawnUnit(std::string _name, sf::Vector2i _worldCoords){
 }
 
 //For loading from a save game
-void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _limber, bool _lancerBonusReady){
+void Player::loadUnit(std::string _unitID, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _limber, bool _lancerBonusReady){
 
-	std::string _textureID = masterManager.unitLoader->customClasses.at(_name).textureID;
-	UnitTile::UnitType _type = masterManager.unitLoader->customClasses.at(_name).unitType;
-	UnitTile::UnitFamily _familyType = masterManager.unitLoader->customClasses.at(_name).unitFamilyType;
+	UnitTile::UnitType _type = masterManager.unitLoader->customClasses.at(_unitID).unitType;
+	UnitTile::UnitFamily _familyType = masterManager.unitLoader->customClasses.at(_unitID).unitFamilyType;
 
 	UnitTile::unitPtr ptr;
 
@@ -201,7 +199,7 @@ void Player::loadUnit(std::string _name, sf::Vector2i _pos, UnitTile::Direction 
 		//string, type, class
 		#define X(str, type, cl)\
 			case(type):\
-				ptr = std::move(std::unique_ptr<cl>(new cl(world, this, _textureID, _name, _type, _familyType, _dir)));\
+				ptr = std::move(std::unique_ptr<cl>(new cl(world, this, _unitID, _type, _familyType, _dir)));\
 				break;
 		MAINTYPEPROPERTIES
 		#undef X

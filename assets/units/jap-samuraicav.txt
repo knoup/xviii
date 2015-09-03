@@ -6,7 +6,8 @@ NATIONS:
         DEFINE:JapEmp
 }
 
-STRING:Samurai Cavalry
+NAME:Samurai Cavalry
+SHORT:SCav
 SPRITE:armouredlancers
 MAIN_TYPE:CAV
 FAMILY_TYPE:CAV

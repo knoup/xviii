@@ -6,7 +6,8 @@ NATIONS:
         DEFINE:JapEmp
 }
 
-STRING:Tanegashima Infantry
+NAME:Tanegashima Infantry
+SHORT:TInf
 SPRITE:matchlockinf
 MAIN_TYPE:INF
 FAMILY_TYPE:LINF

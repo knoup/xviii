@@ -6,7 +6,8 @@ NATIONS:
         DEFINE:JapShog
 }
 
-STRING:Ashigaru
+NAME:Ashigaru
+SHORT:ash
 SPRITE:infantry
 MAIN_TYPE:INF
 FAMILY_TYPE:INF

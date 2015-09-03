@@ -5,7 +5,8 @@ NATIONS:
 	DEFINE:ALL
 }
 
-STRING:Line Infantry
+NAME:Line Infantry
+SHORT:LInf
 SPRITE:infantry
 MAIN_TYPE:INF
 FAMILY_TYPE:INF

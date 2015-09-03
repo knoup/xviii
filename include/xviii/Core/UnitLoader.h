@@ -12,13 +12,15 @@ public:
 	struct UnitClassData{
 		//This struct contains all the data needed to "create" classes from read
 		//txt files; the name acts as a unique ID
-		UnitClassData(std::string _name, boost::filesystem::path _path) :
-			name{_name},
+		UnitClassData(std::string _unitID, boost::filesystem::path _path) :
+			unitID{_unitID},
 			mPath{_path}
 		{
 		}
 
-		std::string name;
+        std::string unitID;
+		std::string displayName;
+		std::string shortDisplayName;
 		std::string textureID;
 
 		boost::filesystem::path mPath;
