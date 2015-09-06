@@ -167,12 +167,12 @@ public:
 		bool whenDefending;
 	};
 
-	struct BonusVSName{
-		BonusVSName(std::string _name, float _modifier, bool _modifierIsAdditional, bool _whenAttacking, bool _whenDefending) :
-			name{_name}, modifier{_modifier}, modifierIsAdditional{_modifierIsAdditional}, whenAttacking{_whenAttacking}, whenDefending{_whenDefending}
+	struct BonusVsUnitID{
+		BonusVsUnitID(std::string _unitID, float _modifier, bool _modifierIsAdditional, bool _whenAttacking, bool _whenDefending) :
+			unitID{_unitID}, modifier{_modifier}, modifierIsAdditional{_modifierIsAdditional}, whenAttacking{_whenAttacking}, whenDefending{_whenDefending}
 		{}
 
-		std::string name;
+		std::string unitID;
 		float modifier;
 		bool modifierIsAdditional;
 		bool whenAttacking;

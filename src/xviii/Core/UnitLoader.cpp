@@ -403,7 +403,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 					}
 
 					else if (first_part == "UNITID"){
-						newClass->bonusesVsNames.emplace_back(second_part, arg1, arg2, arg3, arg4);
+						newClass->bonusesVsUnitIDs.emplace_back(second_part, arg1, arg2, arg3, arg4);
 					}
 
 					else{

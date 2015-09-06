@@ -124,7 +124,7 @@ void TerrainLoader::parse(boost::filesystem::path path){
                         arg1AsString >> arg1;
                         arg2AsString >> arg2;
 
-                        current->unitStringMovementCapabilities.insert({second_part, {arg1,arg2}});
+                        current->unitIDMovementCapabilities.insert({second_part, {arg1,arg2}});
                     }
 
                     else if(currentLine.find("BONUS:") EXISTS){
@@ -180,7 +180,7 @@ void TerrainLoader::parse(boost::filesystem::path path){
                         }
 
                         else if(first_part == "STRING"){
-                            current->unitStringBonuses.emplace_back(second_part, arg1, arg2, arg3, arg4, arg5, arg6);
+                            current->unitIDBonuses.emplace_back(second_part, arg1, arg2, arg3, arg4, arg5, arg6);
                         }
                     }
 

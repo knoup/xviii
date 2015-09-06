@@ -16,8 +16,8 @@ public:
 	UnitTile::UnitType type;
 
 	SpawnableUnit(Player* _player, std::string _unitID, sf::Vector2i _coords) :
-		player{_player},
-		unitID{_unitID}
+		unitID{_unitID},
+		player{_player}
 	{
 		unitName.setFont(player->masterManager.fontManager->getFont(FontManager::Type::Lucon));
 		unitName.setColor(sf::Color::White);

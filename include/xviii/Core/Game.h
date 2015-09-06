@@ -31,6 +31,7 @@ public:
 	//Cycles to the next player; sets currentPlayer and currentView, and resets the ready status
 	void nextPlayer();
 
+	MasterManager mManager;
 	sf::RenderWindow mWindow;
 
 	GameState* state;
@@ -39,8 +40,6 @@ public:
 	std::unique_ptr<GameState_SelectNations> SelectNationsState;
 	std::unique_ptr<GameState_Setup> SetupState;
 	std::unique_ptr<GameState_Play> PlayState;
-
-	MasterManager mManager;
 
 	World mWorld;
 

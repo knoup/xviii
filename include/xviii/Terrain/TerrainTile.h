@@ -79,9 +79,9 @@ public:
 
     };
 
-    struct UnitStringBonus{
+    struct UnitIDBonus{
 
-     UnitStringBonus(std::string _unitID, float _modifier, bool _isAdditional,
+     UnitIDBonus(std::string _unitID, float _modifier, bool _isAdditional,
                           bool _inMelee, bool _inRanged, bool _whenAttacking, bool _whenDefending):
         unitID{_unitID},
         modifier{_modifier},

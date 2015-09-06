@@ -17,7 +17,7 @@ public:
 
         std::vector<TerrainTile::UnitMainTypeBonus> unitMainBonuses;
         std::vector<TerrainTile::UnitFamilyTypeBonus> unitFamilyBonuses;
-        std::vector<TerrainTile::UnitStringBonus> unitStringBonuses;
+        std::vector<TerrainTile::UnitIDBonus> unitIDBonuses;
 
         //////////////////////////////////////////////////////////////////
 
@@ -29,7 +29,7 @@ public:
         //I opted to make this only possible through string entry for now, in the interest of
         //avoiding too much overhead, taking into account this will be constantly accessed
         //by UnitTile::distanceFrom()
-        std::map<std::string, std::pair<bool,bool>> unitStringMovementCapabilities;
+        std::map<std::string, std::pair<bool,bool>> unitIDMovementCapabilities;
 	};
 
 	TerrainLoader();

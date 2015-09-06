@@ -59,7 +59,7 @@ void TerrainTile::resetUnit(){
 }
 
 bool TerrainTile::unitCanStopHere(UnitTile* _unit){
-    auto& vec = world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitStringMovementCapabilities;
+    auto& vec = world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitIDMovementCapabilities;
 
     auto it = vec.find(_unit->getUnitID());
 
@@ -72,7 +72,7 @@ bool TerrainTile::unitCanStopHere(UnitTile* _unit){
 }
 
 bool TerrainTile::unitCanCrossHere(UnitTile* _unit){
-    auto& vec = world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitStringMovementCapabilities;
+    auto& vec = world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitIDMovementCapabilities;
 
     auto it = vec.find(_unit->getUnitID());
 
@@ -91,7 +91,7 @@ void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking
 
     auto& unitMainBonuses = (world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitMainBonuses);
     auto& unitFamilyBonuses = (world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitFamilyBonuses);
-    auto& unitStringBonuses = (world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitStringBonuses);
+    auto& unitIDBonuses = (world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitIDBonuses);
 
     /////////////////////////////////////////////////////////////////////////////////////////
     for(auto& bonus : unitMainBonuses){
@@ -118,7 +118,7 @@ void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking
 
     /////////////////////////////////////////////////////////////////////////////////////////
 
-     for(auto& bonus : unitStringBonuses){
+     for(auto& bonus : unitIDBonuses){
         if(bonus.unitID == unitID){
             if((bonus.inMelee && _distance == 1 || bonus.inRanged && _distance > 1)
                &&

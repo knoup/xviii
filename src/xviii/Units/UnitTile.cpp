@@ -30,7 +30,7 @@ void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 
 	auto& bonusesVsMainTypes = world.masterManager.unitLoader->customClasses.at(unitID).bonusesVsMainTypes;
 	auto& bonusesVsFamilyTypes = world.masterManager.unitLoader->customClasses.at(unitID).bonusesVsFamilyTypes;
-	auto& bonusesVsNames = world.masterManager.unitLoader->customClasses.at(unitID).bonusesVsNames;
+	auto& bonusesVsUnitIDs = world.masterManager.unitLoader->customClasses.at(unitID).bonusesVsUnitIDs;
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,8 +54,8 @@ void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 
-	for (auto& bonus : bonusesVsNames){
-		if (bonus.name == enemyUnitID){
+	for (auto& bonus : bonusesVsUnitIDs){
+		if (bonus.unitID == enemyUnitID){
 			if ((!_attacking && bonus.whenDefending) || (_attacking && bonus.whenAttacking)){
 				modVector.emplace_back(Modifier::BONUS, bonus.modifier, bonus.modifierIsAdditional);
 			}
