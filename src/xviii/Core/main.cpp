@@ -6,8 +6,9 @@ TODO:
     TOFIX:
     -The "out of max range" message for terrain attacks also showing up when a unit attacks an enemy
 
-    -Change UnitTile::name to unitID, for consistency (this also involves changing related things, like getName()
-    and the BonusVsNames, BonusVSStrings)
+    TODO:
+    -Add 2 new numbers defined in unit .txts; one for the max range you can identify a unit type , and the other the max range you can
+    identify a unit exists. Also, different kinds of weather should increase these ranges.
 
 
     MISC:

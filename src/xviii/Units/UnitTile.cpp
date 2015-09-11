@@ -269,6 +269,10 @@ void UnitTile::spawn(TerrainTile* terrainTile){
 	sprite.setPosition(terrainTile->getPixelPos());
 	unitFlag.setPosition(terrainTile->getPixelPos());
 	outline.setPosition(terrainTile->getPixelPos());
+
+	truePosition = terrainTile->getCartesianPos();
+	perceivedPosition = truePosition;
+
 	updateStats();
 }
 
@@ -306,6 +310,12 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	}
 
 	else if (validMovDirection && inMovementRange){
+        //Check, first, if the destination is clear of units:
+        if(_terrainTile->getUnit() != nullptr){
+
+        }
+
+
         world.wearDownTempBridges(terrain, _terrainTile);
 		terrain->resetUnit();
 		terrain = _terrainTile;
@@ -314,6 +324,10 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 		sprite.setPosition(_terrainTile->getPixelPos());
 		unitFlag.setPosition(_terrainTile->getPixelPos());
 		outline.setPosition(_terrainTile->getPixelPos());
+
+		truePosition = _terrainTile->getCartesianPos();
+        perceivedPosition = truePosition;
+
 		updateStats();
 		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
 	}
@@ -635,7 +649,37 @@ void UnitTile::updateStats(){
 	movText.setString(std::to_string(mov));
 	hpText.setString(roundFloat(hp));
 
-	//Update the physical position of the stats
+	perceivedPosition = truePosition;
+
+    //////////////////////////////////////////////
+
+    //If the unit is too far away, adjust the position of the sprite accordingly:
+    if(!drawUnit){
+        boost::random::uniform_int_distribution<int> distribution(0, 1);
+        int xDisplacement{distribution(world.masterManager.randomEngine)};
+        int yDisplacement{distribution(world.masterManager.randomEngine)};
+
+        perceivedPosition.x += xDisplacement;
+        perceivedPosition.y += yDisplacement;
+
+        //Now, perceivedPosition is randomly offset by 1 tile at most on each axis.
+        //In order to prevent multiple units from being on the same tile, we'll
+        //do a check
+
+        if(world.cartesianPosOutOfBounds(perceivedPosition)){
+            perceivedPosition = truePosition;
+        }
+    }
+
+    sf::Vector2f finalPosition = world.pixelPosAtCartesianPos(perceivedPosition);
+
+    sprite.setPosition(finalPosition);
+    unitFlag.setPosition(finalPosition);
+    outline.setPosition(finalPosition);
+
+    //////////////////////////////////////////////
+
+	//Update the physical position of the stats, and sprite, if needed
     //This algorithm attempts to place the numbers in as even a space as possible:
     auto spriteSize = sprite.getLocalBounds();
 	auto spritePos = sprite.getPosition();
@@ -649,26 +693,32 @@ void UnitTile::updateStats(){
 }
 
 void UnitTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
-	target.draw(sprite, states);
-	target.draw(unitFlag);
-	target.draw(dirText);
-	target.draw(hpText);
-	target.draw(movText);
 
-	if (hasMeleeAttacked || hasRangedAttacked){
-		outline.setOutlineColor(sf::Color::Red);
-	}
-	else if (highlighted){
-		outline.setOutlineColor(sf::Color::Yellow);
-	}
-	else if (squareFormationActive){
-		outline.setOutlineColor(sf::Color(0,255,255));
-	}
-	else{
-		outline.setOutlineColor(sf::Color::Transparent);
-	}
+    if(drawUnit){
+        target.draw(sprite, states);
+        target.draw(dirText);
+        target.draw(hpText);
+        target.draw(movText);
 
-	target.draw(outline);
+        if (hasMeleeAttacked || hasRangedAttacked){
+            outline.setOutlineColor(sf::Color::Red);
+        }
+        else if (highlighted){
+            outline.setOutlineColor(sf::Color::Yellow);
+        }
+        else if (squareFormationActive){
+            outline.setOutlineColor(sf::Color(0,255,255));
+        }
+        else{
+            outline.setOutlineColor(sf::Color::Transparent);
+        }
+
+        target.draw(outline);
+    }
+
+    if(drawFlag){
+        target.draw(unitFlag);
+    }
 }
 
 /*

@@ -28,7 +28,7 @@ public:
 	void setGameStateSetup();
 	void setGameStatePlay();
 
-	//Cycles to the next player; sets currentPlayer and currentView, and resets the ready status
+	//Cycles to the next player; sets currentPlayer, currentView, and inactivePlayer, and resets the ready status
 	void nextPlayer();
 
 	MasterManager mManager;
@@ -48,6 +48,8 @@ public:
 
 	Player* currentPlayer;
 	sf::View* currentView;
+
+	Player* inactivePlayer;
 
 	std::vector<Player*> mPlayers;
 

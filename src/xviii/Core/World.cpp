@@ -130,6 +130,13 @@ sf::Vector2i World::cartesianPosAtIndex(int _index) const{
 	return{_index % dimensions.x, _index/dimensions.x};
 }
 
+sf::Vector2i World::cartesianPosAtPixelPos(sf::Vector2i _pos) const{
+    return cartesianPosAtIndex(indexAtPixelPos(_pos));
+}
+
+sf::Vector2f World::pixelPosAtCartesianPos(sf::Vector2i _pos) const{
+    return pixelPosAtIndex(indexAtCartesianPos(_pos));
+}
 //Takes in an index and returns the theoretical position of this object, whether it exists or not.
 //Does not access terrainLayer, therefore making it useful when you want to find what the position
 //of an uninitialised terrain tile tile would be
@@ -174,6 +181,26 @@ bool World::canBePlacedAtCartesianPos(sf::Vector2i _pos){
 	else{
 		return false;
 	}
+}
+
+bool World::pixelPosOutOfBounds(sf::Vector2i _pos){
+    if (_pos.x >= getDimensionsInPixels().x || _pos.y >= getDimensionsInPixels().y ||
+		_pos.x <= 0 || _pos.y <= 0){
+
+		return true;
+	}
+
+	return false;
+}
+
+bool World::cartesianPosOutOfBounds(sf::Vector2i _pos){
+    if (_pos.x > getDimensions().x - 1 || _pos.y > getDimensions().y - 1 ||
+		_pos.x < 0 || _pos.y < 0){
+
+		return true;
+	}
+
+	return false;
 }
 
 UnitTile* World::unitAtPixelPos(sf::Vector2i _pos){

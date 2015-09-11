@@ -184,7 +184,7 @@ bool SaveGame::create(){
 
 	for (auto& player : game->mPlayers){
 		for (auto& unit : player->getUnits()){
-			sf::Vector2i coords{game->mWorld.cartesianPosAtIndex(game->mWorld.indexAtTile(*unit))};
+			sf::Vector2i coords{unit->getTruePosition()};
 
 			save << "u{" << std::endl;
 
@@ -327,10 +327,12 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			if (playerStr == "player1"){
 				game->currentPlayer = game->Player1;
 				game->currentView = &game->Player1->view;
+				game->inactivePlayer = game->Player2;
 			}
 			else if (playerStr == "player2"){
 				game->currentPlayer = game->Player2;
 				game->currentView = &game->Player2->view;
+				game->inactivePlayer = game->Player1;
 			}
 		}
 

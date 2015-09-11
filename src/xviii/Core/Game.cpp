@@ -20,6 +20,7 @@ Player1{nullptr},
 Player2{nullptr},
 currentPlayer{nullptr},
 currentView{nullptr},
+inactivePlayer{nullptr},
 mousePos{},
 saveCreator{this}
 {
@@ -106,11 +107,14 @@ void Game::setGameStatePlay(){
 void Game::nextPlayer(){
 	if (currentPlayer == Player1){
 		currentPlayer = Player2;
+		inactivePlayer = Player1;
 	}
 	else if (currentPlayer == Player2){
 		currentPlayer = Player1;
+		inactivePlayer = Player2;
 	}
 
 	currentView = &currentPlayer->view;
 	currentPlayer->setReady(false);
+	inactivePlayer->setReady(false);
 }

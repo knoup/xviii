@@ -34,6 +34,16 @@ void GameState_Play::oneTimeUpdate(){
 	playUI.setCurrentPlayerText(game->currentPlayer->getDisplayName());
 	playUI.setElapsedTurnsText(game->mWorld.getElapsedTurns());
 	playUI.setCurrentTimeText(game->mWorld.getCurrentTime().getTime());
+
+	for (auto& unit : game->inactivePlayer->getUnits()){
+            unit->drawUnit = false;
+            unit->updateStats();
+    }
+
+    for (auto& unit : game->currentPlayer->getUnits()){
+        unit->drawUnit = true;
+        unit->updateStats();
+    }
 }
 
 void GameState_Play::getInput(){
@@ -178,14 +188,16 @@ void GameState_Play::getInput(){
 				middleButtonCoords = {event.mouseButton.x, event.mouseButton.y};
 			}
 
-			else if (event.mouseButton.button == sf::Mouse::Left && drawUI){
+			else if (event.mouseButton.button == sf::Mouse::Left){
 				sf::Vector2i mouseCoords{event.mouseButton.x, event.mouseButton.y};
 				sf::Vector2i worldCoords{game->mWindow.mapPixelToCoords(mouseCoords, *game->currentView)};
 				sf::Vector2f uiCoords{game->mWindow.mapPixelToCoords(game->mousePos, playUI.uiView)};
 
 				if (uiCoords.x >= playUI.getButton().left() && uiCoords.x <= playUI.getButton().right()
 					&&
-					uiCoords.y >= playUI.getButton().top() && uiCoords.y <= playUI.getButton().bottom()){
+					uiCoords.y >= playUI.getButton().top() && uiCoords.y <= playUI.getButton().bottom()
+                    &&
+                    drawUI){
 
 					game->currentPlayer->setReady(true);
 
@@ -213,11 +225,12 @@ void GameState_Play::getInput(){
 
 					//If a unit is selected and you click on a terrain tile,
 					//move the unit there if it is unnocupied
+
 					if (terrain != nullptr){
 						bool occupied{false};
 
 						if (terrain->getUnit() != nullptr){
-							occupied = true;
+                            occupied = true;
 						}
 
 						if (!occupied){
@@ -262,7 +275,7 @@ void GameState_Play::getInput(){
 				}
 			}
 
-			else if (event.mouseButton.button == sf::Mouse::Right && drawUI){
+			else if (event.mouseButton.button == sf::Mouse::Right){
 
 				if (selected != nullptr){
 					selected->setHighlighted(false);
@@ -323,11 +336,19 @@ void GameState_Play::update(float mFT){
 	//////////////////////////////////////////////////////////////////////////////
 
 	if (game->currentPlayer->isReady()){
-		for (auto& unit : game->currentPlayer->getUnits()){
-				unit->reset();
-		}
 
 		game->nextPlayer();
+
+
+		for (auto& unit : game->inactivePlayer->getUnits()){
+            unit->drawUnit = false;
+            unit->reset();
+		}
+
+		for (auto& unit : game->currentPlayer->getUnits()){
+            unit->drawUnit = true;
+            unit->updateStats();
+		}
 
         game->mWorld.turnlyUpdate();
         playUI.turnlyUpdate();
@@ -411,14 +432,14 @@ void GameState_Play::update(float mFT){
 			//Check if it is an enemy unit
 			bool friendly = (unit->getPlayer() == game->currentPlayer);
 
-			if ((!validAttackDirection && (!selected->canHeal())) || meleeObstructionPresent || rangedObstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || selected->getHasMeleeAttacked() || selected->getHasMeleeAttacked()){
+			if (((!validAttackDirection && (!selected->canHeal())) || meleeObstructionPresent || rangedObstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || selected->getHasMeleeAttacked() || selected->getHasMeleeAttacked()) && (unit->drawUnit)){
 					tileDistanceText.setColor(sf::Color::Red);
 				}
 				else{
 					if (friendly && !selected->canHeal()){
 						tileDistanceText.setColor(sf::Color::Magenta);
 					}
-					else{
+					else if (unit->drawUnit){
 						tileDistanceText.setColor(sf::Color::Blue);
 					}
 				}

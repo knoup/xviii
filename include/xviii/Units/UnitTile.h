@@ -223,6 +223,9 @@ public:
 
 	float getFlankModifier(UnitType _mainType, Modifier _flank) const;
 
+	inline sf::Vector2i getTruePosition(){return truePosition;};
+	inline sf::Vector2i getPerceivedPosition(){return perceivedPosition;};
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Setters
@@ -238,6 +241,8 @@ public:
 	inline void setHasRangedAttacked(bool _value){ hasRangedAttacked = _value; };
 	inline void setHasHealed(bool _value){ hasHealed = _value; };
 
+	inline void setTruePosition(sf::Vector2i _truePosition){truePosition = _truePosition;};
+    inline void setPerceivedPosition(sf::Vector2i _perceivedPosition){perceivedPosition = _perceivedPosition;};
 
 	//Component-related things
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -352,10 +357,16 @@ public:
 	//Data member
 	std::vector<ModifierReport> modVector;
 
+	bool drawUnit{true};
+	bool drawFlag{true};
+
 protected:
 	Player* player;
 
 	Direction dir;
+
+	sf::Vector2i truePosition{};
+	sf::Vector2i perceivedPosition{};
 
 	sf::Sprite unitFlag;
 	//Pointer to the terrain tile that the unit is on. This is only to be used for units, to indicate

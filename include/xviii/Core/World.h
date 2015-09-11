@@ -99,11 +99,16 @@ public:
 	int indexAtCartesianPos(sf::Vector2i _pos) const;
 	int indexAtTile(Tile& _tile) const;
 	sf::Vector2i cartesianPosAtIndex(int _index) const;
+	sf::Vector2i cartesianPosAtPixelPos(sf::Vector2i _pos) const;
+	sf::Vector2f pixelPosAtCartesianPos(sf::Vector2i _pos) const;
 	sf::Vector2f pixelPosAtIndex(int _index) const;
 
 	//Returns true if the terrain tile at this position is unoccupied
 	bool canBePlacedAtPixelPos(sf::Vector2i _pos);
 	bool canBePlacedAtCartesianPos(sf::Vector2i _pos);
+
+	bool pixelPosOutOfBounds(sf::Vector2i _pos);
+	bool cartesianPosOutOfBounds(sf::Vector2i _pos);
 
 	//Returns a [regular] pointer to the unit at this mouse coordinate position, if there is any
 	UnitTile* unitAtPixelPos(sf::Vector2i _pos);
