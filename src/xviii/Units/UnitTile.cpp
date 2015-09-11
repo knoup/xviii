@@ -23,6 +23,9 @@ int UnitTile::getLimit() const{ return world.masterManager.unitLoader->customCla
 int UnitTile::getMaxHp() const{ return world.masterManager.unitLoader->customClasses.at(unitID).maxHp; };
 int UnitTile::getMaxMov() const{ return world.masterManager.unitLoader->customClasses.at(unitID).maxMov; };
 
+int UnitTile::getUnitViewDistance() const {return world.masterManager.unitLoader->customClasses.at(unitID).unitViewDistance;};
+int UnitTile::getFlagViewDistance() const {return world.masterManager.unitLoader->customClasses.at(unitID).flagViewDistance;};
+
 void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 	UnitTile::UnitType mainType = _unit->getUnitType();
 	UnitTile::UnitFamily familyType = _unit->getUnitFamilyType();

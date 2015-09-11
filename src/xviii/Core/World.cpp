@@ -454,3 +454,45 @@ void World::turnlyUpdate(){
     getCurrentTime().increment();
 }
 
+void World::calculateViewDistance(UnitTile* unit){
+    sf::Vector2i currentPos = unit->getCartesianPos();
+    int unitViewDistance = unit->getUnitViewDistance();
+    int flagViewDistance = unit->getFlagViewDistance();
+    Player* owner = unit->getPlayer();
+
+    for (int x{-1 * unitViewDistance}; x <= unitViewDistance; ++x){
+
+		for (int y{-1 * unitViewDistance}; y <= unitViewDistance; ++y){
+
+			sf::Vector2i adjacentPos{currentPos.x + x, currentPos.y + y};
+			UnitTile* targetUnit = unitAtTerrain(terrainAtCartesianPos(adjacentPos));
+
+			if (targetUnit != nullptr){
+
+				if (targetUnit->getPlayer() != owner){
+					targetUnit->drawUnit = true;
+					targetUnit->updateStats();
+				}
+			}
+		}
+
+	}
+
+	for (int x{-1 * flagViewDistance}; x <= flagViewDistance; ++x){
+
+		for (int y{-1 * flagViewDistance}; y <= flagViewDistance; ++y){
+
+			sf::Vector2i adjacentPos{currentPos.x + x, currentPos.y + y};
+			UnitTile* targetUnit = unitAtTerrain(terrainAtCartesianPos(adjacentPos));
+
+			if (targetUnit != nullptr){
+
+				if (targetUnit->getPlayer() != owner){
+					targetUnit->drawFlag = true;
+					targetUnit->updateStats();
+				}
+			}
+		}
+
+	}
+}

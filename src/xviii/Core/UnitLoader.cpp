@@ -150,6 +150,20 @@ void UnitLoader::parse(boost::filesystem::path path){
 			newClass->limit = std::stoi(AFTERCOLON);
 		}
 
+		else if (currentLine.find("SCOUTING:") EXISTS){
+			std::vector<std::string> argsAsStrings;
+
+            std::stringstream ss(AFTERCOLON);
+            std::string item;
+
+            while (std::getline(ss, item, ',')){
+                argsAsStrings.push_back(item);
+            }
+
+            newClass->unitViewDistance = std::stoi(argsAsStrings[0]);
+            newClass->flagViewDistance = std::stoi(argsAsStrings[1]);
+		}
+
 		else if (currentLine.find("SKIRMISH:") EXISTS){
 			newClass->skirmish = std::stoi(AFTERCOLON);
 		}

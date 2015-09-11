@@ -37,13 +37,16 @@ void GameState_Play::oneTimeUpdate(){
 
 	for (auto& unit : game->inactivePlayer->getUnits()){
             unit->drawUnit = false;
+            unit->drawFlag = false;
             unit->updateStats();
-    }
+		}
 
-    for (auto& unit : game->currentPlayer->getUnits()){
-        unit->drawUnit = true;
-        unit->updateStats();
-    }
+		for (auto& unit : game->currentPlayer->getUnits()){
+            unit->drawUnit = true;
+            unit->drawFlag = true;
+            game->mWorld.calculateViewDistance(unit.get());
+            unit->updateStats();
+		}
 }
 
 void GameState_Play::getInput(){
@@ -342,11 +345,14 @@ void GameState_Play::update(float mFT){
 
 		for (auto& unit : game->inactivePlayer->getUnits()){
             unit->drawUnit = false;
+            unit->drawFlag = false;
             unit->reset();
 		}
 
 		for (auto& unit : game->currentPlayer->getUnits()){
             unit->drawUnit = true;
+            unit->drawFlag = true;
+            game->mWorld.calculateViewDistance(unit.get());
             unit->updateStats();
 		}
 

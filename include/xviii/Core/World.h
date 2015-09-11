@@ -150,6 +150,8 @@ public:
 
     void turnlyUpdate();
 
+    void calculateViewDistance(UnitTile* unit);
+
     //Ants and Tiles use this too; since they will always exist in a world, there is no point in them having
     //duplicate references to the master manager.
     MasterManager& masterManager;

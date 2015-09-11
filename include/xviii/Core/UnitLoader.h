@@ -63,6 +63,8 @@ public:
 		int maxMov;
 		int cost;
 		int limit{0};
+		int unitViewDistance;
+		int flagViewDistance;
 	};
 
 	UnitLoader(TextureManager& _tm);

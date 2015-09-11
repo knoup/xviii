@@ -226,6 +226,9 @@ public:
 	inline sf::Vector2i getTruePosition(){return truePosition;};
 	inline sf::Vector2i getPerceivedPosition(){return perceivedPosition;};
 
+	int getUnitViewDistance() const;
+	int getFlagViewDistance() const;
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Setters
