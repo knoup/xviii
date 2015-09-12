@@ -23,10 +23,13 @@
 	X("LATE", World::Era::LATE)\
 	X("ALL", World::Era::ALL)
 
+//The first number indicates how much shorter the unit view distance is during this weather,
+//the second, how much further the flag view distance is
+
 #define WEATHERPROPERTIES\
-	X("CLEAR", World::Weather::CLEAR)\
-	X("FOGGY", World::Weather::FOGGY)\
-	X("RAINY", World::Weather::RAINY)
+	X("CLEAR", World::Weather::CLEAR, 0, 0)\
+	X("FOGGY", World::Weather::FOGGY, 4, 4)\
+	X("RAINY", World::Weather::RAINY, 1, 1)
 
 class TerrainLoader;
 
@@ -157,6 +160,9 @@ public:
     MasterManager& masterManager;
 
 private:
+    int getWeatherUnitViewDistance() const;
+    int getWeatherFlagViewDistance() const;
+
 	sf::Vector2i dimensions;
 	sf::Vector2i dimensionsInPixels;
 

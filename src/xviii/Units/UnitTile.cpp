@@ -331,6 +331,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 		truePosition = _terrainTile->getCartesianPos();
         perceivedPosition = truePosition;
 
+        world.calculateViewDistance(this);
 		updateStats();
 		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
 	}
@@ -657,8 +658,8 @@ void UnitTile::updateStats(){
     //////////////////////////////////////////////
 
     //If the unit is too far away, adjust the position of the sprite accordingly:
-    if(!drawUnit){
-        boost::random::uniform_int_distribution<int> distribution(0, 1);
+    if(!drawUnit && drawFlag){
+        boost::random::uniform_int_distribution<int> distribution(-1, 1);
         int xDisplacement{distribution(world.masterManager.randomEngine)};
         int yDisplacement{distribution(world.masterManager.randomEngine)};
 
@@ -666,8 +667,6 @@ void UnitTile::updateStats(){
         perceivedPosition.y += yDisplacement;
 
         //Now, perceivedPosition is randomly offset by 1 tile at most on each axis.
-        //In order to prevent multiple units from being on the same tile, we'll
-        //do a check
 
         if(world.cartesianPosOutOfBounds(perceivedPosition)){
             perceivedPosition = truePosition;

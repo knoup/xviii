@@ -94,7 +94,7 @@ bool SaveGame::create(){
     std::string weatherString;
     World::Weather currentWeather = game->mWorld.getWeather();
 
-    #define X(_str, _weather)\
+    #define X(_str, _weather, _u, _f)\
 		if(_weather == currentWeather){\
 			weatherString = _str;\
 		}
@@ -263,7 +263,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("weather=") != std::string::npos){
 			std::string str = AFTEREQUALS;
 
-			#define X(_str, _weather)\
+			#define X(_str, _weather, _u, _f)\
 			if(str == _str)\
 				game->mWorld.setWeather(_weather);
 			WEATHERPROPERTIES

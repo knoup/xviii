@@ -454,45 +454,68 @@ void World::turnlyUpdate(){
     getCurrentTime().increment();
 }
 
+int World::getWeatherUnitViewDistance() const{
+    int weatherUnitViewDistance{0};
+
+    #define X(_str, _weather, _u, _f)\
+        if(_weather == currentWeather)\
+            weatherUnitViewDistance = _u;
+        WEATHERPROPERTIES
+        #undef X
+
+    return weatherUnitViewDistance;
+}
+
+int World::getWeatherFlagViewDistance() const{
+    int weatherFlagViewDistance{0};
+
+    #define X(_str, _weather, _u, _f)\
+        if(_weather == currentWeather)\
+            weatherFlagViewDistance = _f;
+        WEATHERPROPERTIES
+        #undef X
+
+    return weatherFlagViewDistance;
+}
+
 void World::calculateViewDistance(UnitTile* unit){
-    sf::Vector2i currentPos = unit->getCartesianPos();
-    int unitViewDistance = unit->getUnitViewDistance();
-    int flagViewDistance = unit->getFlagViewDistance();
+
+    //IMPORTANT:
+    //Due to the fact that Tile::getCartesianPos() bases its result on the physical location of the sprite,
+    //which for units can be in disagreement with its real position, we use getTruePosition() instead.
+
+    sf::Vector2i currentPos = unit->getTruePosition();
+
+    int unitViewDistance = unit->getUnitViewDistance() - getWeatherUnitViewDistance();
+    int flagViewDistance = unit->getFlagViewDistance() - getWeatherFlagViewDistance();
+
+    if(unitViewDistance < 1){
+        unitViewDistance = 1;
+    }
+    if(flagViewDistance < 1){
+        flagViewDistance = 1;
+    }
+
     Player* owner = unit->getPlayer();
 
-    for (int x{-1 * unitViewDistance}; x <= unitViewDistance; ++x){
+    for (int y{-1 * flagViewDistance}; y <= flagViewDistance; ++y){
+        for(int x{-1 * flagViewDistance}; x <= flagViewDistance; ++x){
 
-		for (int y{-1 * unitViewDistance}; y <= unitViewDistance; ++y){
+            sf::Vector2i adjacentPos{currentPos.x + x, currentPos.y + y};
 
-			sf::Vector2i adjacentPos{currentPos.x + x, currentPos.y + y};
-			UnitTile* targetUnit = unitAtTerrain(terrainAtCartesianPos(adjacentPos));
+            UnitTile* targetUnit = unitAtTerrain(terrainAtCartesianPos(adjacentPos));
 
-			if (targetUnit != nullptr){
+            if (targetUnit != nullptr){
+                if(targetUnit->getPlayer() != owner){
+                    targetUnit->drawFlag = true;
 
-				if (targetUnit->getPlayer() != owner){
-					targetUnit->drawUnit = true;
-					targetUnit->updateStats();
-				}
-			}
-		}
+                    if(abs(adjacentPos.x - currentPos.x) <= unitViewDistance && abs(adjacentPos.y - currentPos.y <= unitViewDistance)){
+                        targetUnit->drawUnit = true;
+                    }
 
-	}
-
-	for (int x{-1 * flagViewDistance}; x <= flagViewDistance; ++x){
-
-		for (int y{-1 * flagViewDistance}; y <= flagViewDistance; ++y){
-
-			sf::Vector2i adjacentPos{currentPos.x + x, currentPos.y + y};
-			UnitTile* targetUnit = unitAtTerrain(terrainAtCartesianPos(adjacentPos));
-
-			if (targetUnit != nullptr){
-
-				if (targetUnit->getPlayer() != owner){
-					targetUnit->drawFlag = true;
-					targetUnit->updateStats();
-				}
-			}
-		}
-
-	}
+                targetUnit->updateStats();
+                }
+            }
+        }
+    }
 }
