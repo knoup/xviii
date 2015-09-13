@@ -3,6 +3,7 @@
 
 #include "xviii/Core/Game.h"
 #include <boost/algorithm/string/find.hpp>
+#include <boost/algorithm/string.hpp>
 
 
 UnitTile::Direction stringToDir(std::string _dir){
@@ -91,19 +92,27 @@ bool SaveGame::create(){
 		ERAPROPERTIES
 		#undef X
 
-    std::string weatherString;
-    World::Weather currentWeather = game->mWorld.getWeather();
 
-    #define X(_str, _weather, _u, _f)\
-		if(_weather == currentWeather){\
-			weatherString = _str;\
-		}
-		WEATHERPROPERTIES
-		#undef X
+    auto currentWeatherEffects = game->mWorld.getWeatherEffects();
 
 	save << "era=" << eraString << std::endl;
-	save << "weather=" << weatherString << std::endl;
-	save << "weatherTime=" << std::to_string(game->mWorld.getWeatherTime()) << std::endl;
+	save << "weather=" << std::endl;
+	save << "{" << std::endl;
+
+	for (auto& effect : currentWeatherEffects){
+        std::string weatherString;
+
+        #define X(_str, _weather, _u, _f)\
+            if(_weather == effect.first){\
+                weatherString = _str;\
+            }
+            WEATHERPROPERTIES
+            #undef X
+
+        save << INDENT << weatherString << "," << std::to_string(effect.second) << std::endl;
+	}
+
+    save << "}" << std::endl;
 	save << "time=" << std::to_string(game->mWorld.currentTime.getTime().first) + ":" + std::to_string(game->mWorld.currentTime.getTime().second) << std::endl;
 	save << "player1=" << game->Player1->getFactionID() << std::endl;
 	save << "player2=" << game->Player2->getFactionID() << std::endl;
@@ -261,20 +270,33 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		}
 
 		else if (line.find("weather=") != std::string::npos){
-			std::string str = AFTEREQUALS;
+			std::getline(save, line);
+			std::getline(save, line);
 
-			#define X(_str, _weather, _u, _f)\
-			if(str == _str)\
-				game->mWorld.setWeather(_weather);
-			WEATHERPROPERTIES
-			#undef X
-		}
+            while (line.find("}") == std::string::npos){
+                //EX: lfog,30
 
-		else if (line.find("weatherTime=") != std::string::npos){
-			std::string str = AFTEREQUALS;
-            int strToInt = std::stoi(str);
+                std::string weatherTypeString;
+                World::Weather weatherType;
+                int weatherTime;
 
-            game->mWorld.setWeatherTime(strToInt);
+                weatherTypeString = line.substr(0, line.find(","));
+                weatherTime = std::stoi(line.substr(line.find(",") + 1, line.size() - 1));
+
+                boost::trim(weatherTypeString);
+
+                #define X(_str, _weather, _u, _f)\
+                if(weatherTypeString == _str){\
+                    weatherType = _weather;\
+                }
+                WEATHERPROPERTIES
+                #undef X
+
+                game->mWorld.addWeatherEffect(weatherType, weatherTime);
+
+                std::getline(save, line);
+            }
+
 		}
 
 		else if (line.find("time=") != std::string::npos){

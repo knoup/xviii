@@ -26,12 +26,12 @@ gameState{_gameState}
 	currentMessageText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	currentMessageText.setColor(sf::Color::Cyan);
 	currentMessageText.setCharacterSize(19);
-	currentMessageText.setPosition(220, -150);
+	currentMessageText.setPosition(340, -150);
 
 	currentWeatherText.setFont(masterManager.fontManager->getFont(FontManager::Type::Eighteen));
 	currentWeatherText.setColor(sf::Color::White);
 	currentWeatherText.setCharacterSize(30);
-	currentWeatherText.setPosition(135, -100);
+	currentWeatherText.setPosition(205, -170);
 
 	currentTimeText.setFont(masterManager.fontManager->getFont(FontManager::Type::Eighteen));
 	currentTimeText.setColor(sf::Color::Cyan);
@@ -65,8 +65,27 @@ void PlayUI::setElapsedTurnsText(int _num){
 	elapsedTurnsText.setString("Turn " + std::to_string(_num));
 }
 
-void PlayUI::setCurrentWeatherText(std::string _str){
-    currentWeatherText.setString(_str);
+void PlayUI::setCurrentWeatherText(){
+    auto weatherEffects = gameState->game->mWorld.getWeatherEffects();
+
+    std::string tempStr{};
+
+    if(weatherEffects.empty()){
+        tempStr = "clear";
+    }
+
+    for(auto& effect : weatherEffects){
+        #define X(_str, _weather, _u, _f)\
+            if(effect.first == _weather){\
+                tempStr += _str;\
+                tempStr += "\n";\
+            }
+            WEATHERPROPERTIES
+            #undef X
+    }
+
+
+    currentWeatherText.setString(tempStr);
 }
 
 void PlayUI::setCurrentTimeText(std::pair<int,int> _time){
@@ -170,15 +189,7 @@ void PlayUI::turnlyUpdate(){
     setCurrentPlayerText(gameState->game->currentPlayer->getDisplayName());
     setElapsedTurnsText(gameState->game->mWorld.getElapsedTurns());
     setCurrentTimeText(gameState->game->mWorld.getCurrentTime().getTime());
-
-    World::Weather currentWeather = gameState->game->mWorld.getWeather();
-
-	#define X(_str, _weather, _u, _f)\
-		if(_weather == currentWeather){\
-			setCurrentWeatherText(_str);\
-		}
-		WEATHERPROPERTIES
-    #undef X
+    setCurrentWeatherText();
 }
 
 void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{

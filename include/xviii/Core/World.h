@@ -27,9 +27,11 @@
 //the second, how much further the flag view distance is
 
 #define WEATHERPROPERTIES\
-	X("clear", World::Weather::CLEAR, 0, 0)\
-	X("foggy", World::Weather::FOGGY, 4, 4)\
-	X("rainy", World::Weather::RAINY, 1, 1)
+	X("light fog", World::Weather::LIGHT_FOG, 2, 2)\
+    X("heavy fog", World::Weather::HEAVY_FOG, 4, 4)\
+	X("light rain", World::Weather::LIGHT_RAIN, 1, 1)\
+	X("heavy rain", World::Weather::HEAVY_RAIN, 2, 2)
+
 
 class TerrainLoader;
 
@@ -51,7 +53,13 @@ public:
 
 	enum class Era{ EARLY, MID, LATE, ALL };
 
-	enum class Weather{CLEAR, FOGGY, RAINY};
+	enum class Weather
+                {
+                LIGHT_FOG,
+                HEAVY_FOG,
+                LIGHT_RAIN,
+                HEAVY_RAIN
+                };
 
     //A basic 24h clock
 	struct Time{
@@ -128,10 +136,10 @@ public:
 	sf::Vector2i getDimensions() const;
 	sf::Vector2i getDimensionsInPixels() const;
 	inline World::Era getEra() const{ return era; };
-	inline World::Weather getWeather() const {return currentWeather;};
+	inline std::vector<std::pair<Weather,int>>& getWeatherEffects() {return weatherEffects;};
 	inline int getWeatherTime() const {return weatherTime;};
 	inline void setEra(Era _era){era = _era;}
-	inline void setWeather(Weather _weather){currentWeather = _weather;};
+	inline void addWeatherEffect(Weather _weatherEffect, int _weatherTime){weatherEffects.push_back(std::make_pair(_weatherEffect, _weatherTime));};
 	inline void setWeatherTime(int _weatherTime){weatherTime = _weatherTime;};
 
 	inline Time& getCurrentTime(){return currentTime;};
@@ -152,6 +160,7 @@ public:
     void wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinationTile);
 
     void turnlyUpdate();
+    void changeWeather();
 
     void calculateViewDistance(UnitTile* unit);
 
@@ -169,7 +178,7 @@ private:
 	int elapsedTurns{0};
 	Era era;
 
-	Weather currentWeather;
+	std::vector<std::pair<Weather,int>> weatherEffects;
 	//The last time (in minutes) the weather has changed
 	int weatherTime;
 	Time currentTime;

@@ -32,19 +32,6 @@ void World::generateRandomWorld(Era _era){
 
 	setEra(_era);
 
-	boost::random::uniform_int_distribution<int> distribution(1, 3);
-	int randWeather{distribution(masterManager.randomEngine)};
-
-	if(randWeather == 1){
-        currentWeather = Weather::CLEAR;
-	}
-	else if(randWeather == 2){
-        currentWeather = Weather::FOGGY;
-	}
-	else if(randWeather == 3){
-        currentWeather = Weather::RAINY;
-	}
-
 	terrainLayer.clear();
 
 	//Do a first pass, filling the world with meadows
@@ -450,18 +437,40 @@ void World::wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinati
 }
 
 void World::turnlyUpdate(){
+    weatherTime += minutesPerTurn;
+
     incrementElapsedTurns();
     getCurrentTime().increment();
+
+    //The weather will tend to change every ~8 hours, or 480 minutes.
+    //Ideally, something like this:
+
+    //1 hour  (60)  -> 8%   7.5
+    //2 hours (120) -> 12%  10
+    //3 hours (180) -> 16%  11.25
+    //4 hours (240) -> 25%  9.6
+    //5 hours (300) -> 33%  9
+    //6 hours (360) -> 47%  7.65
+    //7 hours (420) -> 60%  7
+    //8 hours (480) -> 80%  6
+    //----------------------------
+    //Average coefficient: 8.5
+}
+
+void World::changeWeather(){
+
 }
 
 int World::getWeatherUnitViewDistance() const{
     int weatherUnitViewDistance{0};
 
-    #define X(_str, _weather, _u, _f)\
-        if(_weather == currentWeather)\
-            weatherUnitViewDistance = _u;
-        WEATHERPROPERTIES
-        #undef X
+    for(auto& effect : weatherEffects){
+        #define X(_str, _weather, _u, _f)\
+            if(_weather == effect.first)\
+                weatherUnitViewDistance += _u;
+            WEATHERPROPERTIES
+            #undef X
+    }
 
     return weatherUnitViewDistance;
 }
@@ -469,13 +478,16 @@ int World::getWeatherUnitViewDistance() const{
 int World::getWeatherFlagViewDistance() const{
     int weatherFlagViewDistance{0};
 
-    #define X(_str, _weather, _u, _f)\
-        if(_weather == currentWeather)\
-            weatherFlagViewDistance = _f;
-        WEATHERPROPERTIES
-        #undef X
+    for(auto& effect : weatherEffects){
+        #define X(_str, _weather, _u, _f)\
+            if(_weather == effect.first)\
+                weatherFlagViewDistance += _f;
+            WEATHERPROPERTIES
+            #undef X
+    }
 
     return weatherFlagViewDistance;
+
 }
 
 void World::calculateViewDistance(UnitTile* unit){

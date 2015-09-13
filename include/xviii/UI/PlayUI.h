@@ -11,7 +11,7 @@ public:
 	virtual ~PlayUI();
 	void setElapsedTurnsText(int _num);
 	void setCurrentMessageText(std::string _str);
-	void setCurrentWeatherText(std::string _str);
+	void setCurrentWeatherText();
 	void setCurrentTimeText(std::pair<int,int> _time);
 	void clearCurrentMessageText();
 	void setSaveStatus(bool val);
