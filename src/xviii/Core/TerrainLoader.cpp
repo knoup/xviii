@@ -42,7 +42,7 @@ void TerrainLoader::parse(boost::filesystem::path path){
 	#define EXISTS != std::string::npos
 
 	std::getline(terrainData, currentLine);
-	if (!(currentLine.find("TERRAIN DEFINITION") EXISTS)){
+	if (!(currentLine.find("[TERRAIN DEFINITION]") EXISTS)){
 		return;
 	}
 
@@ -179,7 +179,7 @@ void TerrainLoader::parse(boost::filesystem::path path){
                             current->unitFamilyBonuses.emplace_back(familyType, arg1, arg2, arg3, arg4, arg5, arg6);
                         }
 
-                        else if(first_part == "STRING"){
+                        else if(first_part == "UNITID"){
                             current->unitIDBonuses.emplace_back(second_part, arg1, arg2, arg3, arg4, arg5, arg6);
                         }
                     }

@@ -29,13 +29,13 @@ void UnitLoader::parse(boost::filesystem::path path){
     newClass->unitID = path.filename().leaf().stem().string();
 
 	std::getline(unitData, currentLine);
-	if (!(currentLine.find("UNIT DEFINITION") EXISTS)){
+	if (!(currentLine.find("[UNIT DEFINITION]") EXISTS)){
 		return;
 	}
 
 	while (unitData && std::getline(unitData, currentLine)){
 
-        if (currentLine.find("NATIONS:") EXISTS){
+        if (currentLine.find("[NATIONS]:") EXISTS){
 			std::getline(unitData, currentLine);
 
             while (currentLine.find("}") == std::string::npos){
@@ -57,21 +57,21 @@ void UnitLoader::parse(boost::filesystem::path path){
 			}
 		}
 
-        else if (currentLine.find("NAME:") EXISTS){
+        else if (currentLine.find("[NAME]:") EXISTS){
 			newClass->displayName = AFTERCOLON;
 			//Just in case a short name isn't defined
 			newClass->shortDisplayName = AFTERCOLON.substr(0,3);
 		}
 
-		else if(currentLine.find("SHORT:") EXISTS){
+		else if(currentLine.find("[SHORT]:") EXISTS){
             newClass->shortDisplayName = AFTERCOLON;
 		}
 
-		else if (currentLine.find("SPRITE:") EXISTS){
+		else if (currentLine.find("[SPRITE]:") EXISTS){
 			newClass->textureID = AFTERCOLON;
 		}
 
-		else if (currentLine.find("MAIN_TYPE:") EXISTS){
+		else if (currentLine.find("[MAIN_TYPE]:") EXISTS){
 			std::string str = AFTERCOLON;
 
 			#define X(_str, mainType, cl)\
@@ -82,7 +82,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 			#undef X
 		}
 
-		else if (currentLine.find("FAMILY_TYPE:") EXISTS){
+		else if (currentLine.find("[FAMILY_TYPE]:") EXISTS){
 			std::string str = AFTERCOLON;
 
 			#define X(_str, familyType)\
@@ -93,7 +93,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 			#undef X
 		}
 
-		else if (currentLine.find("ERA") EXISTS){
+		else if (currentLine.find("[ERA]") EXISTS){
 			std::getline(unitData, currentLine);
 
 			while (currentLine.find("}") == std::string::npos){
@@ -113,44 +113,44 @@ void UnitLoader::parse(boost::filesystem::path path){
 			}
 		}
 
-		else if (currentLine.find("SQUAREFORMATION:") EXISTS){
+		else if (currentLine.find("[SQUAREFORMATION]:") EXISTS){
 			newClass->hasSquareFormationAbility = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("SQUAREFORMATIONMODIFIER:") EXISTS){
+		else if (currentLine.find("[SQUAREFORMATIONMODIFIER]:") EXISTS){
 			std::stringstream ss(AFTERCOLON);
 			ss >> newClass->squareFormationModifier;
 		}
 
-		else if (currentLine.find("LIMBER:") EXISTS){
+		else if (currentLine.find("[LIMBER]:") EXISTS){
 			newClass->hasLimberAbility = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("LANCER:") EXISTS){
+		else if (currentLine.find("[LANCER]:") EXISTS){
 			newClass->hasLancerAbility = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("WATERCROSSER:") EXISTS){
+		else if (currentLine.find("[WATERCROSSER]:") EXISTS){
 			newClass->waterCrosser = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("HP:") EXISTS){
+		else if (currentLine.find("[HP]:") EXISTS){
 			newClass->maxHp = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("MOV:") EXISTS){
+		else if (currentLine.find("[MOV]:") EXISTS){
 			newClass->maxMov = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("COST:") EXISTS){
+		else if (currentLine.find("[COST]:") EXISTS){
 			newClass->cost = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("LIMIT:") EXISTS){
+		else if (currentLine.find("[LIMIT]:") EXISTS){
 			newClass->limit = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("SCOUTING:") EXISTS){
+		else if (currentLine.find("[SCOUTING]:") EXISTS){
 			std::vector<std::string> argsAsStrings;
 
             std::stringstream ss(AFTERCOLON);
@@ -164,23 +164,23 @@ void UnitLoader::parse(boost::filesystem::path path){
             newClass->flagViewDistance = std::stoi(argsAsStrings[1]);
 		}
 
-		else if (currentLine.find("SKIRMISH:") EXISTS){
+		else if (currentLine.find("[SKIRMISH]:") EXISTS){
 			newClass->skirmish = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("FRIGHTENING:") EXISTS){
+		else if (currentLine.find("[FRIGHTENING]:") EXISTS){
 			newClass->frightening = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("HALFRANGEDDAMAGE:") EXISTS){
+		else if (currentLine.find("[HALFRANGEDDAMAGE]:") EXISTS){
 			newClass->halfRangedDamage = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("MELEE:") EXISTS){
+		else if (currentLine.find("[MELEE]:") EXISTS){
 			newClass->melee = std::stoi(AFTERCOLON);
 		}
 
-		else if (currentLine.find("FLANK") EXISTS){
+		else if (currentLine.find("[FLANK]") EXISTS){
 			std::getline(unitData, currentLine);
 
 			while (currentLine.find("}") == std::string::npos){
@@ -248,7 +248,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 
 		}
 
-		else if (currentLine.find("RANGED") EXISTS || currentLine.find("BRIDGE_ATTACK") EXISTS){
+		else if (currentLine.find("[RANGED]") EXISTS || currentLine.find("[BRIDGE_ATTACK]") EXISTS){
                 bool ranged{currentLine.find("RANGED") EXISTS};
                 bool bridge{currentLine.find("BRIDGE_ATTACK") EXISTS};
 
@@ -294,7 +294,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 			}
 		}
 
-		else if (currentLine.find("HEALING") EXISTS){
+		else if (currentLine.find("[HEALING]") EXISTS){
 			std::getline(unitData, currentLine);
 
 			while (currentLine.find("}") == std::string::npos){
@@ -332,7 +332,7 @@ void UnitLoader::parse(boost::filesystem::path path){
 			}
 		}
 
-		else if (currentLine.find("MELEE_BONUS") EXISTS){
+		else if (currentLine.find("[MELEE_BONUS]") EXISTS){
 			std::getline(unitData, currentLine);
 
 			while (currentLine.find("}") == std::string::npos){

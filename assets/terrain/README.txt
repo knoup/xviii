@@ -16,13 +16,13 @@ DEFINE_TERRAIN:woods
 {
 	BONUS:MAIN:INF:-2,1,0,1,1,0
 	BONUS:FAMILY:CAV:0.5,0,0,1,0,1
-	BONUS:STRING:Ottoman Inf: ...
+	BONUS:UNITID:Ottoman Inf: ...
 }
 
-To specify a bonus, begin the entry with BONUS:. There are 3 ways to specify a bonus: via MAIN, FAMILY, or STRING.
+To specify a bonus, begin the entry with BONUS:. There are 3 ways to specify a bonus: via MAIN, FAMILY, or UNITID.
 
 MAIN uses the unit's main type to determine if the bonus will apply, FAMILY uses
-the unit's family type, and STRING uses the unit's name. Note that bonuses DO stack.
+the unit's family type, and UNITID uses the unit's ID (name of its .txt file). Note that bonuses stack.
 
 The meaning of the parameters are as follows:
 
