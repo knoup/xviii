@@ -362,14 +362,13 @@ void GameState_Play::update(float mFT){
 	//Code for the mouse indicator of distance:
 
 	sf::Vector2i mouseLocation{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
+	sf::Vector2i worldDimensions{game->mWorld.getDimensionsInPixels()};
 
-	if (selected != nullptr && (mouseLocation.x < game->mWorld.getDimensionsInPixels().x && mouseLocation.y < game->mWorld.getDimensionsInPixels().y
+	if (selected != nullptr && (mouseLocation.x < worldDimensions.x && mouseLocation.y < worldDimensions.y
 		&&
 		mouseLocation.x > 0 && mouseLocation.y > 0)){
-		//Just a little type conversion because of some quirks
-		sf::Vector2i mousePos = sf::Vector2i(game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView));
 
-		TerrainTile* terrain = game->mWorld.terrainAtPixelPos(mousePos);
+		TerrainTile* terrain = game->mWorld.terrainAtPixelPos(mouseLocation);
 		UnitTile* unit = terrain->getUnit();
 
 		UnitTile::Direction dir = selected->getDir();
@@ -413,8 +412,8 @@ void GameState_Play::update(float mFT){
 			dir_string_X += "W";
 		}
 
-		//If you aren't mousing over an enemy unit
-		if (unit == nullptr && terrain != nullptr){
+		//If you aren't mousing over a (visible) enemy unit
+		if ((unit == nullptr && terrain != nullptr) || (unit != nullptr && !unit->drawUnit || !unit->drawFlag)){
 
 			if (inMovementRange && !rangedObstructionPresent && !meleeObstructionPresent){
 				tileDistanceText.setColor(sf::Color::Black);
@@ -422,25 +421,33 @@ void GameState_Play::update(float mFT){
 			else if (!inMovementRange && inRangedAttackRange){
 				tileDistanceText.setColor(sf::Color::Magenta);
 			}
-			else if (rangedObstructionPresent || meleeObstructionPresent|| !validMovDirection || !inMovementRange){
+
+			//Commenting disabling red cursor on obstruction for now; this allows "cheating" by being able to see
+			//if there are units in the way, despite them being invisible. However, in the block of code below this
+			//(unit != nullptr), in 99% of the cases, the cursor will remain red when behind visible enemy units,
+			//so for the most part, things work as intended. The side effect of this is that when able to attack a
+			//unit, the cursor will remain blue even behind it.
+
+			//else if (rangedObstructionPresent || meleeObstructionPresent|| !validMovDirection || !inMovementRange){
+			else if (!validMovDirection || !inMovementRange){
 				tileDistanceText.setColor(sf::Color::Red);
 			}
 
 		}
-		//If you are mousing over a unit
+		//If you are mousing over a visible unit
 		else if (unit != nullptr){
 
 			//Check if it is an enemy unit
 			bool friendly = (unit->getPlayer() == game->currentPlayer);
 
-			if (((!validAttackDirection && (!selected->canHeal())) || meleeObstructionPresent || rangedObstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || selected->getHasMeleeAttacked() || selected->getHasMeleeAttacked()) && (unit->drawUnit)){
+			if (((!validAttackDirection && (!selected->canHeal())) || meleeObstructionPresent || rangedObstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || selected->getHasMeleeAttacked() || selected->getHasMeleeAttacked())){
 					tileDistanceText.setColor(sf::Color::Red);
 				}
 				else{
 					if (friendly && !selected->canHeal()){
 						tileDistanceText.setColor(sf::Color::Magenta);
 					}
-					else if (unit->drawUnit){
+					else{
 						tileDistanceText.setColor(sf::Color::Blue);
 					}
 				}
@@ -448,8 +455,6 @@ void GameState_Play::update(float mFT){
 		}
 
 		std::string finalString;
-
-		//std::to_string(abs(vectorDist.y)) + dir_string_Y + "," + std::to_string(abs(vectorDist.x)) + dir_string_X
 
 		bool yDistanceOverZero{abs(vectorDist.y) > 0};
 		bool xDistanceOverZero{abs(vectorDist.x) > 0};
@@ -465,7 +470,11 @@ void GameState_Play::update(float mFT){
 		}
 
 		tileDistanceText.setString(finalString);
-		tileDistanceText.setPosition({game->mWindow.mapPixelToCoords({game->mousePos.x - 18, game->mousePos.y + 18}, *game->currentView)});
+
+		mouseLocation.x -= 18;
+		mouseLocation.y += 18;
+
+		tileDistanceText.setPosition({mouseLocation.x, mouseLocation.y});
 
 	}
 }

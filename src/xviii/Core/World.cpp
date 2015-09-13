@@ -508,14 +508,27 @@ void World::calculateViewDistance(UnitTile* unit){
             if (targetUnit != nullptr){
                 if(targetUnit->getPlayer() != owner){
                     targetUnit->drawFlag = true;
-
-                    if(abs(adjacentPos.x - currentPos.x) <= unitViewDistance && abs(adjacentPos.y - currentPos.y <= unitViewDistance)){
-                        targetUnit->drawUnit = true;
-                    }
-
-                targetUnit->updateStats();
+                    targetUnit->updateStats();
                 }
             }
         }
     }
+
+    for (int y{-1 * unitViewDistance}; y <= unitViewDistance; ++y){
+        for(int x{-1 * unitViewDistance}; x <= unitViewDistance; ++x){
+
+            sf::Vector2i adjacentPos{currentPos.x + x, currentPos.y + y};
+
+            UnitTile* targetUnit = unitAtTerrain(terrainAtCartesianPos(adjacentPos));
+
+            if (targetUnit != nullptr){
+                if(targetUnit->getPlayer() != owner){
+                    targetUnit->drawUnit = true;
+                    targetUnit->updateStats();
+                }
+            }
+        }
+    }
+
+
 }
