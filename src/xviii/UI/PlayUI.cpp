@@ -28,6 +28,11 @@ gameState{_gameState}
 	currentMessageText.setCharacterSize(19);
 	currentMessageText.setPosition(220, -150);
 
+	currentWeatherText.setFont(masterManager.fontManager->getFont(FontManager::Type::Eighteen));
+	currentWeatherText.setColor(sf::Color::White);
+	currentWeatherText.setCharacterSize(30);
+	currentWeatherText.setPosition(135, -100);
+
 	currentTimeText.setFont(masterManager.fontManager->getFont(FontManager::Type::Eighteen));
 	currentTimeText.setColor(sf::Color::Cyan);
 	currentTimeText.setCharacterSize(40);
@@ -58,6 +63,10 @@ PlayUI::~PlayUI(){
 
 void PlayUI::setElapsedTurnsText(int _num){
 	elapsedTurnsText.setString("Turn " + std::to_string(_num));
+}
+
+void PlayUI::setCurrentWeatherText(std::string _str){
+    currentWeatherText.setString(_str);
 }
 
 void PlayUI::setCurrentTimeText(std::pair<int,int> _time){
@@ -161,6 +170,15 @@ void PlayUI::turnlyUpdate(){
     setCurrentPlayerText(gameState->game->currentPlayer->getDisplayName());
     setElapsedTurnsText(gameState->game->mWorld.getElapsedTurns());
     setCurrentTimeText(gameState->game->mWorld.getCurrentTime().getTime());
+
+    World::Weather currentWeather = gameState->game->mWorld.getWeather();
+
+	#define X(_str, _weather, _u, _f)\
+		if(_weather == currentWeather){\
+			setCurrentWeatherText(_str);\
+		}
+		WEATHERPROPERTIES
+    #undef X
 }
 
 void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
@@ -168,6 +186,7 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 
 	target.draw(uiSprite);
 	target.draw(currentPlayerText);
+	target.draw(currentWeatherText);
 	target.draw(currentTimeText);
 	target.draw(elapsedTurnsText);
 	target.draw(saveText);

@@ -24,16 +24,11 @@ playUI(game->mManager, this)
 	tileDistanceText.setFont(game->mManager.fontManager->getFont(FontManager::Type::Lucon));
 	tileDistanceText.setString("");
 	tileDistanceText.setCharacterSize(20);
-
-
-	//elapsedTurnsText.setString("Turn " + std::to_string(game->elapsedTurns));
-
 }
 
 void GameState_Play::oneTimeUpdate(){
-	playUI.setCurrentPlayerText(game->currentPlayer->getDisplayName());
-	playUI.setElapsedTurnsText(game->mWorld.getElapsedTurns());
-	playUI.setCurrentTimeText(game->mWorld.getCurrentTime().getTime());
+
+	playUI.turnlyUpdate();
 
 	for (auto& unit : game->inactivePlayer->getUnits()){
             unit->drawUnit = false;

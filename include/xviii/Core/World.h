@@ -27,9 +27,9 @@
 //the second, how much further the flag view distance is
 
 #define WEATHERPROPERTIES\
-	X("CLEAR", World::Weather::CLEAR, 0, 0)\
-	X("FOGGY", World::Weather::FOGGY, 4, 4)\
-	X("RAINY", World::Weather::RAINY, 1, 1)
+	X("clear", World::Weather::CLEAR, 0, 0)\
+	X("foggy", World::Weather::FOGGY, 4, 4)\
+	X("rainy", World::Weather::RAINY, 1, 1)
 
 class TerrainLoader;
 
