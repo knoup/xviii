@@ -1231,7 +1231,7 @@ std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
     }
 
 	if(distance > maxRange){
-        return {OUT_OF_RANGE + std::to_string(maxRange)};
+        return {OUT_OF_RANGE_TERRAIN + std::to_string(maxRange)};
 	}
 
     if(!canAttackBridge()){
@@ -1325,7 +1325,7 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
     }
 
 	if(distance > maxRange){
-        return {OUT_OF_RANGE + std::to_string(maxRange)};
+        return {OUT_OF_RANGE_TERRAIN + std::to_string(maxRange)};
 	}
 
 

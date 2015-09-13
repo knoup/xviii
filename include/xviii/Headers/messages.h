@@ -21,6 +21,7 @@ const std::string AT_MAX_HP{"Unit is at max HP"};
 const std::string HEAL_SUCCESS{"Successfully healed for "};
 const std::string MOV_SUCCESS{"Successfully moved to: "};
 const std::string OUT_OF_RANGE{"Out of max range: "};
+const std::string OUT_OF_RANGE_TERRAIN{"Out of max range (terrain): "};
 const std::string ARTILLERY_GUARD{"Must kill Artillery Guard"};
 const std::string NO_MELEE{"This unit cannot engage in melee combat"};
 
