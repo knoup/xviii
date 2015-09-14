@@ -202,7 +202,11 @@ UnitTile* World::unitAtPixelPos(sf::Vector2i _pos){
 
 
 UnitTile* World::unitAtTerrain(TerrainTile* _terrain){
-	return unitAtPixelPos(sf::Vector2i(_terrain->getPixelPos()));
+    if(_terrain == nullptr){
+        return nullptr;
+    }
+
+	return(_terrain->getUnit());
 }
 
 TerrainTile* World::terrainAtPixelPos(sf::Vector2i _pos){
@@ -437,6 +441,7 @@ void World::wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinati
 }
 
 void World::turnlyUpdate(){
+    boost::random::uniform_int_distribution<int> dist(1, 100);
     weatherTime += minutesPerTurn;
 
     incrementElapsedTurns();
@@ -445,19 +450,86 @@ void World::turnlyUpdate(){
     //The weather will tend to change every ~8 hours, or 480 minutes.
     //Ideally, something like this:
 
-    //1 hour  (60)  -> 8%   7.5
-    //2 hours (120) -> 12%  10
-    //3 hours (180) -> 16%  11.25
-    //4 hours (240) -> 25%  9.6
-    //5 hours (300) -> 33%  9
-    //6 hours (360) -> 47%  7.65
-    //7 hours (420) -> 60%  7
-    //8 hours (480) -> 80%  6
-    //----------------------------
-    //Average coefficient: 8.5
+    //1 hour  (60)  -> 4%
+    //2 hours (120) -> 6%
+    //3 hours (180) -> 8%
+    //4 hours (240) -> 12.5%
+    //5 hours (300) -> 16%
+    //6 hours (360) -> 24%
+    //7 hours (420) -> 30%
+    //8 hours (480) -> 40%
+
+    for(auto& effect : weatherEffects){
+        effect.second += minutesPerTurn;
+    }
+
+    auto effect = std::begin(weatherEffects);
+    while(effect != std::end(weatherEffects)){
+
+        int removeEffect{dist(masterManager.randomEngine)};
+        //For instance, if the effect has been there for 240 minutes, it will have an
+        //40% chance of being removed. There is a hard cap of 80%.
+
+        int totalChance = effect->second / 15;
+        if(totalChance > 50){
+            totalChance = 50;
+        }
+
+        if(removeEffect <= totalChance){
+            effect = weatherEffects.erase(effect);
+        }
+        else{
+            effect++;
+        }
+
+    }
+
+    int hourlyChance = 20;
+    int turnlyChance = hourlyChance / (60/minutesPerTurn);
+
+    int randomRoll{dist(masterManager.randomEngine)};
+
+    if (randomRoll <= turnlyChance){
+        addWeather();
+    }
 }
 
-void World::changeWeather(){
+void World::addWeather(){
+    boost::random::uniform_int_distribution<int> dist(1, 100);
+
+    bool fogPresent{false};
+    bool rainPresent{false};
+
+    for(auto& effect : weatherEffects){
+        if(effect.first == Weather::HEAVY_FOG || effect.first == Weather::LIGHT_FOG){
+            fogPresent = true;
+        }
+        else if(effect.first == Weather::HEAVY_RAIN || effect.first == Weather::LIGHT_RAIN){
+            rainPresent = true;
+        }
+    }
+
+    int randomRoll{dist(masterManager.randomEngine)};
+    int randomRoll2{dist(masterManager.randomEngine)};
+
+    if(randomRoll >= 65 && !fogPresent){
+
+        if(randomRoll2 <= 75){
+            addWeatherEffect(Weather::LIGHT_FOG, 0);
+        }
+        else{
+            addWeatherEffect(Weather::HEAVY_FOG, 0);
+        }
+    }
+
+    else if (!rainPresent){
+        if(randomRoll2 <= 75){
+            addWeatherEffect(Weather::LIGHT_RAIN, 0);
+        }
+        else{
+            addWeatherEffect(Weather::HEAVY_RAIN, 0);
+        }
+    }
 
 }
 

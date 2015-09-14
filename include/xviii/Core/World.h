@@ -160,7 +160,6 @@ public:
     void wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinationTile);
 
     void turnlyUpdate();
-    void changeWeather();
 
     void calculateViewDistance(UnitTile* unit);
 
@@ -169,6 +168,8 @@ public:
     MasterManager& masterManager;
 
 private:
+    void addWeather();
+
     int getWeatherUnitViewDistance() const;
     int getWeatherFlagViewDistance() const;
 

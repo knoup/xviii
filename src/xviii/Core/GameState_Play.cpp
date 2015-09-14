@@ -337,6 +337,8 @@ void GameState_Play::update(float mFT){
 
 		game->nextPlayer();
 
+        game->mWorld.turnlyUpdate();
+        playUI.turnlyUpdate();
 
 		for (auto& unit : game->inactivePlayer->getUnits()){
             unit->drawUnit = false;
@@ -351,8 +353,6 @@ void GameState_Play::update(float mFT){
             unit->updateStats();
 		}
 
-        game->mWorld.turnlyUpdate();
-        playUI.turnlyUpdate();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////
