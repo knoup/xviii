@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Venice
-SPRITE:venice
-LANGUAGE:italian
+[NAME]:Most Serene Republic of Venice
+[SHORT]:VEN
+[SPRITE]:venice
+[LANGUAGE]:italian
+[CULTURE]:European

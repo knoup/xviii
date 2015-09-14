@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Bavaria
-SPRITE:bavaria
-LANGUAGE:german
+[NAME]:Kingdom of Bavaria
+[SHORT]:BVR
+[SPRITE]:bavaria
+[LANGUAGE]:german
+[CULTURE]:European

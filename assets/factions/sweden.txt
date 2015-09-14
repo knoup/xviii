@@ -1,6 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Sweden
-SPRITE:sweden
-LANGUAGE:swedish
-CULTURE:
+[NAME]:Kingdom of Sweden
+[SHORT]:SWE
+[SPRITE]:sweden
+[LANGUAGE]:swedish
+[CULTURE]:European

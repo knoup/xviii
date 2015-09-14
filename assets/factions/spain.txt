@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Spain
-SPRITE:spain
-LANGUAGE:spanish
+[NAME]:Kingdom of Spain
+[SHORT]:SPA
+[SPRITE]:spain
+[LANGUAGE]:spanish
+[CULTURE]:European

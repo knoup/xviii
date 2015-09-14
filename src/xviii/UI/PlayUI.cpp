@@ -186,7 +186,7 @@ void PlayUI::update(){
 }
 
 void PlayUI::turnlyUpdate(){
-    setCurrentPlayerText(gameState->game->currentPlayer->getDisplayName());
+    setCurrentPlayerText(gameState->game->currentPlayer->getShortDisplayName());
     setElapsedTurnsText(gameState->game->mWorld.getElapsedTurns());
     setCurrentTimeText(gameState->game->mWorld.getCurrentTime().getTime());
     setCurrentWeatherText();

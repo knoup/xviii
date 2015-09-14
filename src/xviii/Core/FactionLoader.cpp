@@ -28,7 +28,7 @@ void FactionLoader::parse(boost::filesystem::path path){
 	#define EXISTS != std::string::npos
 
 	std::getline(factionData, currentLine);
-	if (!(currentLine.find("FACTION DEFINITION") EXISTS)){
+	if (!(currentLine.find("[FACTION DEFINITION]") EXISTS)){
 		return;
 	}
 
@@ -36,29 +36,29 @@ void FactionLoader::parse(boost::filesystem::path path){
 
 	while (factionData && std::getline(factionData, currentLine)){
 
-        if (currentLine.find("NAME:") EXISTS){
+        if (currentLine.find("[NAME]:") EXISTS){
 			newClass->displayName = AFTERCOLON;
 			//Just in case a short name isn't defined
 			newClass->shortDisplayName = AFTERCOLON.substr(0,3);
 		}
 
-		else if(currentLine.find("SHORT:") EXISTS){
+		else if(currentLine.find("[SHORT]:") EXISTS){
             newClass->shortDisplayName = AFTERCOLON;
 		}
 
-        else if (currentLine.find("SPRITE:") EXISTS){
+        else if (currentLine.find("[SPRITE]:") EXISTS){
 			newClass->textureID = AFTERCOLON;
 		}
 
-		else if (currentLine.find("LANGUAGE:") EXISTS){
+		else if (currentLine.find("[LANGUAGE]:") EXISTS){
 			newClass->languageID = AFTERCOLON;
 		}
 
-		else if (currentLine.find("CULTURE:") EXISTS){
+		else if (currentLine.find("[CULTURE]:") EXISTS){
 			newClass->factionCulture = AFTERCOLON;
 		}
 
-		else if (currentLine.find("CUSTOMBATTLES:") EXISTS){
+		else if (currentLine.find("[CUSTOMBATTLES]:") EXISTS){
 			newClass->availableInCustomBattles = std::stoi(AFTERCOLON);
 		}
 

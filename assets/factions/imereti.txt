@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Imereti
-SPRITE:imereti
-LANGUAGE:georgian
+[NAME]:Kingdom of Imereti
+[SHORT]:IME
+[SPRITE]:imereti
+[LANGUAGE]:georgian
+[CULTURE]:Far East

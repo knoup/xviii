@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:The Emperor of Japan
-SPRITE:japemp
-LANGUAGE:Japanese
+[NAME]:The Emperor of Japan
+[SHORT]:EMP
+[SPRITE]:japemp
+[LANGUAGE]:Japanese
+[CULTURE]:Japanese

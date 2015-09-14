@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Ottomans
-SPRITE:ottomans
-LANGUAGE:turkish
+[NAME]:Ottomans Empire
+[SHORT]:OTTO
+[SPRITE]:ottomans
+[LANGUAGE]:turkish
+[CULTURE]:Ottoman

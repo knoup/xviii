@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Denmark
-SPRITE:denmark
-LANGUAGE:danish
+[NAME]:Kingdom of Denmark
+[SHORT]:DNK
+[SPRITE]:denmark
+[LANGUAGE]:danish
+[CULTURE]:European

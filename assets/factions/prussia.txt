@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Prussia
-SPRITE:prussia
-LANGUAGE:german
+[NAME]:Kingdom of Prussia
+[SHORT]:PRU
+[SPRITE]:prussia
+[LANGUAGE]:german
+[CULTURE]:European

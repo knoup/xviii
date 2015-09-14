@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Cmnwealth
-SPRITE:commonwealth
-LANGUAGE:polish
+[NAME]:Polish-Lithuanian Kingdom
+[SHORT]:CMNW
+[SPRITE]:commonwealth
+[LANGUAGE]:polish
+[CULTURE]:European

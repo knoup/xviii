@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Wallachia
-SPRITE:wallachia
-LANGUAGE:romanian
+[NAME]:Principalities of Wallachia
+[SHORT]:WAL
+[SPRITE]:wallachia
+[LANGUAGE]:romanian
+[CULTURE]:Balkans

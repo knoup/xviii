@@ -1,0 +1,7 @@
+[FACTION DEFINITION]
+
+[NAME]:Crimean Khanate
+[SHORT]:CRM
+[SPRITE]:crimea
+[LANGUAGE]:tatar
+[CULTURE]:Steppe

@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:France
-SPRITE:france
-LANGUAGE:french
+[NAME]:Kingdom of France
+[SHORT]:FRA
+[SPRITE]:france
+[LANGUAGE]:french
+[CULTURE]:European

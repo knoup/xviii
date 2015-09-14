@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Saxony
-SPRITE:saxony
-LANGUAGE:german
+[NAME]:Electorate of Saxony
+[SHORT]:SAX
+[SPRITE]:saxony
+[LANGUAGE]:german
+[CULTURE]:European

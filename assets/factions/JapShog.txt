@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Tokugawa Shogunate
-SPRITE:japshog
-LANGUAGE:Japanese
+[NAME]:Tokugawa Shogunate
+[SHORT]:SHOG
+[SPRITE]:japshog
+[LANGUAGE]:Japanese
+[CULTURE]:Japanese

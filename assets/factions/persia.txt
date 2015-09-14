@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Persia
-SPRITE:persia
-LANGUAGE:persian
+[NAME]:Persian Empire
+[SHORT]:PERSIA
+[SPRITE]:persia
+[LANGUAGE]:persian
+[CULTURE]:Far East

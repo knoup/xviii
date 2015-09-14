@@ -1,0 +1,7 @@
+[FACTION DEFINITION]
+
+[NAME]:Kingdom of Sicily
+[SHORT]:SIC
+[SPRITE]:sicily
+[LANGUAGE]:italian
+[CULTURE]:European

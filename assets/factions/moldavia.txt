@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Moldavia
-SPRITE:moldavia
-LANGUAGE:romanian
+[NAME]:Principalities of Moldavia
+[SHORT]:MOLDO
+[SPRITE]:moldavia
+[LANGUAGE]:romanian
+[CULTURE]:Balkans

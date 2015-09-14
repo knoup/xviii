@@ -1,0 +1,7 @@
+[FACTION DEFINITION]
+
+[NAME]:Sovereign Military Order of Malta
+[SHORT]:MALTA
+[SPRITE]:malta
+[LANGUAGE]:italian
+[CULTURE]:European

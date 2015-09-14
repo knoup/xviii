@@ -1,0 +1,7 @@
+[FACTION DEFINITION]
+
+[NAME]:United Provinces
+[SHORT]:UNIP
+[SPRITE]:UP
+[LANGUAGE]:dutch
+[CULTURE]:European

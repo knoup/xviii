@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:GB
-SPRITE:greatbritain
-LANGUAGE:english
+[NAME]:United Kingdom
+[SHORT]:UK
+[SPRITE]:greatbritain
+[LANGUAGE]:english
+[CULTURE]:European

@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Portugal
-SPRITE:portugal
-LANGUAGE:portugese
+[NAME]:Kingdom of Portugal
+[SHORT]:POR
+[SPRITE]:portugal
+[LANGUAGE]:portugese
+[CULTURE]:European

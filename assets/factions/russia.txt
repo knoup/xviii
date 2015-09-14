@@ -1,5 +1,7 @@
-FACTION DEFINITION
+[FACTION DEFINITION]
 
-NAME:Russia
-SPRITE:russia
-LANGUAGE:russian
+[NAME]:Tsardom of Russia
+[SHORT]:RUS
+[SPRITE]:russia
+[LANGUAGE]:russian
+[CULTURE]:European
