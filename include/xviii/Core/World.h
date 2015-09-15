@@ -137,10 +137,8 @@ public:
 	sf::Vector2i getDimensionsInPixels() const;
 	inline World::Era getEra() const{ return era; };
 	inline std::vector<std::pair<Weather,int>>& getWeatherEffects() {return weatherEffects;};
-	inline int getWeatherTime() const {return weatherTime;};
 	inline void setEra(Era _era){era = _era;}
 	inline void addWeatherEffect(Weather _weatherEffect, int _weatherTime){weatherEffects.push_back(std::make_pair(_weatherEffect, _weatherTime));};
-	inline void setWeatherTime(int _weatherTime){weatherTime = _weatherTime;};
 
 	inline Time& getCurrentTime(){return currentTime;};
 
@@ -180,8 +178,6 @@ private:
 	Era era;
 
 	std::vector<std::pair<Weather,int>> weatherEffects;
-	//The last time (in minutes) the weather has changed
-	int weatherTime;
 	Time currentTime;
 
 	//The first layer, or "terrain layer"; always drawn behind the units and only consists

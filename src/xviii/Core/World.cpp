@@ -442,7 +442,6 @@ void World::wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinati
 
 void World::turnlyUpdate(){
     boost::random::uniform_int_distribution<int> dist(1, 100);
-    weatherTime += minutesPerTurn;
 
     incrementElapsedTurns();
     getCurrentTime().increment();
