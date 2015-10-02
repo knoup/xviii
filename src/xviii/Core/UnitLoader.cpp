@@ -180,6 +180,14 @@ void UnitLoader::parse(boost::filesystem::path path){
 			newClass->melee = std::stoi(AFTERCOLON);
 		}
 
+		else if (currentLine.find("[CONE_WIDTH]:") EXISTS){
+			newClass->coneWidth = std::stoi(AFTERCOLON);
+		}
+
+		else if (currentLine.find("[SHOOTS_OVER_UNITS]:") EXISTS){
+			newClass->canShootOverUnits = std::stoi(AFTERCOLON);
+		}
+
 		else if (currentLine.find("[FLANK]") EXISTS){
 			std::getline(unitData, currentLine);
 

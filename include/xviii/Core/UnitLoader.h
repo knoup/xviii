@@ -58,9 +58,11 @@ public:
 		bool skirmish;
 		bool frightening;
 		bool halfRangedDamage;
+		bool canShootOverUnits;
 
 		float maxHp;
 		int maxMov;
+		int coneWidth{1};
 		int cost;
 		int limit{0};
 		int unitViewDistance;

@@ -48,6 +48,7 @@ This determines whether the unit is capable of crossing water tiles without the 
 [COST]:
 [LIMIT]
 
+
 [COST] specifies the unit's deployment point cost
 [LIMIT] specifies the maximum amount of units of this type that can be deployed per player (0 for unlimited)
 
@@ -63,6 +64,10 @@ This determines whether the unit is capable of crossing water tiles without the 
 [HALFRANGEDDAMAGE] specifies whether the unit takes half the damage from ranged attacks.
 
 [MELEE] specifies whether the unit is capable of melee combat.
+
+[CONE_WIDTH] specifies, for units that can shoot, their horizontal shooting range. For example, a cone width of 3 means they can shoot straight ahead and to both one tile east and west.
+
+[SHOOTS_OVER_UNITS] specifies if a unit is able to shoot despite a unit being in the way
 
 
 FULL LIST OF ESSENTIAL FLAGS (these must be included in every unit description):
@@ -87,7 +92,7 @@ FULL LIST OF ESSENTIAL FLAGS (these must be included in every unit description):
 [HALFRANGEDDDAMAGE]:
 [MELEE]:
 
-The remaining ([FLANK], [RANGED], [BRIDGE_ATTACK], [HEALING], [MELEE_BONUS]) can optionally be excluded if they are not needed.
+The remaining ([FLANK], [RANGED], [BRIDGE_ATTACK], [HEALING], [MELEE_BONUS]) can optionally be excluded if they are not needed. [CONE_WIDTH] and [SHOOTS_OVER_UNITS] can be excluded if the unit has no ranged capability; otherwise, they will default to 1 and 0, respectivelly.
 
 -------------------------------------------------------------
 

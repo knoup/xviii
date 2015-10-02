@@ -13,6 +13,7 @@ bool UnitTile::getHalfRangedDamage() const { return world.masterManager.unitLoad
 bool UnitTile::canHeal() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).healingRangeValues.empty()); };
 bool UnitTile::canRangedAttack() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues.empty()); };
 bool UnitTile::canAttackBridge() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()); };
+bool UnitTile::getCanShootOverUnits() const { return world.masterManager.unitLoader->customClasses.at(unitID).canShootOverUnits; };
 
 bool UnitTile::hasSquareFormationAbility() const{ return world.masterManager.unitLoader->customClasses.at(unitID).hasSquareFormationAbility; };
 bool UnitTile::hasLimberAbility() const{ return world.masterManager.unitLoader->customClasses.at(unitID).hasLimberAbility; };
@@ -22,6 +23,7 @@ int UnitTile::getCost() const{ return world.masterManager.unitLoader->customClas
 int UnitTile::getLimit() const{ return world.masterManager.unitLoader->customClasses.at(unitID).limit; };
 int UnitTile::getMaxHp() const{ return world.masterManager.unitLoader->customClasses.at(unitID).maxHp; };
 int UnitTile::getMaxMov() const{ return world.masterManager.unitLoader->customClasses.at(unitID).maxMov; };
+int UnitTile::getConeWidth() const{ return world.masterManager.unitLoader->customClasses.at(unitID).coneWidth; };
 
 int UnitTile::getUnitViewDistance() const {return world.masterManager.unitLoader->customClasses.at(unitID).unitViewDistance;};
 int UnitTile::getFlagViewDistance() const {return world.masterManager.unitLoader->customClasses.at(unitID).flagViewDistance;};
@@ -230,7 +232,9 @@ unitID{_unitID},
 unitType{type},
 unitFamilyType{familyType},
 hp{0},
-mov{0}
+mov{0},
+coneWidth{1},
+canShootOverUnits{false}
 {
     displayName = world.masterManager.unitLoader->customClasses.at(unitID).displayName;
     shortDisplayName = world.masterManager.unitLoader->customClasses.at(unitID).shortDisplayName;
@@ -260,6 +264,8 @@ mov{0}
 
 	hp = getMaxHp();
 	mov = getMaxMov();
+	coneWidth = getConeWidth();
+	canShootOverUnits = getCanShootOverUnits();
 }
 
 void UnitTile::spawn(TerrainTile* terrainTile){
@@ -724,6 +730,9 @@ void UnitTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
     }
 }
 
+sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange){
+    return distanceFrom(_destinationTile, _validMovDirection, _validAttackDirection, _rangedObstructionPresent, _meleeObstructionPresent, _inMovementRange, _inRangedAttackRange, canShootOverUnits, coneWidth);
+}
 /*
 Because this is one of the most important functions, and looks intimidating, I felt the need to document it well
 
@@ -757,11 +766,11 @@ range.
 */
 
 //virtual
-sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth){
+sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool _canShootOverUnits, int _coneWidth){
 	//coneWidth represents the width units can fire at. It should always be an odd number; 1 for the center, and 2/4/6 etc. for the sides
 
 	//Exclude the center
-	coneWidth /= 2;
+	_coneWidth /= 2;
 
 	sf::Vector2i currentCoords{terrain->getCartesianPos()};
 	sf::Vector2i toMoveToCoords{_destinationTile->getCartesianPos()};
@@ -811,7 +820,7 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 	dist = (PRIMARYAXIS_POSITIVE - PRIMARYAXIS_NEGATIVE);
 
 	if (PRIMARYAXIS_NEGATIVE < PRIMARYAXIS_POSITIVE
-		&& ((SECONDARYAXIS_POSITIVE >= SECONDARYAXIS_NEGATIVE - coneWidth) && (SECONDARYAXIS_POSITIVE <= SECONDARYAXIS_NEGATIVE + coneWidth))){
+		&& ((SECONDARYAXIS_POSITIVE >= SECONDARYAXIS_NEGATIVE - _coneWidth) && (SECONDARYAXIS_POSITIVE <= SECONDARYAXIS_NEGATIVE + _coneWidth))){
 
 		_validAttackDirection = true;
 
@@ -908,7 +917,7 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
                         _meleeObstructionPresent = true;
                     }
 
-                    if (!canShootOverUnits){
+                    if (!_canShootOverUnits){
                         _rangedObstructionPresent = true;
                     }
 

@@ -210,6 +210,7 @@ public:
 	bool getSkirmish() const;
 	bool getFrightening() const;
 	bool getHalfRangedDamage() const;
+	bool getCanShootOverUnits() const;
 
 	int getMaxRange() const;
 	bool canHeal() const;
@@ -220,6 +221,7 @@ public:
 	int getLimit() const;
 	int getMaxHp() const;
 	int getMaxMov() const;
+	int getConeWidth() const;
 
 	float getFlankModifier(UnitType _mainType, Modifier _flank) const;
 
@@ -307,8 +309,10 @@ public:
     virtual std::string terrainAttack(Water* water, int distance){return {};};
     virtual std::string terrainAttack(Woods* woods, int distance){return {};};
 
+    //Just a shortcut for the below function
+    sf::Vector2i distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange);
 	//Further documented in UnitTile.cpp
-	virtual sf::Vector2i distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits = false, int coneWidth = 1);
+    sf::Vector2i distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool _canShootOverUnits, int _coneWidth);
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
@@ -392,6 +396,11 @@ protected:
 
 	float hp;
 	int mov;
+
+	//Since these will need to be accessed very frequently, we'll "cache" them as data members
+
+	int coneWidth;
+	bool canShootOverUnits;
 
 	//Pseudo-components:not all units will make use of these
 

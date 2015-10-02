@@ -35,10 +35,6 @@ std::string Artillery::rotate(UnitTile::Direction _dir){
 	return SUCCESSFUL_ROTATION + UnitTile::dirToString();
 }
 
-sf::Vector2i Artillery::distanceFrom(TerrainTile* _terrain, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange, bool canShootOverUnits, int coneWidth){
-	return UnitTile::distanceFrom(_terrain, _validMovDirection, _validAttackDirection, _rangedObstructionPresent, _meleeObstructionPresent, _inMovementRange, _inRangedAttackRange, true, 5);
-}
-
 std::string Artillery::meleeAttack(UnitTile* _unit){
 	//This is used for double dispatch calls. However, we can also place the code for artillery's guard protection
 	//here, since this will always be called when a unit meleeAttacks()'s artillery.
