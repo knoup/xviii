@@ -56,6 +56,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
         perceivedPosition = truePosition;
 
         world.calculateViewDistance(this);
+        world.highlightVisibleTiles();
 		updateStats();
 		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
 	}

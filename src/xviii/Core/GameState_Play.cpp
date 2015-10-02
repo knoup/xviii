@@ -42,6 +42,9 @@ void GameState_Play::oneTimeUpdate(){
             game->mWorld.calculateViewDistance(unit.get());
             unit->updateStats();
 		}
+
+    game->mWorld.highlightVisibleTiles();
+
 }
 
 void GameState_Play::getInput(){
@@ -352,6 +355,8 @@ void GameState_Play::update(float mFT){
             game->mWorld.calculateViewDistance(unit.get());
             unit->updateStats();
 		}
+
+		game->mWorld.highlightVisibleTiles();
 
 	}
 

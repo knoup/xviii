@@ -20,22 +20,9 @@ terrainType{terrainType},
 unit{nullptr}
 {
 	sprite.setPosition(_pos);
+	sprite.setColor(sf::Color{255,255,255,170});
 
-	//Update the vertex array at this tile:
-	const sf::Vector2i currentCartesianPos{int(_pos.x / world.masterManager.textureManager->getSize().x), int(_pos.y / world.masterManager.textureManager->getSize().y)};
-	sf::IntRect currentRekt{sprite.getTextureRect()};
-
-	sf::Vertex* quad = &world.mTerrainVertices[(currentCartesianPos.x + currentCartesianPos.y*world.getDimensions().x) * 4];
-
-	quad[0].position = sf::Vector2f(_pos.x, _pos.y);
-	quad[1].position = sf::Vector2f(_pos.x + world.masterManager.textureManager->getSize().x, _pos.y);
-	quad[2].position = sf::Vector2f(_pos.x + world.masterManager.textureManager->getSize().x, _pos.y + world.masterManager.textureManager->getSize().y);
-	quad[3].position = sf::Vector2f(_pos.x, _pos.y + world.masterManager.textureManager->getSize().y);
-
-	quad[0].texCoords = sf::Vector2f(currentRekt.left, currentRekt.top);
-	quad[1].texCoords = sf::Vector2f(currentRekt.left + currentRekt.width, currentRekt.top);
-	quad[2].texCoords = sf::Vector2f(currentRekt.left + currentRekt.width, currentRekt.top + currentRekt.height);
-	quad[3].texCoords = sf::Vector2f(currentRekt.left, currentRekt.top + currentRekt.height);
+	refreshVertexArray();
 }
 
 void TerrainTile::setPos(sf::Vector2f _pos){
@@ -131,6 +118,7 @@ void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking
 
 void TerrainTile::refreshVertexArray(){
     sf::Vector2f pos = sprite.getPosition();
+    sf::Color color = sprite.getColor();
 
 	//Update the vertex array at this tile:
 	const sf::Vector2i currentCartesianPos{int(pos.x / world.masterManager.textureManager->getSize().x), int(pos.y / world.masterManager.textureManager->getSize().y)};
@@ -147,6 +135,11 @@ void TerrainTile::refreshVertexArray(){
 	quad[1].texCoords = sf::Vector2f(currentRekt.left + currentRekt.width, currentRekt.top);
 	quad[2].texCoords = sf::Vector2f(currentRekt.left + currentRekt.width, currentRekt.top + currentRekt.height);
 	quad[3].texCoords = sf::Vector2f(currentRekt.left, currentRekt.top + currentRekt.height);
+
+	quad[0].color = color;
+	quad[1].color = color;
+	quad[2].color = color;
+	quad[3].color = color;
 }
 
 void TerrainTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{

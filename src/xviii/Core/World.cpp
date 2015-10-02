@@ -9,7 +9,6 @@ masterManager{_mManager},
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * masterManager.textureManager->getSize().x, dimensions.y * masterManager.textureManager->getSize().y)},
 mTerrainTexture(masterManager.textureManager->getTerrainTexture()),
-weatherTime{0},
 currentTime{}
 {
 	mTerrainVertices.setPrimitiveType(sf::PrimitiveType::Quads);
@@ -491,6 +490,13 @@ void World::turnlyUpdate(){
     if (randomRoll <= turnlyChance){
         addWeather();
     }
+
+    for(auto& tile : visibleTiles){
+        tile->setColor(sf::Color{255,255,255,170});
+        tile->refreshVertexArray();
+    }
+
+    visibleTiles.clear();
 }
 
 void World::addWeather(){
@@ -586,7 +592,13 @@ void World::calculateViewDistance(UnitTile* unit){
 
             sf::Vector2i adjacentPos{currentPos.x + x, currentPos.y + y};
 
-            UnitTile* targetUnit = unitAtTerrain(terrainAtCartesianPos(adjacentPos));
+            TerrainTile* terrainHere = terrainAtCartesianPos(adjacentPos);
+
+            if(terrainHere == nullptr){
+                continue;
+            }
+
+            UnitTile* targetUnit = terrainHere->getUnit();
 
             if (targetUnit != nullptr){
                 if(targetUnit->getPlayer() != owner){
@@ -602,7 +614,14 @@ void World::calculateViewDistance(UnitTile* unit){
 
             sf::Vector2i adjacentPos{currentPos.x + x, currentPos.y + y};
 
-            UnitTile* targetUnit = unitAtTerrain(terrainAtCartesianPos(adjacentPos));
+            TerrainTile* terrainHere = terrainAtCartesianPos(adjacentPos);
+
+            if(terrainHere == nullptr){
+                continue;
+            }
+
+            UnitTile* targetUnit = terrainHere->getUnit();
+            visibleTiles.insert(terrainHere);
 
             if (targetUnit != nullptr){
                 if(targetUnit->getPlayer() != owner){
@@ -614,4 +633,11 @@ void World::calculateViewDistance(UnitTile* unit){
     }
 
 
+}
+
+void World::highlightVisibleTiles(){
+    for(auto& tile : visibleTiles){
+        tile->setColor(sf::Color{255,255,255,255});
+        tile->refreshVertexArray();
+    }
 }

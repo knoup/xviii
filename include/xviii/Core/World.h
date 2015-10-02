@@ -4,6 +4,7 @@
 
 #include "xviii/Units/UnitTile.h"
 #include "xviii/Terrain/TerrainTile.h"
+#include <unordered_set>
 
 #include "xviii/Terrain/Meadow.h"
 #include "xviii/Terrain/Hills.h"
@@ -161,6 +162,8 @@ public:
 
     void calculateViewDistance(UnitTile* unit);
 
+    void highlightVisibleTiles();
+
     //Ants and Tiles use this too; since they will always exist in a world, there is no point in them having
     //duplicate references to the master manager.
     MasterManager& masterManager;
@@ -191,6 +194,7 @@ private:
 	//This vector stores pointers to the units that have been damaged during an attack. It is reset afterwards
 	std::vector<UnitTile*> damagedUnits;
 
+    std::unordered_set<TerrainTile*> visibleTiles;
 
 	//Used for drawing efficiency
 	sf::VertexArray mTerrainVertices;

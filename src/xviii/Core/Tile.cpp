@@ -24,6 +24,10 @@ void Tile::setHighlighted(bool _value){
 	highlighted = _value;
 }
 
+void Tile::setColor(sf::Color _color){
+    sprite.setColor(_color);
+}
+
 sf::Vector2i Tile::getCartesianPos() const{
 	//N.B.
 	//In the interest of keeping this function const, I used this

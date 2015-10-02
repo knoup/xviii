@@ -20,6 +20,7 @@ public:
 	sf::Vector2f getPixelPos() const;
 
 	void setHighlighted(bool _value);
+	void setColor(sf::Color _color);
 
 	int top() const;
 	int left() const;
