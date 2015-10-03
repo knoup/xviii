@@ -215,8 +215,8 @@ bool SaveGame::create(){
 			save << INDENT << "hasMoved=" << unit->getHasMoved() << std::endl;
 			save << INDENT << "hasPartialRotated=" << unit->getHasPartialRotated() << std::endl;
 			save << INDENT << "hasFullRotated=" << unit->getHasFullRotated() << std::endl;
-			save << INDENT << "hasMeleeAttacked=" << unit->getHasMeleeAttacked() << std::endl;
-			save << INDENT << "hasRangedAttacked=" << unit->getHasRangedAttacked() << std::endl;
+			save << INDENT << "meleeAttacks=" << unit->getMeleeAttacks() << std::endl;
+			save << INDENT << "rangedAttacks=" << unit->getRangedAttacks() << std::endl;
 			//No point in saving hasHealed if the unit cannot heal anyway; it will be initialised
 			//to false by default
 			if (unit->canHeal()){
@@ -498,8 +498,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			bool hasMoved;
 			bool hasPartialRotated;
 			bool hasFullRotated;
-			bool hasMeleeAttacked;
-			bool hasRangedAttacked;
+			int meleeAttacks;
+			int rangedAttacks;
 			bool hasHealed{false};
 
 			bool squareFormationActive{false};
@@ -563,12 +563,12 @@ void SaveGame::parse(boost::filesystem::path _dir){
 					hasFullRotated = std::stoi(AFTEREQUALS);
 				}
 
-				else if (line.find("hasMeleeAttacked=") != std::string::npos){
-					hasMeleeAttacked = std::stoi(AFTEREQUALS);
+				else if (line.find("meleeAttacks=") != std::string::npos){
+					meleeAttacks = std::stoi(AFTEREQUALS);
 				}
 
-				else if (line.find("hasRangedAttacked=") != std::string::npos){
-					hasRangedAttacked = std::stoi(AFTEREQUALS);
+				else if (line.find("rangedAttacks=") != std::string::npos){
+					rangedAttacks = std::stoi(AFTEREQUALS);
 				}
 				else if (line.find("hasHealed=") != std::string::npos){
 					hasHealed = std::stoi(AFTEREQUALS);
@@ -592,7 +592,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 			}
 
 
-			player->loadUnit(unitID, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, hasMeleeAttacked, hasRangedAttacked, hasHealed, squareFormationActive, limber, lancerBonusReady);
+			player->loadUnit(unitID, pos, dir, hp, mov, hasMoved, hasPartialRotated, hasFullRotated, meleeAttacks, rangedAttacks, hasHealed, squareFormationActive, limber, lancerBonusReady);
 
 		}
 

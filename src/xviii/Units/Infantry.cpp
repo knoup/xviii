@@ -80,10 +80,10 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 
 	bool oppositeRotation{_dir == opposite(dir)};
 
-	if (hasMeleeAttacked || (!getSkirmish() && hasRangedAttacked) || ((getSkirmish() && !oppositeRotation) && getHasAnyAttacked())){
+	if (getHasMeleeAttacked() || (!getSkirmish() && getHasRangedAttacked()) || ((getSkirmish() && !oppositeRotation) && getHasAnyAttacked())){
 		return NO_ROTATE_AFTER_ATK;
 	}
-	else if ((!getSkirmish() && getHasAnyRotated()) || (getSkirmish() && getHasAnyRotated() && !hasRangedAttacked)){
+	else if ((!getSkirmish() && getHasAnyRotated()) || (getSkirmish() && getHasAnyRotated() && !getHasRangedAttacked())){
 		return ALREADY_ROTATED;
 	}
 	else if (hasMoved && !getSkirmish()){
@@ -100,7 +100,7 @@ std::string Infantry::rotate(UnitTile::Direction _dir){
 		hasPartialRotated = true;
 	}
 
-	if (getSkirmish() && oppositeRotation && hasRangedAttacked){
+	if (getSkirmish() && oppositeRotation && getHasRangedAttacked()){
 		mov = 2;
 	}
 	else{
@@ -216,10 +216,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 				inf->setDir(opposite(inf->getDir()));
 				//The pushed back unit is immobilised for the next turn, and takes 2 damage
 				retreatDamageDealt += 2;
-				inf->setHasMeleeAttacked(true);
-				inf->setHasRangedAttacked(true);
-				inf->setHasMoved(true);
-				inf->setMov(0);
+				inf->stun();
 			}
 			else if (!validRetreatTile || (retreatTileIsWater && !willRetreat)){
 				//If the unit is unable to retreat, they suffer 6 damage
@@ -274,7 +271,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 	mov = 0;
 	this->updateStats();
 	inf->updateStats();
-	hasMeleeAttacked = true;
+	meleeAttacks++;
 
 	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived, retreat);
 
@@ -321,7 +318,7 @@ std::string Infantry::meleeAttack(Cavalry* cav){
 	mov = 0;
 	this->updateStats();
 	cav->updateStats();
-	hasMeleeAttacked = true;
+	meleeAttacks++;
 
 	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 
@@ -359,7 +356,7 @@ std::string Infantry::meleeAttack(Artillery* art){
 	mov = 0;
 	this->updateStats();
 	art->updateStats();
-	hasMeleeAttacked = true;
+	meleeAttacks++;
 
 	return attackReport(1, this, art, thisRoll_int, 0, damageDealt, damageReceived);
 
@@ -396,7 +393,7 @@ std::string Infantry::meleeAttack(Mortar* mor){
 	mov = 0;
 	this->updateStats();
 	mor->updateStats();
-	hasMeleeAttacked = true;
+	meleeAttacks++;
 
 	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived);
 

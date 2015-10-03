@@ -16,7 +16,7 @@ std::string Mortar::rotate(UnitTile::Direction _dir){
 
 	bool oppositeRotation{_dir == opposite(dir)};
 
-	if (hasRangedAttacked){
+	if (getHasRangedAttacked()){
 		return NO_ROTATE_AFTER_ATTACK;
 	}
 	else if (getHasAnyRotated()){

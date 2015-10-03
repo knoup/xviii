@@ -201,20 +201,29 @@ public:
 	inline bool getHasPartialRotated() const{ return hasPartialRotated; };
 	inline bool getHasFullRotated() const{ return hasFullRotated; };
 	inline bool getHasAnyRotated() const{ return (hasPartialRotated || hasFullRotated); };
-	inline bool getHasMeleeAttacked() const{ return hasMeleeAttacked; };
-	inline bool getHasRangedAttacked() const{ return hasRangedAttacked; };
-	inline bool getHasAnyAttacked() const{ return (hasMeleeAttacked || hasRangedAttacked); };
+	inline int getMeleeAttacks() const{return meleeAttacks;};
+	inline bool getHasMeleeAttacked() const{ return meleeAttacks > 0; };
+	inline int getRangedAttacks() const {return rangedAttacks;};
+	inline bool getHasRangedAttacked() const{ return rangedAttacks > 0; };
+	inline bool getHasAnyAttacked() const{ return ((meleeAttacks > 0) || (rangedAttacks > 0)); };
 	inline bool getHasHealed() const{ return hasHealed; };
+
+	inline bool canMeleeAttack() const {return meleeAttacks < getChargesPerTurn(); };
+	inline bool canRangedAttack() const {return rangedAttacks < getShotsPerTurn(); };
 
 	bool getMelee() const;
 	bool getSkirmish() const;
 	bool getFrightening() const;
 	bool getHalfRangedDamage() const;
 	bool getCanShootOverUnits() const;
+	bool getCanShootTwice() const;
+
+	int getChargesPerTurn() const;
+	int getShotsPerTurn() const;
 
 	int getMaxRange() const;
 	bool canHeal() const;
-	bool canRangedAttack() const;
+	bool hasRangedCapability() const;
 	bool canAttackBridge() const;
 
 	int getCost() const;
@@ -242,8 +251,8 @@ public:
 	inline void setHasMoved(bool _hasMoved){ hasMoved = _hasMoved; };
 	inline void setHasPartialRotated(bool _hasPartialRotated){ hasPartialRotated = _hasPartialRotated; };
 	inline void setHasFullRotated(bool _hasFullRotated){ hasFullRotated = _hasFullRotated; };
-	inline void setHasMeleeAttacked(bool _value){ hasMeleeAttacked = _value; };
-	inline void setHasRangedAttacked(bool _value){ hasRangedAttacked = _value; };
+	inline void setMeleeAttacks(int _value){ meleeAttacks = _value; };
+	inline void setRangedAttacks(int _value){ rangedAttacks = _value; };
 	inline void setHasHealed(bool _value){ hasHealed = _value; };
 
 	inline void setTruePosition(sf::Vector2i _truePosition){truePosition = _truePosition;};
@@ -420,8 +429,8 @@ protected:
 	bool hasMoved{false};
 	bool hasPartialRotated{false};
 	bool hasFullRotated{false};
-	bool hasMeleeAttacked{false};
-	bool hasRangedAttacked{false};
+	int meleeAttacks{0};
+	int rangedAttacks{0};
 	bool hasHealed{false};
 };
 

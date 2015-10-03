@@ -11,9 +11,12 @@ bool UnitTile::getSkirmish() const{ return world.masterManager.unitLoader->custo
 bool UnitTile::getFrightening() const { return world.masterManager.unitLoader->customClasses.at(unitID).frightening; };
 bool UnitTile::getHalfRangedDamage() const { return world.masterManager.unitLoader->customClasses.at(unitID).halfRangedDamage; };
 bool UnitTile::canHeal() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).healingRangeValues.empty()); };
-bool UnitTile::canRangedAttack() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues.empty()); };
+bool UnitTile::hasRangedCapability() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues.empty()); };
 bool UnitTile::canAttackBridge() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()); };
 bool UnitTile::getCanShootOverUnits() const { return world.masterManager.unitLoader->customClasses.at(unitID).canShootOverUnits; };
+
+int UnitTile::getChargesPerTurn() const { return world.masterManager.unitLoader->customClasses.at(unitID).chargesPerTurn; };
+int UnitTile::getShotsPerTurn() const { return world.masterManager.unitLoader->customClasses.at(unitID).shotsPerTurn; };
 
 bool UnitTile::hasSquareFormationAbility() const{ return world.masterManager.unitLoader->customClasses.at(unitID).hasSquareFormationAbility; };
 bool UnitTile::hasLimberAbility() const{ return world.masterManager.unitLoader->customClasses.at(unitID).hasLimberAbility; };
@@ -127,7 +130,7 @@ UnitTile::Direction UnitTile::opposite(UnitTile::Direction _dir){
 
 //virtual
 int UnitTile::getMaxRange() const{
-	if (!canRangedAttack()){
+	if (!hasRangedCapability()){
 		return 0;
 	}
 	else{
@@ -363,7 +366,7 @@ void UnitTile::reset(){
 	}
 
 	if (hasLancerAbility()){
-		if (!hasMeleeAttacked){
+		if (!getHasMeleeAttacked()){
 			lancerBonusReady = true;
 		}
 		else{
@@ -375,16 +378,16 @@ void UnitTile::reset(){
 	hasMoved = false;
 	hasPartialRotated = false;
 	hasFullRotated = false;
-	hasMeleeAttacked = false;
-	hasRangedAttacked = false;
+	meleeAttacks = 0;
+	rangedAttacks = 0;
 	updateStats();
 }
 
 
 void UnitTile::stun(){
 	mov = 0;
-	hasMeleeAttacked = true;
-	hasRangedAttacked = true;
+	meleeAttacks = getChargesPerTurn();
+	rangedAttacks = getShotsPerTurn();
 	hasMoved = true;
 }
 
@@ -520,7 +523,10 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 		return SF_ACTIVE;
 	}
 
-	if (hasMeleeAttacked || hasRangedAttacked){
+	if (dist > 1 && (!canRangedAttack() || getHasMeleeAttacked())
+        ||
+        dist == 1 && (!canMeleeAttack() || getHasRangedAttacked())){
+
 		return{ALREADY_ATTACKED};
 	}
 
@@ -709,8 +715,15 @@ void UnitTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
         target.draw(hpText);
         target.draw(movText);
 
-        if (hasMeleeAttacked || hasRangedAttacked){
-            outline.setOutlineColor(sf::Color::Red);
+        if (getHasAnyAttacked()){
+
+            if(!canMeleeAttack() || !canRangedAttack()){
+                outline.setOutlineColor(sf::Color::Red);
+            }
+            else{
+                outline.setOutlineColor(sf::Color(255,140,0));
+            }
+
         }
         else if (highlighted){
             outline.setOutlineColor(sf::Color::Yellow);
@@ -1210,7 +1223,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	mov = 0;
 	this->updateStats();
 	unit->updateStats();
-	hasRangedAttacked = true;
+	rangedAttacks++;
 
 
 	/*
@@ -1301,10 +1314,10 @@ std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 	this->updateStats();
 
 	if(distance == 1){
-        hasMeleeAttacked = true;
+        meleeAttacks++;
 	}
 	else if (distance > 1){
-        hasRangedAttacked = true;
+        rangedAttacks++;
 	}
 
 	/*
@@ -1396,10 +1409,10 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
 	this->updateStats();
 
 	if(distance == 1){
-        hasMeleeAttacked = true;
+        meleeAttacks++;
 	}
 	else if (distance > 1){
-        hasRangedAttacked = true;
+        rangedAttacks++;
 	}
 
 	/*

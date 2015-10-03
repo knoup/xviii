@@ -16,7 +16,7 @@ void General::reset(){
 	}
 
 	if (hasLancerAbility()){
-		if (!hasMeleeAttacked){
+		if (!getHasMeleeAttacked()){
 			lancerBonusReady = true;
 		}
 		else{
@@ -28,8 +28,8 @@ void General::reset(){
 	hasMoved = false;
 	hasPartialRotated = false;
 	hasFullRotated = false;
-	hasMeleeAttacked = false;
-	hasRangedAttacked = false;
+	meleeAttacks = 0;
+	rangedAttacks = 0;
 	updateStats();
 }
 

@@ -187,7 +187,7 @@ bool Player::spawnUnit(std::string _unitID, sf::Vector2i _worldCoords){
 }
 
 //For loading from a save game
-void Player::loadUnit(std::string _unitID, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, bool _hasMeleeAttacked, bool _hasRangedAttacked, bool _hasHealed, bool _squareFormationActive, bool _limber, bool _lancerBonusReady){
+void Player::loadUnit(std::string _unitID, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, int _meleeAttacks, int _rangedAttacks, bool _hasHealed, bool _squareFormationActive, bool _limber, bool _lancerBonusReady){
 
 	UnitTile::UnitType _type = masterManager.unitLoader->customClasses.at(_unitID).unitType;
 	UnitTile::UnitFamily _familyType = masterManager.unitLoader->customClasses.at(_unitID).unitFamilyType;
@@ -211,8 +211,8 @@ void Player::loadUnit(std::string _unitID, sf::Vector2i _pos, UnitTile::Directio
 	ptr->setHasMoved(_hasMoved);
 	ptr->setHasPartialRotated(_hasPartialRotated);
 	ptr->setHasFullRotated(_hasFullRotated);
-	ptr->setHasMeleeAttacked(_hasMeleeAttacked);
-	ptr->setHasRangedAttacked(_hasRangedAttacked);
+	ptr->setMeleeAttacks(_meleeAttacks);
+	ptr->setRangedAttacks(_rangedAttacks);
 	ptr->setHasHealed(_hasHealed);
 	ptr->setSquareFormationActive(_squareFormationActive);
 	ptr->setLimber(_limber);

@@ -36,10 +36,10 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 
 	bool oppositeRotation{_dir == opposite(dir)};
 
-	if (hasMeleeAttacked || (!getSkirmish() && hasRangedAttacked) || ((getSkirmish() && !oppositeRotation) && getHasAnyAttacked())){
+	if (getHasMeleeAttacked() || (!getSkirmish() && getHasRangedAttacked()) || ((getSkirmish() && !oppositeRotation) && getHasAnyAttacked())){
 		return NO_ROTATE_AFTER_ATTACK;
 	}
-	else if ((!getSkirmish() && getHasAnyRotated()) || (getSkirmish() && getHasAnyRotated() && !hasRangedAttacked)){
+	else if ((!getSkirmish() && getHasAnyRotated()) || (getSkirmish() && getHasAnyRotated() && !getHasRangedAttacked())){
 		return ALREADY_ROTATED;
 	}
 	else if (dir == _dir){
@@ -48,7 +48,7 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 
 	//If it was a full rotation
 	if (oppositeRotation){
-		if (getSkirmish() && oppositeRotation && hasRangedAttacked){
+		if (getSkirmish() && oppositeRotation && getHasRangedAttacked()){
 			mov = 2;
 		}
 		else{
@@ -58,9 +58,9 @@ std::string Cavalry::rotate(UnitTile::Direction _dir){
 		hasFullRotated = true;
 
 		//Due to the rule that cav cannot attack after full rotation, and to simplify matters, I set the
-		//hasAttacked variables to true here
-		hasMeleeAttacked = true;
-		hasRangedAttacked = true;
+		//attack values to their cap here
+		meleeAttacks = getChargesPerTurn();
+		rangedAttacks = getShotsPerTurn();
 	}
 	else{
 		hasPartialRotated = true;
@@ -97,7 +97,7 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 			mov = 0;
 			this->updateStats();
 			inf->updateStats();
-			hasMeleeAttacked = true;
+			meleeAttacks++;
 
 			return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 		}
@@ -128,7 +128,7 @@ std::string Cavalry::meleeAttack(Infantry* inf){
 	mov = 0;
 	this->updateStats();
 	inf->updateStats();
-	hasMeleeAttacked = true;
+	meleeAttacks++;
 
 	return attackReport(1, this, inf, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 }
@@ -154,7 +154,7 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 			mov = 0;
 			this->updateStats();
 			cav->updateStats();
-			hasMeleeAttacked = true;
+			meleeAttacks++;
 
 			return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 		}
@@ -196,7 +196,7 @@ std::string Cavalry::meleeAttack(Cavalry* cav){
 	mov = 0;
 	this->updateStats();
 	cav->updateStats();
-	hasMeleeAttacked = true;
+	meleeAttacks++;
 
 	return attackReport(1, this, cav, thisRoll_int, enemyRoll_int, damageDealt, damageReceived);
 
@@ -233,7 +233,7 @@ std::string Cavalry::meleeAttack(Artillery* art){
 	mov = 0;
 	this->updateStats();
 	art->updateStats();
-	hasMeleeAttacked = true;
+	meleeAttacks++;
 
 	return attackReport(1, this, art, thisRoll_int, 0, damageDealt, damageReceived);
 }
@@ -269,7 +269,7 @@ std::string Cavalry::meleeAttack(Mortar* mor){
 	mov = 0;
 	this->updateStats();
 	mor->updateStats();
-	hasMeleeAttacked = true;
+	meleeAttacks++;
 
 	return attackReport(1, this, mor, thisRoll_int, 0, damageDealt, damageReceived);
 }

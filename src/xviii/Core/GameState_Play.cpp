@@ -445,7 +445,7 @@ void GameState_Play::update(float mFT){
 			//Check if it is an enemy unit
 			bool friendly = (unit->getPlayer() == game->currentPlayer);
 
-			if (((!validAttackDirection && (!selected->canHeal())) || meleeObstructionPresent || rangedObstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || selected->getHasMeleeAttacked() || selected->getHasMeleeAttacked())){
+			if (((!validAttackDirection && (!selected->canHeal())) || meleeObstructionPresent || rangedObstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || !selected->canMeleeAttack())){
 					tileDistanceText.setColor(sf::Color::Red);
 				}
 				else{

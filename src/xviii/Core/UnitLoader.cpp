@@ -188,6 +188,14 @@ void UnitLoader::parse(boost::filesystem::path path){
 			newClass->canShootOverUnits = std::stoi(AFTERCOLON);
 		}
 
+		else if (currentLine.find("[SHOTS_PER_TURN]:") EXISTS){
+			newClass->shotsPerTurn = std::stoi(AFTERCOLON);
+		}
+
+		else if (currentLine.find("[CHARGES_PER_TURN]:") EXISTS){
+			newClass->chargesPerTurn = std::stoi(AFTERCOLON);
+		}
+
 		else if (currentLine.find("[FLANK]") EXISTS){
 			std::getline(unitData, currentLine);
 

@@ -69,6 +69,8 @@ This determines whether the unit is capable of crossing water tiles without the 
 
 [SHOOTS_OVER_UNITS] specifies if a unit is able to shoot despite a unit being in the way
 
+[SHOTS_PER_TURN] and [CHARGES_PER_TURN] specify how many times a unit is able to perform a ranged attack and a melee attack per turn, respectively.
+
 
 FULL LIST OF ESSENTIAL FLAGS (these must be included in every unit description):
 
@@ -91,8 +93,12 @@ FULL LIST OF ESSENTIAL FLAGS (these must be included in every unit description):
 [FRIGHTENING]:
 [HALFRANGEDDDAMAGE]:
 [MELEE]:
+[CONE_WIDTH]:
+[SHOOTS_OVER_UNITS]:
+[SHOTS_PER_TURN]:
+[CHARGES_PER_TURN]:
 
-The remaining ([FLANK], [RANGED], [BRIDGE_ATTACK], [HEALING], [MELEE_BONUS]) can optionally be excluded if they are not needed. [CONE_WIDTH] and [SHOOTS_OVER_UNITS] can be excluded if the unit has no ranged capability; otherwise, they will default to 1 and 0, respectivelly.
+The remaining ([FLANK], [RANGED], [BRIDGE_ATTACK], [HEALING], [MELEE_BONUS]) can optionally be excluded if they are not needed. [CONE_WIDTH] and [SHOOTS_OVER_UNITS] can be excluded if the unit has no ranged capability; otherwise, they will default to 1 and 0, respectively. Same with [SHOTS_PER_TURN] and [CHARGES_PER_TURN], which default to 1 and 1.
 
 -------------------------------------------------------------
 

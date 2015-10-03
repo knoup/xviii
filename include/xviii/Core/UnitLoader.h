@@ -54,19 +54,22 @@ public:
 
 		float squareFormationModifier{0};
 
-		bool melee;
-		bool skirmish;
-		bool frightening;
-		bool halfRangedDamage;
-		bool canShootOverUnits;
+		bool melee{true};
+		bool skirmish{false};
+		bool frightening{false};
+		bool halfRangedDamage{false};
+		bool canShootOverUnits{false};
 
-		float maxHp;
-		int maxMov;
+		int shotsPerTurn{1};
+		int chargesPerTurn{1};
+
+		float maxHp{10};
+		int maxMov{10};
 		int coneWidth{1};
-		int cost;
+		int cost{1};
 		int limit{0};
-		int unitViewDistance;
-		int flagViewDistance;
+		int unitViewDistance{5};
+		int flagViewDistance{7};
 	};
 
 	UnitLoader(TextureManager& _tm);

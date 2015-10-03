@@ -12,7 +12,7 @@ UnitTile(_world, _belongsToPlayer, _unitID, _type, _familyType, _dir)
 std::string Artillery::rotate(UnitTile::Direction _dir){
 	bool oppositeRotation{_dir == opposite(dir)};
 
-	if (hasRangedAttacked){
+	if (getHasRangedAttacked()){
 		return NO_ROTATE_AFTER_ATTACK;
 	}
 	else if (getHasAnyRotated()){
