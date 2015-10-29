@@ -575,8 +575,8 @@ void World::calculateViewDistance(UnitTile* unit){
 
     sf::Vector2i currentPos = unit->getTruePosition();
 
-    int unitViewDistance = unit->getUnitViewDistance() - getWeatherUnitViewDistance();
-    int flagViewDistance = unit->getFlagViewDistance() - getWeatherFlagViewDistance();
+    int unitViewDistance = unit->getDefaultUnitViewDistance() - getWeatherUnitViewDistance();
+    int flagViewDistance = unit->getDefaultFlagViewDistance() - getWeatherFlagViewDistance();
 
     if(unitViewDistance < 1){
         unitViewDistance = 1;
@@ -584,6 +584,9 @@ void World::calculateViewDistance(UnitTile* unit){
     if(flagViewDistance < 1){
         flagViewDistance = 1;
     }
+
+    unit->setCurrentUnitViewDistance(unitViewDistance);
+    unit->setCurrentFlagViewDistance(flagViewDistance);
 
     Player* owner = unit->getPlayer();
 

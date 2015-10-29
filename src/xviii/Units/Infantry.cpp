@@ -30,35 +30,128 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 	sf::Vector2i vectorDist = distanceFrom(terrainTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 
-	if (dir == Direction::N || dir == Direction::S){
-		movExpended = abs(vectorDist.y);
-	}
-	else{
-		movExpended = abs(vectorDist.x);
-	}
-
 	if (meleeObstructionPresent){
 		return OBSTRUCTION_PRESENT_MOV;
 	}
 
 	else if (validMovDirection && inMovementRange){
-        world.wearDownTempBridges(terrain, terrainTile);
+
+            int PRIMARYAXIS_CURRENT;
+            int PRIMARYAXIS_DESTINATION;
+            int SECONDARYAXIS_CURRENT;
+            int SECONDARYAXIS_DESTINATION;
+
+            int PRIMARYAXIS_MOVEMENT;
+
+            switch (dir){
+            case UnitTile::Direction::N:
+                PRIMARYAXIS_CURRENT = currentCoords.y;
+                PRIMARYAXIS_DESTINATION = toMoveToCoords.y;
+                SECONDARYAXIS_CURRENT = currentCoords.x;
+                SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
+
+                PRIMARYAXIS_MOVEMENT = -1;
+                break;
+
+            case UnitTile::Direction::E:
+                PRIMARYAXIS_CURRENT = currentCoords.x;
+                PRIMARYAXIS_DESTINATION = toMoveToCoords.x;
+                SECONDARYAXIS_CURRENT = currentCoords.y;
+                SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
+
+                PRIMARYAXIS_MOVEMENT = 1;
+                break;
+
+            case UnitTile::Direction::S:
+                PRIMARYAXIS_CURRENT = currentCoords.y;
+                PRIMARYAXIS_DESTINATION = toMoveToCoords.y;
+                SECONDARYAXIS_CURRENT = currentCoords.x;
+                SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
+
+                PRIMARYAXIS_MOVEMENT = 1;
+                break;
+
+
+            case UnitTile::Direction::W:
+                PRIMARYAXIS_CURRENT = currentCoords.x;
+                PRIMARYAXIS_DESTINATION = toMoveToCoords.x;
+                SECONDARYAXIS_CURRENT = currentCoords.y;
+                SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
+                PRIMARYAXIS_MOVEMENT = -1;
+
+                break;
+        }
+
+        sf::Vector2i finalCoords{toMoveToCoords};
+
+        //Begin at the tile that comes after the current tile, and loop to the destination (inclusive)
+        for (int i{PRIMARYAXIS_CURRENT + PRIMARYAXIS_MOVEMENT}; i != PRIMARYAXIS_DESTINATION; i += PRIMARYAXIS_MOVEMENT){
+
+                TerrainTile* terrainInTheWay;
+                int indexToCheck = i + PRIMARYAXIS_MOVEMENT * currentUnitViewDistance;
+
+                if (dir == Direction::N || dir == Direction::S){
+                    terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
+                }
+                else{
+                    terrainInTheWay = world.terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
+                }
+
+                UnitTile* unit = terrainInTheWay->getUnit();
+
+                if(unit != nullptr){
+
+                    if(unit->getPlayer() != getPlayer()){
+
+                        if (dir == Direction::N || dir == Direction::S){
+                            finalCoords.x = SECONDARYAXIS_CURRENT;
+                            finalCoords.y = i;
+                        }
+                        else{
+                            finalCoords.x = i;
+                            finalCoords.y = SECONDARYAXIS_CURRENT;
+                        }
+
+                        continue;
+                    }
+                }
+        }
+
+
+        if (dir == Direction::N || dir == Direction::S){
+            movExpended = abs(toMoveToCoords.y - currentCoords.y);
+        }
+        else{
+            movExpended = abs(toMoveToCoords.x - currentCoords.x);
+        }
+
+        TerrainTile* destination = world.terrainAtCartesianPos(finalCoords);
+
+        world.wearDownTempBridges(terrain, destination);
 		hasMoved = true;
 		terrain->resetUnit();
-		terrain = terrainTile;
-		terrainTile->setUnit(this);
+		terrain = destination;
+		destination->setUnit(this);
 		mov -= movExpended;
-		sprite.setPosition(terrainTile->getPixelPos());
-		unitFlag.setPosition(terrainTile->getPixelPos());
-		outline.setPosition(terrainTile->getPixelPos());
+		sprite.setPosition(destination->getPixelPos());
+		unitFlag.setPosition(destination->getPixelPos());
+		outline.setPosition(destination->getPixelPos());
 
-		truePosition = terrainTile->getCartesianPos();
+		truePosition = destination->getCartesianPos();
         perceivedPosition = truePosition;
 
         world.calculateViewDistance(this);
         world.highlightVisibleTiles();
 		updateStats();
-		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
+
+		if(finalCoords == toMoveToCoords){
+            return MOV_SUCCESS + std::to_string(finalCoords.x + 1) + ", " + std::to_string(finalCoords.y + 1);
+        }
+
+        else{
+            return "Movement disrupted!";
+        }
+
 	}
 
 	else if (validMovDirection && !inMovementRange){

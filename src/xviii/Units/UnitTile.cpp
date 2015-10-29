@@ -28,8 +28,8 @@ int UnitTile::getMaxHp() const{ return world.masterManager.unitLoader->customCla
 int UnitTile::getMaxMov() const{ return world.masterManager.unitLoader->customClasses.at(unitID).maxMov; };
 int UnitTile::getConeWidth() const{ return world.masterManager.unitLoader->customClasses.at(unitID).coneWidth; };
 
-int UnitTile::getUnitViewDistance() const {return world.masterManager.unitLoader->customClasses.at(unitID).unitViewDistance;};
-int UnitTile::getFlagViewDistance() const {return world.masterManager.unitLoader->customClasses.at(unitID).flagViewDistance;};
+int UnitTile::getDefaultUnitViewDistance() const {return world.masterManager.unitLoader->customClasses.at(unitID).unitViewDistance;};
+int UnitTile::getDefaultFlagViewDistance() const {return world.masterManager.unitLoader->customClasses.at(unitID).flagViewDistance;};
 
 void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 	UnitTile::UnitType mainType = _unit->getUnitType();
@@ -239,6 +239,9 @@ mov{0},
 coneWidth{1},
 canShootOverUnits{false}
 {
+    currentUnitViewDistance = getDefaultUnitViewDistance();
+    currentFlagViewDistance = getDefaultFlagViewDistance();
+
     displayName = world.masterManager.unitLoader->customClasses.at(unitID).displayName;
     shortDisplayName = world.masterManager.unitLoader->customClasses.at(unitID).shortDisplayName;
 
@@ -310,40 +313,126 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 
 	sf::Vector2i vectorDist = distanceFrom(_terrainTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 
-	if (dir == Direction::N || dir == Direction::S){
-		movExpended = abs(vectorDist.y);
-	}
-	else{
-		movExpended = abs(vectorDist.x);
-	}
-
 	if (meleeObstructionPresent){
 		return OBSTRUCTION_PRESENT_MOV;
 	}
 
 	else if (validMovDirection && inMovementRange){
-        //Check, first, if the destination is clear of units:
-        if(_terrainTile->getUnit() != nullptr){
 
+        int PRIMARYAXIS_CURRENT;
+        int PRIMARYAXIS_DESTINATION;
+        int SECONDARYAXIS_CURRENT;
+        int SECONDARYAXIS_DESTINATION;
+
+        int PRIMARYAXIS_MOVEMENT;
+
+        switch (dir){
+            case UnitTile::Direction::N:
+                PRIMARYAXIS_CURRENT = currentCoords.y;
+                PRIMARYAXIS_DESTINATION = toMoveToCoords.y;
+                SECONDARYAXIS_CURRENT = currentCoords.x;
+                SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
+
+                PRIMARYAXIS_MOVEMENT = -1;
+                break;
+
+            case UnitTile::Direction::E:
+                PRIMARYAXIS_CURRENT = currentCoords.x;
+                PRIMARYAXIS_DESTINATION = toMoveToCoords.x;
+                SECONDARYAXIS_CURRENT = currentCoords.y;
+                SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
+
+                PRIMARYAXIS_MOVEMENT = 1;
+                break;
+
+            case UnitTile::Direction::S:
+                PRIMARYAXIS_CURRENT = currentCoords.y;
+                PRIMARYAXIS_DESTINATION = toMoveToCoords.y;
+                SECONDARYAXIS_CURRENT = currentCoords.x;
+                SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
+
+                PRIMARYAXIS_MOVEMENT = 1;
+                break;
+
+
+            case UnitTile::Direction::W:
+                PRIMARYAXIS_CURRENT = currentCoords.x;
+                PRIMARYAXIS_DESTINATION = toMoveToCoords.x;
+                SECONDARYAXIS_CURRENT = currentCoords.y;
+                SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
+                PRIMARYAXIS_MOVEMENT = -1;
+
+                break;
+        }
+
+        sf::Vector2i finalCoords{toMoveToCoords};
+
+        //Begin at the tile that comes after the current tile, and loop to the destination (inclusive)
+        for (int i{PRIMARYAXIS_CURRENT + PRIMARYAXIS_MOVEMENT}; i != PRIMARYAXIS_DESTINATION; i += PRIMARYAXIS_MOVEMENT){
+
+            TerrainTile* terrainInTheWay;
+            int indexToCheck = i + PRIMARYAXIS_MOVEMENT * currentUnitViewDistance;
+
+            if (dir == Direction::N || dir == Direction::S){
+                terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
+            }
+            else{
+                terrainInTheWay = world.terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
+            }
+
+            UnitTile* unit = terrainInTheWay->getUnit();
+
+            if(unit != nullptr){
+
+                if(unit->getPlayer() != getPlayer()){
+
+                    if (dir == Direction::N || dir == Direction::S){
+                        finalCoords.x = SECONDARYAXIS_CURRENT;
+                        finalCoords.y = i;
+                    }
+                    else{
+                        finalCoords.x = i;
+                        finalCoords.y = SECONDARYAXIS_CURRENT;
+                    }
+
+                    continue;
+                }
+            }
         }
 
 
-        world.wearDownTempBridges(terrain, _terrainTile);
-		terrain->resetUnit();
-		terrain = _terrainTile;
-		_terrainTile->setUnit(this);
-		mov -= movExpended;
-		sprite.setPosition(_terrainTile->getPixelPos());
-		unitFlag.setPosition(_terrainTile->getPixelPos());
-		outline.setPosition(_terrainTile->getPixelPos());
+        if (dir == Direction::N || dir == Direction::S){
+            movExpended = abs(toMoveToCoords.y - currentCoords.y);
+        }
+        else{
+            movExpended = abs(toMoveToCoords.x - currentCoords.x);
+        }
 
-		truePosition = _terrainTile->getCartesianPos();
+        TerrainTile* destination = world.terrainAtCartesianPos(finalCoords);
+
+        world.wearDownTempBridges(terrain, destination);
+		terrain->resetUnit();
+		terrain = destination;
+		destination->setUnit(this);
+		mov -= movExpended;
+		sprite.setPosition(destination->getPixelPos());
+		unitFlag.setPosition(destination->getPixelPos());
+		outline.setPosition(destination->getPixelPos());
+
+		truePosition = destination->getCartesianPos();
         perceivedPosition = truePosition;
 
         world.calculateViewDistance(this);
         world.highlightVisibleTiles();
 		updateStats();
-		return MOV_SUCCESS + std::to_string(toMoveToCoords.x + 1) + ", " + std::to_string(toMoveToCoords.y + 1);
+
+		if(finalCoords == toMoveToCoords){
+            return MOV_SUCCESS + std::to_string(finalCoords.x + 1) + ", " + std::to_string(finalCoords.y + 1);
+        }
+
+        else{
+            return "Movement disrupted!";
+        }
 	}
 
 	else if (validMovDirection && !inMovementRange){
@@ -565,6 +654,13 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 
 
 	//Past this point, it is assumed combat is possible
+
+	//Because we don't want terrain attacks to further increment rangedAttacks or meleeAttacks
+	//if we attack a unit, we'll store variables for their success here.
+
+	bool meleeSuccess{false};
+	bool rangedSuccess{false};
+
 	////////////////////////////////////////////////////////////////////////////
 
     if(unit != nullptr){
@@ -583,6 +679,7 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 
 		this->applyTerrainModifiers(unit->getTerrain(), dist, true);
 		resultStr += this->rangedAttack(unit, dist);
+		rangedSuccess = true;
 	}
 
 	//Melee
@@ -613,7 +710,8 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 
         //Double dispatch, hence the reverse order
         resultStr += unit->meleeAttack(this);
-    }
+        meleeSuccess = true;
+        }
     }
 
     //Attacking the terrain should always happen if the unit is
@@ -623,6 +721,14 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 	if((unit == nullptr) || (unit != nullptr && dist > 1)){
 
         resultStr += terrainAttack(_terrain, dist);
+
+        if(dist == 1 && !meleeSuccess){
+            meleeAttacks++;
+        }
+        else if(dist > 1 && !rangedSuccess){
+            rangedAttacks++;
+        }
+
 	}
 
     return resultStr;
@@ -747,7 +853,8 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
     return distanceFrom(_destinationTile, _validMovDirection, _validAttackDirection, _rangedObstructionPresent, _meleeObstructionPresent, _inMovementRange, _inRangedAttackRange, canShootOverUnits, coneWidth);
 }
 /*
-Because this is one of the most important functions, and looks intimidating, I felt the need to document it well
+Because this is one of the most important functions, and looks intimidating, I felt the need to document it well.
+Yes, it is horribly bloated, and something needs to be done about that eventually.
 
 N.B.: This function assumes the reference variables are initialised as false!!
 
@@ -800,34 +907,34 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 	int SECONDARYAXIS_NEGATIVE;
 
 	switch (dir){
-	case UnitTile::Direction::N:
-		PRIMARYAXIS_POSITIVE = currentCoords.y;
-		PRIMARYAXIS_NEGATIVE = toMoveToCoords.y;
-		SECONDARYAXIS_POSITIVE = toMoveToCoords.x;
-		SECONDARYAXIS_NEGATIVE = currentCoords.x;
-		break;
+        case UnitTile::Direction::N:
+            PRIMARYAXIS_POSITIVE = currentCoords.y;
+            PRIMARYAXIS_NEGATIVE = toMoveToCoords.y;
+            SECONDARYAXIS_POSITIVE = toMoveToCoords.x;
+            SECONDARYAXIS_NEGATIVE = currentCoords.x;
+            break;
 
-	case UnitTile::Direction::E:
-		PRIMARYAXIS_POSITIVE = toMoveToCoords.x;
-		PRIMARYAXIS_NEGATIVE = currentCoords.x;
-		SECONDARYAXIS_POSITIVE = toMoveToCoords.y;
-		SECONDARYAXIS_NEGATIVE = currentCoords.y;
-		break;
+        case UnitTile::Direction::E:
+            PRIMARYAXIS_POSITIVE = toMoveToCoords.x;
+            PRIMARYAXIS_NEGATIVE = currentCoords.x;
+            SECONDARYAXIS_POSITIVE = toMoveToCoords.y;
+            SECONDARYAXIS_NEGATIVE = currentCoords.y;
+            break;
 
-	case UnitTile::Direction::S:
-		PRIMARYAXIS_POSITIVE = toMoveToCoords.y;
-		PRIMARYAXIS_NEGATIVE = currentCoords.y;
-		SECONDARYAXIS_POSITIVE = toMoveToCoords.x;
-		SECONDARYAXIS_NEGATIVE = currentCoords.x;
-		break;
+        case UnitTile::Direction::S:
+            PRIMARYAXIS_POSITIVE = toMoveToCoords.y;
+            PRIMARYAXIS_NEGATIVE = currentCoords.y;
+            SECONDARYAXIS_POSITIVE = toMoveToCoords.x;
+            SECONDARYAXIS_NEGATIVE = currentCoords.x;
+            break;
 
 
-	case UnitTile::Direction::W:
-		PRIMARYAXIS_POSITIVE = currentCoords.x;
-		PRIMARYAXIS_NEGATIVE = toMoveToCoords.x;
-		SECONDARYAXIS_POSITIVE = toMoveToCoords.y;
-		SECONDARYAXIS_NEGATIVE = currentCoords.y;
-		break;
+        case UnitTile::Direction::W:
+            PRIMARYAXIS_POSITIVE = currentCoords.x;
+            PRIMARYAXIS_NEGATIVE = toMoveToCoords.x;
+            SECONDARYAXIS_POSITIVE = toMoveToCoords.y;
+            SECONDARYAXIS_NEGATIVE = currentCoords.y;
+            break;
 	}
 
 	dist = (PRIMARYAXIS_POSITIVE - PRIMARYAXIS_NEGATIVE);
@@ -926,11 +1033,11 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
                 if (unitInTheWay != nullptr){
                     bool unitIsFriendly{unitInTheWay->getPlayer() == this->getPlayer()};
 
-                    if (!unitIsFriendly){
+                    if (!unitIsFriendly && unitInTheWay->drawUnit){
                         _meleeObstructionPresent = true;
                     }
 
-                    if (!_canShootOverUnits){
+                    if (!_canShootOverUnits && unitInTheWay->drawUnit){
                         _rangedObstructionPresent = true;
                     }
 
@@ -1238,7 +1345,13 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 		hasFullRotated = false;
 	}
 
-	return attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
+    std::string finalStr{};
+
+    if(unit->drawUnit){
+        finalStr = attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
+    }
+
+    return finalStr;
 }
 
 std::string UnitTile::terrainAttack(TerrainTile* terrain, int distance){
@@ -1313,12 +1426,6 @@ std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 	mov = 0;
 	this->updateStats();
 
-	if(distance == 1){
-        meleeAttacks++;
-	}
-	else if (distance > 1){
-        rangedAttacks++;
-	}
 
 	/*
 	Units that can skirmish need to be able to rotate a second time sometimes. Take the following scenario, for instance:
@@ -1407,13 +1514,6 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
 
 	mov = 0;
 	this->updateStats();
-
-	if(distance == 1){
-        meleeAttacks++;
-	}
-	else if (distance > 1){
-        rangedAttacks++;
-	}
 
 	/*
 	Units that can skirmish need to be able to rotate a second time sometimes. Take the following scenario, for instance:

@@ -246,19 +246,31 @@ void GameState_Play::getInput(){
 						}
 
 						//If the tile is occupied by an enemy unit, attack
-						if (occupied && !friendly){
-							playUI.setCurrentMessageText(selected->attack(terrain));
-							playUI.setSaveStatus(false);
+						if (occupied){
 
-							selected->modVector.clear();
-							unit->modVector.clear();
+                            if(!friendly){
 
-							game->mWorld.clearDamagedUnits();
-						}
-						else if (occupied && friendly){
-							playUI.setCurrentMessageText(selected->heal(unit));
-							playUI.setSaveStatus(false);
-							//specially for the general's heal ability
+                                if(unit->drawUnit || (!unit->drawUnit && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))){
+                                    playUI.setCurrentMessageText(selected->attack(terrain));
+                                    playUI.setSaveStatus(false);
+
+                                    selected->modVector.clear();
+                                    unit->modVector.clear();
+
+                                    game->mWorld.clearDamagedUnits();
+                                }
+
+                                else{
+                                    playUI.setCurrentMessageText(selected->moveTo(terrain));
+                                }
+
+                            }
+                            else if(friendly){
+                                playUI.setCurrentMessageText(selected->heal(unit));
+                                playUI.setSaveStatus(false);
+                                //specially for the general's heal ability
+                            }
+
 						}
 					}
 

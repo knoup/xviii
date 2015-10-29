@@ -237,8 +237,15 @@ public:
 	inline sf::Vector2i getTruePosition(){return truePosition;};
 	inline sf::Vector2i getPerceivedPosition(){return perceivedPosition;};
 
-	int getUnitViewDistance() const;
-	int getFlagViewDistance() const;
+	//These 2 functions get the unit's default view distances (those defined in the .txts)...
+
+	int getDefaultUnitViewDistance() const;
+	int getDefaultFlagViewDistance() const;
+
+	//...while these 2 get the true view distances, as affected by weather.
+
+	inline int getCurrentUnitViewDistance() const{return currentUnitViewDistance;};
+	inline int getCurrentFlagViewDistance() const{return currentFlagViewDistance;};
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -276,6 +283,9 @@ public:
 	bool hasLimberAbility() const;
 	bool hasLancerAbility() const;
 
+	inline void setCurrentUnitViewDistance(int _int){currentUnitViewDistance = _int;};
+	inline void setCurrentFlagViewDistance(int _int){currentFlagViewDistance = _int;};
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -302,6 +312,10 @@ public:
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
+
+    //IMPORTANT NOTE:
+    //terrainAttack() should not increment rangedAttacks or meleeAttacks itself; rather,
+    //the logic for this is handled in the attack() function.
 
     virtual std::string terrainAttack(TerrainTile* terrain, int distance);
 
@@ -383,6 +397,12 @@ protected:
 
 	sf::Vector2i truePosition{};
 	sf::Vector2i perceivedPosition{};
+
+    //These are initialised to the defaults defined in the unit's .txt; they are modified by
+    //World::calculateViewDistance() when it is called.
+
+	int currentUnitViewDistance;
+	int currentFlagViewDistance;
 
 	sf::Sprite unitFlag;
 	//Pointer to the terrain tile that the unit is on. This is only to be used for units, to indicate

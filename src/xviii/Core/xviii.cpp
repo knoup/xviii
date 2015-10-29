@@ -7,9 +7,11 @@ TODO:
     -The "out of max range" message for terrain attacks also showing up when a unit attacks an enemy (possibly fixed?)
 
     TODO:
-    -Add some sort of visual indication of your max visibility range
+    -CURRENT: moveTo() should move a unit to the furthest distance they can see an enemy unit from,
+    if there is one in the way
+
     -Add saving functionality the setup phase
-    -POTENTIAL: Rather than one set of visible tiles, each unit should have a visible tiles set of its own?
+
 
 
     MISC:
