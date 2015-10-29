@@ -724,9 +724,11 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 
         if(dist == 1 && !meleeSuccess){
             meleeAttacks++;
+            mov = 0;
         }
         else if(dist > 1 && !rangedSuccess){
             rangedAttacks++;
+            mov = 0;
         }
 
 	}

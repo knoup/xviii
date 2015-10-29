@@ -279,6 +279,15 @@ void World::toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         unit->resetTerrain();
     }
 
+    for(auto it = visibleTiles.begin(); it != visibleTiles.end(); ){
+        if(*it == terrain){
+            it = visibleTiles.erase(it);
+        }
+        else{
+            it++;
+        }
+    }
+
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
         auto ptr =  std::move(std::unique_ptr<Bridge>(new Bridge{*this, terrain->getPixelPos()}));
         permanentBridges.push_back(ptr.get());
@@ -319,6 +328,15 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         unit->resetTerrain();
     }
 
+    for(auto it = visibleTiles.begin(); it!= visibleTiles.end();){
+        if(*it == terrain){
+            it = visibleTiles.erase(it);
+        }
+        else{
+            it++;
+        }
+    }
+
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
         auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge{*this, terrain->getPixelPos()}));
         temporaryBridges.push_back(ptr.get());
@@ -329,6 +347,8 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         if(unit != nullptr){
         unit->spawn(terrainLayer[index].get());
         }
+
+        visibleTiles.insert(terrainLayer[index].get());
     }
 
     else if(terrain->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
@@ -341,6 +361,8 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         if(unit != nullptr){
         unit->spawn(terrainLayer[index].get());
         }
+
+        visibleTiles.insert(terrainLayer[index].get());
     }
 }
 
