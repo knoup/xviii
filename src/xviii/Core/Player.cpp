@@ -275,7 +275,13 @@ UnitTile::unitPtr Player::removeUnit(UnitTile* _unit){
 	for (auto& unique_unit : units){
 		if (unique_unit.get() == _unit){
 			deploymentPoints += _unit->getCost();
-			unique_unit->getTerrain()->resetUnit();
+
+			//In some cases, a unit's terrain pointer might be null, such as when
+			//a bridge is being toggled to water.
+
+			if(unique_unit->getTerrain() != nullptr){
+                unique_unit->getTerrain()->resetUnit();
+			}
 
 			if (unique_unit->getUnitType() == UnitTile::UnitType::GEN){
 				general = nullptr;

@@ -4,6 +4,8 @@
 #include "xviii/Terrain/RiverAnt.h"
 #include "xviii/Terrain/BridgeAnt.h"
 
+#include "xviii/Core/Player.h"
+
 World::World(MasterManager& _mManager, sf::Vector2i _dimensions) :
 masterManager{_mManager},
 dimensions{_dimensions},
@@ -296,7 +298,7 @@ void World::toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         terrainLayer[index] = std::move(ptr);
 
         if(unit != nullptr){
-        unit->spawn(terrainLayer[index].get());
+            unit->spawn(terrainLayer[index].get());
         }
     }
 
@@ -308,7 +310,8 @@ void World::toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{*this, terrain->getPixelPos()}));
 
         if(unit != nullptr){
-        unit->spawn(terrainLayer[index].get());
+            Player* player = unit->getPlayer();
+            player->removeUnit(unit);
         }
     }
 }
@@ -345,7 +348,7 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         terrainLayer[index] = std::move(ptr);
 
         if(unit != nullptr){
-        unit->spawn(terrainLayer[index].get());
+            unit->spawn(terrainLayer[index].get());
         }
 
         visibleTiles.insert(terrainLayer[index].get());
@@ -359,7 +362,8 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{*this, terrain->getPixelPos()}));
 
         if(unit != nullptr){
-        unit->spawn(terrainLayer[index].get());
+            Player* player = unit->getPlayer();
+            player->removeUnit(unit);
         }
 
         visibleTiles.insert(terrainLayer[index].get());
