@@ -7,7 +7,6 @@ TODO:
     -The "out of max range" message for terrain attacks also showing up when a unit attacks an enemy (possibly fixed?)
 
     TODO:
-    -CURRENT: Add limbering check to terrain attacks
     -CURRENT: distanceFrom()'s whole PRIMARYAXIS thing doesn't work exactly the way I thought it did;
     -CURRENT: related to the last point, units on a bridge facing south can't move off of it
 

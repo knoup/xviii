@@ -324,13 +324,13 @@ public:
     virtual std::string terrainAttack(TBridge* tBridge, int distance);
 
     //Whereas the rest, not necessarily
-    virtual std::string terrainAttack(Hills* hills, int distance){return {};};
-    virtual std::string terrainAttack(Slopes* slopes, int distance){return {};};
-    virtual std::string terrainAttack(Meadow* meadow, int distance){return {};};
-    virtual std::string terrainAttack(Mud* mud, int distance){return {};};
-    virtual std::string terrainAttack(Urban* urban, int distance){return {};};
-    virtual std::string terrainAttack(Water* water, int distance){return {};};
-    virtual std::string terrainAttack(Woods* woods, int distance){return {};};
+    virtual std::string terrainAttack(Hills* hills, int distance){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Slopes* slopes, int distance){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Meadow* meadow, int distance){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Mud* mud, int distance){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Urban* urban, int distance){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Water* water, int distance){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Woods* woods, int distance){return {"Attacked terrain"};};
 
     //Just a shortcut for the below function
     sf::Vector2i distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange);

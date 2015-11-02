@@ -720,15 +720,21 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 
 	if((unit == nullptr) || (unit != nullptr && dist > 1)){
 
-        resultStr += terrainAttack(_terrain, dist);
-
-        if(dist == 1 && !meleeSuccess){
-            meleeAttacks++;
-            mov = 0;
+        if (limber && hasLimberAbility()){
+            resultStr += LIMBERED;
         }
-        else if(dist > 1 && !rangedSuccess){
-            rangedAttacks++;
-            mov = 0;
+
+        else{
+            resultStr += terrainAttack(_terrain, dist);
+
+            if(dist == 1 && !meleeSuccess){
+                meleeAttacks++;
+                mov = 0;
+            }
+            else if(dist > 1 && !rangedSuccess){
+                rangedAttacks++;
+                mov = 0;
+            }
         }
 
 	}
@@ -1284,7 +1290,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	}
 
 	if (limber && hasLimberAbility()){
-		return LIMBERED;
+		return LIMBERED + "\n";
 	}
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
