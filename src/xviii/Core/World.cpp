@@ -683,3 +683,17 @@ void World::unhighlightVisibleTiles(){
         tile->refreshVertexArray();
     }
 }
+
+void World::highlightAllTiles(){
+    for(auto& tile : terrainLayer){
+        tile->setColor(sf::Color{255,255,255,255});
+        tile->refreshVertexArray();
+    }
+}
+
+void World::unhighlightAllTiles(){
+    for(auto& tile : terrainLayer){
+        tile->setColor(sf::Color{255,255,255,170});
+        tile->refreshVertexArray();
+    }
+}

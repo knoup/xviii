@@ -28,6 +28,8 @@ playUI(game->mManager, this)
 
 void GameState_Play::oneTimeUpdate(){
 
+    game->mWorld.unhighlightAllTiles();
+
 	playUI.turnlyUpdate();
 
 	for (auto& unit : game->inactivePlayer->getUnits()){
