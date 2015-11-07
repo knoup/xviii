@@ -313,6 +313,9 @@ void World::toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
             Player* player = unit->getPlayer();
             player->removeUnit(unit);
         }
+
+        visibleTiles.insert(terrainLayer[index].get());
+        highlightVisibleTiles();
     }
 }
 
@@ -352,6 +355,7 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         }
 
         visibleTiles.insert(terrainLayer[index].get());
+        highlightVisibleTiles();
     }
 
     else if(terrain->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
@@ -367,6 +371,7 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         }
 
         visibleTiles.insert(terrainLayer[index].get());
+        highlightVisibleTiles();
     }
 }
 
@@ -517,11 +522,8 @@ void World::turnlyUpdate(){
         addWeather();
     }
 
-    for(auto& tile : visibleTiles){
-        tile->setColor(sf::Color{255,255,255,170});
-        tile->refreshVertexArray();
-    }
 
+    unhighlightVisibleTiles();
     visibleTiles.clear();
 }
 
@@ -667,6 +669,13 @@ void World::calculateViewDistance(UnitTile* unit){
 void World::highlightVisibleTiles(){
     for(auto& tile : visibleTiles){
         tile->setColor(sf::Color{255,255,255,255});
+        tile->refreshVertexArray();
+    }
+}
+
+void World::unhighlightVisibleTiles(){
+    for(auto& tile : visibleTiles){
+        tile->setColor(sf::Color{255,255,255,170});
         tile->refreshVertexArray();
     }
 }

@@ -163,6 +163,7 @@ public:
     void calculateViewDistance(UnitTile* unit);
 
     void highlightVisibleTiles();
+    void unhighlightVisibleTiles();
 
     //Ants and Tiles use this too; since they will always exist in a world, there is no point in them having
     //duplicate references to the master manager.
