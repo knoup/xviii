@@ -127,22 +127,25 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
         TerrainTile* destination = world.terrainAtCartesianPos(finalCoords);
 
-        world.wearDownTempBridges(terrain, destination);
+        //If we call wearDownBridges now, and the terrain tile we were standing on was
+        //a bridge with 1 hp left, it will be deleted and terrain will be a dangling
+        //pointer.
+
+        TerrainTile* oldTerrain = terrain;
+
 		hasMoved = true;
 		terrain->resetUnit();
 		terrain = destination;
 		destination->setUnit(this);
 		mov -= movExpended;
-		sprite.setPosition(destination->getPixelPos());
-		unitFlag.setPosition(destination->getPixelPos());
-		outline.setPosition(destination->getPixelPos());
 
 		truePosition = destination->getCartesianPos();
-        perceivedPosition = truePosition;
 
         world.calculateViewDistance(this);
         world.highlightVisibleTiles();
 		updateStats();
+
+		world.wearDownTempBridges(oldTerrain, destination);
 
 		if(finalCoords == toMoveToCoords){
             return MOV_SUCCESS + std::to_string(finalCoords.x + 1) + ", " + std::to_string(finalCoords.y + 1);
