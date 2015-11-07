@@ -309,9 +309,11 @@ void World::toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         permanentBridges.erase(std::remove(permanentBridges.begin(), permanentBridges.end(), terrainLayer[index].get()), permanentBridges.end());
         terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{*this, terrain->getPixelPos()}));
 
+        //We're going to let clearDamagedUnits() take care of unit deletion, so here, we'll simply
+        //remove all the unit's remaining HP
         if(unit != nullptr){
-            Player* player = unit->getPlayer();
-            player->removeUnit(unit);
+            float damage = unit->gethp();
+            unit->takeDamage(nullptr, damage, 0);
         }
 
         visibleTiles.insert(terrainLayer[index].get());
@@ -365,9 +367,11 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         temporaryBridges.erase(std::remove(temporaryBridges.begin(), temporaryBridges.end(), terrainLayer[index].get()), temporaryBridges.end());
         terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{*this, terrain->getPixelPos()}));
 
+        //We're going to let clearDamagedUnits() take care of unit deletion, so here, we'll simply
+        //remove all the unit's remaining HP
         if(unit != nullptr){
-            Player* player = unit->getPlayer();
-            player->removeUnit(unit);
+            float damage = unit->gethp();
+            unit->takeDamage(nullptr, damage, 0);
         }
 
         visibleTiles.insert(terrainLayer[index].get());

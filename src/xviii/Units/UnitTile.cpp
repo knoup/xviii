@@ -756,20 +756,23 @@ bool UnitTile::isHostile(UnitTile* _tile){
 }
 
 void UnitTile::takeDamage(UnitTile* attacker, float& _dmg, int distance){
-	if (attacker->getFrightening() && distance == 1){
-		_dmg += 1;
-	}
 
-	if (distance > 1 && getHalfRangedDamage() && _dmg >= 1){
-		_dmg *= 0.5;
-	}
+    if(attacker != nullptr){
+        if (attacker->getFrightening() && distance == 1){
+            _dmg += 1;
+        }
+
+        if (distance > 1 && getHalfRangedDamage() && _dmg >= 1){
+            _dmg *= 0.5;
+        }
+    }
 
 	hp -= _dmg;
 	world.addToDamagedUnits(this);
 }
 
 bool UnitTile::removeIfDead(){
-	if (hp < 0.4 || terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
+	if (hp < 0.4){
 		player->removeUnit(this);
 		return true;
 	}
