@@ -917,12 +917,21 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 	int SECONDARYAXIS_POSITIVE;
 	int SECONDARYAXIS_NEGATIVE;
 
+	int CURRENTAXIS_PRIMARY;
+	int DESTINATIONAXIS_PRIMARY;
+	int COEFFICIENT;
+
 	switch (dir){
         case UnitTile::Direction::N:
             PRIMARYAXIS_POSITIVE = currentCoords.y;
             PRIMARYAXIS_NEGATIVE = toMoveToCoords.y;
             SECONDARYAXIS_POSITIVE = toMoveToCoords.x;
             SECONDARYAXIS_NEGATIVE = currentCoords.x;
+
+            CURRENTAXIS_PRIMARY = currentCoords.y;
+            DESTINATIONAXIS_PRIMARY = toMoveToCoords.y;
+            COEFFICIENT = -1;
+
             break;
 
         case UnitTile::Direction::E:
@@ -930,6 +939,11 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
             PRIMARYAXIS_NEGATIVE = currentCoords.x;
             SECONDARYAXIS_POSITIVE = toMoveToCoords.y;
             SECONDARYAXIS_NEGATIVE = currentCoords.y;
+
+            CURRENTAXIS_PRIMARY = currentCoords.x;
+            DESTINATIONAXIS_PRIMARY = toMoveToCoords.x;
+            COEFFICIENT = 1;
+
             break;
 
         case UnitTile::Direction::S:
@@ -937,6 +951,10 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
             PRIMARYAXIS_NEGATIVE = currentCoords.y;
             SECONDARYAXIS_POSITIVE = toMoveToCoords.x;
             SECONDARYAXIS_NEGATIVE = currentCoords.x;
+
+            CURRENTAXIS_PRIMARY = currentCoords.y;
+            DESTINATIONAXIS_PRIMARY = toMoveToCoords.y;
+            COEFFICIENT = 1;
             break;
 
 
@@ -945,6 +963,10 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
             PRIMARYAXIS_NEGATIVE = toMoveToCoords.x;
             SECONDARYAXIS_POSITIVE = toMoveToCoords.y;
             SECONDARYAXIS_NEGATIVE = currentCoords.y;
+
+            CURRENTAXIS_PRIMARY = currentCoords.x;
+            DESTINATIONAXIS_PRIMARY = toMoveToCoords.x;
+            COEFFICIENT = -1;
             break;
 	}
 
@@ -983,9 +1005,9 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
             _meleeObstructionPresent = true;
         }
 
-		//For loop is for checking if the LoS is clear. Note that the coordinates begin at the destination tile, and end at the
-		//current tile the unit is in (inclusive).
-		for (int i{PRIMARYAXIS_POSITIVE}; i >= PRIMARYAXIS_NEGATIVE; --i){
+		//For loop is for checking if the LoS is clear. Note that the coordinates begin at the current tile
+		//and end at the destination tile
+		for (int i{CURRENTAXIS_PRIMARY}; i != DESTINATIONAXIS_PRIMARY; i += COEFFICIENT){
 
 			//If obstructions have already been found, no need to keep searching, just exit loop
 			if (_rangedObstructionPresent && _meleeObstructionPresent){
@@ -1014,16 +1036,44 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 
                         switch (dir){
                         case Direction::N:
-                            validDirection = p->southernConnection;
+
+                            //If we are at the current tile, we want a connection in the same direction we are
+                            //facing.
+
+                            if(i == CURRENTAXIS_PRIMARY){
+                                validDirection = p->northernConnection;
+                            }
+                            else{
+                                validDirection = p->southernConnection;
+                            }
+
                             break;
                         case Direction::E:
-                            validDirection = p->westernConnection;
+                            if(i == CURRENTAXIS_PRIMARY){
+                                validDirection = p->easternConnection;
+                            }
+                            else{
+                                validDirection = p->westernConnection;
+                            }
+
                             break;
                         case Direction::S:
-                            validDirection = p->northernConnection;
+                            if(i == CURRENTAXIS_PRIMARY){
+                                validDirection = p->southernConnection;
+                            }
+                            else{
+                                validDirection = p->northernConnection;
+                            }
+
                             break;
                         case Direction::W:
-                            validDirection = p->easternConnection;
+                            if(i == CURRENTAXIS_PRIMARY){
+                                validDirection = p->westernConnection;
+                            }
+                            else{
+                                validDirection = p->easternConnection;
+                            }
+
                             break;
                         }
 
@@ -1036,10 +1086,9 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 			}
 
 			//Check if the unit is an obstruction, or if the unit cannot cross the terrain here
-			//The loop begins at the destination tile, and we don't want this part to be included for the destination tile
-			//( < PRIMARYAXIS_POSITIVE) or the current tile ( > PRIMARYAXIS_NEGATIVE)
+			//We don't want this part to be included for the destination tile or current tile
 
-            if(i < PRIMARYAXIS_POSITIVE && i > PRIMARYAXIS_NEGATIVE){
+            if(i != DESTINATIONAXIS_PRIMARY && i != CURRENTAXIS_PRIMARY){
 
                 if (unitInTheWay != nullptr){
                     bool unitIsFriendly{unitInTheWay->getPlayer() == this->getPlayer()};

@@ -7,8 +7,6 @@ TODO:
     -The "out of max range" message for terrain attacks also showing up when a unit attacks an enemy (possibly fixed?)
 
     TODO:
-    -CURRENT: units on a bridge sometimes can't move off of it
-
     -CURRENT: In the case of the presence of a concealed enemy unit in between a firing unit and its target,
     the unit in the way should take damage instead, and
 

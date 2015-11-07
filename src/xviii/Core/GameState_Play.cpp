@@ -438,15 +438,7 @@ void GameState_Play::update(float mFT){
 			else if (!inMovementRange && inRangedAttackRange){
 				tileDistanceText.setColor(sf::Color::Magenta);
 			}
-
-			//Commenting disabling red cursor on obstruction for now; this allows "cheating" by being able to see
-			//if there are units in the way, despite them being invisible. However, in the block of code below this
-			//(unit != nullptr), in 99% of the cases, the cursor will remain red when behind visible enemy units,
-			//so for the most part, things work as intended. The side effect of this is that when able to attack a
-			//unit, the cursor will remain blue even behind it.
-
-			//else if (rangedObstructionPresent || meleeObstructionPresent|| !validMovDirection || !inMovementRange){
-			else if (!validMovDirection || !inMovementRange){
+			else if (rangedObstructionPresent || meleeObstructionPresent|| !validMovDirection || !inMovementRange){
 				tileDistanceText.setColor(sf::Color::Red);
 			}
 
