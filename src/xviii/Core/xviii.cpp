@@ -2,17 +2,13 @@
 #include "xviii/Core/Game.h"
 
 /*
-TODO:
-    TOFIX:
-    -The "out of max range" message for terrain attacks also showing up when a unit attacks an enemy (possibly fixed?)
-
     TODO:
-    -CURRENT: In the case of the presence of a concealed enemy unit in between a firing unit and its target,
-    the unit in the way should take damage instead, and
+    -At some point, perhaps create a function that returns every tile in between 2 given tiles, for less code
+    repetition in places (UnitTile::distanceFrom(), UnitTile::moveTo(), UnitTile::rangedAttack()...). At the moment
+    there are some complexities (and laziness) which prevent me from creating a unified solution, but it's something
+    to look into sometime.
 
     -Add saving functionality the setup phase
-
-
 
     MISC:
     -Implement a specialised HillAnt class (for slopes and hills)

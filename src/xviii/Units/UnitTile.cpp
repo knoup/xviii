@@ -1362,6 +1362,114 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	int upperDieThreshold{6};
 	bool modifierIsDamage{false};
 
+	/////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////
+	sf::Vector2i currentCoords = getCartesianPos();
+	sf::Vector2i enemyCoords = unit->getCartesianPos();
+
+	UnitTile* originalUnit = unit;
+
+	int PRIMARYAXIS_CURRENT;
+    int PRIMARYAXIS_DESTINATION;
+    int SECONDARYAXIS_CURRENT;
+    int SECONDARYAXIS_DESTINATION;
+
+    int PRIMARYAXIS_MOVEMENT;
+
+    //Our cone width can vary, but we only want to check the path along a single axis.
+    //For example, with a unit (U) shooting with a cone width of 5, and an enemy (E),
+    //the dashed path is the one that will be checked:
+    //......................
+    //..........E...........
+    //..........-...........
+    //..........-...........
+    //..........-...........
+    //..........-...........
+    //........U.............
+    //......................
+    //
+    //We already know that this function won't be called if the enemy is not in
+    //the cone width.
+    //
+    //Therefore, we set the secondary axis coordinate (in this case, the X axis)
+    //of our unit to the same one as the enemy
+
+    switch (dir){
+        case UnitTile::Direction::N:
+            PRIMARYAXIS_CURRENT = currentCoords.y;
+            PRIMARYAXIS_DESTINATION = enemyCoords.y;
+            SECONDARYAXIS_CURRENT = enemyCoords.x;
+            SECONDARYAXIS_DESTINATION = enemyCoords.x;
+
+            PRIMARYAXIS_MOVEMENT = -1;
+            break;
+
+        case UnitTile::Direction::E:
+            PRIMARYAXIS_CURRENT = currentCoords.x;
+            PRIMARYAXIS_DESTINATION = enemyCoords.x;
+            SECONDARYAXIS_CURRENT = enemyCoords.y;
+            SECONDARYAXIS_DESTINATION = enemyCoords.y;
+
+            PRIMARYAXIS_MOVEMENT = 1;
+            break;
+
+        case UnitTile::Direction::S:
+            PRIMARYAXIS_CURRENT = currentCoords.y;
+            PRIMARYAXIS_DESTINATION = enemyCoords.y;
+            SECONDARYAXIS_CURRENT = enemyCoords.x;
+            SECONDARYAXIS_DESTINATION = enemyCoords.x;
+
+            PRIMARYAXIS_MOVEMENT = 1;
+            break;
+
+
+        case UnitTile::Direction::W:
+            PRIMARYAXIS_CURRENT = currentCoords.x;
+            PRIMARYAXIS_DESTINATION = enemyCoords.x;
+            SECONDARYAXIS_CURRENT = enemyCoords.y;
+            SECONDARYAXIS_DESTINATION = enemyCoords.y;
+            PRIMARYAXIS_MOVEMENT = -1;
+
+            break;
+        }
+
+        sf::Vector2i finalCoords{enemyCoords};
+
+        //Begin at the tile that comes after the current tile, and loop to the destination (inclusive)
+        for (int i{PRIMARYAXIS_CURRENT + PRIMARYAXIS_MOVEMENT}; i != PRIMARYAXIS_DESTINATION; i += PRIMARYAXIS_MOVEMENT){
+
+            TerrainTile* terrainInTheWay;
+            int indexToCheck = i + PRIMARYAXIS_MOVEMENT * currentUnitViewDistance;
+
+            if (dir == Direction::N || dir == Direction::S){
+                terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
+            }
+            else{
+                terrainInTheWay = world.terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
+            }
+
+            UnitTile* unitInTheWay = terrainInTheWay->getUnit();
+
+            if(unitInTheWay != nullptr){
+
+                if(unitInTheWay->getPlayer() != getPlayer() && !unitInTheWay->drawUnit && !getCanShootOverUnits()){
+                    unit = unitInTheWay;
+                }
+            }
+        }
+
+        bool intercepted{false};
+
+        if(unit != originalUnit){
+            intercepted = true;
+            distance = distanceFrom(unit);
+        }
+
+        /////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////
+
 	for (auto& item : world.masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues){
 		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
 			distanceModifier = item.distModifier;
@@ -1412,6 +1520,9 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 
     if(unit->drawUnit){
         finalStr = attackReport(distance, this, unit, thisRoll_int, 0, damageDealt, 0);
+    }
+    else if(intercepted){
+        finalStr = "An unseen enemy in the way took the damage!\n";
     }
 
     return finalStr;
