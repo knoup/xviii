@@ -101,7 +101,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
                 if(unit != nullptr){
 
-                    if(unit->getPlayer() != getPlayer()){
+                    if(unit->getPlayer() != getPlayer() && !unit->drawUnit){
 
                         if (dir == Direction::N || dir == Direction::S){
                             finalCoords.x = SECONDARYAXIS_CURRENT;
