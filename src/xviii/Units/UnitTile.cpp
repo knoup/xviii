@@ -1440,13 +1440,12 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
         for (int i{PRIMARYAXIS_CURRENT + PRIMARYAXIS_MOVEMENT}; i != PRIMARYAXIS_DESTINATION; i += PRIMARYAXIS_MOVEMENT){
 
             TerrainTile* terrainInTheWay;
-            int indexToCheck = i + PRIMARYAXIS_MOVEMENT * currentUnitViewDistance;
 
             if (dir == Direction::N || dir == Direction::S){
-                terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
+                terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, i});
             }
             else{
-                terrainInTheWay = world.terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
+                terrainInTheWay = world.terrainAtCartesianPos({i, SECONDARYAXIS_CURRENT});
             }
 
             UnitTile* unitInTheWay = terrainInTheWay->getUnit();
