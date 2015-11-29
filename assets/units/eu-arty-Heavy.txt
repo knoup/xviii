@@ -5,9 +5,9 @@
 	DEFINE:ALL
 }
 
-[NAME]:Artillery
-[SHORT]:art
-[SPRITE]:artillery
+[NAME]:Heavy Artillery
+[SHORT]:HArty
+[SPRITE]:mortars
 [MAIN_TYPE]:ART
 [FAMILY_TYPE]:ART
 [ERA]
@@ -19,8 +19,8 @@
 [LIMBER]:1
 [LANCER]:0
 [HP]:5
-[MOV]:4
-[COST]:1
+[MOV]:0
+[COST]:3
 [LIMIT]:0
 [SCOUTING]:3,6
 [SKIRMISH]:0
@@ -34,8 +34,9 @@
 
 [RANGED]
 	{
-	DEFINE:10,20,2,1,4,6
-	DEFINE:2,9,4,1,4,6
+        DEFINE:30,36,2,1,6,6
+	DEFINE:19,29,2,1,5,6
+	DEFINE:2,18,5,1,4,6
 	}
 [BRIDGE_ATTACK]
 	{
@@ -45,10 +46,9 @@
 	}
 [HEALING]
 	{
-	DEFINE:1,6,2
+	
 	}
 [MELEE_BONUS]
 	{
-		DEFINE:MAIN:INF:2,0,1,1
-		DEFINE:FAMILY:HINF:3,1,1,0
+		
 	}
