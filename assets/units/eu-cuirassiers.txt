@@ -2,7 +2,7 @@
 
 [NATIONS]:
 {
-	DEFINE:CULTURE:EUROPEAN
+	DEFINE:CULTURE:European
 }
 
 [NAME]:Cuirassiers

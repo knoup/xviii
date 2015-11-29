@@ -93,7 +93,7 @@ public:
             set(HHMM.first, HHMM.second+minutesPerTurn);
         }
 
-        std::pair<int,int> getTime(){
+        std::pair<int,int> getTime() const{
             return HHMM;
         }
 
@@ -167,6 +167,8 @@ public:
 
     void highlightAllTiles();
     void unhighlightAllTiles();
+
+    inline bool getIsNighttime() const {return (currentTime.getTime().first >= 19 || currentTime.getTime().first < 5);};
 
     //Ants and Tiles use this too; since they will always exist in a world, there is no point in them having
     //duplicate references to the master manager.

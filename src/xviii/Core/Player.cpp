@@ -155,11 +155,11 @@ bool Player::spawnUnit(std::string _unitID, sf::Vector2i _worldCoords){
 	//and make sure they aren't over the limit.
 
 	if(limit != 0){
-		auto unitType = ptr->getUnitType();
+		std::string id = ptr->getUnitID();
 		int unitsOfType{0};
 
 		for (auto& unit : units){
-			if (unit->getUnitType() == unitType){
+			if (unit->getUnitID() == id){
 				unitsOfType += 1;
 			}
 		}

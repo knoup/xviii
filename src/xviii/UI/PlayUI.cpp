@@ -99,7 +99,7 @@ void PlayUI::setCurrentTimeText(std::pair<int,int> _time){
     }
 	currentTimeText.setString(std::to_string(_time.first) + ":" + minutesStr);
 
-	if(_time.first >= 19 || _time.first < 5){
+	if(gameState->game->mWorld.getIsNighttime()){
         currentTimeText.setColor(sf::Color::Cyan);
 	}
 	else{

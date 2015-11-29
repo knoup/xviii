@@ -610,6 +610,12 @@ void World::calculateViewDistance(UnitTile* unit){
     int unitViewDistance = unit->getDefaultUnitViewDistance() - getWeatherUnitViewDistance();
     int flagViewDistance = unit->getDefaultFlagViewDistance() - getWeatherFlagViewDistance();
 
+
+    if(getIsNighttime()){
+        unitViewDistance /= 2;
+        flagViewDistance /= 2;
+    }
+
     if(unitViewDistance < 1){
         unitViewDistance = 1;
     }

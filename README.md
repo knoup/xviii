@@ -1,9 +1,11 @@
-Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and several <a href="http://www.boost.org/">Boost</a> modules. This is my first real project, hence the generally amateurish code. Inspired by, and continutally developed with, the ideas and input of a friend.
+Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and several <a href="http://www.boost.org/">Boost</a> modules.Inspired by, and continutally developed with, the ideas and input of a friend.
 
 Items of Note
 -----------------------
 
- *Currently, a vast amount of new units, nations, and mechanics are being added. Updating this file after every minor adjustment would be very cumbersome. Therefore, until further notice, assume this file to be outdated.
+ *This is my first real project, hence the generally amateurish code. 
+
+ *This file may or may not be 100% updated
 
  *There is code for random menu wallpapers. My personal collection is nearly 30MB in size, and thus I won't upload it on Github for the time being. However, you are free to place your own images in the dir assets/gfx/backgrounds.
 
@@ -21,14 +23,20 @@ General
 			*180 degrees
 
 	4) ATTACK
-			*Includes Firing/Charging
+			*Includes Firing/Charging/Healing
 
 
 *INF can either MOVE, PARTIALLY ROTATE, or FULLY ROTATE in addition to attacking.
 
-*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving/attacking
+*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving
 
 *However, unless otherwise stated, units may not ROTATE or MOVE at all AFTER attacking.
+
+*ART by default features a limber mechanic (although this can be removed/defined)
+for other units as well). Limber status can be toggled with L; while a unit is 
+limbered, it can move, but cannot attack, and vice cersa when it is unlimbered.
+Note that a unit going from limbered to unlimbered needs to wait one turn before
+it can attack.
 
 
 *d stands for [6-sided] die; the roll result is multiplied by the modifier, such that
@@ -39,122 +47,40 @@ General
  against a Dragoon will get a resultant roll of 9 [(2x4) + 1], not 10 [2x(4+1)].
 
 
-*When a player's GENERAL dies, inflict 2 DMG to all friendly units. General may
-heal a friendly unit for 2 HP once per turn.
+*When a player's GENERAL dies, inflict 2 DMG to all friendly units. Generals may
+heal a friendly unit for 2 HP once per turn, by default.
 
 
-*The following units are members of the "CAV family" and will, unless stated otherwise, behave the same as CAV:
+Unit Types 
+-------------------
 
-	Cuirassier (CUIR)
-	Dragoon (DRAG)
-	Light Cavalry (LCAV)
-	General (GEN)
+There are 7 types of MAIN classes:
 
+The "big three":
 
-Unit Types & Stats
-------------------
+INF (Infantry)
+CAV (Cavalry)
+ART (Artillery)
 
-	Infantry (INF)
-		*HP: 18
-		*MOV: 6
-		*MAX RANGED DIST: 6
+And then the rest:
 
-	Artillery (ART)
-		*HP: 3
-		*MOV: 2
-		*MAX RANGED DIST: 20
+GEN (General) - behaves the same as Cavalry, except has a hardcoded limit of 1.
+In addition, if allied units are between 34 and 21 tiles away (radius) from
+the general, they get only 75% of their maximum movement at the start of
+the turn. If they are further than 34, they get only 65%.
 
-	Mortar (MOR)
-		*HP: 2
-		*MOV: 0
-		*MAX RANGED DIST: 15
+ARTGUARD (Artillery Guard) - behaves the same as Infantry, except for that any
+adjacent artillery tile will be immune to attacks from the enemy until the
+ARTGUARD is either killed or moved away.
 
-	Cavalry (CAV)
-		*HP: 13
-		*MOV: 12
-		*MAX RANGED DIST: -
+SAPPER (Sapper/engineer) - behaves the same as Infantry, but has a unique ability;
+is able to construct bridges by "attacking" water tiles.
 
-	Cuirassier (CUIR)
-		*HP:  15
-		*MOV: 9
-		*MAX RANGED DIST: -
-		*CUIR gets +1 to rolls against the CAV family
+Please note that details (HP, MOV, LIMIT, attacking capabilities, etc.) are defined
+in assets/units. All units must, however, be based on one of these 7 classes.
 
-	Dragoon (DRAG)
-		*HP: 10
-		*MOV: 12
-		*MAX RANGED DIST: 5
-
-	Light Cavalry (LCAV)
-		*HP: 8
-		*MOV: 15
-		*MAX RANGED DIST: -
-
-	General (GEN)
-		*HP: 5
-		*MOV: 6
-		*MAX RANGED DIST: 2
-
----Shooting Dist. Modifiers---
-
-	INF
-		*6: 	0.5d
-		*5-3: 	1d
-		*2: 	2d
-
-	ART [ONLY IF ROLL IS 4-6]
-		*20-10:	2 DMG
-		*9-2:	4 DMG
-
-	MOR [ONLY IF ROLL IS 4-6]
-		*15-2:	3 DMG
-
-	DRAG
-		*5-9: 0.5d
-		*3-4: 1d
-		*2: 1.5d
-
-	GEN
-		*2:	0.5d
-
----Charge Dir. Modifiers (CAV)---
-
-	vs. INF
-		*Front:	0.5d
-		*Flank:	1d
-		*Rear:	2d
-
-	vs. CAV
-		*Front:	1d
-		*Flank:	2d
-		*Rear:	2d
-
----Charge Dir. Modifiers (LCAV)---
-
-	vs. INF
-		*Front: 0.5d
-		*Flank: 0.5d
-		*Rear: 1d
-
----Charge Dir. Modifiers (DRAG)---
-
-	vs INF
-		*Front: 0.5d
-		*Flank: 0.5d
-		*Rear: 1d
-
-
----Charge Dir. Modifiers (INF)---
-
-	vs. INF
-		*Front: 0.5d
-		*Flank: 1d
-		*Rear: 1.5d
-
-	vs. CAV
-		*Front: 1d
-		*Flank: 1.5d
-		*Rear: 2d
+See the readme in assets/units for more details and further explanation of game
+mechanics.
 
 
 Ranged Combat Rules
@@ -170,7 +96,7 @@ Since INF has a modifier of 2d while shooting from this distance, his roll is mu
 Player 1 rolls 4 and inflicts 8 DMG on Player  2's CAV.
 
 
-ART and MOR are able to fire with a "cone width" of 3, meaning they can shoot not only straight forward, but also one tile to the left and one tile to the right.
+A unit's cone width determines the horizontal range of their capabilities.
 
 
 Melee Combat Rules
@@ -221,25 +147,6 @@ Melee Combat Rules
 
 
 
-
-Deployment Costs
-----------------
-
-
-Each player begins with 30 deployment points, and each unit spawned costs a certain amount.
-
-	INF: 1
-
-	CAV: 3 		[Can have max of 5]; applies to entire CAV family tentatively
-
-	ARTY: 3 	[Can have max of 5]
-
-	MORTAR: 2	[Can have max of 5]
-
-	GENERAL: 0	[Can have max of 1]
-
-
-
 In-Game
 -------
 
@@ -253,22 +160,35 @@ health, and movement points, respectively. A unit with W 5 4 under it would
 therefore represent a state in which it is facing westward, has 5 HP remaining,
 and 4 movement points.
 
-Note that the parentheses following the name of a unit is its limit per player,
-not deployment cost.
-
 During the playing phase, players successively command their units by clicking
 on the desired unit and giving it movement/attack/rotation orders while
 selected (see below). The currently selected unit is outlined in yellow, while
 units that have already attacked this turn are outlined in red.
 
-Line of Sight
+Line of Sight & Weather
 --------------
 
 In addition to movement points and max attacking range, units are limited by their
-line of sight. A unit can neither move to a tile, nor attack an enemy, that has an
-enemy unit in the way. Friendly units can move past each other; however, with the
-exception of ART and MOR, they cannot fire from behind other friendlies.
+line of sight. 
 
+Each unit has a primary and secondary visual range. Enemy units outside the primary,
+but within the secondary, are seen only as flags and their location may be inaccurate.
+Units outside of the secondary range are completely invisible. 
+
+A unit can neither move to a tile, nor attack an enemy, that has an
+enemy unit in the way. Friendly units can move past each other; however, whether
+they can fire "above" units in the way is determined in their .txt.
+
+XVIII also features a dynamic weather system. Every once in a while, the weather
+changes, and with it, the visual range of all units is, too, affected. The values
+are as follows, with P representing primary and S secondary visual range:
+
+Light fog: -2P, -2S
+Heavy fog: -4P, -4S
+Light rain: -1P, -1S
+Heavy rain: -2P, -2S
+
+Every in-game turn represents the passage of 15 minutes.
 
 Keyboard shortcuts & mouse commands
 ------------------------------------
@@ -285,6 +205,7 @@ Two premade save files are provided for those who just want to dive in without b
 
 ---Setup & Playing Phases---
 
+	H - Hide UI
 	R - reset zoom level
 	WASD - pan view
 	dash (-) - zoom out
@@ -300,6 +221,7 @@ Two premade save files are provided for those who just want to dive in without b
 
 	LMB - select a unit and issue movement/attack orders
 	RMB - deselect currently selected unit/dismiss current message
+	L - Toggle limber
 
 	Up/down/left/right arrow keys - rotate a unit North, South, East, and West respectively
 

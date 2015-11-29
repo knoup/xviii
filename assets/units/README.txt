@@ -182,7 +182,7 @@ First number is modifier value, second number specifies whether it is additional
 DEFINE:INF 			-Infantry
 DEFINE:CAV 			-Cavalry
 DEFINE:ART 			-Artillery
-DEFINE:MOR 			-Mortar
+DEFINE:MOR 			-Mortar: CURRENTLY UNUSED, may be buggy/unfunctional
 DEFINE:GEN 			-General (behaves as Cavalry)
 DEFINE:ARTGUARD 	-Artillery Guard (behaves as Infantry)
 DEFINE:SAPPER 		-Sapper (behaves as Infantry)
