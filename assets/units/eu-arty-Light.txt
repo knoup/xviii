@@ -19,7 +19,7 @@
 [LIMBER]:1
 [LANCER]:0
 [HP]:5
-[MOV]:4
+[MOV]:6
 [COST]:1
 [LIMIT]:0
 [SCOUTING]:3,6

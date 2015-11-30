@@ -10,7 +10,7 @@
 
 Game::Game() :
 mManager{},
-mWindow{{xResolution, yResolution}, "Dong Bong Military Board Game"},
+mWindow{{xResolution, yResolution}, "xviii - Dong Bong Military Board Game"},
 state{nullptr},
 MenuState{nullptr},
 SetupState{nullptr},

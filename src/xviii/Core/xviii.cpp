@@ -4,6 +4,9 @@
 /*
     TODO:
 
+    (*) Seperate movement and attack logic so that classes can, for example, be given movement rules of CAV but
+    attack rules of INF
+
     (*) At some point, perhaps create a function that returns every tile in between 2 given tiles, for less code
     repetition in places (UnitTile::distanceFrom(), UnitTile::moveTo(), UnitTile::rangedAttack()...). At the moment
     there are some complexities (and laziness) which prevent me from creating a unified solution, but it's something

@@ -28,7 +28,7 @@ General
 
 *INF can either MOVE, PARTIALLY ROTATE, or FULLY ROTATE in addition to attacking.
 
-*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving
+*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving. They can FULLY ROTATE after moving, however, but not before. (To be looked at)
 
 *However, unless otherwise stated, units may not ROTATE or MOVE at all AFTER attacking.
 
