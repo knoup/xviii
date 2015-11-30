@@ -43,3 +43,22 @@ void TBridge::flip(Orientation _or){
 std::string TBridge::callTerrainAttack(UnitTile* unit, int distance){
     return(unit->terrainAttack(this, distance));
 }
+
+void TBridge::makeBridgeVisible(bool _value){
+
+    visible = _value;
+
+    if(_value){
+
+        if(orientation == Orientation::HORIZONTAL){
+            sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_HOR).getTextureRect());
+        }
+        else if(orientation == Orientation::VERTICAL){
+            sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_VER).getTextureRect());
+        }
+    }
+
+    else{
+        sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::WATER).getTextureRect());
+    }
+}

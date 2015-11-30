@@ -32,6 +32,11 @@ General
 
 *However, unless otherwise stated, units may not ROTATE or MOVE at all AFTER attacking.
 
+*INF by default features a square formation mechanic (although this can be removed/defined)
+for other units as well). SF status can be toggled with F; while a unit is 
+in SF, any melee enemy attack will use the modifier of that enemy's SQUAREFORMATIONMODIFIER.
+
+
 *ART by default features a limber mechanic (although this can be removed/defined)
 for other units as well). Limber status can be toggled with L; while a unit is 
 limbered, it can move, but cannot attack, and vice cersa when it is unlimbered.
@@ -58,23 +63,25 @@ There are 7 types of MAIN classes:
 
 The "big three":
 
-INF (Infantry)
-CAV (Cavalry)
-ART (Artillery)
+
+	INF (Infantry)
+	CAV (Cavalry)
+	ART (Artillery)
+
 
 And then the rest:
 
-GEN (General) - behaves the same as Cavalry, except has a hardcoded limit of 1.
-In addition, if allied units are between 34 and 21 tiles away (radius) from
-the general, they get only 75% of their maximum movement at the start of
-the turn. If they are further than 34, they get only 65%.
+	GEN (General) - behaves the same as Cavalry, except has a hardcoded limit of 1.
+	In addition, if allied units are between 34 and 21 tiles away (radius) from
+	the general, they get only 75% of their maximum movement at the start of
+	the turn. If they are further than 34, they get only 65%.
 
-ARTGUARD (Artillery Guard) - behaves the same as Infantry, except for that any
-adjacent artillery tile will be immune to attacks from the enemy until the
-ARTGUARD is either killed or moved away.
+	ARTGUARD (Artillery Guard) - behaves the same as Infantry, except for that any
+	adjacent artillery tile will be immune to attacks from the enemy until the
+	ARTGUARD is either killed or moved away.
 
-SAPPER (Sapper/engineer) - behaves the same as Infantry, but has a unique ability;
-is able to construct bridges by "attacking" water tiles.
+	SAPPER (Sapper/engineer) - behaves the same as Infantry, but has a unique ability;
+	is able to construct bridges by "attacking" water tiles.
 
 Please note that details (HP, MOV, LIMIT, attacking capabilities, etc.) are defined
 in assets/units. All units must, however, be based on one of these 7 classes.
@@ -183,10 +190,17 @@ XVIII also features a dynamic weather system. Every once in a while, the weather
 changes, and with it, the visual range of all units is, too, affected. The values
 are as follows, with P representing primary and S secondary visual range:
 
-Light fog: -2P, -2S
-Heavy fog: -4P, -4S
-Light rain: -1P, -1S
-Heavy rain: -2P, -2S
+	Light fog: -2P, -2S
+
+	Heavy fog: -4P, -4S
+
+	Light rain: -1P, -1S
+
+	Heavy rain: -2P, -2S
+
+
+Additionally, both primary and secondary visual ranges are halved during the 
+night hours (1900 - 5000).
 
 Every in-game turn represents the passage of 15 minutes.
 

@@ -228,7 +228,9 @@ void World::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	target.draw(mTerrainVertices, &mTerrainTexture);
 
 	for(auto& t : temporaryBridges){
-        target.draw(t->hpText);
+        if(t->visible){
+            target.draw(t->hpText);
+        }
 	}
 
 	for(auto& b : permanentBridges){
@@ -678,6 +680,12 @@ void World::calculateViewDistance(UnitTile* unit){
 
 void World::highlightVisibleTiles(){
     for(auto& tile : visibleTiles){
+
+        if(tile->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+            TBridge* t = static_cast<TBridge*>(tile);
+            t->makeBridgeVisible(true);
+        }
+
         tile->setColor(sf::Color{255,255,255,255});
         tile->refreshVertexArray();
     }
@@ -685,6 +693,12 @@ void World::highlightVisibleTiles(){
 
 void World::unhighlightVisibleTiles(){
     for(auto& tile : visibleTiles){
+
+        if(tile->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+            TBridge* t = static_cast<TBridge*>(tile);
+            t->makeBridgeVisible(false);
+        }
+
         tile->setColor(sf::Color{255,255,255,170});
         tile->refreshVertexArray();
     }
