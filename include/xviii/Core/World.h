@@ -168,6 +168,8 @@ public:
     void highlightAllTiles();
     void unhighlightAllTiles();
 
+    inline const std::unordered_set<TerrainTile*>& getVisibleTiles() const {return visibleTiles;};
+
     inline bool getIsNighttime() const {return (currentTime.getTime().first >= 19 || currentTime.getTime().first < 5);};
 
     //Ants and Tiles use this too; since they will always exist in a world, there is no point in them having
@@ -200,6 +202,9 @@ private:
 	//This vector stores pointers to the units that have been damaged during an attack. It is reset afterwards
 	std::vector<UnitTile*> damagedUnits;
 
+    //We use an unordered set rather than a vector here because plenty of duplicate tiles might be added.
+    //Unordered sets store unique elements, so we don't have to bother about manually removing the duplicates;
+    //it will take care of that itself
     std::unordered_set<TerrainTile*> visibleTiles;
 
 	//Used for drawing efficiency

@@ -4,6 +4,11 @@
 /*
     TODO:
 
+    BUGS:
+
+    (*) All tiles between current and destination tiles (when moving) should be "explored"
+
+
     (*) Seperate movement and attack logic so that classes can, for example, be given movement rules of CAV but
     attack rules of INF
 

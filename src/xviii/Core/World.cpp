@@ -630,28 +630,6 @@ void World::calculateViewDistance(UnitTile* unit, bool randomisePerceivedPositio
 
     Player* owner = unit->getPlayer();
 
-    for (int y{-1 * flagViewDistance}; y <= flagViewDistance; ++y){
-        for(int x{-1 * flagViewDistance}; x <= flagViewDistance; ++x){
-
-            sf::Vector2i adjacentPos{currentPos.x + x, currentPos.y + y};
-
-            TerrainTile* terrainHere = terrainAtCartesianPos(adjacentPos);
-
-            if(terrainHere == nullptr){
-                continue;
-            }
-
-            UnitTile* targetUnit = terrainHere->getUnit();
-
-            if (targetUnit != nullptr){
-                if(targetUnit->getPlayer() != owner){
-                    targetUnit->drawFlag = true;
-                    targetUnit->updateStats(randomisePerceivedPositions);
-                }
-            }
-        }
-    }
-
     for (int y{-1 * unitViewDistance}; y <= unitViewDistance; ++y){
         for(int x{-1 * unitViewDistance}; x <= unitViewDistance; ++x){
 
@@ -675,6 +653,27 @@ void World::calculateViewDistance(UnitTile* unit, bool randomisePerceivedPositio
         }
     }
 
+    for (int y{-1 * flagViewDistance}; y <= flagViewDistance; ++y){
+        for(int x{-1 * flagViewDistance}; x <= flagViewDistance; ++x){
+
+            sf::Vector2i adjacentPos{currentPos.x + x, currentPos.y + y};
+
+            TerrainTile* terrainHere = terrainAtCartesianPos(adjacentPos);
+
+            if(terrainHere == nullptr){
+                continue;
+            }
+
+            UnitTile* targetUnit = terrainHere->getUnit();
+
+            if (targetUnit != nullptr){
+                if(targetUnit->getPlayer() != owner){
+                    targetUnit->drawFlag = true;
+                    targetUnit->updateStats(randomisePerceivedPositions);
+                }
+            }
+        }
+    }
 
 }
 

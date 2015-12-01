@@ -792,20 +792,55 @@ void UnitTile::updateStats(bool randomisePerceivedPosition){
 
     //////////////////////////////////////////////
 
+    //Even if the we specify a false argument, if the flag is now in visual range (such as if a unit moved
+    //close enough), we want to change its position.
+
+    auto result = world.getVisibleTiles().find(world.terrainAtCartesianPos(perceivedPosition));
+
+    if(result != world.getVisibleTiles().end()){
+        randomisePerceivedPosition = true;
+    }
+
     //If the unit is too far away, adjust the position of the sprite accordingly:
-    else if(!drawUnit && drawFlag && randomisePerceivedPosition){
-        boost::random::uniform_int_distribution<int> distribution(-1, 1);
-        int xDisplacement{distribution(world.masterManager.randomEngine)};
-        int yDisplacement{distribution(world.masterManager.randomEngine)};
+    if(!drawUnit && drawFlag && randomisePerceivedPosition){
 
-        perceivedPosition.x += xDisplacement;
-        perceivedPosition.y += yDisplacement;
+        std::vector<TerrainTile*> surroundingTiles;
 
-        //Now, perceivedPosition is randomly offset by 1 tile at most on each axis.
+        for(int x{-1}; x <= 1; ++x){
+            for (int y{-1}; y <= 1; ++y){
 
-        if(world.cartesianPosOutOfBounds(perceivedPosition)){
-            perceivedPosition = truePosition;
+                TerrainTile* here = world.terrainAtCartesianPos({truePosition.x + x, truePosition.y + y});
+                surroundingTiles.push_back(here);
+            }
         }
+
+        //After filling in surroundingTiles with the 8 surrounding tiles and true position, we then remove any
+        //tiles in it that are either a). null, or b). in visual range of the current player
+
+        for(auto i = surroundingTiles.begin(); i!= surroundingTiles.end();){
+
+            if(*i == nullptr){
+                i = surroundingTiles.erase(i);
+            }
+
+            else{
+                auto found = world.getVisibleTiles().find(*i);
+
+                if(found != world.getVisibleTiles().end()){
+                    i = surroundingTiles.erase(i);
+                }
+
+                else{
+                    ++i;
+                }
+            }
+
+        }
+
+        boost::random::uniform_int_distribution<int> distribution(0, surroundingTiles.size() - 1);
+
+        int randomIndex{distribution(world.masterManager.randomEngine)};
+        perceivedPosition = surroundingTiles[randomIndex]->getCartesianPos();
     }
 
     sf::Vector2f finalPosition = world.pixelPosAtCartesianPos(perceivedPosition);

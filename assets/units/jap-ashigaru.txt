@@ -3,7 +3,7 @@
 [NATIONS]:
 {
 	DEFINE:JapEmp
-        DEFINE:JapShog
+    DEFINE:JapShog
 }
 
 [NAME]:Ashigaru
