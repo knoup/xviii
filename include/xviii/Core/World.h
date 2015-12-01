@@ -160,7 +160,7 @@ public:
 
     void turnlyUpdate();
 
-    void calculateViewDistance(UnitTile* unit);
+    void calculateViewDistance(UnitTile* unit, bool randomisePerceivedPositions);
 
     void highlightVisibleTiles();
     void unhighlightVisibleTiles();

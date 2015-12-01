@@ -141,7 +141,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 		truePosition = destination->getCartesianPos();
 
-        world.calculateViewDistance(this);
+        world.calculateViewDistance(this, false);
         world.highlightVisibleTiles();
 		updateStats();
 

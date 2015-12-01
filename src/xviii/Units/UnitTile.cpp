@@ -423,7 +423,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 
 		truePosition = destination->getCartesianPos();
 
-        world.calculateViewDistance(this);
+        world.calculateViewDistance(this, false);
         world.highlightVisibleTiles();
 		updateStats();
 
@@ -779,19 +779,21 @@ bool UnitTile::removeIfDead(){
 	return false;
 }
 
-void UnitTile::updateStats(){
+void UnitTile::updateStats(bool randomisePerceivedPosition){
 
 	//Update the stats
 	dirText.setString(dirToString());
 	movText.setString(std::to_string(mov));
 	hpText.setString(roundFloat(hp));
 
-	perceivedPosition = truePosition;
+    if(drawUnit){
+        perceivedPosition = truePosition;
+    }
 
     //////////////////////////////////////////////
 
     //If the unit is too far away, adjust the position of the sprite accordingly:
-    if(!drawUnit && drawFlag){
+    else if(!drawUnit && drawFlag && randomisePerceivedPosition){
         boost::random::uniform_int_distribution<int> distribution(-1, 1);
         int xDisplacement{distribution(world.masterManager.randomEngine)};
         int yDisplacement{distribution(world.masterManager.randomEngine)};

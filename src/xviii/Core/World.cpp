@@ -601,7 +601,7 @@ int World::getWeatherFlagViewDistance() const{
 
 }
 
-void World::calculateViewDistance(UnitTile* unit){
+void World::calculateViewDistance(UnitTile* unit, bool randomisePerceivedPositions){
 
     //IMPORTANT:
     //Due to the fact that Tile::getCartesianPos() bases its result on the physical location of the sprite,
@@ -646,7 +646,7 @@ void World::calculateViewDistance(UnitTile* unit){
             if (targetUnit != nullptr){
                 if(targetUnit->getPlayer() != owner){
                     targetUnit->drawFlag = true;
-                    targetUnit->updateStats();
+                    targetUnit->updateStats(randomisePerceivedPositions);
                 }
             }
         }
@@ -669,7 +669,7 @@ void World::calculateViewDistance(UnitTile* unit){
             if (targetUnit != nullptr){
                 if(targetUnit->getPlayer() != owner){
                     targetUnit->drawUnit = true;
-                    targetUnit->updateStats();
+                    targetUnit->updateStats(randomisePerceivedPositions);
                 }
             }
         }
@@ -706,6 +706,12 @@ void World::unhighlightVisibleTiles(){
 
 void World::highlightAllTiles(){
     for(auto& tile : terrainLayer){
+
+        if(tile->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+            TBridge* t = static_cast<TBridge*>(tile.get());
+            t->makeBridgeVisible(true);
+        }
+
         tile->setColor(sf::Color{255,255,255,255});
         tile->refreshVertexArray();
     }
@@ -713,6 +719,12 @@ void World::highlightAllTiles(){
 
 void World::unhighlightAllTiles(){
     for(auto& tile : terrainLayer){
+
+        if(tile->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+            TBridge* t = static_cast<TBridge*>(tile.get());
+            t->makeBridgeVisible(false);
+        }
+
         tile->setColor(sf::Color{255,255,255,170});
         tile->refreshVertexArray();
     }

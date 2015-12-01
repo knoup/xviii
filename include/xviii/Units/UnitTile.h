@@ -367,7 +367,7 @@ public:
 	bool isHostile(UnitTile* _tile);
 
     //Manages the position of the sf::Text numbers (hp and movement)
-	void updateStats();
+	void updateStats(bool randomisePerceivedPosition = false);
 
 	//Overloaded version that only gets the distance and doesn't take in bools
 	int distanceFrom(Tile* _tile);

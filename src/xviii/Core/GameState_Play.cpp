@@ -41,7 +41,7 @@ void GameState_Play::oneTimeUpdate(){
 		for (auto& unit : game->currentPlayer->getUnits()){
             unit->drawUnit = true;
             unit->drawFlag = true;
-            game->mWorld.calculateViewDistance(unit.get());
+            game->mWorld.calculateViewDistance(unit.get(), true);
             unit->updateStats();
 		}
 
@@ -366,7 +366,7 @@ void GameState_Play::update(float mFT){
 		for (auto& unit : game->currentPlayer->getUnits()){
             unit->drawUnit = true;
             unit->drawFlag = true;
-            game->mWorld.calculateViewDistance(unit.get());
+            game->mWorld.calculateViewDistance(unit.get(), true);
             unit->updateStats();
 		}
 
