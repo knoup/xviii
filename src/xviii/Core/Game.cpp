@@ -26,6 +26,12 @@ saveCreator{this}
 {
 	mWindow.setFramerateLimit(120);
 
+    sf::Image icon;
+
+    if(icon.loadFromFile("xviii.png")){
+        mWindow.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    }
+
 	mManager.unitLoader->load();
 	mManager.terrainLoader->load();
 
