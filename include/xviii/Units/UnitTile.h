@@ -262,9 +262,6 @@ public:
 	inline void setRangedAttacks(int _value){ rangedAttacks = _value; };
 	inline void setHasHealed(bool _value){ hasHealed = _value; };
 
-	inline void setTruePosition(sf::Vector2i _truePosition){truePosition = _truePosition;};
-    inline void setPerceivedPosition(sf::Vector2i _perceivedPosition){perceivedPosition = _perceivedPosition;};
-
 	//Component-related things
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -289,15 +289,7 @@ void UnitTile::spawn(TerrainTile* terrainTile){
 		terrain->resetUnit();
 	}
 
-	terrain = terrainTile;
-	terrainTile->setUnit(this);
-	sprite.setPosition(terrainTile->getPixelPos());
-	unitFlag.setPosition(terrainTile->getPixelPos());
-	outline.setPosition(terrainTile->getPixelPos());
-
-	truePosition = terrainTile->getCartesianPos();
-	perceivedPosition = truePosition;
-
+	setTerrain(terrainTile);
 	updateStats();
 }
 
