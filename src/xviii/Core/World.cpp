@@ -601,13 +601,14 @@ int World::getWeatherFlagViewDistance() const{
 
 }
 
-void World::calculateViewDistance(UnitTile* unit, bool randomisePerceivedPositions){
-
+bool World::calculateViewDistance(UnitTile* unit, TerrainTile* target, bool randomisePerceivedPositions){
     //IMPORTANT:
     //Due to the fact that Tile::getCartesianPos() bases its result on the physical location of the sprite,
     //which for units can be in disagreement with its real position, we use getTruePosition() instead.
 
-    sf::Vector2i currentPos = unit->getTruePosition();
+    bool enemyFound{false};
+
+    sf::Vector2i currentPos = target->getCartesianPos();
 
     int unitViewDistance = unit->getDefaultUnitViewDistance() - getWeatherUnitViewDistance();
     int flagViewDistance = unit->getDefaultFlagViewDistance() - getWeatherFlagViewDistance();
@@ -646,7 +647,12 @@ void World::calculateViewDistance(UnitTile* unit, bool randomisePerceivedPositio
 
             if (targetUnit != nullptr){
                 if(targetUnit->getPlayer() != owner){
-                    targetUnit->drawUnit = true;
+
+                    if(!targetUnit->drawUnit){
+                        enemyFound = true;
+                        targetUnit->drawUnit = true;
+                    }
+
                     targetUnit->updateStats(randomisePerceivedPositions);
                 }
             }
@@ -675,6 +681,12 @@ void World::calculateViewDistance(UnitTile* unit, bool randomisePerceivedPositio
         }
     }
 
+    return enemyFound;
+
+}
+
+bool World::calculateViewDistance(UnitTile* unit, bool randomisePerceivedPositions){
+    return calculateViewDistance(unit, unit->getTerrain(), randomisePerceivedPositions);
 }
 
 void World::highlightVisibleTiles(){

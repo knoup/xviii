@@ -160,7 +160,9 @@ public:
 
     void turnlyUpdate();
 
-    void calculateViewDistance(UnitTile* unit, bool randomisePerceivedPositions);
+    //If there are any newly sighted enemy units, returns true
+    bool calculateViewDistance(UnitTile* unit, TerrainTile* target, bool randomisePerceivedPositions);
+    bool calculateViewDistance(UnitTile* unit, bool randomisePerceivedPositions);
 
     void highlightVisibleTiles();
     void unhighlightVisibleTiles();

@@ -84,37 +84,35 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
         sf::Vector2i finalCoords{toMoveToCoords};
 
-        //Begin at the tile that comes after the current tile, and loop to the destination (inclusive)
-        for (int i{PRIMARYAXIS_CURRENT + PRIMARYAXIS_MOVEMENT}; i != PRIMARYAXIS_DESTINATION; i += PRIMARYAXIS_MOVEMENT){
+        bool exitLoop{false};
 
-                TerrainTile* terrainInTheWay;
-                int indexToCheck = i + PRIMARYAXIS_MOVEMENT * currentUnitViewDistance;
+        //Begin at the tile that comes after the current tile, and loop to the destination (inclusive)
+        for (int i{PRIMARYAXIS_CURRENT + PRIMARYAXIS_MOVEMENT}; i != PRIMARYAXIS_DESTINATION && !exitLoop; i += PRIMARYAXIS_MOVEMENT){
+
+            TerrainTile* terrainInTheWay;
+            int indexToCheck = i;
+
+            if (dir == Direction::N || dir == Direction::S){
+                terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
+            }
+            else{
+                terrainInTheWay = world.terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
+            }
+
+            if(world.calculateViewDistance(this, terrainInTheWay, false)){
 
                 if (dir == Direction::N || dir == Direction::S){
-                    terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
+                    finalCoords.x = SECONDARYAXIS_CURRENT;
+                    finalCoords.y = i;
                 }
+
                 else{
-                    terrainInTheWay = world.terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
+                    finalCoords.x = i;
+                    finalCoords.y = SECONDARYAXIS_CURRENT;
                 }
 
-                UnitTile* unit = terrainInTheWay->getUnit();
-
-                if(unit != nullptr){
-
-                    if(unit->getPlayer() != getPlayer() && !unit->drawUnit){
-
-                        if (dir == Direction::N || dir == Direction::S){
-                            finalCoords.x = SECONDARYAXIS_CURRENT;
-                            finalCoords.y = i;
-                        }
-                        else{
-                            finalCoords.x = i;
-                            finalCoords.y = SECONDARYAXIS_CURRENT;
-                        }
-
-                        continue;
-                    }
-                }
+                exitLoop = true;
+            }
         }
 
 
@@ -133,13 +131,12 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
         TerrainTile* oldTerrain = terrain;
 
-		hasMoved = true;
-		terrain->resetUnit();
-		terrain = destination;
-		destination->setUnit(this);
+		setTerrain(destination);
 		mov -= movExpended;
+		hasMoved = true;
 
-		truePosition = destination->getCartesianPos();
+		//If we only move one tile, the view distance won't be recalculated in the loop,
+		//so just do it again here anyway
 
         world.calculateViewDistance(this, false);
         world.highlightVisibleTiles();

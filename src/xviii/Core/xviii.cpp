@@ -4,13 +4,8 @@
 /*
     TODO:
 
-    BUGS:
-
-    (*) All tiles between current and destination tiles (when moving) should be "explored"
-
-
     (*) Seperate movement and attack logic so that classes can, for example, be given movement rules of CAV but
-    attack rules of INF
+    attack rules of INF (TODO later, after the upcoming UI update)
 
     (*) At some point, perhaps create a function that returns every tile in between 2 given tiles, for less code
     repetition in places (UnitTile::distanceFrom(), UnitTile::moveTo(), UnitTile::rangedAttack()...). At the moment
@@ -19,8 +14,6 @@
 
     (*) Perhaps overload UnitTile::updateStates() to take in a bool that determines if its perceived position should be
     changed or not?
-
-    (*) Remove Infantry::moveTo() (and make changes in UnitTile::moveTo() to accommodate)
 
     (*) Add saving functionality the setup phase
 

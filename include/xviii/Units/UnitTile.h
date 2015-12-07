@@ -391,6 +391,8 @@ public:
 	bool drawFlag{true};
 
 protected:
+    void setTerrain(TerrainTile* _terrain);
+
 	Player* player;
 
 	Direction dir;

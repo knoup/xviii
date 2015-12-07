@@ -6,6 +6,16 @@
 
 #include "xviii/Core/UnitLoader.h"
 
+void UnitTile::setTerrain(TerrainTile* _terrain){
+    if(terrain != nullptr){
+        terrain->resetUnit();
+    }
+
+    terrain = _terrain;
+    terrain->setUnit(this);
+    truePosition = terrain->getCartesianPos();
+}
+
 bool UnitTile::getMelee() const{ return world.masterManager.unitLoader->customClasses.at(unitID).melee; };
 bool UnitTile::getSkirmish() const{ return world.masterManager.unitLoader->customClasses.at(unitID).skirmish; };
 bool UnitTile::getFrightening() const { return world.masterManager.unitLoader->customClasses.at(unitID).frightening; };
@@ -367,11 +377,13 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 
         sf::Vector2i finalCoords{toMoveToCoords};
 
+        bool exitLoop{false};
+
         //Begin at the tile that comes after the current tile, and loop to the destination (inclusive)
-        for (int i{PRIMARYAXIS_CURRENT + PRIMARYAXIS_MOVEMENT}; i != PRIMARYAXIS_DESTINATION; i += PRIMARYAXIS_MOVEMENT){
+        for (int i{PRIMARYAXIS_CURRENT + PRIMARYAXIS_MOVEMENT}; i != PRIMARYAXIS_DESTINATION && !exitLoop; i += PRIMARYAXIS_MOVEMENT){
 
             TerrainTile* terrainInTheWay;
-            int indexToCheck = i + PRIMARYAXIS_MOVEMENT * currentUnitViewDistance;
+            int indexToCheck = i;
 
             if (dir == Direction::N || dir == Direction::S){
                 terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
@@ -380,23 +392,19 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
                 terrainInTheWay = world.terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
             }
 
-            UnitTile* unit = terrainInTheWay->getUnit();
+            if(world.calculateViewDistance(this, terrainInTheWay, false)){
 
-            if(unit != nullptr){
-
-                if(unit->getPlayer() != getPlayer() && !unit->drawUnit){
-
-                    if (dir == Direction::N || dir == Direction::S){
-                        finalCoords.x = SECONDARYAXIS_CURRENT;
-                        finalCoords.y = i;
-                    }
-                    else{
-                        finalCoords.x = i;
-                        finalCoords.y = SECONDARYAXIS_CURRENT;
-                    }
-
-                    continue;
+                if (dir == Direction::N || dir == Direction::S){
+                    finalCoords.x = SECONDARYAXIS_CURRENT;
+                    finalCoords.y = i;
                 }
+
+                else{
+                    finalCoords.x = i;
+                    finalCoords.y = SECONDARYAXIS_CURRENT;
+                }
+
+                exitLoop = true;
             }
         }
 
@@ -416,15 +424,16 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 
         TerrainTile* oldTerrain = terrain;
 
-		terrain->resetUnit();
-		terrain = destination;
-		destination->setUnit(this);
+		setTerrain(destination);
 		mov -= movExpended;
+		hasMoved = true;
 
-		truePosition = destination->getCartesianPos();
+		//If we only move one tile, the view distance won't be recalculated in the loop,
+		//so just do it again here anyway
 
         world.calculateViewDistance(this, false);
         world.highlightVisibleTiles();
+
 		updateStats();
 
 		world.wearDownTempBridges(oldTerrain, destination);
