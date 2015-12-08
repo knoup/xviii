@@ -32,6 +32,7 @@ class Player
 		inline const World& getWorld() const{ return world; };
 		inline int getDeploymentPoints() const{ return deploymentPoints; };
 		inline int getMaxDeploymentPoints() const{ return maxDeploymentPoints; };
+		inline void setDeploymentPoints(int _value){deploymentPoints = _value;};
 		inline sf::Color getnationColour() const{ return nationColour; };
 		inline std::string getFactionID() const{return factionID;};
 		inline std::string getDisplayName() const{ return displayName; };

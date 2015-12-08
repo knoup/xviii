@@ -30,6 +30,9 @@ void GameState_Play::oneTimeUpdate(){
 
     game->mWorld.unhighlightAllTiles();
 
+    game->Player1->setDeploymentPoints(0);
+    game->Player2->setDeploymentPoints(0);
+
 	playUI.turnlyUpdate();
 
 	for (auto& unit : game->inactivePlayer->getUnits()){

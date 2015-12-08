@@ -104,7 +104,11 @@ void GameState_Setup::getInput(){
 					sf::Vector2i mouseCoords{event.mouseButton.x, event.mouseButton.y};
 					sf::Vector2i worldCoords{game->mWindow.mapPixelToCoords(mouseCoords, *game->currentView)};
 
-					game->currentPlayer->removeUnit(worldCoords);
+					auto removed = game->currentPlayer->removeUnit(worldCoords);
+
+					if(removed != nullptr){
+                        game->currentPlayer->setDeploymentPoints(game->currentPlayer->getDeploymentPoints() + removed.get()->getCost());
+					}
 
 					break;
 				}

@@ -246,7 +246,6 @@ UnitTile::unitPtr Player::removeUnit(sf::Vector2i _worldCoords){
 			//Search units for the unique pointer corresponding to found...
 			for (auto& unique_unit : units){
 				if (unique_unit.get() == found){
-					deploymentPoints += found->getCost();
 					unique_unit->getTerrain()->resetUnit();
 
 					if (unique_unit->getUnitType() == UnitTile::UnitType::GEN){
@@ -274,7 +273,6 @@ UnitTile::unitPtr Player::removeUnit(UnitTile* _unit){
 	//Search units for the unique pointer corresponding to found...
 	for (auto& unique_unit : units){
 		if (unique_unit.get() == _unit){
-			deploymentPoints += _unit->getCost();
 
 			//In some cases, a unit's terrain pointer might be null, such as when
 			//a bridge is being toggled to water.
