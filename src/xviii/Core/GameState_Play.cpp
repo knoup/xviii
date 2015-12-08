@@ -352,6 +352,11 @@ void GameState_Play::update(float mFT){
 
 	if (game->currentPlayer->isReady()){
 
+        if (selected != nullptr){
+            selected->setHighlighted(false);
+            selected = nullptr;
+        }
+
 		game->nextPlayer();
 
         game->mWorld.turnlyUpdate();
@@ -434,13 +439,13 @@ void GameState_Play::update(float mFT){
 		//If you aren't mousing over a (visible) enemy unit
 		if ((unit == nullptr && terrain != nullptr) || (unit != nullptr && !unit->drawUnit || !unit->drawFlag)){
 
-			if (inMovementRange && !rangedObstructionPresent && !meleeObstructionPresent){
+			if (inMovementRange && !meleeObstructionPresent){
 				tileDistanceText.setColor(sf::Color::Black);
 			}
 			else if (!inMovementRange && inRangedAttackRange){
 				tileDistanceText.setColor(sf::Color::Magenta);
 			}
-			else if (rangedObstructionPresent || meleeObstructionPresent|| !validMovDirection || !inMovementRange){
+			else{
 				tileDistanceText.setColor(sf::Color::Red);
 			}
 

@@ -4,8 +4,7 @@
 /*
     TODO:
 
-    (*) Fix behaviour of mouse indicator of distance (not always accurate)
-
+    (*) Add saving functionality the setup phase
 
     (*) Seperate movement and attack logic so that classes can, for example, be given movement rules of CAV but
     attack rules of INF (TODO later, after the upcoming UI update)
@@ -15,12 +14,6 @@
     there are some complexities (and laziness) which prevent me from creating a unified solution, but it's something
     to look into sometime.
 
-    (*) Perhaps overload UnitTile::updateStates() to take in a bool that determines if its perceived position should be
-    changed or not?
-
-    (*) Add saving functionality the setup phase
-
-    MISC:
     (*) Implement a specialised HillAnt class (for slopes and hills)
 
 	(*) Have a basic readable config file where several simple parameters can be set (resolution, deployment points, etc.)
