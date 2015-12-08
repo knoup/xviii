@@ -10,6 +10,24 @@ selectedSpawnableUnit{nullptr}
 {
 }
 
+void GameState_Setup::oneTimeUpdate(){
+
+    int points1{0};
+    for(auto& unit : game->Player1->getUnits()){
+        points1 += unit.get()->getCost();
+    }
+    game->Player1->setDeploymentPoints(game->Player1->getMaxDeploymentPoints() - points1);
+
+
+
+    int points2{0};
+    for(auto& unit : game->Player2->getUnits()){
+        points2 += unit.get()->getCost();
+    }
+    game->Player2->setDeploymentPoints(game->Player2->getMaxDeploymentPoints() - points2);
+
+}
+
 void GameState_Setup::getInput(){
 	sf::Event event;
 
@@ -153,6 +171,10 @@ void GameState_Setup::getInput(){
 				game->currentView->setSize(game->currentView->getSize().x + xResolution / 10, game->currentView->getSize().y + yResolution / 10);
                 break;
 
+            case Key::TOGGLE_SAVE:
+				game->saveCreator.create();
+				break;
+
 			case Key::HIDE_UI_KEY:
 				if (drawUI){
 					drawUI = false;
@@ -245,9 +267,11 @@ void GameState_Setup::draw(){
 	game->mWindow.setView(*game->currentView);
 	game->mWorld.draw(game->mWindow);
 
-	for (auto& player : game->mPlayers){
-		player->drawUnits(game->mWindow);
-	}
+
+    //We won't be drawing the enemy player's units. It's only fair that both players be able to
+    //get an overview of the map before spawning their units, without seeing each other's positions.
+
+    game->currentPlayer->drawUnits(game->mWindow);
 
 	//
 	if (drawUI){

@@ -4,8 +4,6 @@
 /*
     TODO:
 
-    (*) Add saving functionality the setup phase
-
     (*) Seperate movement and attack logic so that classes can, for example, be given movement rules of CAV but
     attack rules of INF (TODO later, after the upcoming UI update)
 

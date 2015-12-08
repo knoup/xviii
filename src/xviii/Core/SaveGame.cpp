@@ -240,6 +240,8 @@ bool SaveGame::create(){
 		}
 	}
 
+	#undef INDENT
+
 	save.close();
 	return true;
 
@@ -251,12 +253,18 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 	std::string line;
 
+	bool playPhase{true};
+
 	#define AFTEREQUALS line.substr(line.find("=") + 1, line.size() - 1)
 
 	while (save && std::getline(save, line)){
 		if (line.find("turn=") != std::string::npos){
 			int turn{std::stoi(AFTEREQUALS)};
 			game->mWorld.setElapsedTurns(turn);
+
+			if(turn == 0){
+                playPhase = false;
+			}
 		}
 
 		else if (line.find("era=") != std::string::npos){
@@ -600,6 +608,13 @@ void SaveGame::parse(boost::filesystem::path _dir){
 	}
 
 	#undef AFTEREQUALS
+
+	if(playPhase){
+        game->setGameStatePlay();
+	}
+	else{
+        game->setGameStateSetup();
+	}
 
 }
 

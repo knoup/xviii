@@ -28,6 +28,11 @@ playUI(game->mManager, this)
 
 void GameState_Play::oneTimeUpdate(){
 
+    //elapsedTurns being set to 0 means that we are in the setup phase.
+    if(game->mWorld.getElapsedTurns() == 0){
+        game->mWorld.setElapsedTurns(1);
+    }
+
     game->mWorld.unhighlightAllTiles();
 
     game->Player1->setDeploymentPoints(0);

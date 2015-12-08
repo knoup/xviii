@@ -102,6 +102,7 @@ void Game::setGameStateSelectNations(){
 }
 
 void Game::setGameStateSetup(){
+    SetupState->oneTimeUpdate();
 	state = SetupState.get();
 }
 

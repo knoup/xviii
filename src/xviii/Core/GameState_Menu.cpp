@@ -81,7 +81,6 @@ void GameState_Menu::getInput(){
 
 					case Action::LOAD:
 						game->saveCreator.parse(menuIterator->path);
-						game->setGameStatePlay();
 						break;
 
 					case Action::EXIT:
