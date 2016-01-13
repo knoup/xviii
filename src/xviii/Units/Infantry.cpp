@@ -117,10 +117,10 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
 
         if (dir == Direction::N || dir == Direction::S){
-            movExpended = abs(toMoveToCoords.y - currentCoords.y);
+            movExpended = abs(finalCoords.y - currentCoords.y);
         }
         else{
-            movExpended = abs(toMoveToCoords.x - currentCoords.x);
+            movExpended = abs(finalCoords.x - currentCoords.x);
         }
 
         TerrainTile* destination = world.terrainAtCartesianPos(finalCoords);
