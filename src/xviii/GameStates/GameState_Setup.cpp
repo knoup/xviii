@@ -1,5 +1,5 @@
 #include "xviii/Headers/stdafx.h"
-#include "xviii/Core/GameState_Setup.h"
+#include "xviii/GameStates/GameState_Setup.h"
 
 #include "xviii/Core/Game.h"
 
@@ -251,7 +251,7 @@ void GameState_Setup::update(float mFT){
 		}
 		else if (game->currentPlayer == game->Player2){
 			game->nextPlayer();
-			game->setGameStatePlay();
+			game->setGameState(game->PlayState.get());
 		}
 	}
 

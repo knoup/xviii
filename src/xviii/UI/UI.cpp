@@ -1,7 +1,7 @@
 #include "xviii/Headers/stdafx.h"
 #include "xviii/UI/UI.h"
 
-#include "xviii/Core/GameState.h"
+#include "xviii/GameStates/GameState.h"
 
 UI::UI(MasterManager& _masterManager) :
 masterManager(_masterManager),

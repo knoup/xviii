@@ -1,7 +1,7 @@
 #include "xviii/Headers/stdafx.h"
 #include "xviii/UI/SetupUI.h"
 
-#include "xviii/Core/GameState_Setup.h"
+#include "xviii/GameStates/GameState_Setup.h"
 #include "xviii/Core/Game.h"
 
 SetupUI::SetupUI(MasterManager& _masterManager, GameState_Setup* _gameState) :

@@ -12,7 +12,7 @@ Game::Game() :
 mManager{},
 mWindow{{xResolution, yResolution}, "xviii - Dong Bong Military Board Game"},
 state{nullptr},
-MenuState{nullptr},
+MainMenuState{nullptr},
 SetupState{nullptr},
 PlayState{nullptr},
 mWorld{mManager, sf::Vector2i(69, 100)},
@@ -35,12 +35,22 @@ saveCreator{this}
 	mManager.unitLoader->load();
 	mManager.terrainLoader->load();
 
-	MenuState = (std::unique_ptr<GameState_Menu>(new GameState_Menu(this)));
+	MainMenuState = (std::unique_ptr<GameState_MainMenu>(new GameState_MainMenu(this)));
+	CustomBattleMenuState = (std::unique_ptr<GameState_CustomBattleMenu>(new GameState_CustomBattleMenu(this)));
+    CustomBattleLoadMenuState = (std::unique_ptr<GameState_CustomBattleLoadMenu>(new GameState_CustomBattleLoadMenu(this)));
+    CustomBattleSelectEraMenuState = (std::unique_ptr<GameState_CustomBattleSelectEraMenu>(new GameState_CustomBattleSelectEraMenu(this)));
+    CreditMenuState = (std::unique_ptr<GameState_CreditMenu>(new GameState_CreditMenu(this)));
 	SelectNationsState = (std::unique_ptr<GameState_SelectNations>(new GameState_SelectNations(this)));
 	SetupState = (std::unique_ptr<GameState_Setup>(new GameState_Setup(this)));
 	PlayState = (std::unique_ptr<GameState_Play>(new GameState_Play(this)));
 
-	state = MenuState.get();
+	MainMenuState->init();
+	CustomBattleMenuState->init();
+	CustomBattleLoadMenuState->init();
+	CustomBattleSelectEraMenuState->init();
+	CreditMenuState->init();
+
+	state = MainMenuState.get();
 
 	gameLoop();
 }
@@ -97,18 +107,16 @@ void Game::draw(){
 	mWindow.display();
 }
 
-void Game::setGameStateSelectNations(){
-	state = SelectNationsState.get();
-}
+void Game::setGameState(GameState* _state){
+    if(_state == SetupState.get()){
+        SetupState->oneTimeUpdate();
+    }
 
-void Game::setGameStateSetup(){
-    SetupState->oneTimeUpdate();
-	state = SetupState.get();
-}
+    else if(_state == PlayState.get()){
+        PlayState->oneTimeUpdate();
+    }
 
-void Game::setGameStatePlay(){
-	PlayState->oneTimeUpdate();
-	state = PlayState.get();
+    state = _state;
 }
 
 void Game::nextPlayer(){

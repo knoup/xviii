@@ -1,5 +1,5 @@
 #include "xviii/Headers/stdafx.h"
-#include "xviii/Core/GameState_Play.h"
+#include "xviii/GameStates/GameState_Play.h"
 
 #include "xviii/Core/Game.h"
 

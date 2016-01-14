@@ -2,6 +2,11 @@
 #include "xviii/Core/Game.h"
 
 /*
+    TOFIX:
+
+    (*) Inconsistent view resizing/logo color between the menus
+    (*) If there are too many saves, you can't scroll to see all of them
+
     TODO:
 
     (*) Seperate movement and attack logic so that classes can, for example, be given movement rules of CAV but
@@ -15,6 +20,7 @@
     (*) Implement a specialised HillAnt class (for slopes and hills)
 
 	(*) Have a basic readable config file where several simple parameters can be set (resolution, deployment points, etc.)
+
 */
 
 int main(int argc, char* argv[]){

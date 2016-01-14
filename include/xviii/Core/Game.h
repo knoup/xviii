@@ -6,10 +6,14 @@
 #include "xviii/Core/Player.h"
 #include "xviii/Core/SaveGame.h"
 
-#include "xviii/Core/GameState_Play.h"
-#include "xviii/Core/GameState_SelectNations.h"
-#include "xviii/Core/GameState_Setup.h"
-#include "xviii/Core/GameState_Menu.h"
+#include "xviii/GameStates/GameState_Play.h"
+#include "xviii/GameStates/GameState_SelectNations.h"
+#include "xviii/GameStates/GameState_Setup.h"
+#include "xviii/GameStates/GameState_MainMenu.h"
+#include "xviii/GameStates/GameState_CustomBattleMenu.h"
+#include "xviii/GameStates/GameState_CustomBattleLoadMenu.h"
+#include "xviii/GameStates/GameState_CustomBattleSelectEraMenu.h"
+#include "xviii/GameStates/GameState_CreditMenu.h"
 
 class UnitTile;
 
@@ -24,9 +28,7 @@ public:
 	void update(float mFT);
 	void draw();
 
-	void setGameStateSelectNations();
-	void setGameStateSetup();
-	void setGameStatePlay();
+    void setGameState(GameState* _state);
 
 	//Cycles to the next player; sets currentPlayer, currentView, and inactivePlayer, and resets the ready status
 	void nextPlayer();
@@ -36,7 +38,12 @@ public:
 
 	GameState* state;
 
-	std::unique_ptr<GameState_Menu> MenuState;
+	std::unique_ptr<GameState_MainMenu> MainMenuState;
+	std::unique_ptr<GameState_CustomBattleMenu> CustomBattleMenuState;
+	std::unique_ptr<GameState_CustomBattleLoadMenu> CustomBattleLoadMenuState;
+	std::unique_ptr<GameState_CustomBattleSelectEraMenu> CustomBattleSelectEraMenuState;
+	std::unique_ptr<GameState_CreditMenu> CreditMenuState;
+
 	std::unique_ptr<GameState_SelectNations> SelectNationsState;
 	std::unique_ptr<GameState_Setup> SetupState;
 	std::unique_ptr<GameState_Play> PlayState;

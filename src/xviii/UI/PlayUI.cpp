@@ -1,7 +1,7 @@
 #include "xviii/Headers/stdafx.h"
 #include "xviii/UI/PlayUI.h"
 
-#include "xviii/Core/GameState_Play.h"
+#include "xviii/GameStates/GameState_Play.h"
 #include "xviii/Core/Game.h"
 
 PlayUI::PlayUI(MasterManager& _masterManager, GameState_Play* _gameState) :

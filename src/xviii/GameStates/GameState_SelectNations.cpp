@@ -1,5 +1,5 @@
 #include "xviii/Headers/stdafx.h"
-#include "xviii/Core/GameState_SelectNations.h"
+#include "xviii/GameStates/GameState_SelectNations.h"
 
 #include "xviii/Core/Game.h"
 #include "xviii/Core/FactionLoader.h"
@@ -92,7 +92,7 @@ void GameState_SelectNations::getInput(){
 					game->mPlayers.emplace_back(game->Player2);
 					game->currentPlayer = game->Player1;
 					game->currentView = &game->currentPlayer->view;
-					game->setGameStateSetup();
+					game->setGameState(game->SetupState.get());
 				}
 
 			}

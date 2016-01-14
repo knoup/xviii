@@ -610,10 +610,10 @@ void SaveGame::parse(boost::filesystem::path _dir){
 	#undef AFTEREQUALS
 
 	if(playPhase){
-        game->setGameStatePlay();
+        game->setGameState(game->PlayState.get());
 	}
 	else{
-        game->setGameStateSetup();
+        game->setGameState(game->SetupState.get());
 	}
 
 }

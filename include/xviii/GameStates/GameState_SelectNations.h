@@ -1,6 +1,6 @@
 #pragma once
 
-#include "xviii/Core/GameState.h"
+#include "xviii/GameStates/GameState.h"
 #include "xviii/Headers/global.h"
 #include "xviii/Headers/keybinds.h"
 

@@ -1,5 +1,5 @@
 #include "xviii/Headers/stdafx.h"
-#include "xviii/Core/GameState.h"
+#include "xviii/GameStates/GameState.h"
 
 GameState::GameState(Game* _game) :
 game{_game}

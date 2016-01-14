@@ -1,9 +1,9 @@
 #include "xviii/Headers/stdafx.h"
-#include "xviii/Core/GameState_Menu.h"
+#include "xviii/GameStates/GameState_MenuState.h"
 
 #include "xviii/Core/Game.h"
 
-GameState_Menu::GameState_Menu(Game* game) :
+GameState_MenuState::GameState_MenuState(Game* game) :
 GameState{game},
 menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)},
 backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
@@ -23,45 +23,9 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	titleText.setPosition(xResolution / 2, -(yResolution / 2.5f));
 
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
-
-
-	////////////////////////////////////////////////////////////////////////
-
-	menuList.push_back({{"New Game (All Eras)"}, Action::NEW, World::Era::ALL});
-	menuList.push_back({{"New Game (Early Era)"}, Action::NEW, World::Era::EARLY});
-	menuList.push_back({{"New Game (Mid Era)"}, Action::NEW, World::Era::MID});
-	menuList.push_back({{"New Game (Late Era)"}, Action::NEW, World::Era::LATE});
-
-
-
-	boost::filesystem::directory_iterator end;
-
-	if (boost::filesystem::exists("save")){
-		for (boost::filesystem::directory_iterator it("save"); it != end; ++it){
-			menuList.push_back({it->path(), Action::LOAD, World::Era::ALL});
-		}
-	}
-
-	menuList.push_back({{"Exit"}, Action::EXIT, World::Era::ALL});
-
-	for (size_t i{0}; i < menuList.size(); ++i){
-		menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
-		menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
-		menuList[i].text.setColor(sf::Color::White);
-		menuList[i].text.setStyle(sf::Text::Bold);
-
-		int textXPos = xResolution / 2;
-		int textYPos = (i * 50);
-
-		menuList[i].text.setPosition(textXPos, textYPos);
-	}
-
-
-	//Set selected to the first item in menuList, which will always be "New Game"
-	menuIterator = menuList.begin();
 }
 
-void GameState_Menu::getInput(){
+void GameState_MenuState::getInput(){
 	sf::Event event;
 
 	while (game->mWindow.pollEvent(event)){
@@ -71,12 +35,13 @@ void GameState_Menu::getInput(){
 			game->mWindow.close();
 			break;
 
-		case sf::Event::KeyPressed:
-			if (event.key.code == Key::CONFIRM_KEY){
+        case sf::Event::KeyPressed:
+        case sf::Event::MouseButtonPressed:
+			if (event.key.code == Key::CONFIRM_KEY || event.mouseButton.button == sf::Mouse::Left){
 				switch (menuIterator->action){
 					case Action::NEW:
 						game->mWorld.generateRandomWorld(menuIterator->era);
-						game->setGameStateSelectNations();
+						game->setGameState(game->SelectNationsState.get());
 						break;
 
 					case Action::LOAD:
@@ -86,6 +51,10 @@ void GameState_Menu::getInput(){
 					case Action::EXIT:
 						game->mWindow.close();
 						break;
+				}
+
+				if(menuIterator->state != nullptr){
+                    game->setGameState(menuIterator->state);
 				}
 			}
 
@@ -116,34 +85,29 @@ void GameState_Menu::getInput(){
 				}
 			}
 
-			else if (event.key.code == Key::DELETE_KEY && menuIterator->action != Action::NEW){
-				if (menuIterator->action == Action::EXIT){
-					for (size_t i{0}; i < menuList.size(); ++i){
-						menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
-
-						menuList[i].text.setString("THERE IS NO ESCAPE");
-						menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
-					}
-
-					titleText.setCharacterSize(170);
-					titleText.setString("THERE IS NO ESCAPE");
-					titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
-				}
-
-				boost::filesystem::remove(menuIterator->path);
-				menuList.erase(menuIterator);
-				menuIterator = menuList.begin();
-
-				for (size_t i{0}; i < menuList.size(); ++i){
-					int textXPos = xResolution / 2;
-					int textYPos = (i * 50);
-
-
-					menuList[i].text.setPosition(textXPos, textYPos);
-				}
-			}
-
 			break;
+
+
+            case sf::Event::MouseMoved:{
+
+                sf::Vector2i coords{event.mouseMove.x, event.mouseMove.y};
+
+                sf::Vector2f mousePos{game->mWindow.mapPixelToCoords(coords, menuSelectView)};
+
+                for(size_t i{0}; i < menuList.size(); ++i){
+                    if(menuList[i].text.getGlobalBounds().contains(mousePos)){
+
+                        //Unhighlight current object
+                        menuIterator->text.setColor((sf::Color::White));
+
+                        menuIterator = menuList.begin();
+                        menuIterator += i;
+                    }
+                }
+
+            break;
+            }
+
 
 		case sf::Event::Resized:
 			menuSelectView.setSize(event.size.width, event.size.height);
@@ -155,15 +119,15 @@ void GameState_Menu::getInput(){
 	}
 }
 
-void GameState_Menu::update(float mFT){
+void GameState_MenuState::update(float mFT){
 	if (menuIterator->text.getColor() != sf::Color::Yellow){
 		menuIterator->text.setColor(sf::Color::Yellow);
 	}
 
-	menuSelectView.setCenter(menuSelectView.getCenter().x, menuIterator->text.getPosition().y);
+	//menuSelectView.setCenter(menuSelectView.getCenter().x, menuIterator->text.getPosition().y);
 }
 
-void GameState_Menu::draw(){
+void GameState_MenuState::draw(){
 	game->mWindow.clear(sf::Color::Black);
 	game->mWindow.setView(backgroundView);
 	game->mWindow.draw(backgroundSprite);
@@ -174,4 +138,22 @@ void GameState_Menu::draw(){
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);
 	}
+}
+
+void GameState_MenuState::lineUpObjects(){
+
+	for (size_t i{0}; i < menuList.size(); ++i){
+		menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+		menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
+		menuList[i].text.setColor(sf::Color::White);
+		menuList[i].text.setStyle(sf::Text::Bold);
+
+		int textXPos = xResolution / 2;
+		int textYPos = (i * 50);
+
+		menuList[i].text.setPosition(textXPos, textYPos);
+	}
+
+	menuIterator = menuList.begin();
+	menuSelectView.setCenter(menuSelectView.getCenter().x, menuIterator->text.getPosition().y);
 }
