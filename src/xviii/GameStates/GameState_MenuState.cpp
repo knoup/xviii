@@ -3,6 +3,10 @@
 
 #include "xviii/Core/Game.h"
 
+sf::Text GameState_MenuState::titleText;
+std::unique_ptr<sf::Texture> GameState_MenuState::backgroundTexture;
+sf::Sprite GameState_MenuState::backgroundSprite;
+
 GameState_MenuState::GameState_MenuState(Game* game) :
 GameState{game},
 menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)},
@@ -69,18 +73,30 @@ void GameState_MenuState::getInput(){
 
 				if (event.key.code == Key::UP_ARROW || event.key.code == Key::UP_KEY){
 					if (menuIterator == menuList.begin()){
+                        auto it = --menuList.end();
+                        if(it->highlightable){
 						menuIterator = --menuList.end();
+                        }
 					}
 					else{
-						--menuIterator;
+                        auto it = menuIterator - 1;
+                        if(it->highlightable){
+                            --menuIterator;
+						}
 					}
 				}
 				else if (event.key.code == Key::DOWN_ARROW || event.key.code == Key::DOWN_KEY){
 					if (menuIterator == --menuList.end()){
-						menuIterator = menuList.begin();
+                        auto it = --menuList.begin();
+                        if(it->highlightable){
+                            menuIterator = menuList.begin();
+                        }
 					}
 					else{
-						++menuIterator;
+                        auto it = menuIterator + 1;
+                        if(it->highlightable){
+                            ++menuIterator;
+                        }
 					}
 				}
 			}
@@ -120,7 +136,7 @@ void GameState_MenuState::getInput(){
 }
 
 void GameState_MenuState::update(float mFT){
-	if (menuIterator->text.getColor() != sf::Color::Yellow){
+	if (menuIterator->text.getColor() != sf::Color::Yellow && menuIterator->highlightable){
 		menuIterator->text.setColor(sf::Color::Yellow);
 	}
 

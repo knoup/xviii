@@ -4,7 +4,6 @@
 /*
     TOFIX:
 
-    (*) Inconsistent view resizing/logo color between the menus
     (*) If there are too many saves, you can't scroll to see all of them
 
     TODO:

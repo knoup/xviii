@@ -15,11 +15,11 @@ void GameState_CustomBattleLoadMenu::init(){
 
 	if (boost::filesystem::exists("save")){
 		for (boost::filesystem::directory_iterator it("save"); it != end; ++it){
-			menuList.push_back({it->path(), nullptr, Action::LOAD});
+			menuList.push_back({it->path(), true, nullptr, Action::LOAD});
 		}
 	}
 
-	menuList.push_back({{"Back"}, game->CustomBattleMenuState.get(), Action::NONE});
+	menuList.push_back({{"Back"}, true, game->CustomBattleMenuState.get(), Action::NONE});
 
 	lineUpObjects();
 }

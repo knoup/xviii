@@ -10,11 +10,11 @@ GameState_MenuState{game}
 }
 
 void GameState_CustomBattleSelectEraMenu::init(){
-    menuList.push_back({{"All Eras"}, nullptr, Action::NEW});
-	menuList.push_back({{"Early Era"}, nullptr, Action::NEW, World::Era::EARLY});
-	menuList.push_back({{"Middle Era"}, nullptr, Action::NEW, World::Era::MID});
-	menuList.push_back({{"Late Era"}, nullptr, Action::NEW, World::Era::LATE});
-	menuList.push_back({{"Back"}, game->CustomBattleMenuState.get(), Action::NONE});
+    menuList.push_back({{"All Eras"}, true, nullptr, Action::NEW});
+	menuList.push_back({{"Early Era"}, true, nullptr, Action::NEW, World::Era::EARLY});
+	menuList.push_back({{"Middle Era"}, true, nullptr, Action::NEW, World::Era::MID});
+	menuList.push_back({{"Late Era"}, true, nullptr, Action::NEW, World::Era::LATE});
+	menuList.push_back({{"Back"}, true, game->CustomBattleMenuState.get(), Action::NONE});
 
 	lineUpObjects();
 }

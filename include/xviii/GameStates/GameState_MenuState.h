@@ -21,13 +21,14 @@ protected:
 	//If the state is not null, the game will switch to that gamestate upon choosing the object.
 
 	struct menuObject{
-		menuObject(boost::filesystem::path _path, GameState* _state, Action _action, World::Era _era = World::Era::ALL) :
-			path{_path}, state{_state}, action{_action}, era{_era}
+		menuObject(boost::filesystem::path _path, bool _highlightable, GameState* _state, Action _action, World::Era _era = World::Era::ALL) :
+			path{_path}, highlightable{_highlightable}, state{_state}, action{_action}, era{_era}
 		{
 			text.setString(_path.filename().string());
 		}
 
 		boost::filesystem::path path;
+		bool highlightable;
 		sf::Text text;
 		GameState* state;
 		Action action;
@@ -47,11 +48,11 @@ protected:
 	sf::View menuSelectView;
 	sf::View backgroundView;
 
-	sf::Text titleText;
+	static sf::Text titleText;
 	//Due to the massive amount of available backgrounds, and the fact that only one will be ever used,
 	//this is the only place in the code where I won't handle a texture with TextureManager.
-	std::unique_ptr<sf::Texture> backgroundTexture;
-	sf::Sprite backgroundSprite;
+	static std::unique_ptr<sf::Texture> backgroundTexture;
+	static sf::Sprite backgroundSprite;
 
 	void lineUpObjects();
 };
