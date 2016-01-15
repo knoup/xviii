@@ -2,9 +2,14 @@
 #include "xviii/Core/Game.h"
 
 /*
-    TOFIX:
+    ACKNOWLEDGED ISSUES TO FIX:
 
     (*) If there are too many saves, you can't scroll to see all of them
+
+    (*) Switching gamestate back to MainMenu should reset the world, players, etc.
+
+    (*) Holding down the down arrow key in menus won't flip make the highlighted
+        option snap back to the top.
 
     TODO:
 

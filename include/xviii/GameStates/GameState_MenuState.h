@@ -7,6 +7,13 @@
 #include "xviii/Headers/global.h"
 #include "xviii/Headers/keybinds.h"
 
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+//This class isn't meant to be used directly; it's rather meant to be a parent
+//class for all the kinds of menu states
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
 class GameState_MenuState : public GameState
 {
 public:
@@ -15,10 +22,13 @@ public:
 	virtual void update(float mFT);
 	virtual void draw();
 protected:
-	enum class Action{NEW, LOAD, EXIT, NONE};
+	enum class Action{NEW, LOAD, EXIT, SAVE, NONE};
 
 	//If the action is not NONE, the game will perform that action upon choosing the object.
 	//If the state is not null, the game will switch to that gamestate upon choosing the object.
+
+	//Obviously, doing some stupid things like saving before players are even initialised, could
+	//cause CTDs or strange behaviour, so don't do that.
 
 	struct menuObject{
 		menuObject(boost::filesystem::path _path, bool _highlightable, GameState* _state, Action _action, World::Era _era = World::Era::ALL) :

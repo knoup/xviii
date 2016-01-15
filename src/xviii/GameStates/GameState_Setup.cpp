@@ -171,9 +171,12 @@ void GameState_Setup::getInput(){
 				game->currentView->setSize(game->currentView->getSize().x + xResolution / 10, game->currentView->getSize().y + yResolution / 10);
                 break;
 
-            case Key::TOGGLE_SAVE:
-				game->saveCreator.create();
-				break;
+            case sf::Keyboard::Escape:
+            {
+                game->setGameState(game->SetupPauseMenuState.get());
+            }
+
+            break;
 
 			case Key::HIDE_UI_KEY:
 				if (drawUI){

@@ -138,12 +138,6 @@ void GameState_Play::getInput(){
 				}
 				break;
 
-			case Key::TOGGLE_SAVE:
-				if (game->saveCreator.create()){
-					playUI.setSaveStatus(true);
-				}
-				break;
-
 			case Key::NEXT_TURN:
 				game->currentPlayer->setReady(true);
 				break;
@@ -176,6 +170,11 @@ void GameState_Play::getInput(){
 				}
 				break;
 			}
+
+			case sf::Keyboard::Escape:
+            {
+                game->setGameState(game->CombatPauseMenuState.get());
+            }
 
 			default: break;
 

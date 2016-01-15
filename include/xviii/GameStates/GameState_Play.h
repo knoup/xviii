@@ -63,6 +63,9 @@ public:
 	virtual void getInput();
 	virtual void update(float mFT);
 	virtual void draw();
+
+    //A little wrapper, since we need to access this from the combat pause menu and playUI is private...
+	inline void setSaveStatus(bool val){playUI.setSaveStatus(val);};
 private:
 	UnitTile* selected;
 

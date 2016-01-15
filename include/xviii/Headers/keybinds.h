@@ -31,8 +31,6 @@ namespace Key{
     const sf::Keyboard::Key RIGHT_ARROW = sf::Keyboard::Right;
     const sf::Keyboard::Key LEFT_ARROW = sf::Keyboard::Left;
 
-    const sf::Keyboard::Key TOGGLE_SAVE = sf::Keyboard::Z;
-
     const sf::Keyboard::Key ONE_KEY = sf::Keyboard::Num1;
     const sf::Keyboard::Key TWO_KEY = sf::Keyboard::Num2;
     const sf::Keyboard::Key THREE_KEY = sf::Keyboard::Num3;

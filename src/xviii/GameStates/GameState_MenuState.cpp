@@ -32,6 +32,8 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 void GameState_MenuState::getInput(){
 	sf::Event event;
 
+	bool confirm{false};
+
 	while (game->mWindow.pollEvent(event)){
 		switch (event.type){
 
@@ -39,9 +41,20 @@ void GameState_MenuState::getInput(){
 			game->mWindow.close();
 			break;
 
-        case sf::Event::KeyPressed:
+
         case sf::Event::MouseButtonPressed:
-			if (event.key.code == Key::CONFIRM_KEY || event.mouseButton.button == sf::Mouse::Left){
+
+            if(event.mouseButton.button == sf::Mouse::Left){
+                confirm = true;
+            }
+
+        case sf::Event::KeyPressed:
+
+            if (event.key.code == Key::CONFIRM_KEY){
+                confirm = true;
+            }
+
+			if (confirm){
 				switch (menuIterator->action){
 					case Action::NEW:
 						game->mWorld.generateRandomWorld(menuIterator->era);
@@ -55,6 +68,11 @@ void GameState_MenuState::getInput(){
 					case Action::EXIT:
 						game->mWindow.close();
 						break;
+
+                    case Action::SAVE:
+                        if (game->saveCreator.create()){
+                            game->PlayState->setSaveStatus(true);
+                        }
 				}
 
 				if(menuIterator->state != nullptr){
@@ -74,26 +92,34 @@ void GameState_MenuState::getInput(){
 				if (event.key.code == Key::UP_ARROW || event.key.code == Key::UP_KEY){
 					if (menuIterator == menuList.begin()){
                         auto it = --menuList.end();
+
                         if(it->highlightable){
-						menuIterator = --menuList.end();
+                            menuIterator = --menuList.end();
                         }
 					}
 					else{
                         auto it = menuIterator - 1;
+
                         if(it->highlightable){
                             --menuIterator;
 						}
 					}
 				}
+
+				//There's something wrong here; holding down the arrow key if it's at the bottom
+				//won't flip it back to the top. Investigate later.
+
 				else if (event.key.code == Key::DOWN_ARROW || event.key.code == Key::DOWN_KEY){
 					if (menuIterator == --menuList.end()){
                         auto it = --menuList.begin();
+
                         if(it->highlightable){
                             menuIterator = menuList.begin();
                         }
 					}
 					else{
                         auto it = menuIterator + 1;
+
                         if(it->highlightable){
                             ++menuIterator;
                         }
