@@ -6,7 +6,7 @@
 GameState_CustomBattleLoadMenu::GameState_CustomBattleLoadMenu(Game* game) :
 GameState_MenuState{game}
 {
-
+    scroll = true;
 }
 
 void GameState_CustomBattleLoadMenu::init(){

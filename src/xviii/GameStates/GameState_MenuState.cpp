@@ -92,38 +92,20 @@ void GameState_MenuState::getInput(){
 
 				if (event.key.code == Key::UP_ARROW || event.key.code == Key::UP_KEY){
 					if (menuIterator == menuList.begin()){
-                        auto it = --menuList.end();
-
-                        if(it->highlightable){
-                            menuIterator = --menuList.end();
-                        }
+						menuIterator = --menuList.end();
 					}
 					else{
-                        auto it = menuIterator - 1;
-
-                        if(it->highlightable){
-                            --menuIterator;
-						}
+						--menuIterator;
 					}
 				}
 
-				//There's something wrong here; holding down the arrow key if it's at the bottom
-				//won't flip it back to the top. Investigate later.
 
 				else if (event.key.code == Key::DOWN_ARROW || event.key.code == Key::DOWN_KEY){
 					if (menuIterator == --menuList.end()){
-                        auto it = --menuList.begin();
-
-                        if(it->highlightable){
-                            menuIterator = menuList.begin();
-                        }
+						menuIterator = menuList.begin();
 					}
 					else{
-                        auto it = menuIterator + 1;
-
-                        if(it->highlightable){
-                            ++menuIterator;
-                        }
+						++menuIterator;
 					}
 				}
 			}
@@ -151,6 +133,23 @@ void GameState_MenuState::getInput(){
             break;
             }
 
+            case sf::Event::MouseWheelMoved:
+
+            if(scroll){
+                if (event.mouseWheel.delta > 0){
+                    if(abs(menuList[0].text.getPosition().y - menuSelectView.getCenter().y) > 20){
+                        menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y - 30);
+                    }
+                }
+                else if (event.mouseWheel.delta < 0){
+                    if(abs(menuList[menuList.size() - 1].text.getPosition().y - menuSelectView.getCenter().y) > 300){
+                        menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y + 30);
+                    }
+                }
+            }
+
+			break;
+
 
 		case sf::Event::Resized:
 			menuSelectView.setSize(event.size.width, event.size.height);
@@ -167,6 +166,7 @@ void GameState_MenuState::update(float mFT){
 		menuIterator->text.setColor(sf::Color::Yellow);
 	}
 
+    //This will probably be required for the save menu
 	//menuSelectView.setCenter(menuSelectView.getCenter().x, menuIterator->text.getPosition().y);
 }
 

@@ -2,15 +2,6 @@
 #include "xviii/Core/Game.h"
 
 /*
-    ACKNOWLEDGED ISSUES TO FIX:
-
-    (*) If there are too many saves, you can't scroll to see all of them
-
-    (*) Switching gamestate back to MainMenu should reset the world, players, etc.
-
-    (*) Holding down the down arrow key in menus won't flip make the highlighted
-        option snap back to the top.
-
     TODO:
 
     (*) Seperate movement and attack logic so that classes can, for example, be given movement rules of CAV but
