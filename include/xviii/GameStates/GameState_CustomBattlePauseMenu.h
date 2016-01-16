@@ -7,10 +7,10 @@
 #include "xviii/Headers/global.h"
 #include "xviii/Headers/keybinds.h"
 
-class GameState_CombatPauseMenu : public GameState_MenuState
+class GameState_CustomBattlePauseMenu : public GameState_MenuState
 {
 public:
-	GameState_CombatPauseMenu(Game* game);
+	GameState_CustomBattlePauseMenu(Game* game);
 
     virtual void draw();
 	void init();

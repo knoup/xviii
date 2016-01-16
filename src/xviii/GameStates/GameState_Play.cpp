@@ -173,7 +173,7 @@ void GameState_Play::getInput(){
 
 			case sf::Keyboard::Escape:
             {
-                game->setGameState(game->CombatPauseMenuState.get());
+                game->setGameState(game->CustomBattlePauseMenuState.get());
             }
 
 			default: break;

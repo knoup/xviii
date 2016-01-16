@@ -1,15 +1,15 @@
 #include "xviii/Headers/stdafx.h"
-#include "xviii/GameStates/GameState_CombatPauseMenu.h"
+#include "xviii/GameStates/GameState_CustomBattlePauseMenu.h"
 
 #include "xviii/Core/Game.h"
 
-GameState_CombatPauseMenu::GameState_CombatPauseMenu(Game* game) :
+GameState_CustomBattlePauseMenu::GameState_CustomBattlePauseMenu(Game* game) :
 GameState_MenuState{game}
 {
 
 }
 
-void GameState_CombatPauseMenu::init(){
+void GameState_CustomBattlePauseMenu::init(){
     menuList.push_back({{"Back to Main Menu"}, true, nullptr, Action::NONE});
 	menuList.push_back({{"Save"}, true, game->PlayState.get(), Action::SAVE});
 	menuList.push_back({{"Resume"}, true, game->PlayState.get(), Action::NONE});
@@ -18,7 +18,7 @@ void GameState_CombatPauseMenu::init(){
 	lineUpObjects();
 }
 
-void GameState_CombatPauseMenu::draw(){
+void GameState_CustomBattlePauseMenu::draw(){
     game->mWindow.setView(*game->currentView);
 	game->mWorld.draw(game->mWindow);
 

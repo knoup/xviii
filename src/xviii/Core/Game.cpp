@@ -43,7 +43,7 @@ saveCreator{this}
 	SelectNationsState = (std::unique_ptr<GameState_SelectNations>(new GameState_SelectNations(this)));
 	SetupState = (std::unique_ptr<GameState_Setup>(new GameState_Setup(this)));
 	PlayState = (std::unique_ptr<GameState_Play>(new GameState_Play(this)));
-	CombatPauseMenuState = (std::unique_ptr<GameState_CombatPauseMenu>(new GameState_CombatPauseMenu(this)));
+	CustomBattlePauseMenuState = (std::unique_ptr<GameState_CustomBattlePauseMenu>(new GameState_CustomBattlePauseMenu(this)));
     SetupPauseMenuState = (std::unique_ptr<GameState_SetupPauseMenu>(new GameState_SetupPauseMenu(this)));
 
 	MainMenuState->init();
@@ -51,7 +51,7 @@ saveCreator{this}
 	CustomBattleLoadMenuState->init();
 	CustomBattleSelectEraMenuState->init();
 	CreditMenuState->init();
-	CombatPauseMenuState->init();
+	CustomBattlePauseMenuState->init();
 	SetupPauseMenuState->init();
 
 	state = MainMenuState.get();

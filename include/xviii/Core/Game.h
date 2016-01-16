@@ -14,7 +14,7 @@
 #include "xviii/GameStates/GameState_CustomBattleLoadMenu.h"
 #include "xviii/GameStates/GameState_CustomBattleSelectEraMenu.h"
 #include "xviii/GameStates/GameState_CreditMenu.h"
-#include "xviii/GameStates/GameState_CombatPauseMenu.h"
+#include "xviii/GameStates/GameState_CustomBattlePauseMenu.h"
 #include "xviii/GameStates/GameState_SetupPauseMenu.h"
 
 class UnitTile;
@@ -45,7 +45,7 @@ public:
 	std::unique_ptr<GameState_CustomBattleLoadMenu> CustomBattleLoadMenuState;
 	std::unique_ptr<GameState_CustomBattleSelectEraMenu> CustomBattleSelectEraMenuState;
 	std::unique_ptr<GameState_CreditMenu> CreditMenuState;
-	std::unique_ptr<GameState_CombatPauseMenu> CombatPauseMenuState;
+	std::unique_ptr<GameState_CustomBattlePauseMenu> CustomBattlePauseMenuState;
 	std::unique_ptr<GameState_SetupPauseMenu> SetupPauseMenuState;
 
 	std::unique_ptr<GameState_SelectNations> SelectNationsState;
