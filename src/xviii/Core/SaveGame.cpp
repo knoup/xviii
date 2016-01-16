@@ -255,6 +255,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 	bool playPhase{true};
 
+    game->mWorld = new World(game->mManager, sf::Vector2i(69, 100));
+
 	#define AFTEREQUALS line.substr(line.find("=") + 1, line.size() - 1)
 
 	while (save && std::getline(save, line)){

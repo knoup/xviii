@@ -12,9 +12,9 @@ GameState{game},
 menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)},
 backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 {
-	titleText.setString("X V I I I");
 	titleText.setCharacterSize(275);
 	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Eighteen));
+	titleText.setString("X V I I I");
 
 	//Randomise title text colour, for the heck of it:
 	boost::random::uniform_int_distribution<int> distribution(0, 255);
@@ -38,7 +38,7 @@ void GameState_MenuState::getInput(){
 		switch (event.type){
 
 		case sf::Event::Closed:
-			game->mWindow.close();
+			game->exitGame(false);
 			break;
 
 
@@ -57,6 +57,7 @@ void GameState_MenuState::getInput(){
 			if (confirm){
 				switch (menuIterator->action){
 					case Action::NEW:
+                        game->mWorld = new World(game->mManager, sf::Vector2i(69, 100));
 						game->mWorld->generateRandomWorld(menuIterator->era);
 						game->setGameState(game->SelectNationsState.get());
 						break;
@@ -66,7 +67,7 @@ void GameState_MenuState::getInput(){
 						break;
 
 					case Action::EXIT:
-						game->mWindow.close();
+						game->exitGame(false);
 						break;
 
                     case Action::SAVE:

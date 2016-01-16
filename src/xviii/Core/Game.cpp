@@ -8,9 +8,9 @@
 #include "xviii/Core/UnitLoader.h"
 #include "xviii/Core/TerrainLoader.h"
 
-Game::Game() :
+Game::Game(sf::RenderWindow& _mWindow) :
 mManager{},
-mWindow{{xResolution, yResolution}, "xviii - Dong Bong Military Board Game"},
+mWindow(_mWindow),
 state{nullptr},
 MainMenuState{nullptr},
 SetupState{nullptr},
@@ -31,8 +31,6 @@ saveCreator{this}
     if(icon.loadFromFile("xviii.png")){
         mWindow.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     }
-
-    mWorld = new World(mManager, sf::Vector2i(69, 100));
 
 	mManager.unitLoader->load();
 	mManager.terrainLoader->load();
@@ -57,19 +55,22 @@ saveCreator{this}
 	SetupPauseMenuState->init();
 
 	state = MainMenuState.get();
+}
 
-	gameLoop();
+void Game::exitGame(bool _restart){
+    restart = _restart;
+    running = false;
 }
 
 
-void Game::gameLoop(){
+bool Game::gameLoop(){
 	constexpr float ftSlice{1.f};
 	constexpr float ftStep{1.f};
 
 	float lastFT{0.f};
 	float currentSlice{0.f};
 
-	while (mWindow.isOpen()){
+	while (running){
 
 		auto timePoint1(std::chrono::high_resolution_clock::now());
 
@@ -97,7 +98,7 @@ void Game::gameLoop(){
 	delete Player1;
 	delete Player2;
 
-	return;
+	return restart;
 }
 
 void Game::getInput(){
@@ -116,11 +117,17 @@ void Game::draw(){
 
 void Game::setGameState(GameState* _state){
     if(_state == SetupState.get()){
+        initialised = true;
         SetupState->oneTimeUpdate();
     }
 
     else if(_state == PlayState.get()){
+        initialised = true;
         PlayState->oneTimeUpdate();
+    }
+
+    else if(_state == MainMenuState.get() && initialised){
+        exitGame(true);
     }
 
     state = _state;

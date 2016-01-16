@@ -28,7 +28,17 @@
 */
 
 int main(int argc, char* argv[]){
-	Game* game = new Game();
+    sf::RenderWindow mWindow{{xResolution, yResolution}, "xviii - Dong Bong Military Board Game"};
+
+	Game* game = new Game(mWindow);
+
+    while(game->gameLoop() == true){
+        delete game;
+        game = new Game(mWindow);
+    }
+
+    mWindow.close();
+
 	return 0;
 }
 

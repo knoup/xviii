@@ -22,13 +22,15 @@ class UnitTile;
 class Game : public sf::NonCopyable
 {
 public:
-	Game();
+	Game(sf::RenderWindow& _mWindow);
 
-	void gameLoop();
+	bool gameLoop();
 
 	void getInput();
 	void update(float mFT);
 	void draw();
+
+	void exitGame(bool _restart);
 
     void setGameState(GameState* _state);
 
@@ -36,7 +38,7 @@ public:
 	void nextPlayer();
 
 	MasterManager mManager;
-	sf::RenderWindow mWindow;
+	sf::RenderWindow& mWindow;
 
 	GameState* state;
 
@@ -66,5 +68,11 @@ public:
 	sf::Vector2i mousePos;
 
 	SaveGame saveCreator;
+
+	bool restart{false};
+	bool running{true};
+
+	//This variable is set to true if we make it to the setup or play phase
+	bool initialised{false};
 };
 

@@ -134,7 +134,7 @@ void GameState_SelectNations::getInput(){
 			break;
 
 		case sf::Event::Closed:
-			game->mWindow.close();
+			game->exitGame(false);
 			break;
 
 		case sf::Event::Resized:
