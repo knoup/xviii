@@ -28,7 +28,7 @@
 */
 
 int main(int argc, char* argv[]){
-	Game game;
+	Game* game = new Game();
 	return 0;
 }
 

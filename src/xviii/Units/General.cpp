@@ -3,7 +3,7 @@
 
 #include "xviii/Core/Player.h"
 
-General::General(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir) :
+General::General(World* _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir) :
 Cavalry(_world, _belongsToPlayer, _unitID, _type, _familyType, _dir)
 {
 }

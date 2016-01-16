@@ -3,7 +3,7 @@
 
 #include "xviii/Terrain/TerrainTile.h"
 
-Mortar::Mortar(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir) :
+Mortar::Mortar(World* _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir) :
 UnitTile(_world, _belongsToPlayer, _unitID, _type, _familyType, _dir)
 {
 }

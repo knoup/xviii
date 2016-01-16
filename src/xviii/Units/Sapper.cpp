@@ -3,7 +3,7 @@
 
 #include "xviii/Core/World.h"
 
-Sapper::Sapper(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir) :
+Sapper::Sapper(World* _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir) :
 Infantry(_world, _belongsToPlayer, _unitID, _type, _familyType, _dir)
 {
 }
@@ -22,7 +22,7 @@ std::string Sapper::terrainAttack(Water* water, int distance){
            orientation = TerrainTile::Orientation::HORIZONTAL;
         }
 
-        world.toggleTBridge(water, orientation);
+        world->toggleTBridge(water, orientation);
         return {"Bridge built!"};
     }
 }

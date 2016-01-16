@@ -5,7 +5,7 @@
 class BridgeAnt : public Ant
 {
 public:
-	BridgeAnt(World& _world, int _lifetime);
+	BridgeAnt(World* _world, int _lifetime);
 	virtual void crawl();
 protected:
 };

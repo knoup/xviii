@@ -15,7 +15,7 @@ state{nullptr},
 MainMenuState{nullptr},
 SetupState{nullptr},
 PlayState{nullptr},
-mWorld{mManager, sf::Vector2i(69, 100)},
+mWorld{nullptr},
 Player1{nullptr},
 Player2{nullptr},
 currentPlayer{nullptr},
@@ -31,6 +31,8 @@ saveCreator{this}
     if(icon.loadFromFile("xviii.png")){
         mWindow.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     }
+
+    mWorld = new World(mManager, sf::Vector2i(69, 100));
 
 	mManager.unitLoader->load();
 	mManager.terrainLoader->load();
@@ -91,6 +93,7 @@ void Game::gameLoop(){
 		lastFT = ft;
 	}
 
+    delete mWorld;
 	delete Player1;
 	delete Player2;
 

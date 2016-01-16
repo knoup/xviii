@@ -29,11 +29,11 @@ playUI(game->mManager, this)
 void GameState_Play::oneTimeUpdate(){
 
     //elapsedTurns being set to 0 means that we are in the setup phase.
-    if(game->mWorld.getElapsedTurns() == 0){
-        game->mWorld.setElapsedTurns(1);
+    if(game->mWorld->getElapsedTurns() == 0){
+        game->mWorld->setElapsedTurns(1);
     }
 
-    game->mWorld.unhighlightAllTiles();
+    game->mWorld->unhighlightAllTiles();
 
     game->Player1->setDeploymentPoints(0);
     game->Player2->setDeploymentPoints(0);
@@ -49,11 +49,11 @@ void GameState_Play::oneTimeUpdate(){
 		for (auto& unit : game->currentPlayer->getUnits()){
             unit->drawUnit = true;
             unit->drawFlag = true;
-            game->mWorld.calculateViewDistance(unit.get(), true);
+            game->mWorld->calculateViewDistance(unit.get(), true);
             unit->updateStats();
 		}
 
-    game->mWorld.highlightVisibleTiles();
+    game->mWorld->highlightVisibleTiles();
 
 }
 
@@ -213,13 +213,13 @@ void GameState_Play::getInput(){
 
 				}
 
-				if (worldCoords.x >= game->mWorld.getDimensionsInPixels().x || worldCoords.y >= game->mWorld.getDimensionsInPixels().y ||
+				if (worldCoords.x >= game->mWorld->getDimensionsInPixels().x || worldCoords.y >= game->mWorld->getDimensionsInPixels().y ||
 					worldCoords.x <= 0 || worldCoords.y <= 0){
 					return;
 				}
 
-				auto unit = game->mWorld.unitAtPixelPos(worldCoords);
-				auto terrain = game->mWorld.terrainAtPixelPos(worldCoords);
+				auto unit = game->mWorld->unitAtPixelPos(worldCoords);
+				auto terrain = game->mWorld->terrainAtPixelPos(worldCoords);
 				bool friendly{true};
 
 				//Cache the unit's allignment
@@ -266,7 +266,7 @@ void GameState_Play::getInput(){
                                     selected->modVector.clear();
                                     unit->modVector.clear();
 
-                                    game->mWorld.clearDamagedUnits();
+                                    game->mWorld->clearDamagedUnits();
                                 }
 
                                 else{
@@ -366,7 +366,7 @@ void GameState_Play::update(float mFT){
 
 		game->nextPlayer();
 
-        game->mWorld.turnlyUpdate();
+        game->mWorld->turnlyUpdate();
         playUI.turnlyUpdate();
 
 		for (auto& unit : game->inactivePlayer->getUnits()){
@@ -378,11 +378,11 @@ void GameState_Play::update(float mFT){
 		for (auto& unit : game->currentPlayer->getUnits()){
             unit->drawUnit = true;
             unit->drawFlag = true;
-            game->mWorld.calculateViewDistance(unit.get(), true);
+            game->mWorld->calculateViewDistance(unit.get(), true);
             unit->updateStats();
 		}
 
-		game->mWorld.highlightVisibleTiles();
+		game->mWorld->highlightVisibleTiles();
 
 	}
 
@@ -393,13 +393,13 @@ void GameState_Play::update(float mFT){
 	//Code for the mouse indicator of distance:
 
 	sf::Vector2i mouseLocation{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
-	sf::Vector2i worldDimensions{game->mWorld.getDimensionsInPixels()};
+	sf::Vector2i worldDimensions{game->mWorld->getDimensionsInPixels()};
 
 	if (selected != nullptr && (mouseLocation.x < worldDimensions.x && mouseLocation.y < worldDimensions.y
 		&&
 		mouseLocation.x > 0 && mouseLocation.y > 0)){
 
-		TerrainTile* terrain = game->mWorld.terrainAtPixelPos(mouseLocation);
+		TerrainTile* terrain = game->mWorld->terrainAtPixelPos(mouseLocation);
 		UnitTile* unit = terrain->getUnit();
 
 		UnitTile::Direction dir = selected->getDir();
@@ -504,7 +504,7 @@ void GameState_Play::update(float mFT){
 
 void GameState_Play::draw(){
 	game->mWindow.setView(*game->currentView);
-	game->mWorld.draw(game->mWindow);
+	game->mWorld->draw(game->mWindow);
 
 	for (auto& player : game->mPlayers){
 		player->drawUnits(game->mWindow);

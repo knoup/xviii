@@ -14,7 +14,7 @@ Unit tiles still use traditional sprites, however, because it greatly simplifies
 It makes sense for terrain tiles though since they never move.
 */
 
-TerrainTile::TerrainTile(World& _world, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos) :
+TerrainTile::TerrainTile(World* _world, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos) :
 Tile(_world, textType),
 terrainType{terrainType},
 unit{nullptr}
@@ -46,7 +46,7 @@ void TerrainTile::resetUnit(){
 }
 
 bool TerrainTile::unitCanStopHere(UnitTile* _unit){
-    auto& vec = world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitIDMovementCapabilities;
+    auto& vec = world->masterManager.terrainLoader->customDefinitions.at(terrainType)->unitIDMovementCapabilities;
 
     auto it = vec.find(_unit->getUnitID());
 
@@ -59,7 +59,7 @@ bool TerrainTile::unitCanStopHere(UnitTile* _unit){
 }
 
 bool TerrainTile::unitCanCrossHere(UnitTile* _unit){
-    auto& vec = world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitIDMovementCapabilities;
+    auto& vec = world->masterManager.terrainLoader->customDefinitions.at(terrainType)->unitIDMovementCapabilities;
 
     auto it = vec.find(_unit->getUnitID());
 
@@ -76,9 +76,9 @@ void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking
     UnitTile::UnitType mainType = _unit->getUnitType();
     UnitTile::UnitFamily familyType = _unit->getUnitFamilyType();
 
-    auto& unitMainBonuses = (world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitMainBonuses);
-    auto& unitFamilyBonuses = (world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitFamilyBonuses);
-    auto& unitIDBonuses = (world.masterManager.terrainLoader->customDefinitions.at(terrainType)->unitIDBonuses);
+    auto& unitMainBonuses = (world->masterManager.terrainLoader->customDefinitions.at(terrainType)->unitMainBonuses);
+    auto& unitFamilyBonuses = (world->masterManager.terrainLoader->customDefinitions.at(terrainType)->unitFamilyBonuses);
+    auto& unitIDBonuses = (world->masterManager.terrainLoader->customDefinitions.at(terrainType)->unitIDBonuses);
 
     /////////////////////////////////////////////////////////////////////////////////////////
     for(auto& bonus : unitMainBonuses){
@@ -121,15 +121,15 @@ void TerrainTile::refreshVertexArray(){
     sf::Color color = sprite.getColor();
 
 	//Update the vertex array at this tile:
-	const sf::Vector2i currentCartesianPos{int(pos.x / world.masterManager.textureManager->getSize().x), int(pos.y / world.masterManager.textureManager->getSize().y)};
+	const sf::Vector2i currentCartesianPos{int(pos.x / world->masterManager.textureManager->getSize().x), int(pos.y / world->masterManager.textureManager->getSize().y)};
 	sf::IntRect currentRekt{sprite.getTextureRect()};
 
-	sf::Vertex* quad = &world.mTerrainVertices[(currentCartesianPos.x + currentCartesianPos.y*world.getDimensions().x) * 4];
+	sf::Vertex* quad = &world->mTerrainVertices[(currentCartesianPos.x + currentCartesianPos.y*world->getDimensions().x) * 4];
 
 	quad[0].position = sf::Vector2f(pos.x, pos.y);
-	quad[1].position = sf::Vector2f(pos.x + world.masterManager.textureManager->getSize().x, pos.y);
-	quad[2].position = sf::Vector2f(pos.x + world.masterManager.textureManager->getSize().x, pos.y + world.masterManager.textureManager->getSize().y);
-	quad[3].position = sf::Vector2f(pos.x, pos.y + world.masterManager.textureManager->getSize().y);
+	quad[1].position = sf::Vector2f(pos.x + world->masterManager.textureManager->getSize().x, pos.y);
+	quad[2].position = sf::Vector2f(pos.x + world->masterManager.textureManager->getSize().x, pos.y + world->masterManager.textureManager->getSize().y);
+	quad[3].position = sf::Vector2f(pos.x, pos.y + world->masterManager.textureManager->getSize().y);
 
 	quad[0].texCoords = sf::Vector2f(currentRekt.left, currentRekt.top);
 	quad[1].texCoords = sf::Vector2f(currentRekt.left + currentRekt.width, currentRekt.top);

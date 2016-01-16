@@ -57,7 +57,7 @@ void GameState_MenuState::getInput(){
 			if (confirm){
 				switch (menuIterator->action){
 					case Action::NEW:
-						game->mWorld.generateRandomWorld(menuIterator->era);
+						game->mWorld->generateRandomWorld(menuIterator->era);
 						game->setGameState(game->SelectNationsState.get());
 						break;
 

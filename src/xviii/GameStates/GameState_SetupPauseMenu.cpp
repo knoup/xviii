@@ -10,7 +10,7 @@ GameState_MenuState{game}
 }
 
 void GameState_SetupPauseMenu::init(){
-    menuList.push_back({{"Back to Main Menu"}, true, nullptr, Action::NONE});
+    menuList.push_back({{"Back to Main Menu"}, true, game->MainMenuState.get(), Action::NONE});
 	menuList.push_back({{"Save"}, true, game->SetupState.get(), Action::SAVE});
 	menuList.push_back({{"Resume"}, true, game->SetupState.get(), Action::NONE});
 	menuList.push_back({{"Exit"}, true, nullptr, Action::EXIT});
@@ -20,7 +20,7 @@ void GameState_SetupPauseMenu::init(){
 
 void GameState_SetupPauseMenu::draw(){
     game->mWindow.setView(*game->currentView);
-	game->mWorld.draw(game->mWindow);
+	game->mWorld->draw(game->mWindow);
 
     game->currentPlayer->drawUnits(game->mWindow);
 

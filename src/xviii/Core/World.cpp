@@ -38,7 +38,7 @@ void World::generateRandomWorld(Era _era){
 	//Do a first pass, filling the world with meadows
 	for (int c{0}; c < dimensions.y; ++c){
 		for (int r{0}; r < dimensions.x; ++r){
-			TerrainTile::terrainPtr tile(new Meadow(*this, {float(r * masterManager.textureManager->getSize().x), float(c * masterManager.textureManager->getSize().y)}));
+			TerrainTile::terrainPtr tile(new Meadow(this, {float(r * masterManager.textureManager->getSize().x), float(c * masterManager.textureManager->getSize().y)}));
 			terrainLayer.push_back(std::move(tile));
 		}
 	}
@@ -48,21 +48,21 @@ void World::generateRandomWorld(Era _era){
 
 	std::vector < std::unique_ptr<Ant> > ants;
 
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 15)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 75)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 50)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 5)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 15)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 15)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::URBAN, 10)));;
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 100)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
-	ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 75)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 50)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::URBAN, 5)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::URBAN, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::URBAN, 15)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::URBAN, 10)));;
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 100)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 30)));
+	ants.push_back(std::unique_ptr<Ant>(new Ant(this, TerrainTile::TerrainType::WOODS, 30)));
 
 	//Mud undergoing an overhaul; currently disabled
 
@@ -72,11 +72,11 @@ void World::generateRandomWorld(Era _era){
 	//ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 10)));
 	//ants.push_back(std::unique_ptr<Ant>(new Ant(*this, TerrainTile::TerrainType::MUD, 25)));
 
-	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 300)));
-	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 220)));
-	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(*this, 400)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(this, 300)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(this, 220)));
+	ants.push_back(std::unique_ptr<RiverAnt>(new RiverAnt(this, 400)));
 
-	ants.push_back(std::unique_ptr<BridgeAnt>(new BridgeAnt(*this, 2)));
+	ants.push_back(std::unique_ptr<BridgeAnt>(new BridgeAnt(this, 2)));
 
 
 	for (auto& ant : ants){
@@ -293,7 +293,7 @@ void World::toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
     }
 
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
-        auto ptr =  std::move(std::unique_ptr<Bridge>(new Bridge{*this, terrain->getPixelPos()}));
+        auto ptr =  std::move(std::unique_ptr<Bridge>(new Bridge{this, terrain->getPixelPos()}));
         permanentBridges.push_back(ptr.get());
         ptr->flip(_or);
         ptr->connect();
@@ -309,7 +309,7 @@ void World::toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         b->disconnect();
 
         permanentBridges.erase(std::remove(permanentBridges.begin(), permanentBridges.end(), terrainLayer[index].get()), permanentBridges.end());
-        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{*this, terrain->getPixelPos()}));
+        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{this, terrain->getPixelPos()}));
 
         //We're going to let clearDamagedUnits() take care of unit deletion, so here, we'll simply
         //remove all the unit's remaining HP
@@ -348,7 +348,7 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
     }
 
     if(terrain->getTerrainType() == TerrainTile::TerrainType::WATER){
-        auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge{*this, terrain->getPixelPos()}));
+        auto ptr = std::move(std::unique_ptr<TBridge>(new TBridge{this, terrain->getPixelPos()}));
         temporaryBridges.push_back(ptr.get());
         ptr->flip(_or);
         ptr->connect();
@@ -367,7 +367,7 @@ void World::toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or){
         b->disconnect();
 
         temporaryBridges.erase(std::remove(temporaryBridges.begin(), temporaryBridges.end(), terrainLayer[index].get()), temporaryBridges.end());
-        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{*this, terrain->getPixelPos()}));
+        terrainLayer[index] =  std::move(std::unique_ptr<Water>(new Water{this, terrain->getPixelPos()}));
 
         //We're going to let clearDamagedUnits() take care of unit deletion, so here, we'll simply
         //remove all the unit's remaining HP

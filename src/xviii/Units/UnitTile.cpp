@@ -16,39 +16,39 @@ void UnitTile::setTerrain(TerrainTile* _terrain){
     truePosition = terrain->getCartesianPos();
 }
 
-bool UnitTile::getMelee() const{ return world.masterManager.unitLoader->customClasses.at(unitID).melee; };
-bool UnitTile::getSkirmish() const{ return world.masterManager.unitLoader->customClasses.at(unitID).skirmish; };
-bool UnitTile::getFrightening() const { return world.masterManager.unitLoader->customClasses.at(unitID).frightening; };
-bool UnitTile::getHalfRangedDamage() const { return world.masterManager.unitLoader->customClasses.at(unitID).halfRangedDamage; };
-bool UnitTile::canHeal() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).healingRangeValues.empty()); };
-bool UnitTile::hasRangedCapability() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues.empty()); };
-bool UnitTile::canAttackBridge() const{ return !(world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()); };
-bool UnitTile::getCanShootOverUnits() const { return world.masterManager.unitLoader->customClasses.at(unitID).canShootOverUnits; };
+bool UnitTile::getMelee() const{ return world->masterManager.unitLoader->customClasses.at(unitID).melee; };
+bool UnitTile::getSkirmish() const{ return world->masterManager.unitLoader->customClasses.at(unitID).skirmish; };
+bool UnitTile::getFrightening() const { return world->masterManager.unitLoader->customClasses.at(unitID).frightening; };
+bool UnitTile::getHalfRangedDamage() const { return world->masterManager.unitLoader->customClasses.at(unitID).halfRangedDamage; };
+bool UnitTile::canHeal() const{ return !(world->masterManager.unitLoader->customClasses.at(unitID).healingRangeValues.empty()); };
+bool UnitTile::hasRangedCapability() const{ return !(world->masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues.empty()); };
+bool UnitTile::canAttackBridge() const{ return !(world->masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()); };
+bool UnitTile::getCanShootOverUnits() const { return world->masterManager.unitLoader->customClasses.at(unitID).canShootOverUnits; };
 
-int UnitTile::getChargesPerTurn() const { return world.masterManager.unitLoader->customClasses.at(unitID).chargesPerTurn; };
-int UnitTile::getShotsPerTurn() const { return world.masterManager.unitLoader->customClasses.at(unitID).shotsPerTurn; };
+int UnitTile::getChargesPerTurn() const { return world->masterManager.unitLoader->customClasses.at(unitID).chargesPerTurn; };
+int UnitTile::getShotsPerTurn() const { return world->masterManager.unitLoader->customClasses.at(unitID).shotsPerTurn; };
 
-bool UnitTile::hasSquareFormationAbility() const{ return world.masterManager.unitLoader->customClasses.at(unitID).hasSquareFormationAbility; };
-bool UnitTile::hasLimberAbility() const{ return world.masterManager.unitLoader->customClasses.at(unitID).hasLimberAbility; };
-bool UnitTile::hasLancerAbility() const{ return world.masterManager.unitLoader->customClasses.at(unitID).hasLancerAbility; };
+bool UnitTile::hasSquareFormationAbility() const{ return world->masterManager.unitLoader->customClasses.at(unitID).hasSquareFormationAbility; };
+bool UnitTile::hasLimberAbility() const{ return world->masterManager.unitLoader->customClasses.at(unitID).hasLimberAbility; };
+bool UnitTile::hasLancerAbility() const{ return world->masterManager.unitLoader->customClasses.at(unitID).hasLancerAbility; };
 
-int UnitTile::getCost() const{ return world.masterManager.unitLoader->customClasses.at(unitID).cost; };
-int UnitTile::getLimit() const{ return world.masterManager.unitLoader->customClasses.at(unitID).limit; };
-int UnitTile::getMaxHp() const{ return world.masterManager.unitLoader->customClasses.at(unitID).maxHp; };
-int UnitTile::getMaxMov() const{ return world.masterManager.unitLoader->customClasses.at(unitID).maxMov; };
-int UnitTile::getConeWidth() const{ return world.masterManager.unitLoader->customClasses.at(unitID).coneWidth; };
+int UnitTile::getCost() const{ return world->masterManager.unitLoader->customClasses.at(unitID).cost; };
+int UnitTile::getLimit() const{ return world->masterManager.unitLoader->customClasses.at(unitID).limit; };
+int UnitTile::getMaxHp() const{ return world->masterManager.unitLoader->customClasses.at(unitID).maxHp; };
+int UnitTile::getMaxMov() const{ return world->masterManager.unitLoader->customClasses.at(unitID).maxMov; };
+int UnitTile::getConeWidth() const{ return world->masterManager.unitLoader->customClasses.at(unitID).coneWidth; };
 
-int UnitTile::getDefaultUnitViewDistance() const {return world.masterManager.unitLoader->customClasses.at(unitID).unitViewDistance;};
-int UnitTile::getDefaultFlagViewDistance() const {return world.masterManager.unitLoader->customClasses.at(unitID).flagViewDistance;};
+int UnitTile::getDefaultUnitViewDistance() const {return world->masterManager.unitLoader->customClasses.at(unitID).unitViewDistance;};
+int UnitTile::getDefaultFlagViewDistance() const {return world->masterManager.unitLoader->customClasses.at(unitID).flagViewDistance;};
 
 void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 	UnitTile::UnitType mainType = _unit->getUnitType();
 	UnitTile::UnitFamily familyType = _unit->getUnitFamilyType();
 	std::string enemyUnitID = _unit->getUnitID();
 
-	auto& bonusesVsMainTypes = world.masterManager.unitLoader->customClasses.at(unitID).bonusesVsMainTypes;
-	auto& bonusesVsFamilyTypes = world.masterManager.unitLoader->customClasses.at(unitID).bonusesVsFamilyTypes;
-	auto& bonusesVsUnitIDs = world.masterManager.unitLoader->customClasses.at(unitID).bonusesVsUnitIDs;
+	auto& bonusesVsMainTypes = world->masterManager.unitLoader->customClasses.at(unitID).bonusesVsMainTypes;
+	auto& bonusesVsFamilyTypes = world->masterManager.unitLoader->customClasses.at(unitID).bonusesVsFamilyTypes;
+	auto& bonusesVsUnitIDs = world->masterManager.unitLoader->customClasses.at(unitID).bonusesVsUnitIDs;
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 
@@ -83,7 +83,7 @@ void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 
 void UnitTile::applyFlankModifier(Modifier _flank, UnitTile* _enemy){
 	if (_enemy->hasSquareFormationAbility() && _enemy->getSquareFormationActive()){
-		this->modVector.emplace_back(Modifier::SQUARE_FORMATION, world.masterManager.unitLoader->customClasses.at(unitID).squareFormationModifier, false);
+		this->modVector.emplace_back(Modifier::SQUARE_FORMATION, world->masterManager.unitLoader->customClasses.at(unitID).squareFormationModifier, false);
 	}
 
 	else{
@@ -96,7 +96,7 @@ void UnitTile::applyTerrainModifiers(TerrainTile* _terrain, int _distance, bool 
 }
 
 float UnitTile::getFlankModifier(UnitType _mainType, Modifier _flank) const{
-	auto& vec = world.masterManager.unitLoader->customClasses.at(unitID).flankModifierValues;
+	auto& vec = world->masterManager.unitLoader->customClasses.at(unitID).flankModifierValues;
 
 	for (auto& flankModifier : vec){
 		if (flankModifier.type == _mainType){
@@ -147,7 +147,7 @@ int UnitTile::getMaxRange() const{
 		//Of course, assuming the elements of rangedAttackDistValues were inserted in order of
 		//furthest to shortest distances, the first element's upper threshold should represent
 		//the furthest a unit can possibly shoot
-		return world.masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues[0].upperThreshold;
+		return world->masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues[0].upperThreshold;
 	}
 }
 
@@ -236,8 +236,8 @@ std::string UnitTile::modToString(ModifierReport _mod){
 	return{"???"};
 }
 
-UnitTile::UnitTile(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
-Tile(_world, _world.masterManager.unitLoader->customClasses.at(_unitID).textureID),
+UnitTile::UnitTile(World* _world, Player* _belongsToPlayer, std::string _unitID, UnitTile::UnitType type, UnitTile::UnitFamily familyType, Direction _dir) :
+Tile(_world, _world->masterManager.unitLoader->customClasses.at(_unitID).textureID),
 player{_belongsToPlayer},
 dir{_dir},
 terrain{nullptr},
@@ -252,17 +252,17 @@ canShootOverUnits{false}
     currentUnitViewDistance = getDefaultUnitViewDistance();
     currentFlagViewDistance = getDefaultFlagViewDistance();
 
-    displayName = world.masterManager.unitLoader->customClasses.at(unitID).displayName;
-    shortDisplayName = world.masterManager.unitLoader->customClasses.at(unitID).shortDisplayName;
+    displayName = world->masterManager.unitLoader->customClasses.at(unitID).displayName;
+    shortDisplayName = world->masterManager.unitLoader->customClasses.at(unitID).shortDisplayName;
 
 	unitFlag = player->getNationFlag();
 	unitFlag.setColor(sf::Color(255,255,255, 100));
 
     dirText.setString(dirToString());
 
-    dirText.setFont(world.masterManager.fontManager->getFont(FontManager::Type::Arial));
-    hpText.setFont(world.masterManager.fontManager->getFont(FontManager::Type::Arial));
-    movText.setFont(world.masterManager.fontManager->getFont(FontManager::Type::Arial));
+    dirText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::Arial));
+    hpText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::Arial));
+    movText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::Arial));
 
     dirText.setCharacterSize(15);
     hpText.setCharacterSize(15);
@@ -273,7 +273,7 @@ canShootOverUnits{false}
     movText.setColor(sf::Color::Black);
 
 	outline.setPosition(sprite.getPosition().x, sprite.getPosition().y);
-	outline.setSize(sf::Vector2f(world.masterManager.textureManager->getSize().x, world.masterManager.textureManager->getSize().y));
+	outline.setSize(sf::Vector2f(world->masterManager.textureManager->getSize().x, world->masterManager.textureManager->getSize().y));
 	outline.setOutlineColor(sf::Color::Yellow);
 	outline.setOutlineThickness(-1);
 	outline.setFillColor(sf::Color::Transparent);
@@ -308,10 +308,10 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	int movExpended{0};
 
 	//Get the coordinates of the current tile the unit is at
-	sf::Vector2i currentCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrain))};
+	sf::Vector2i currentCoords{world->cartesianPosAtIndex(world->indexAtTile(*terrain))};
 
 	//Get the coordinates of the tile to be moved to
-	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*_terrainTile))};
+	sf::Vector2i toMoveToCoords{world->cartesianPosAtIndex(world->indexAtTile(*_terrainTile))};
 
 	sf::Vector2i vectorDist = distanceFrom(_terrainTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 
@@ -378,13 +378,13 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
             int indexToCheck = i;
 
             if (dir == Direction::N || dir == Direction::S){
-                terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
+                terrainInTheWay = world->terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
             }
             else{
-                terrainInTheWay = world.terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
+                terrainInTheWay = world->terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
             }
 
-            if(world.calculateViewDistance(this, terrainInTheWay, false)){
+            if(world->calculateViewDistance(this, terrainInTheWay, false)){
 
                 if (dir == Direction::N || dir == Direction::S){
                     finalCoords.x = SECONDARYAXIS_CURRENT;
@@ -408,7 +408,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
             movExpended = abs(finalCoords.x - currentCoords.x);
         }
 
-        TerrainTile* destination = world.terrainAtCartesianPos(finalCoords);
+        TerrainTile* destination = world->terrainAtCartesianPos(finalCoords);
 
         //If we call wearDownBridges now, and the terrain tile we were standing on was
         //a bridge with 1 hp left, it will be deleted and terrain will be a dangling
@@ -423,12 +423,12 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 		//If we only move one tile, the view distance won't be recalculated in the loop,
 		//so just do it again here anyway
 
-        world.calculateViewDistance(this, false);
-        world.highlightVisibleTiles();
+        world->calculateViewDistance(this, false);
+        world->highlightVisibleTiles();
 
 		updateStats();
 
-		world.wearDownTempBridges(oldTerrain, destination);
+		world->wearDownTempBridges(oldTerrain, destination);
 
 		if(finalCoords == toMoveToCoords){
             return MOV_SUCCESS + std::to_string(finalCoords.x + 1) + ", " + std::to_string(finalCoords.y + 1);
@@ -540,7 +540,7 @@ std::string UnitTile::heal(UnitTile* _unit){
 		//(Example: with a range of 1-6, if you are on the same x-axis, you may have a distance of 0, 5. It should still
 		//be considered valid.)
 
-		for (auto & healingRange : world.masterManager.unitLoader->customClasses.at(unitID).healingRangeValues){
+		for (auto & healingRange : world->masterManager.unitLoader->customClasses.at(unitID).healingRangeValues){
 			if ((healingRange.lowerThreshold == 0 && healingRange.upperThreshold == 0)
 				||
 				((difference.x >= healingRange.lowerThreshold || difference.x == 0) && (difference.y >= healingRange.lowerThreshold || difference.y == 0)
@@ -552,7 +552,7 @@ std::string UnitTile::heal(UnitTile* _unit){
 		}
 
 		if (healingAmount == 0){
-			return OUT_OF_RANGE + std::to_string(world.masterManager.unitLoader->customClasses.at(unitID).healingRangeValues[0].upperThreshold);
+			return OUT_OF_RANGE + std::to_string(world->masterManager.unitLoader->customClasses.at(unitID).healingRangeValues[0].upperThreshold);
 		}
 		else if (_unit == this){
 			return CANNOT_HEAL_SELF;
@@ -769,7 +769,7 @@ void UnitTile::takeDamage(UnitTile* attacker, float& _dmg, int distance){
     }
 
 	hp -= _dmg;
-	world.addToDamagedUnits(this);
+	world->addToDamagedUnits(this);
 }
 
 bool UnitTile::removeIfDead(){
@@ -796,9 +796,9 @@ void UnitTile::updateStats(bool randomisePerceivedPosition){
     //Even if the we specify a false argument, if the flag is now in visual range (such as if a unit moved
     //close enough), we want to change its position.
 
-    auto result = world.getVisibleTiles().find(world.terrainAtCartesianPos(perceivedPosition));
+    auto result = world->getVisibleTiles().find(world->terrainAtCartesianPos(perceivedPosition));
 
-    if(result != world.getVisibleTiles().end()){
+    if(result != world->getVisibleTiles().end()){
         randomisePerceivedPosition = true;
     }
 
@@ -810,7 +810,7 @@ void UnitTile::updateStats(bool randomisePerceivedPosition){
         for(int x{-1}; x <= 1; ++x){
             for (int y{-1}; y <= 1; ++y){
 
-                TerrainTile* here = world.terrainAtCartesianPos({truePosition.x + x, truePosition.y + y});
+                TerrainTile* here = world->terrainAtCartesianPos({truePosition.x + x, truePosition.y + y});
                 surroundingTiles.push_back(here);
             }
         }
@@ -825,9 +825,9 @@ void UnitTile::updateStats(bool randomisePerceivedPosition){
             }
 
             else{
-                auto found = world.getVisibleTiles().find(*i);
+                auto found = world->getVisibleTiles().find(*i);
 
-                if(found != world.getVisibleTiles().end()){
+                if(found != world->getVisibleTiles().end()){
                     i = surroundingTiles.erase(i);
                 }
 
@@ -840,11 +840,11 @@ void UnitTile::updateStats(bool randomisePerceivedPosition){
 
         boost::random::uniform_int_distribution<int> distribution(0, surroundingTiles.size() - 1);
 
-        int randomIndex{distribution(world.masterManager.randomEngine)};
+        int randomIndex{distribution(world->masterManager.randomEngine)};
         perceivedPosition = surroundingTiles[randomIndex]->getCartesianPos();
     }
 
-    sf::Vector2f finalPosition = world.pixelPosAtCartesianPos(perceivedPosition);
+    sf::Vector2f finalPosition = world->pixelPosAtCartesianPos(perceivedPosition);
 
     sprite.setPosition(finalPosition);
     unitFlag.setPosition(finalPosition);
@@ -948,7 +948,7 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 	sf::Vector2i toMoveToCoords{_destinationTile->getCartesianPos()};
 
 	//Check if there is a unit at the terrain tile;
-	UnitTile* unitAtTile = world.unitAtTerrain(_destinationTile);
+	UnitTile* unitAtTile = world->unitAtTerrain(_destinationTile);
 	bool destinationIsUnit = (unitAtTile != nullptr);
 
 	int dist{0};
@@ -1058,10 +1058,10 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 			TerrainTile* terrainInTheWay;
 
 			if (dir == Direction::N || dir == Direction::S){
-				terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_POSITIVE, i});
+				terrainInTheWay = world->terrainAtCartesianPos({SECONDARYAXIS_POSITIVE, i});
 			}
 			else{
-				terrainInTheWay = world.terrainAtCartesianPos({i, SECONDARYAXIS_POSITIVE});
+				terrainInTheWay = world->terrainAtCartesianPos({i, SECONDARYAXIS_POSITIVE});
 			}
 
 			UnitTile* unitInTheWay{terrainInTheWay->getUnit()};
@@ -1157,8 +1157,8 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 }
 
 int UnitTile::distanceFrom(Tile* _tile){
-	sf::Vector2i currentCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrain))};
-	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*_tile))};
+	sf::Vector2i currentCoords{world->cartesianPosAtIndex(world->indexAtTile(*terrain))};
+	sf::Vector2i toMoveToCoords{world->cartesianPosAtIndex(world->indexAtTile(*_tile))};
 
 	switch (dir){
 	case UnitTile::Direction::N:
@@ -1388,7 +1388,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(world.masterManager.randomEngine)};
+	int thisRoll_int{distribution(world->masterManager.randomEngine)};
 
 	float thisRoll = thisRoll_int;
 
@@ -1480,10 +1480,10 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
             TerrainTile* terrainInTheWay;
 
             if (dir == Direction::N || dir == Direction::S){
-                terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, i});
+                terrainInTheWay = world->terrainAtCartesianPos({SECONDARYAXIS_CURRENT, i});
             }
             else{
-                terrainInTheWay = world.terrainAtCartesianPos({i, SECONDARYAXIS_CURRENT});
+                terrainInTheWay = world->terrainAtCartesianPos({i, SECONDARYAXIS_CURRENT});
             }
 
             UnitTile* unitInTheWay = terrainInTheWay->getUnit();
@@ -1507,7 +1507,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
         /////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////
 
-	for (auto& item : world.masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues){
+	for (auto& item : world->masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues){
 		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
 			distanceModifier = item.distModifier;
 			modifierIsDamage = item.modifierIsDamage;
@@ -1573,8 +1573,8 @@ std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 
     int maxRange{0};
 
-    if(!world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()){
-        maxRange = world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues[0].upperThreshold;
+    if(!world->masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()){
+        maxRange = world->masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues[0].upperThreshold;
     }
 
 	if(distance > maxRange){
@@ -1594,7 +1594,7 @@ std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 	}
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
-	int thisRoll_int{distribution(world.masterManager.randomEngine)};
+	int thisRoll_int{distribution(world->masterManager.randomEngine)};
 	float thisRoll = thisRoll_int;
 
 	float damageDealtF{0};
@@ -1604,7 +1604,7 @@ std::string UnitTile::terrainAttack(Bridge* bridge, int distance){
 	int upperDieThreshold{0};
 	bool modifierIsDamage{false};
 
-	for (auto& item : world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues){
+	for (auto& item : world->masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues){
 		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
 			distanceModifier = item.distModifier;
 			modifierIsDamage = item.modifierIsDamage;
@@ -1661,8 +1661,8 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
 
     int maxRange{0};
 
-    if(!world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()){
-        maxRange = world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues[0].upperThreshold;
+    if(!world->masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()){
+        maxRange = world->masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues[0].upperThreshold;
     }
 
 	if(distance > maxRange){
@@ -1683,7 +1683,7 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
 	}
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
-	int thisRoll_int{distribution(world.masterManager.randomEngine)};
+	int thisRoll_int{distribution(world->masterManager.randomEngine)};
 	float thisRoll = thisRoll_int;
 
 	float damageDealtF{0};
@@ -1693,7 +1693,7 @@ std::string UnitTile::terrainAttack(TBridge* bridge, int distance){
 	int upperDieThreshold{0};
 	bool modifierIsDamage{false};
 
-	for (auto& item : world.masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues){
+	for (auto& item : world->masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues){
 		if (distance >= item.lowerThreshold && distance <= item.upperThreshold){
 			distanceModifier = item.distModifier;
 			modifierIsDamage = item.modifierIsDamage;

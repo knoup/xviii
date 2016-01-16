@@ -92,9 +92,9 @@ void GameState_Setup::getInput(){
 					sf::Vector2i mouseCoords{event.mouseButton.x, event.mouseButton.y};
 					sf::Vector2i worldCoords{game->mWindow.mapPixelToCoords(mouseCoords, *game->currentView)};
 
-					if ((worldCoords.x <= game->mWorld.getDimensionsInPixels().x &&
+					if ((worldCoords.x <= game->mWorld->getDimensionsInPixels().x &&
 						worldCoords.x >= 0) &&
-						(worldCoords.y <= game->mWorld.getDimensionsInPixels().y &&
+						(worldCoords.y <= game->mWorld->getDimensionsInPixels().y &&
 						worldCoords.y >= 0)){
 
 						game->currentPlayer->spawnUnit(selectedSpawnableUnit->unitID, worldCoords);
@@ -268,7 +268,7 @@ void GameState_Setup::update(float mFT){
 
 void GameState_Setup::draw(){
 	game->mWindow.setView(*game->currentView);
-	game->mWorld.draw(game->mWindow);
+	game->mWorld->draw(game->mWindow);
 
 
     //We won't be drawing the enemy player's units. It's only fair that both players be able to

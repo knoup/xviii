@@ -3,7 +3,7 @@
 
 #include "xviii/Core/Player.h"
 
-Infantry::Infantry(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir) :
+Infantry::Infantry(World* _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir) :
 UnitTile(_world, _belongsToPlayer, _unitID, _type, _familyType, _dir)
 {
 }
@@ -23,10 +23,10 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 	int movExpended{0};
 
 	//Get the coordinates of the current tile the unit is at
-	sf::Vector2i currentCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrain))};
+	sf::Vector2i currentCoords{world->cartesianPosAtIndex(world->indexAtTile(*terrain))};
 
 	//Get the coordinates of the tile to be moved to
-	sf::Vector2i toMoveToCoords{world.cartesianPosAtIndex(world.indexAtTile(*terrainTile))};
+	sf::Vector2i toMoveToCoords{world->cartesianPosAtIndex(world->indexAtTile(*terrainTile))};
 
 	sf::Vector2i vectorDist = distanceFrom(terrainTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 
@@ -93,13 +93,13 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
             int indexToCheck = i;
 
             if (dir == Direction::N || dir == Direction::S){
-                terrainInTheWay = world.terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
+                terrainInTheWay = world->terrainAtCartesianPos({SECONDARYAXIS_CURRENT, indexToCheck});
             }
             else{
-                terrainInTheWay = world.terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
+                terrainInTheWay = world->terrainAtCartesianPos({indexToCheck, SECONDARYAXIS_CURRENT});
             }
 
-            if(world.calculateViewDistance(this, terrainInTheWay, false)){
+            if(world->calculateViewDistance(this, terrainInTheWay, false)){
 
                 if (dir == Direction::N || dir == Direction::S){
                     finalCoords.x = SECONDARYAXIS_CURRENT;
@@ -123,7 +123,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
             movExpended = abs(finalCoords.x - currentCoords.x);
         }
 
-        TerrainTile* destination = world.terrainAtCartesianPos(finalCoords);
+        TerrainTile* destination = world->terrainAtCartesianPos(finalCoords);
 
         //If we call wearDownBridges now, and the terrain tile we were standing on was
         //a bridge with 1 hp left, it will be deleted and terrain will be a dangling
@@ -138,11 +138,11 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 		//If we only move one tile, the view distance won't be recalculated in the loop,
 		//so just do it again here anyway
 
-        world.calculateViewDistance(this, false);
-        world.highlightVisibleTiles();
+        world->calculateViewDistance(this, false);
+        world->highlightVisibleTiles();
 		updateStats();
 
-		world.wearDownTempBridges(oldTerrain, destination);
+		world->wearDownTempBridges(oldTerrain, destination);
 
 		if(finalCoords == toMoveToCoords){
             return MOV_SUCCESS + std::to_string(finalCoords.x + 1) + ", " + std::to_string(finalCoords.y + 1);
@@ -214,8 +214,8 @@ std::string Infantry::meleeAttack(Infantry* inf){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(world.masterManager.randomEngine)};
-	int enemyRoll_int{distribution(world.masterManager.randomEngine)};
+	int thisRoll_int{distribution(world->masterManager.randomEngine)};
+	int enemyRoll_int{distribution(world->masterManager.randomEngine)};
 
 	float thisRoll = thisRoll_int;
 	float enemyRoll = enemyRoll_int;
@@ -276,7 +276,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 				break;
 			}
 
-            TerrainTile* retreatTile = world.terrainAtCartesianPos(enemyRetreatPos);
+            TerrainTile* retreatTile = world->terrainAtCartesianPos(enemyRetreatPos);
 
             bool validRetreatTile{false};
             bool retreatTileIsWater{false};
@@ -299,13 +299,13 @@ std::string Infantry::meleeAttack(Infantry* inf){
 
             if(retreatTileIsWater){
                 boost::random::uniform_int_distribution<int> randomChance(0, 1);
-                willRetreat = randomChance(world.masterManager.randomEngine);
+                willRetreat = randomChance(world->masterManager.randomEngine);
             }
 
 			//Now check if the tile to retreat to is not occupied:
 			if (validRetreatTile || (retreatTileIsWater && willRetreat)){
 				//Here, we use the spawn function since it is essentially an instant teleport
-				inf->spawn(world.terrainAtCartesianPos(enemyRetreatPos));
+				inf->spawn(world->terrainAtCartesianPos(enemyRetreatPos));
 				inf->setDir(opposite(inf->getDir()));
 				//The pushed back unit is immobilised for the next turn, and takes 2 damage
 				retreatDamageDealt += 2;
@@ -374,8 +374,8 @@ std::string Infantry::meleeAttack(Cavalry* cav){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(world.masterManager.randomEngine)};
-	int enemyRoll_int{distribution(world.masterManager.randomEngine)};
+	int thisRoll_int{distribution(world->masterManager.randomEngine)};
+	int enemyRoll_int{distribution(world->masterManager.randomEngine)};
 
 	float thisRoll = thisRoll_int;
 	float enemyRoll = enemyRoll_int;
@@ -421,7 +421,7 @@ std::string Infantry::meleeAttack(Artillery* art){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(world.masterManager.randomEngine)};
+	int thisRoll_int{distribution(world->masterManager.randomEngine)};
 
 	float damageDealt{0};
 	float damageReceived{0};
@@ -459,7 +459,7 @@ std::string Infantry::meleeAttack(Mortar* mor){
 
 	boost::random::uniform_int_distribution<int> distribution(1, 6);
 
-	int thisRoll_int{distribution(world.masterManager.randomEngine)};
+	int thisRoll_int{distribution(world->masterManager.randomEngine)};
 
 	float damageDealt{0};
 	float damageReceived{0};

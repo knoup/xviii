@@ -5,7 +5,7 @@
 class TBridge : public Bridge
 {
 public:
-	TBridge(World& _world, sf::Vector2f _pos);
+	TBridge(World* _world, sf::Vector2f _pos);
 
     virtual void takeDamage(int dmg);
 

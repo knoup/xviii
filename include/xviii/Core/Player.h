@@ -19,7 +19,7 @@ class Player
 {
 	friend class SpawnableUnit;
     public:
-		Player(MasterManager& _masterManager, World& _world, std::string _factionID, bool _spawnedAtBottom);
+		Player(MasterManager& _masterManager, World* _world, std::string _factionID, bool _spawnedAtBottom);
 
 		//Returns true if successfully spawned unit
 		bool spawnUnit(std::string _unitID, sf::Vector2i _worldCoords);
@@ -29,7 +29,7 @@ class Player
 		//For loading from a save game
 		void loadUnit(std::string _unitID, sf::Vector2i _pos, UnitTile::Direction _dir, float _hp, float _mov, bool _hasMoved, bool _hasPartialRotated, bool _hasFullRotated, int _meleeAttacks, int _rangedAttacks, bool _hasHealed, bool _squareFormationActive, bool _limber, bool _lancerBonusReady);
 
-		inline const World& getWorld() const{ return world; };
+		inline const World* getWorld() const{ return world; };
 		inline int getDeploymentPoints() const{ return deploymentPoints; };
 		inline int getMaxDeploymentPoints() const{ return maxDeploymentPoints; };
 		inline void setDeploymentPoints(int _value){deploymentPoints = _value;};
@@ -59,7 +59,7 @@ class Player
     private:
         MasterManager& masterManager;
 
-        World& world;
+        World* world;
 		std::vector<UnitTile::unitPtr> units;
 		UnitTile* general;
 

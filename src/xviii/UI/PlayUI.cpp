@@ -66,7 +66,7 @@ void PlayUI::setElapsedTurnsText(int _num){
 }
 
 void PlayUI::setCurrentWeatherText(){
-    auto weatherEffects = gameState->game->mWorld.getWeatherEffects();
+    auto weatherEffects = gameState->game->mWorld->getWeatherEffects();
 
     std::string tempStr{};
 
@@ -99,7 +99,7 @@ void PlayUI::setCurrentTimeText(std::pair<int,int> _time){
     }
 	currentTimeText.setString(std::to_string(_time.first) + ":" + minutesStr);
 
-	if(gameState->game->mWorld.getIsNighttime()){
+	if(gameState->game->mWorld->getIsNighttime()){
         currentTimeText.setColor(sf::Color::Cyan);
 	}
 	else{
@@ -187,8 +187,8 @@ void PlayUI::update(){
 
 void PlayUI::turnlyUpdate(){
     setCurrentPlayerText(gameState->game->currentPlayer->getShortDisplayName());
-    setElapsedTurnsText(gameState->game->mWorld.getElapsedTurns());
-    setCurrentTimeText(gameState->game->mWorld.getCurrentTime().getTime());
+    setElapsedTurnsText(gameState->game->mWorld->getElapsedTurns());
+    setCurrentTimeText(gameState->game->mWorld->getCurrentTime().getTime());
     setCurrentWeatherText();
 }
 

@@ -52,8 +52,7 @@ public:
 	std::unique_ptr<GameState_Setup> SetupState;
 	std::unique_ptr<GameState_Play> PlayState;
 
-	World mWorld;
-
+	World* mWorld;
 	Player* Player1;
 	Player* Player2;
 

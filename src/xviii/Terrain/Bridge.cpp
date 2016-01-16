@@ -4,12 +4,12 @@
 #include "xviii/Core/World.h"
 
 
-Bridge::Bridge(World& _world, sf::Vector2f _pos) :
+Bridge::Bridge(World* _world, sf::Vector2f _pos) :
 TerrainTile(_world, TextureManager::Terrain::BLANK, TerrainType::BRIDGE, _pos),
 hp{5},
 orientation{Orientation::VERTICAL}
 {
-    hpText.setFont(world.masterManager.fontManager->getFont(FontManager::Type::Arial));
+    hpText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::Arial));
     hpText.setCharacterSize(18);
     hpText.setColor(sf::Color::Black);
     hpText.setString(std::to_string(hp));
@@ -28,18 +28,18 @@ void Bridge::takeDamage(int dmg){
 
     if(hp < 0.9){
         //When "untoggling" a bridge, the second argument doesn't really matter
-        world.toggleBridge(this, orientation);
+        world->toggleBridge(this, orientation);
     }
 };
 
 void Bridge::flip(Orientation _or){
     if(_or == Orientation::HORIZONTAL){
         orientation = Orientation::HORIZONTAL;
-        sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::BRIDGE_HOR).getTextureRect());
+        sprite.setTextureRect(world->masterManager.textureManager->getSprite(TextureManager::Terrain::BRIDGE_HOR).getTextureRect());
     }
     else if(_or == Orientation::VERTICAL){
         orientation = Orientation::VERTICAL;
-        sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::BRIDGE_VER).getTextureRect());
+        sprite.setTextureRect(world->masterManager.textureManager->getSprite(TextureManager::Terrain::BRIDGE_VER).getTextureRect());
     }
 
     refreshVertexArray();
@@ -54,19 +54,19 @@ void Bridge::connect(){
 
     sf::Vector2i northIndex = currentPos;
     northIndex.y -= 1;
-    TerrainTile* northTile = world.terrainAtCartesianPos(northIndex);
+    TerrainTile* northTile = world->terrainAtCartesianPos(northIndex);
 
     sf::Vector2i southIndex = currentPos;
     southIndex.y += 1;
-    TerrainTile* southTile = world.terrainAtCartesianPos(southIndex);
+    TerrainTile* southTile = world->terrainAtCartesianPos(southIndex);
 
     sf::Vector2i eastIndex = currentPos;
     eastIndex.x += 1;
-    TerrainTile* eastTile = world.terrainAtCartesianPos(eastIndex);
+    TerrainTile* eastTile = world->terrainAtCartesianPos(eastIndex);
 
     sf::Vector2i westIndex = currentPos;
     westIndex.x -= 1;
-    TerrainTile* westTile = world.terrainAtCartesianPos(westIndex);
+    TerrainTile* westTile = world->terrainAtCartesianPos(westIndex);
 
     if(northTile != nullptr){
          if(northTile->getTerrainType() == TerrainTile::TerrainType::BRIDGE || northTile->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
@@ -134,19 +134,19 @@ void Bridge::disconnect(){
 
     sf::Vector2i northIndex = currentPos;
     northIndex.y -= 1;
-    TerrainTile* northTile = world.terrainAtCartesianPos(northIndex);
+    TerrainTile* northTile = world->terrainAtCartesianPos(northIndex);
 
     sf::Vector2i southIndex = currentPos;
     southIndex.y += 1;
-    TerrainTile* southTile = world.terrainAtCartesianPos(southIndex);
+    TerrainTile* southTile = world->terrainAtCartesianPos(southIndex);
 
     sf::Vector2i eastIndex = currentPos;
     eastIndex.x += 1;
-    TerrainTile* eastTile = world.terrainAtCartesianPos(eastIndex);
+    TerrainTile* eastTile = world->terrainAtCartesianPos(eastIndex);
 
     sf::Vector2i westIndex = currentPos;
     westIndex.x -= 1;
-    TerrainTile* westTile = world.terrainAtCartesianPos(westIndex);
+    TerrainTile* westTile = world->terrainAtCartesianPos(westIndex);
 
     //Since a connection does not specify whether the tile on the other end is a terrain tile or
     //another bridge, we will use dynamic cast to find that out for us.

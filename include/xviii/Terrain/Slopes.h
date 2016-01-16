@@ -5,7 +5,7 @@
 class Slopes : public TerrainTile
 {
 public:
-	Slopes(World& _world, sf::Vector2f _pos);
+	Slopes(World* _world, sf::Vector2f _pos);
 	virtual std::string callTerrainAttack(UnitTile* unit, int distance);
 };
 

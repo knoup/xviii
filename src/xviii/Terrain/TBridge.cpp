@@ -4,7 +4,7 @@
 #include "xviii/Core/World.h"
 
 
-TBridge::TBridge(World& _world, sf::Vector2f _pos) :
+TBridge::TBridge(World* _world, sf::Vector2f _pos) :
 Bridge(_world, _pos)
 {
     //If we don't manually change this, TBridge's type will default to Bridge's, which is TerrainType::BRIDGE
@@ -22,18 +22,18 @@ void TBridge::takeDamage(int dmg){
 
     if(hp < 0.9){
         //When "untoggling" a bridge, the second argument doesn't really matter
-        world.toggleTBridge(this, orientation);
+        world->toggleTBridge(this, orientation);
     }
 };
 
 void TBridge::flip(Orientation _or){
     if(_or == Orientation::HORIZONTAL){
         orientation = Orientation::HORIZONTAL;
-        sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_HOR).getTextureRect());
+        sprite.setTextureRect(world->masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_HOR).getTextureRect());
     }
     else if(_or == Orientation::VERTICAL){
         orientation = Orientation::VERTICAL;
-        sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_VER).getTextureRect());
+        sprite.setTextureRect(world->masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_VER).getTextureRect());
     }
 
     refreshVertexArray();
@@ -51,14 +51,14 @@ void TBridge::makeBridgeVisible(bool _value){
     if(_value){
 
         if(orientation == Orientation::HORIZONTAL){
-            sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_HOR).getTextureRect());
+            sprite.setTextureRect(world->masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_HOR).getTextureRect());
         }
         else if(orientation == Orientation::VERTICAL){
-            sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_VER).getTextureRect());
+            sprite.setTextureRect(world->masterManager.textureManager->getSprite(TextureManager::Terrain::TBRIDGE_VER).getTextureRect());
         }
     }
 
     else{
-        sprite.setTextureRect(world.masterManager.textureManager->getSprite(TextureManager::Terrain::WATER).getTextureRect());
+        sprite.setTextureRect(world->masterManager.textureManager->getSprite(TextureManager::Terrain::WATER).getTextureRect());
     }
 }

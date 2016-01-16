@@ -65,7 +65,7 @@ bool SaveGame::create(){
 		boost::filesystem::create_directory("save");
 	}
 
-	std::string saveName{"turn_" + std::to_string(game->mWorld.getElapsedTurns())};
+	std::string saveName{"turn_" + std::to_string(game->mWorld->getElapsedTurns())};
 
 	//Check if a file with the same name exists
 
@@ -81,9 +81,9 @@ bool SaveGame::create(){
 
 	save.open("save\\" + saveName + ".dat");
 
-	save << "turn=" << game->mWorld.getElapsedTurns() << std::endl;
+	save << "turn=" << game->mWorld->getElapsedTurns() << std::endl;
 	std::string eraString;
-	World::Era currentEra = game->mWorld.getEra();
+	World::Era currentEra = game->mWorld->getEra();
 
 		#define X(_str, _era)\
 		if(_era == currentEra){\
@@ -93,7 +93,7 @@ bool SaveGame::create(){
 		#undef X
 
 
-    auto currentWeatherEffects = game->mWorld.getWeatherEffects();
+    auto currentWeatherEffects = game->mWorld->getWeatherEffects();
 
 	save << "era=" << eraString << std::endl;
 	save << "weather=" << std::endl;
@@ -113,7 +113,7 @@ bool SaveGame::create(){
 	}
 
     save << "}" << std::endl;
-	save << "time=" << std::to_string(game->mWorld.currentTime.getTime().first) + ":" + std::to_string(game->mWorld.currentTime.getTime().second) << std::endl;
+	save << "time=" << std::to_string(game->mWorld->currentTime.getTime().first) + ":" + std::to_string(game->mWorld->currentTime.getTime().second) << std::endl;
 	save << "player1=" << game->Player1->getFactionID() << std::endl;
 	save << "player2=" << game->Player2->getFactionID() << std::endl;
 	save << "player1Cam=" << game->Player1->view.getCenter().x << " " << game->Player1->view.getCenter().y << std::endl;
@@ -134,10 +134,10 @@ bool SaveGame::create(){
 
 	save << "w{" << std::endl;
 
-	int worldSizeIndex = game->mWorld.terrainLayer.size();
+	int worldSizeIndex = game->mWorld->terrainLayer.size();
 
 	for (int i{0}; i < worldSizeIndex; ++i){
-		TerrainTile::TerrainType currentType = game->mWorld.terrainLayer[i]->getTerrainType();
+		TerrainTile::TerrainType currentType = game->mWorld->terrainLayer[i]->getTerrainType();
 
 		//Don't write MEADOW files. Since a lot of tiles will be meadows, this significantly reduces
 		//the save file size (and there's less to load)
@@ -160,7 +160,7 @@ bool SaveGame::create(){
         //"Duct tape code" - make this cleaner in the future
         ///////////////////////////////////////////////////////////////
 		if(currentType == TerrainTile::TerrainType::BRIDGE){
-            Bridge* p = static_cast<Bridge*>(game->mWorld.terrainLayer[i].get());
+            Bridge* p = static_cast<Bridge*>(game->mWorld->terrainLayer[i].get());
 
             if(p->getOrientation() == TerrainTile::Orientation::VERTICAL){
                 save << ":" << 0;
@@ -172,7 +172,7 @@ bool SaveGame::create(){
 		}
 
 		else if(currentType == TerrainTile::TerrainType::TBRIDGE){
-            TBridge* t = static_cast<TBridge*>(game->mWorld.terrainLayer[i].get());
+            TBridge* t = static_cast<TBridge*>(game->mWorld->terrainLayer[i].get());
 
             if(t->getOrientation() == TerrainTile::Orientation::VERTICAL){
                 save << ":" << 0;
@@ -260,7 +260,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 	while (save && std::getline(save, line)){
 		if (line.find("turn=") != std::string::npos){
 			int turn{std::stoi(AFTEREQUALS)};
-			game->mWorld.setElapsedTurns(turn);
+			game->mWorld->setElapsedTurns(turn);
 
 			if(turn == 0){
                 playPhase = false;
@@ -272,7 +272,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 
 			#define X(_str, _era)\
 			if(str == _str)\
-				game->mWorld.setEra(_era);
+				game->mWorld->setEra(_era);
 			ERAPROPERTIES
 			#undef X
 		}
@@ -300,7 +300,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
                 WEATHERPROPERTIES
                 #undef X
 
-                game->mWorld.addWeatherEffect(weatherType, weatherTime);
+                game->mWorld->addWeatherEffect(weatherType, weatherTime);
 
                 std::getline(save, line);
             }
@@ -313,7 +313,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
             int hh = std::stoi(str.substr(0, str.find(":")));
             int mm = std::stoi(str.substr(str.find(":") + 1, line.size() - 1));
 
-            game->mWorld.currentTime.set(hh,mm);
+            game->mWorld->currentTime.set(hh,mm);
 		}
 
 		else if (line.find("player1=") != std::string::npos){
@@ -393,12 +393,12 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				std::string currentTypeStr = AFTEREQUALS;
 
 				while (trueIndex < currentIndex){
-					currentPos = game->mWorld.pixelPosAtIndex(trueIndex);
-					game->mWorld.terrainLayer[trueIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, currentPos)));
+					currentPos = game->mWorld->pixelPosAtIndex(trueIndex);
+					game->mWorld->terrainLayer[trueIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, currentPos)));
 					trueIndex++;
 				}
 
-				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
+				currentPos = game->mWorld->pixelPosAtIndex(currentIndex);
 
 				if(currentTypeStr.find("permbridge") != std::string::npos){
                     auto ptr = std::move(std::unique_ptr<Bridge>(new Bridge(game->mWorld, currentPos)));
@@ -430,8 +430,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
                         ptr->setHp(hp);
                     }
 
-                    game->mWorld.permanentBridges.push_back(ptr.get());
-                    game->mWorld.terrainLayer[currentIndex] = std::move(ptr);
+                    game->mWorld->permanentBridges.push_back(ptr.get());
+                    game->mWorld->terrainLayer[currentIndex] = std::move(ptr);
 				}
 
 				else if(currentTypeStr.find("tempbridge") != std::string::npos){
@@ -461,8 +461,8 @@ void SaveGame::parse(boost::filesystem::path _dir){
                         ptr->setHp(hp);
                     }
 
-                    game->mWorld.temporaryBridges.push_back(ptr.get());
-                    game->mWorld.terrainLayer[currentIndex] = std::move(ptr);
+                    game->mWorld->temporaryBridges.push_back(ptr.get());
+                    game->mWorld->terrainLayer[currentIndex] = std::move(ptr);
 				}
 
 
@@ -470,7 +470,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 				//type, class, texture, string
 				#define X(_type, cl, texture, str)\
 					if(currentTypeStr == str)\
-						game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(game->mWorld, currentPos)));
+						game->mWorld->terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(game->mWorld, currentPos)));
 				TERRAINPROPERTIES
 				#undef X
 
@@ -484,13 +484,13 @@ void SaveGame::parse(boost::filesystem::path _dir){
             //Therefore, increment the index by 1.
 			currentIndex += 1;
 
-			while (currentIndex <= ((game->mWorld.getDimensions().x * game->mWorld.getDimensions().y) -1 )){
-				currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
-				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, currentPos)));
+			while (currentIndex <= ((game->mWorld->getDimensions().x * game->mWorld->getDimensions().y) -1 )){
+				currentPos = game->mWorld->pixelPosAtIndex(currentIndex);
+				game->mWorld->terrainLayer[currentIndex] = std::move(std::unique_ptr<Meadow>(new Meadow(game->mWorld, currentPos)));
 				currentIndex++;
 			}
 
-            game->mWorld.connectBridges();
+            game->mWorld->connectBridges();
 		}
 
 		else if (line.find("u{") != std::string::npos){
@@ -631,12 +631,12 @@ else if (line.find("w{") != std::string::npos){
 		int currentIndex = std::stoi(line.substr(0, line.find("=")));
 		std::string currentTypeStr = AFTEREQUALS;
 
-		sf::Vector2f currentPos = game->mWorld.pixelPosAtIndex(currentIndex);
+		sf::Vector2f currentPos = game->mWorld->pixelPosAtIndex(currentIndex);
 
 		//type, class, texture, string
 		#define X(_type, cl, texture, str)\
 		if(currentTypeStr == str)\
-				game->mWorld.terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(&game->mWorld, game->mTextureManager, currentPos)));
+				game->mWorld->terrainLayer[currentIndex] = std::move(std::unique_ptr<cl>(new cl(&game->mWorld, game->mTextureManager, currentPos)));
 			TERRAINPROPERTIES
 			#undef X
 

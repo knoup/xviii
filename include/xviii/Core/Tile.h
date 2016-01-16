@@ -10,8 +10,8 @@ class Tile : public sf::Drawable
 {
 public:
 	using tilePtr = std::unique_ptr<Tile>;
-	Tile(World& _world, std::string textureID);
-	Tile(World& _world, TextureManager::Terrain id);
+	Tile(World* _world, std::string textureID);
+	Tile(World* _world, TextureManager::Terrain id);
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~Tile() = 0;
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
@@ -27,7 +27,7 @@ public:
 	int bottom() const;
 	int right() const;
 protected:
-	World& world;
+	World* world;
 	sf::Sprite sprite;
 	bool highlighted;
 };

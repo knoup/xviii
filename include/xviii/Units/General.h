@@ -5,7 +5,7 @@
 class General : public Cavalry
 {
 public:
-	General(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir);
+	General(World* _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir);
 
 	//General's reset() is overloaded because calculateEffectiveMov() shouldn't be called for him
 	virtual void reset();

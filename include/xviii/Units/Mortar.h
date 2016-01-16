@@ -5,7 +5,7 @@
 class Mortar : public UnitTile
 {
 public:
-	Mortar(World& _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir);
+	Mortar(World* _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir);
 
 	virtual std::string rotate(Direction _dir);
 

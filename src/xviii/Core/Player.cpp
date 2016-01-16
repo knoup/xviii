@@ -9,7 +9,7 @@ static const sf::View bottomView{sf::View{sf::FloatRect(1183, 4800, xResolution,
 static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yResolution)}};
 static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution, yResolution)}};
 
-Player::Player(MasterManager& _masterManager, World& _world, std::string _factionID, bool _spawnedAtBottom) :
+Player::Player(MasterManager& _masterManager, World* _world, std::string _factionID, bool _spawnedAtBottom) :
 masterManager(_masterManager),
 world(_world),
 general{nullptr},
@@ -31,13 +31,13 @@ spawnedAtBottom{_spawnedAtBottom}
 			bool validEra{false};
 
 			for (auto& era : customClass.second.eras){
-				if (era == world.getEra() || era == World::Era::ALL){
+				if (era == world->getEra() || era == World::Era::ALL){
 					validEra = true;
 					continue;
 				}
 			}
 
-			if ((availableFaction == factionID || availableFaction == "ALL") && (validEra || world.getEra() == World::Era::ALL)){
+			if ((availableFaction == factionID || availableFaction == "ALL") && (validEra || world->getEra() == World::Era::ALL)){
 				int index = spawnableUnits.size();
 				spawnableUnits.emplace_back(this, customClass.second.unitID,
 				sf::Vector2i((index % idealDimensions.x) + 1, (index / idealDimensions.x) + 1));
@@ -63,13 +63,13 @@ spawnedAtBottom{_spawnedAtBottom}
                 bool validEra{false};
 
                 for (auto& era : customClass.second.eras){
-                    if (era == world.getEra() || era == World::Era::ALL){
+                    if (era == world->getEra() || era == World::Era::ALL){
                         validEra = true;
                         continue;
                     }
                 }
 
-                if ((availableCulture == factionCulture) && (validEra || world.getEra() == World::Era::ALL)){
+                if ((availableCulture == factionCulture) && (validEra || world->getEra() == World::Era::ALL)){
                     int index = spawnableUnits.size();
                     spawnableUnits.emplace_back(this, customClass.second.unitID,
                     sf::Vector2i((index % idealDimensions.x) + 1, (index / idealDimensions.x) + 1));
@@ -105,7 +105,7 @@ bool Player::spawnUnit(std::string _unitID, sf::Vector2i _worldCoords){
 
 		//DISABLED FOR TESTING PURPOSES
 		/*
-		if (cartesianCoords.y <= (world.getDimensions().y - (world.getDimensions().y/8)) - 1){
+		if (cartesianCoords.y <= (world->getDimensions().y - (world->getDimensions().y/8)) - 1){
 			return false;
 		}
 		*/
@@ -114,7 +114,7 @@ bool Player::spawnUnit(std::string _unitID, sf::Vector2i _worldCoords){
 	else{
 		//DISABLED FOR TESTING PURPOSES
 		/*
-		if (cartesianCoords.y >= (world.getDimensions().y / 8)){
+		if (cartesianCoords.y >= (world->getDimensions().y / 8)){
 			return false;
 		}
 		*/
@@ -169,9 +169,9 @@ bool Player::spawnUnit(std::string _unitID, sf::Vector2i _worldCoords){
 
 
 	if (canAfford && !overLimit){
-		if (world.canBePlacedAtPixelPos(_worldCoords)){
+		if (world->canBePlacedAtPixelPos(_worldCoords)){
 			deploymentPoints -= cost;
-			ptr->spawn(world.terrainAtPixelPos(_worldCoords));
+			ptr->spawn(world->terrainAtPixelPos(_worldCoords));
 
 			if (_type == UnitTile::UnitType::GEN){
 				general = ptr.get();
@@ -219,7 +219,7 @@ void Player::loadUnit(std::string _unitID, sf::Vector2i _pos, UnitTile::Directio
 	ptr->setLancerBonusReady(_lancerBonusReady);
 
 
-	ptr->spawn(world.terrainAtPixelPos(sf::Vector2i{_pos.x * masterManager.textureManager->getSize().x, _pos.y * masterManager.textureManager->getSize().y}));
+	ptr->spawn(world->terrainAtPixelPos(sf::Vector2i{_pos.x * masterManager.textureManager->getSize().x, _pos.y * masterManager.textureManager->getSize().y}));
 
 	if (_type == UnitTile::UnitType::GEN){
 		general = ptr.get();
@@ -231,14 +231,14 @@ void Player::loadUnit(std::string _unitID, sf::Vector2i _pos, UnitTile::Directio
 UnitTile::unitPtr Player::removeUnit(sf::Vector2i _worldCoords){
 	if (!(_worldCoords.x > 0 && _worldCoords.y > 0
 		&&
-		_worldCoords.x < world.getDimensionsInPixels().x
+		_worldCoords.x < world->getDimensionsInPixels().x
 		&&
-		_worldCoords.y < world.getDimensionsInPixels().y)){
+		_worldCoords.y < world->getDimensionsInPixels().y)){
 
 		return nullptr;
 	}
 
-	auto found = world.unitAtPixelPos(_worldCoords);
+	auto found = world->unitAtPixelPos(_worldCoords);
 
 	//If there is a unit at the tile,
 	if (found != nullptr){

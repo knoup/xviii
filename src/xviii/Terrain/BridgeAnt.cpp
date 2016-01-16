@@ -2,7 +2,7 @@
 #include "xviii/Terrain/BridgeAnt.h"
 
 
-BridgeAnt::BridgeAnt(World& _world, int _lifetime) :
+BridgeAnt::BridgeAnt(World* _world, int _lifetime) :
 Ant{_world, TerrainTile::TerrainType::BRIDGE, _lifetime}
 {
 }
