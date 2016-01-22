@@ -838,7 +838,13 @@ void UnitTile::updateStats(bool randomisePerceivedPosition){
 
         }
 
-        boost::random::uniform_int_distribution<int> distribution(0, surroundingTiles.size() - 1);
+        int maxSurroundingTilesIndex = surroundingTiles.size() - 1;
+
+        if(maxSurroundingTilesIndex < 0){
+            maxSurroundingTilesIndex = 0;
+        }
+
+        boost::random::uniform_int_distribution<int> distribution(0, maxSurroundingTilesIndex);
 
         int randomIndex{distribution(world->masterManager.randomEngine)};
         perceivedPosition = surroundingTiles[randomIndex]->getCartesianPos();

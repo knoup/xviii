@@ -2,6 +2,11 @@
 #include "xviii/Core/Game.h"
 
 /*
+    TOFIX:
+
+    (*) Pausing and unpausing resets the perceived enemy positions (this shouldn't happen). This is due to
+    oneTimeUpdate(); a way around this should be found.
+
     TODO:
 
     (*) Seperate movement and attack logic so that classes can, for example, be given movement rules of CAV but
