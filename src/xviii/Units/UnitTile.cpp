@@ -840,14 +840,19 @@ void UnitTile::updateStats(bool randomisePerceivedPosition){
 
         int maxSurroundingTilesIndex = surroundingTiles.size() - 1;
 
+        //If there are no valid surrounding tiles, use the true position
+
         if(maxSurroundingTilesIndex < 0){
-            maxSurroundingTilesIndex = 0;
+            perceivedPosition = truePosition;
         }
 
-        boost::random::uniform_int_distribution<int> distribution(0, maxSurroundingTilesIndex);
+        else{
+            boost::random::uniform_int_distribution<int> distribution(0, maxSurroundingTilesIndex);
 
-        int randomIndex{distribution(world->masterManager.randomEngine)};
-        perceivedPosition = surroundingTiles[randomIndex]->getCartesianPos();
+            int randomIndex{distribution(world->masterManager.randomEngine)};
+            perceivedPosition = surroundingTiles[randomIndex]->getCartesianPos();
+        }
+
     }
 
     sf::Vector2f finalPosition = world->pixelPosAtCartesianPos(perceivedPosition);
