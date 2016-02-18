@@ -123,7 +123,10 @@ void Game::setGameState(GameState* _state){
 
     else if(_state == PlayState.get()){
         initialised = true;
-        PlayState->oneTimeUpdate();
+
+        if(state != CustomBattlePauseMenuState.get()){
+            PlayState->oneTimeUpdate();
+        }
     }
 
     else if(_state == MainMenuState.get() && initialised){
