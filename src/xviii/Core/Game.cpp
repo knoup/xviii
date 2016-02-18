@@ -124,7 +124,13 @@ void Game::setGameState(GameState* _state){
     else if(_state == PlayState.get()){
         initialised = true;
 
-        if(state != CustomBattlePauseMenuState.get()){
+        //There's no need to call the play state's oneTimeUpdate() if we are paused. This will
+        //reset the units' perceived positions and do some other redundant things that aren't needed
+
+        //The state != PlayState.get() part is for ensuring that when toggling resuming and pausing
+        //really fast, the game won't be "tricked" into calling oneTimeUpdate().
+
+        if(state != CustomBattlePauseMenuState.get() && state != PlayState.get()){
             PlayState->oneTimeUpdate();
         }
     }
