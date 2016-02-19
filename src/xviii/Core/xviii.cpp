@@ -2,11 +2,6 @@
 #include "xviii/Core/Game.h"
 
 /*
-    TOFIX:
-
-    (*) Pausing and unpausing resets the perceived enemy positions (this shouldn't happen). This is due to
-    oneTimeUpdate(); a way around this should be found.
-
     TODO:
 
     (*) Seperate movement and attack logic so that classes can, for example, be given movement rules of CAV but
@@ -20,6 +15,12 @@
     (*) Implement a specialised HillAnt class (for slopes and hills)
 
 	(*) Have a basic readable config file where several simple parameters can be set (resolution, deployment points, etc.)
+
+	(*) Make the presence of mud be dependent on rainy weather conditions
+
+	(*) Make rivers have a chance to bend, perhaps by giving each tile a minor chance to do a 90 degree turn
+
+	(*) UI Update
 
 */
 

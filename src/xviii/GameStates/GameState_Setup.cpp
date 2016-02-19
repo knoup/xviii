@@ -92,12 +92,13 @@ void GameState_Setup::getInput(){
 					sf::Vector2i mouseCoords{event.mouseButton.x, event.mouseButton.y};
 					sf::Vector2i worldCoords{game->mWindow.mapPixelToCoords(mouseCoords, *game->currentView)};
 
-					if ((worldCoords.x <= game->mWorld->getDimensionsInPixels().x &&
-						worldCoords.x >= 0) &&
-						(worldCoords.y <= game->mWorld->getDimensionsInPixels().y &&
-						worldCoords.y >= 0)){
+					TerrainTile* terrain = game->mWorld->terrainAtPixelPos(worldCoords);
 
-						game->currentPlayer->spawnUnit(selectedSpawnableUnit->unitID, worldCoords);
+					if (terrain != nullptr){
+
+                        if(terrain->getTerrainType() != TerrainTile::TerrainType::WATER){
+                            game->currentPlayer->spawnUnit(selectedSpawnableUnit->unitID, worldCoords);
+                        }
 
 					}
 

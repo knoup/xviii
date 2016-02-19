@@ -5,154 +5,300 @@
 #include "xviii/Core/FactionLoader.h"
 
 void GameState_SelectNations::updateNationName(){
-	currentNationName.setString(flagIterator->displayName);
+    player1NationText.setString(" - " + flagIterator1->displayName);
+    player1NationText.setPosition(flagIterator1->sprite.getPosition().x + 25, flagIterator1->sprite.getPosition().y - 20);
+    player1Text.setPosition(flagIterator1->sprite.getPosition().x - 150, flagIterator1->sprite.getPosition().y - 20);
 
-	sf::FloatRect textRect = currentNationName.getLocalBounds();
-	currentNationName.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-	currentNationName.setPosition(xResolution / 2, yResolution / 1.5);
+    player2NationText.setString(flagIterator2->displayName + " - ");
+    player2NationText.setOrigin(player2NationText.getLocalBounds().width, 0);
+    player2NationText.setPosition(flagIterator2->sprite.getPosition().x - 25, flagIterator2->sprite.getPosition().y - 20);
+    player2Text.setPosition(flagIterator2->sprite.getPosition().x + 150, flagIterator2->sprite.getPosition().y - 20);
 }
 
 GameState_SelectNations::GameState_SelectNations(Game* _game) :
-GameState{_game},
-flagView{sf::FloatRect({}, {}, xResolution, yResolution)},
+GameState_MenuState{_game},
+flagView1{sf::FloatRect({}, {}, xResolution, yResolution)},
+flagView2{sf::FloatRect({}, {}, xResolution, yResolution)},
 backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 {
-	for(auto& faction : game->mManager.factionLoader->customFactions){
-        flagMenuItems.emplace_back(faction.second.factionID, faction.second.displayName, game->mManager.textureManager->getFlagSprite(faction.second.textureID));
-	}
-
-	for (size_t i{0}; i < flagMenuItems.size(); ++i){
-		int spriteXPos = (i * 75);
-		int spriteYPos = yResolution / 2;
-
-		flagMenuItems[i].sprite.setPosition(spriteXPos, spriteYPos);
-		flagMenuItems[i].rekt.setPosition(spriteXPos, spriteYPos);
-	}
-
-    flagIterator = flagMenuItems.begin() + flagMenuItems.size() / 2;
-    flagIterator->highlighted = true;
-
-
-	currentPlayerText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
-	currentPlayerText.setString("Player 1");
-	currentPlayerText.setColor(sf::Color::White);
-	currentPlayerText.setCharacterSize(55);;
-	currentPlayerText.setOrigin(currentPlayerText.getLocalBounds().width / 2, currentPlayerText.getLocalBounds().height / 2);
-	currentPlayerText.setPosition(xResolution / 2, yResolution / 4);
-
-	currentNationName.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
-	currentNationName.setColor(sf::Color::Yellow);
-	currentNationName.setCharacterSize(50);
-
-    flagBackgroundRekt.setFillColor(sf::Color(120,120,120));
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
 
-    sf::Vector2i boundingRekSize{game->mManager.textureManager->getSize()};
-    flagBackgroundRekt.setSize({abs(flagMenuItems[0].sprite.getPosition().x - flagMenuItems[flagMenuItems.size()-1].sprite.getPosition().x) + (boundingRekSize.x * 2), boundingRekSize.y});
-    flagBackgroundRekt.setOrigin(flagBackgroundRekt.getOrigin().x, flagBackgroundRekt.getLocalBounds().height / 2);
-    flagBackgroundRekt.setPosition(flagMenuItems[0].sprite.getPosition().x - boundingRekSize.x, flagMenuItems[0].sprite.getPosition().y);
+    flagView1.setViewport(sf::FloatRect(0, 0, 1, 1));
+    flagView2.setViewport(sf::FloatRect(0.5f, 0, 1, 1));
+
+
+    flagView1.setCenter(flagView1.getCenter().x, 0);
+    flagView2.setCenter(flagView2.getCenter().x, 0);
+
+	for(auto& faction : game->mManager.factionLoader->customFactions){
+        flagMenuItems1.emplace_back(faction.second.factionID, faction.second.displayName, game->mManager.textureManager->getFlagSprite(faction.second.textureID));
+	}
+
+	for (size_t i{0}; i < flagMenuItems1.size(); ++i){
+		int spriteYPos = (i * 45) - 130;
+		int spriteXPos = xResolution / 8;
+
+		flagMenuItems1[i].sprite.setPosition(spriteXPos, spriteYPos);
+		flagMenuItems1[i].rekt.setPosition(spriteXPos, spriteYPos);
+	}
+
+    flagIterator1 = flagMenuItems1.begin() + flagMenuItems1.size() / 2;
+    //flagIterator1 = flagMenuItems1.begin();
+    flagIterator1->highlighted = true;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    for(auto& faction : game->mManager.factionLoader->customFactions){
+        flagMenuItems2.emplace_back(faction.second.factionID, faction.second.displayName, game->mManager.textureManager->getFlagSprite(faction.second.textureID));
+	}
+
+	for (size_t i{0}; i < flagMenuItems2.size(); ++i){
+		int spriteYPos = (i * 45) - 130;
+		int spriteXPos = (xResolution / 8) * 3;
+
+		flagMenuItems2[i].sprite.setPosition(spriteXPos, spriteYPos);
+		flagMenuItems2[i].rekt.setPosition(spriteXPos, spriteYPos);
+	}
+
+    flagIterator2 = flagMenuItems2.begin() + flagMenuItems2.size() / 2;
+    //flagIterator2 = flagMenuItems2.begin();
+    flagIterator2->highlighted = true;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    player1Text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+	player1Text.setString("Player 1");
+	player1Text.setColor(sf::Color::Yellow);
+	player1Text.setCharacterSize(30);;
+	//player1Text.setOrigin(player1Text.getLocalBounds().width / 2, player1Text.getLocalBounds().height / 2);
+	//player1Text.setPosition(xResolution / 8, -350);
+
+	player2Text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+	player2Text.setString("Player 2");
+	player2Text.setColor(sf::Color::Yellow);
+	player2Text.setCharacterSize(30);;
+	player2Text.setOrigin(player2Text.getLocalBounds().width, 0);
+	//player2Text.setPosition((xResolution / 8) * 3, -350);
+
+	player1NationText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+	player1NationText.setColor(sf::Color::White);
+	player1NationText.setCharacterSize(30);
+
+	player2NationText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+	player2NationText.setColor(sf::Color::White);
+	player2NationText.setCharacterSize(30);;
+	player2NationText.setOrigin(player2NationText.getLocalBounds().width, 0);
 
 	updateNationName();
+
+	////////////
+	menuList.push_back({{"Back"}, true, game->CustomBattleSelectEraMenuState.get(), Action::NONE});
+	menuList.push_back({{"Start"}, true, nullptr, Action::NEW});
+	////////////
+
+	lineUpObjects();
 }
 
 void GameState_SelectNations::getInput(){
+
+    //GameState_MenuState::getInput();
+
+    bool confirm{false};
 	sf::Event event;
 
 	while (game->mWindow.pollEvent(event)){
 		switch (event.type){
-		case sf::Event::KeyPressed:
-			if (event.key.code == Key::CONFIRM_KEY){
 
-				if (game->Player1 == nullptr){
-					game->Player1 = new Player({game->mManager, game->mWorld, flagIterator->factionID, true});
-					game->mPlayers.emplace_back(game->Player1);
-					//Once player 1's made their selection, delete the country he chose
-					flagMenuItems.erase(flagIterator);
-					flagIterator = flagMenuItems.begin() + flagMenuItems.size() / 2;
+        case sf::Event::Closed:
+            game->exitGame(false);
+            break;
 
-					//And fix the positions of the rest
-					for (size_t i{0}; i < flagMenuItems.size(); ++i){
-						int spriteXPos = (i * 75);
-						int spriteYPos = yResolution / 2;
+		case sf::Event::MouseWheelMoved:
+		    {
 
-						flagMenuItems[i].sprite.setPosition(spriteXPos, spriteYPos);
-						flagMenuItems[i].rekt.setPosition(spriteXPos, spriteYPos);
-					}
+		    std::vector<FlagMenuItem>* flagMenuItems{nullptr};
+            std::vector<FlagMenuItem>::iterator* flagIterator{nullptr};
 
-					sf::Vector2i boundingRekSize{game->mManager.textureManager->getSize()};
-                    flagBackgroundRekt.setSize({abs(flagMenuItems[0].sprite.getPosition().x - flagMenuItems[flagMenuItems.size()-1].sprite.getPosition().x) + (boundingRekSize.x * 2), boundingRekSize.y});
-                    flagBackgroundRekt.setOrigin(flagBackgroundRekt.getOrigin().x, flagBackgroundRekt.getLocalBounds().height / 2);
-                    flagBackgroundRekt.setPosition(flagMenuItems[0].sprite.getPosition().x - boundingRekSize.x, flagMenuItems[0].sprite.getPosition().y);
+            if(event.mouseWheel.x < xResolution / 3){
+                flagMenuItems = &flagMenuItems1;
+                flagIterator = &flagIterator1;
+            }
+            else if(event.mouseWheel.x > 0.66 * xResolution){
+                flagMenuItems = &flagMenuItems2;
+                flagIterator = &flagIterator2;
+            }
+            else{
+                break;
+            }
 
-					updateNationName();
-					currentPlayerText.setString("Player 2");
+            if(event.mouseWheel.delta > 0){
+
+                (*flagIterator)->highlighted = false;
+
+                if((*flagIterator) == (*flagMenuItems).begin()){
+                    (*flagIterator) = (*flagMenuItems).end() - 1;
+                }
+                else{
+                    (*flagIterator)--;
+                }
+
+                (*flagIterator)->highlighted = true;
+
+            }
+
+            else if(event.mouseWheel.delta < 0){
+
+                (*flagIterator)->highlighted = false;
+
+                if((*flagIterator) == (*flagMenuItems).end() - 1){
+                    (*flagIterator) = (*flagMenuItems).begin();
+                }
+                else{
+                    (*flagIterator)++;
+                }
+
+                (*flagIterator)->highlighted = true;
+
+            }
+
+            updateNationName();
+
+			break;
+
+		    }
+
+
+            case sf::Event::MouseButtonPressed:
+
+            if(event.mouseButton.button == sf::Mouse::Left){
+                confirm = true;
+            }
+
+
+			case sf::Event::KeyPressed:
+
+            if (event.key.code == Key::CONFIRM_KEY){
+                confirm = true;
+            }
+
+			if (confirm){
+				switch (menuIterator->action){
+					case Action::NEW:
+
+					    if(flagIterator1->factionID == flagIterator2->factionID){
+                            break;
+					    }
+
+					    game->mWorld = new World(game->mManager, sf::Vector2i(69, 100));
+						game->mWorld->generateRandomWorld(menuIterator->era);
+
+                        game->Player1 = new Player({game->mManager, game->mWorld, flagIterator1->factionID, true});
+                        game->mPlayers.emplace_back(game->Player1);
+
+                        game->Player2 = new Player({game->mManager, game->mWorld, flagIterator2->factionID, false});
+                        game->mPlayers.emplace_back(game->Player2);
+
+                        game->currentPlayer = game->Player1;
+                        game->currentView = &game->currentPlayer->view;
+						game->setGameState(game->SetupState.get());
+						break;
+
+					case Action::LOAD:
+						game->saveCreator.parse(menuIterator->path);
+						break;
+
+					case Action::EXIT:
+						game->exitGame(false);
+						break;
+
+                    case Action::SAVE:
+                        if (game->saveCreator.create()){
+                            game->PlayState->setSaveStatus(true);
+                        }
 				}
-				else{
-					game->Player2 = new Player({game->mManager, game->mWorld, flagIterator->factionID, false});
-					game->mPlayers.emplace_back(game->Player2);
-					game->currentPlayer = game->Player1;
-					game->currentView = &game->currentPlayer->view;
-					game->setGameState(game->SetupState.get());
-				}
 
+				if(menuIterator->state != nullptr){
+                    game->setGameState(menuIterator->state);
+				}
 			}
-			else if (event.key.code == Key::RIGHT_ARROW || event.key.code == Key::LEFT_ARROW || event.key.code == Key::LEFT_KEY || event.key.code == Key::RIGHT_KEY){
-				flagIterator->highlighted = false;
 
-				if (event.key.code == Key::LEFT_ARROW || event.key.code == Key::LEFT_KEY){
-					if (flagIterator == flagMenuItems.begin()){
-						flagIterator = --flagMenuItems.end();
+
+			//--menuList.end() because menuList.end() would point to a undereferencable reference
+			//(after the end of the vector); --menuList.end() rather points to the last element
+
+			else if ((event.key.code == Key::UP_ARROW || event.key.code == Key::DOWN_ARROW || event.key.code == Key::UP_KEY || event.key.code == Key::DOWN_KEY) && menuList.size() > 1){
+
+				//Unhighlight current object
+				menuIterator->text.setColor((sf::Color::White));
+
+				if (event.key.code == Key::UP_ARROW || event.key.code == Key::UP_KEY){
+					if (menuIterator == menuList.begin()){
+						menuIterator = --menuList.end();
 					}
 					else{
-						--flagIterator;
+						--menuIterator;
 					}
 				}
-				else if (event.key.code == Key::RIGHT_ARROW || event.key.code == Key::RIGHT_KEY){
-					if (flagIterator == --flagMenuItems.end()){
-						flagIterator = flagMenuItems.begin();
+
+
+				else if (event.key.code == Key::DOWN_ARROW || event.key.code == Key::DOWN_KEY){
+					if (menuIterator == --menuList.end()){
+						menuIterator = menuList.begin();
 					}
 					else{
-						++flagIterator;
+						++menuIterator;
 					}
 				}
-
-				updateNationName();
-
-			}
-
-			else if (event.key.code == Key::RANDOMNATION_KEY){
-				boost::random::uniform_int_distribution<int> distribution(0, flagMenuItems.size() - 1);
-				int randNum{distribution(game->mManager.randomEngine)};
-
-				flagIterator->highlighted = false;
-				flagIterator = flagMenuItems.begin();
-				flagIterator += randNum;
-				flagIterator->highlighted = true;
-				updateNationName();
 			}
 
 			break;
 
-		case sf::Event::Closed:
-			game->exitGame(false);
-			break;
+			case sf::Event::MouseMoved:{
 
-		case sf::Event::Resized:
-			backgroundView.setSize(event.size.width, event.size.height);
-			flagView.setSize(event.size.width, event.size.height);
-			break;
+                sf::Vector2i coords{event.mouseMove.x, event.mouseMove.y};
+
+                sf::Vector2f mousePos{game->mWindow.mapPixelToCoords(coords, menuSelectView)};
+
+                for(size_t i{0}; i < menuList.size(); ++i){
+                    if(menuList[i].text.getGlobalBounds().contains(mousePos)){
+
+                        //Unhighlight current object
+                        menuIterator->text.setColor((sf::Color::White));
+
+                        menuIterator = menuList.begin();
+                        menuIterator += i;
+
+                        menuIterator->text.setColor((sf::Color::Yellow));
+                    }
+                }
+
+            break;
+            }
+
 
 		default: break;
+
 		}
+
 	}
+
+
 }
 
 void GameState_SelectNations::update(float mFT){
-	flagView.setCenter(flagIterator->sprite.getPosition().x, flagView.getCenter().y);
 
-	if (!flagIterator->highlighted){
-		flagIterator->highlighted = true;
-	}
+    GameState_MenuState::update(mFT);
+
+	flagView1.setCenter(flagView1.getCenter().x, flagIterator1->sprite.getPosition().y);
+	flagView2.setCenter(flagView2.getCenter().x, flagIterator2->sprite.getPosition().y);
+
+	//if (!flagIterator->highlighted){
+	//	flagIterator->highlighted = true;
+	//}
 }
 
 void GameState_SelectNations::draw(){
@@ -160,13 +306,26 @@ void GameState_SelectNations::draw(){
 
 	game->mWindow.setView(backgroundView);
 	game->mWindow.draw(backgroundSprite);
-	game->mWindow.draw(currentPlayerText);
-	game->mWindow.draw(currentNationName);
+
+	game->mWindow.setView(menuSelectView);
+	game->mWindow.draw(titleText);
+
+	for (auto& item : menuList){
+		game->mWindow.draw(item.text);
+	}
 
 
-	game->mWindow.setView(flagView);
-	game->mWindow.draw(flagBackgroundRekt);
-	for (auto& flag : flagMenuItems){
+	game->mWindow.setView(flagView1);
+	for (auto& flag : flagMenuItems1){
 		flag.draw(game->mWindow);
+		game->mWindow.draw(player1Text);
+		game->mWindow.draw(player1NationText);
+	}
+
+	game->mWindow.setView(flagView2);
+	for (auto& flag : flagMenuItems2){
+		flag.draw(game->mWindow);
+		game->mWindow.draw(player2Text);
+		game->mWindow.draw(player2NationText);
 	}
 }

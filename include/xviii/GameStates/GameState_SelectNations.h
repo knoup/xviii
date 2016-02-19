@@ -1,10 +1,10 @@
 #pragma once
 
-#include "xviii/GameStates/GameState.h"
+#include "xviii/GameStates/GameState_MenuState.h"
 #include "xviii/Headers/global.h"
 #include "xviii/Headers/keybinds.h"
 
-class GameState_SelectNations : public GameState
+class GameState_SelectNations : public GameState_MenuState
 {
 public:
 	GameState_SelectNations(Game* game);
@@ -45,15 +45,20 @@ private:
 		}
 	};
 
-	std::vector<FlagMenuItem> flagMenuItems;
-	std::vector<FlagMenuItem>::iterator flagIterator;
+	std::vector<FlagMenuItem> flagMenuItems1;
+	std::vector<FlagMenuItem> flagMenuItems2;
+	std::vector<FlagMenuItem>::iterator flagIterator1;
+	std::vector<FlagMenuItem>::iterator flagIterator2;
+	sf::View flagView1;
+	sf::View flagView2;
+
+	sf::Text player1Text;
+	sf::Text player2Text;
+
+	sf::Text player1NationText;
+	sf::Text player2NationText;
 
 	sf::Sprite backgroundSprite;;
-
-    sf::RectangleShape flagBackgroundRekt;
-	sf::Text currentPlayerText;
-	sf::Text currentNationName;
-	sf::View flagView;
 	sf::View backgroundView;
 };
 
