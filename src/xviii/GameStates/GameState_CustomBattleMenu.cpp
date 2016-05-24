@@ -10,7 +10,7 @@ GameState_MenuState{game}
 }
 
 void GameState_CustomBattleMenu::init(){
-    menuList.push_back({{"New"}, true, game->CustomBattleSelectEraMenuState.get(), Action::NONE});
+    menuList.push_back({{"New"}, true, game->SelectNationsState.get(), Action::NONE});
 	menuList.push_back({{"Load"}, true, game->CustomBattleLoadMenuState.get(), Action::NONE});
 	menuList.push_back({{"Back"}, true, game->MainMenuState.get(), Action::NONE});
 
