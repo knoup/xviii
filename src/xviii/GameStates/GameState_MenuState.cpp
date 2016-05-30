@@ -3,18 +3,21 @@
 
 #include "xviii/Core/Game.h"
 
+sf::View GameState_MenuState::menuSelectView;
+sf::View GameState_MenuState::backgroundView;
 sf::Text GameState_MenuState::titleText;
 std::unique_ptr<sf::Texture> GameState_MenuState::backgroundTexture;
 sf::Sprite GameState_MenuState::backgroundSprite;
 
 GameState_MenuState::GameState_MenuState(Game* game) :
-GameState{game},
-menuSelectView{sf::FloatRect({}, {},xResolution, yResolution)},
-backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
+GameState{game}
 {
 	titleText.setCharacterSize(275);
 	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Eighteen));
 	titleText.setString("X V I I I");
+
+    menuSelectView.reset(sf::FloatRect({}, {},xResolution, yResolution));
+    backgroundView.reset(sf::FloatRect({}, {},xResolution, yResolution));
 
 	//Randomise title text colour, for the heck of it:
 	boost::random::uniform_int_distribution<int> distribution(0, 255);

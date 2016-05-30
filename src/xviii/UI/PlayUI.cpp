@@ -201,11 +201,7 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	target.draw(currentTimeText);
 	target.draw(elapsedTurnsText);
 	target.draw(saveText);
-
-    //TODO: REMOVE THIS CHECK?
-	if (!currentMessageText.getString().isEmpty()){
-		target.draw(currentMessageText);
-	}
+    target.draw(currentMessageText);
 
 	if (drawLimberText){
 		target.draw(limberText);

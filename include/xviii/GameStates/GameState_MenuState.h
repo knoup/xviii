@@ -55,8 +55,8 @@ protected:
 
 	std::vector<menuObject>::iterator menuIterator;
 
-	sf::View menuSelectView;
-	sf::View backgroundView;
+	static sf::View menuSelectView;
+	static sf::View backgroundView;
 
 	static sf::Text titleText;
 	//Due to the massive amount of available backgrounds, and the fact that only one will be ever used,
