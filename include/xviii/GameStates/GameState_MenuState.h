@@ -21,6 +21,7 @@ public:
 	virtual void getInput();
 	virtual void update(float mFT);
 	virtual void draw();
+	virtual void onSwitch();
 protected:
 	enum class Action{NEW, LOAD, EXIT, SAVE, NONE};
 

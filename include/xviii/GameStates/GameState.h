@@ -17,5 +17,10 @@ public:
 	virtual void getInput() = 0;
 	virtual void update(float mFT) = 0;
 	virtual void draw() = 0;
+
+	//To be called whenever we switch to this gamestate
+	//Primarily to take care of minor but annoying things like properly
+	//setting the view
+	virtual void onSwitch();
 };
 

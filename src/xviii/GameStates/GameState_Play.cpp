@@ -521,3 +521,8 @@ void GameState_Play::draw(){
 	}
 	//
 }
+
+void GameState_Play::onSwitch(){
+    game->Player1->view.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+    game->Player2->view.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+}

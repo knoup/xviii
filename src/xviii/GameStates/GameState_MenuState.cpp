@@ -186,6 +186,10 @@ void GameState_MenuState::draw(){
 	}
 }
 
+void GameState_MenuState::onSwitch(){
+    menuSelectView.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+}
+
 void GameState_MenuState::lineUpObjects(){
 
 	for (size_t i{0}; i < menuList.size(); ++i){

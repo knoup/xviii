@@ -22,6 +22,8 @@
 
 	(*) UI Update
 
+	(*) Fix some minor quirks with views and resizing
+
 */
 
 int main(int argc, char* argv[]){

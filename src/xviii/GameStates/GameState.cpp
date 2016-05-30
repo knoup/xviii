@@ -18,3 +18,6 @@ void GameState::draw(){
 
 }
 
+void GameState::onSwitch(){
+
+}

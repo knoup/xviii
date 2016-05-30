@@ -13,6 +13,7 @@ public:
 	virtual void getInput();
 	virtual void update(float mFT);
 	virtual void draw();
+	virtual void onSwitch();
 
 	void oneTimeUpdate();
 

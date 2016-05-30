@@ -39,7 +39,7 @@ saveCreator{this}
 	CustomBattleMenuState = (std::unique_ptr<GameState_CustomBattleMenu>(new GameState_CustomBattleMenu(this)));
     CustomBattleLoadMenuState = (std::unique_ptr<GameState_CustomBattleLoadMenu>(new GameState_CustomBattleLoadMenu(this)));
     CreditMenuState = (std::unique_ptr<GameState_CreditMenu>(new GameState_CreditMenu(this)));
-	SelectNationsState = (std::unique_ptr<GameState_SelectNations>(new GameState_SelectNations(this)));
+	SelectNationsState = (std::unique_ptr<GameState_SelectNationsMenu>(new GameState_SelectNationsMenu(this)));
 	SetupState = (std::unique_ptr<GameState_Setup>(new GameState_Setup(this)));
 	PlayState = (std::unique_ptr<GameState_Play>(new GameState_Play(this)));
 	CustomBattlePauseMenuState = (std::unique_ptr<GameState_CustomBattlePauseMenu>(new GameState_CustomBattlePauseMenu(this)));
@@ -138,6 +138,7 @@ void Game::setGameState(GameState* _state){
     }
 
     state = _state;
+    state->onSwitch();
 }
 
 void Game::nextPlayer(){

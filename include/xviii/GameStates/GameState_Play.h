@@ -63,6 +63,7 @@ public:
 	virtual void getInput();
 	virtual void update(float mFT);
 	virtual void draw();
+	virtual void onSwitch();
 
     //A little wrapper, since we need to access this from the combat pause menu and playUI is private...
 	inline void setSaveStatus(bool val){playUI.setSaveStatus(val);};

@@ -4,10 +4,10 @@
 #include "xviii/Headers/global.h"
 #include "xviii/Headers/keybinds.h"
 
-class GameState_SelectNations : public GameState_MenuState
+class GameState_SelectNationsMenu : public GameState_MenuState
 {
 public:
-	GameState_SelectNations(Game* game);
+	GameState_SelectNationsMenu(Game* game);
 	virtual void getInput();
 	virtual void update(float mFT);
 	virtual void draw();

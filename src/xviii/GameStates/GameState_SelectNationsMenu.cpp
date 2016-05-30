@@ -1,10 +1,10 @@
 #include "xviii/Headers/stdafx.h"
-#include "xviii/GameStates/GameState_SelectNations.h"
+#include "xviii/GameStates/GameState_SelectNationsMenu.h"
 
 #include "xviii/Core/Game.h"
 #include "xviii/Core/FactionLoader.h"
 
-void GameState_SelectNations::updateNationName(){
+void GameState_SelectNationsMenu::updateNationName(){
     player1NationText.setString(" - " + flagIterator1->displayName);
     player1NationText.setPosition(flagIterator1->sprite.getPosition().x + 25, flagIterator1->sprite.getPosition().y - 20);
     player1Text.setPosition(flagIterator1->sprite.getPosition().x - 150, flagIterator1->sprite.getPosition().y - 20);
@@ -15,7 +15,7 @@ void GameState_SelectNations::updateNationName(){
     player2Text.setPosition(flagIterator2->sprite.getPosition().x + 150, flagIterator2->sprite.getPosition().y - 20);
 }
 
-GameState_SelectNations::GameState_SelectNations(Game* _game) :
+GameState_SelectNationsMenu::GameState_SelectNationsMenu(Game* _game) :
 GameState_MenuState{_game},
 flagView1{sf::FloatRect({}, {}, xResolution, yResolution)},
 flagView2{sf::FloatRect({}, {}, xResolution, yResolution)},
@@ -107,7 +107,7 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	lineUpObjects();
 }
 
-void GameState_SelectNations::getInput(){
+void GameState_SelectNationsMenu::getInput(){
 
     //GameState_MenuState::getInput();
 
@@ -283,6 +283,10 @@ void GameState_SelectNations::getInput(){
             break;
             }
 
+            case sf::Event::Resized:
+                menuSelectView.setSize(event.size.width, event.size.height);
+                break;
+
 
 		default: break;
 
@@ -293,7 +297,7 @@ void GameState_SelectNations::getInput(){
 
 }
 
-void GameState_SelectNations::update(float mFT){
+void GameState_SelectNationsMenu::update(float mFT){
 
     GameState_MenuState::update(mFT);
 
@@ -305,7 +309,7 @@ void GameState_SelectNations::update(float mFT){
 	//}
 }
 
-void GameState_SelectNations::draw(){
+void GameState_SelectNationsMenu::draw(){
 	game->mWindow.clear(sf::Color(120,120,120));
 
 	game->mWindow.setView(backgroundView);

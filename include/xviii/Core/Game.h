@@ -7,7 +7,7 @@
 #include "xviii/Core/SaveGame.h"
 
 #include "xviii/GameStates/GameState_Play.h"
-#include "xviii/GameStates/GameState_SelectNations.h"
+#include "xviii/GameStates/GameState_SelectNationsMenu.h"
 #include "xviii/GameStates/GameState_Setup.h"
 #include "xviii/GameStates/GameState_MainMenu.h"
 #include "xviii/GameStates/GameState_CustomBattleMenu.h"
@@ -48,7 +48,7 @@ public:
 	std::unique_ptr<GameState_CustomBattlePauseMenu> CustomBattlePauseMenuState;
 	std::unique_ptr<GameState_SetupPauseMenu> SetupPauseMenuState;
 
-	std::unique_ptr<GameState_SelectNations> SelectNationsState;
+	std::unique_ptr<GameState_SelectNationsMenu> SelectNationsState;
 	std::unique_ptr<GameState_Setup> SetupState;
 	std::unique_ptr<GameState_Play> PlayState;
 
