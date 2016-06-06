@@ -30,6 +30,8 @@ GameState{game}
 	titleText.setPosition(xResolution / 2, -(yResolution / 2.5f));
 
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
+
+    menuSelectView.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
 }
 
 void GameState_MenuState::getInput(){

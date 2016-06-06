@@ -52,7 +52,7 @@ public:
 
 private:
 	inline sf::Vector2f getSelectablePos(sf::Vector2i coords){
-		return{float(250 + ((coords.x - 1) * 100)), float(-130 + ((coords.y - 1) * 70))};
+		return{float(250 + ((coords.x - 1) * 100)), float(44 + ((coords.y - 1) * 70))};
 	};
 };
 

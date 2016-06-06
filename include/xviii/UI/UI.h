@@ -61,5 +61,8 @@ protected:
 
 public:
 	sf::View uiView;
+
+	static constexpr float barWidth{1360};
+	static constexpr float barHeight{154};
 };
 
