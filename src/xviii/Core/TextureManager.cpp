@@ -47,6 +47,18 @@ counterSize{54, 34} //Current: 54,34
        }
 	}
 
+	for (boost::filesystem::recursive_directory_iterator it("assets/gfx/weather"); it != rEnd; ++it){
+       std::string name = it->path().filename().leaf().stem().string();
+
+       texturePtr texture = texturePtr(new sf::Texture());
+       texture->loadFromFile("assets/gfx/weather/" + name + ".png");
+
+       if(!weather.count(name)){
+            weather.insert(std::pair<std::string, texturePtr>(name, std::move(texture)));
+            weather[name]->setSmooth(true);
+       }
+	}
+
 
 	randomBackground = std::move(std::unique_ptr<sf::Texture>(new sf::Texture()));
 
@@ -81,6 +93,16 @@ sf::Sprite TextureManager::getUnitSprite(std::string _textureID){
 sf::Sprite TextureManager::getFlagSprite(std::string _textureID){
     if(flags.count(_textureID)){
         return sf::Sprite{*(flags[_textureID])};
+    }
+    //If the ID does not exist, return an empty sprite; to be changed later (?)
+    else{
+        return{};
+    }
+}
+
+sf::Sprite TextureManager::getWeatherSprite(std::string _textureID){
+    if(weather.count(_textureID)){
+        return sf::Sprite{*(weather[_textureID])};
     }
     //If the ID does not exist, return an empty sprite; to be changed later (?)
     else{

@@ -36,7 +36,7 @@
 
 class TerrainLoader;
 
-class World : public sf::Drawable, public sf::NonCopyable
+class World : public sf::NonCopyable, public sf::Drawable
 {
 	friend class Ant;
 	friend class RiverAnt;
@@ -103,7 +103,7 @@ public:
 	};
 
 	World(MasterManager& _mManager, sf::Vector2i _dimensions);
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
 	void generateRandomWorld(Era _era);
 
@@ -212,6 +212,12 @@ private:
 	//Used for drawing efficiency
 	sf::VertexArray mTerrainVertices;
 	sf::Texture& mTerrainTexture;
+
+    public:
+     //A vector of sprites of rain
+     //In order to achieve the proper visual effect, this needs to be reset after every time it is drawn,
+     //which means we need to call .clear() inside draw(), which is const. This is why it is mutable.
+     std::vector<sf::Sprite> mutable rainVector;
 
 };
 

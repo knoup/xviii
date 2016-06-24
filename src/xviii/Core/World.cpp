@@ -227,6 +227,13 @@ TerrainTile* World::terrainAtCartesianPos(sf::Vector2i _pos){
 void World::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 	target.draw(mTerrainVertices, &mTerrainTexture);
 
+
+    for(auto& rain : rainVector){
+        target.draw(rain);
+    }
+
+    rainVector.clear();
+
 	for(auto& t : temporaryBridges){
         if(t->visible){
             target.draw(t->hpText);

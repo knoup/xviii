@@ -15,6 +15,7 @@ public:
 
 	sf::Sprite getUnitSprite(std::string _textureID);
 	sf::Sprite getFlagSprite(std::string _textureID);
+	sf::Sprite getWeatherSprite(std::string _textureID);
 	sf::Sprite getSprite(Terrain type);
 	sf::Sprite getSprite(UI type);
     sf::Sprite getRandomBackground();
@@ -27,6 +28,7 @@ public:
 private:
 	std::map<std::string, texturePtr> units;
 	std::map<std::string, texturePtr> flags;
+	std::map<std::string, texturePtr> weather;
 
     //A random image from the backgrounds folder. Note that it is only randomised once on launch.
     texturePtr randomBackground;

@@ -67,6 +67,7 @@ void GameState_Play::getInput(){
 		    {
 			game->Player1->view.setSize(event.size.width, event.size.height);
 			game->Player2->view.setSize(event.size.width, event.size.height);
+			playUI.uiView.setViewport({(1 - (playUI.uiView.getViewport().width)) / 2, 1 - (playUI.uiView.getViewport().height), playUI.barWidth/event.size.width, playUI.barHeight/event.size.height});
 
 			sf::FloatRect viewport;
             viewport.width = playUI.barWidth / event.size.width;
@@ -395,6 +396,56 @@ void GameState_Play::update(float mFT){
 		game->mWorld->highlightVisibleTiles();
 
 	}
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//////////////WORLD RAIN-RELATED UPDATES//////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
+
+
+    bool rain{false};
+    float refreshTime{0};
+    int intensity{0};
+
+    for(auto& effect : game->mWorld->getWeatherEffects()){
+
+        if(effect.first == World::Weather::HEAVY_RAIN){
+            rain = true;
+            refreshTime = 0.1;
+            intensity = 400;
+            break;
+        }
+        else if(effect.first == World::Weather::LIGHT_RAIN){
+            rain = true;
+            refreshTime = 0.3;
+            intensity = 150;
+            break;
+        }
+
+    }
+
+    if(rain){
+        if(animationClock.getElapsedTime().asSeconds() > refreshTime){
+
+            game->mWorld->rainVector.resize(intensity);
+
+            boost::random::uniform_int_distribution<int> randomXCoordinate(0, game->mWorld->getDimensions().x);
+            boost::random::uniform_int_distribution<int> randomYCoordinate(0, game->mWorld->getDimensions().y);
+
+            for(int i{0}; i < intensity; ++i){
+                game->mWorld->rainVector[i] = game->mWorld->masterManager.textureManager->getWeatherSprite("rain");
+                game->mWorld->rainVector[i].setPosition(game->mWorld->pixelPosAtCartesianPos({{randomXCoordinate(game->mWorld->masterManager.randomEngine)},{randomYCoordinate(game->mWorld->masterManager.randomEngine)}}));
+            }
+
+            animationClock.restart();
+        }
+    }
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
+
 
 	//////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////

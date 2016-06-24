@@ -78,6 +78,7 @@ private:
 
 	PlayUI playUI;
 	bool drawUI{true};
+	sf::Clock animationClock;
 
 };
 
