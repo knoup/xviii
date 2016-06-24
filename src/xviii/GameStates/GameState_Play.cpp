@@ -332,6 +332,48 @@ void GameState_Play::getInput(){
 	}
 }
 
+void GameState_Play::handleWeather(){
+
+    bool rain{false};
+    float refreshTime{0};
+    int intensity{0};
+
+    for(auto& effect : game->mWorld->getWeatherEffects()){
+
+        if(effect.first == World::Weather::HEAVY_RAIN){
+            rain = true;
+            refreshTime = 0.1;
+            intensity = 400;
+            break;
+        }
+        else if(effect.first == World::Weather::LIGHT_RAIN){
+            rain = true;
+            refreshTime = 0.3;
+            intensity = 120;
+            break;
+        }
+
+    }
+
+    if(rain){
+        if(animationClock.getElapsedTime().asSeconds() > refreshTime){
+
+            game->mWorld->rainVector.clear();
+            game->mWorld->rainVector.resize(intensity);
+
+            boost::random::uniform_int_distribution<int> randomXCoordinate(0, game->mWorld->getDimensions().x);
+            boost::random::uniform_int_distribution<int> randomYCoordinate(0, game->mWorld->getDimensions().y);
+
+            for(int i{0}; i < intensity; ++i){
+                game->mWorld->rainVector[i] = game->mWorld->masterManager.textureManager->getWeatherSprite("rain");
+                game->mWorld->rainVector[i].setPosition(game->mWorld->pixelPosAtCartesianPos({{randomXCoordinate(game->mWorld->masterManager.randomEngine)},{randomYCoordinate(game->mWorld->masterManager.randomEngine)}}));
+            }
+
+            animationClock.restart();
+        }
+    }
+}
+
 void GameState_Play::update(float mFT){
 	if (cameraVelocity.x >= -0.1 && cameraVelocity.x <= 0.1 && cameraVelocity.x != 0){
 		cameraVelocity = {0, 0};
@@ -370,6 +412,8 @@ void GameState_Play::update(float mFT){
 
 	if (game->currentPlayer->isReady()){
 
+        game->mWorld->rainVector.clear();
+
         if (selected != nullptr){
             selected->setHighlighted(false);
             selected = nullptr;
@@ -399,47 +443,11 @@ void GameState_Play::update(float mFT){
 
 
 	//////////////////////////////////////////////////////////////////////////////
-	//////////////WORLD RAIN-RELATED UPDATES//////////////////////////////////////
+	//////////////WEATHER-RELATED UPDATES/////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////
 
 
-    bool rain{false};
-    float refreshTime{0};
-    int intensity{0};
-
-    for(auto& effect : game->mWorld->getWeatherEffects()){
-
-        if(effect.first == World::Weather::HEAVY_RAIN){
-            rain = true;
-            refreshTime = 0.1;
-            intensity = 400;
-            break;
-        }
-        else if(effect.first == World::Weather::LIGHT_RAIN){
-            rain = true;
-            refreshTime = 0.3;
-            intensity = 150;
-            break;
-        }
-
-    }
-
-    if(rain){
-        if(animationClock.getElapsedTime().asSeconds() > refreshTime){
-
-            game->mWorld->rainVector.resize(intensity);
-
-            boost::random::uniform_int_distribution<int> randomXCoordinate(0, game->mWorld->getDimensions().x);
-            boost::random::uniform_int_distribution<int> randomYCoordinate(0, game->mWorld->getDimensions().y);
-
-            for(int i{0}; i < intensity; ++i){
-                game->mWorld->rainVector[i] = game->mWorld->masterManager.textureManager->getWeatherSprite("rain");
-                game->mWorld->rainVector[i].setPosition(game->mWorld->pixelPosAtCartesianPos({{randomXCoordinate(game->mWorld->masterManager.randomEngine)},{randomYCoordinate(game->mWorld->masterManager.randomEngine)}}));
-            }
-
-            animationClock.restart();
-        }
-    }
+    handleWeather();
 
 
 	//////////////////////////////////////////////////////////////////////////////

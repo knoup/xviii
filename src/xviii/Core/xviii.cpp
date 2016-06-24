@@ -4,6 +4,8 @@
 /*
     TODO:
 
+    (*) Make some of the rain logic in GameState_Play::update() be updated turnly instead of constantly
+
     (*) Seperate movement and attack logic so that classes can, for example, be given movement rules of CAV but
     attack rules of INF (TODO later, after the upcoming UI update)
 
@@ -21,8 +23,6 @@
 	(*) Make rivers have a chance to bend, perhaps by giving each tile a minor chance to do a 90 degree turn
 
 	(*) UI Update
-
-	(*) Fix some minor quirks with views and resizing
 
 */
 

@@ -68,6 +68,8 @@ public:
     //A little wrapper, since we need to access this from the combat pause menu and playUI is private...
 	inline void setSaveStatus(bool val){playUI.setSaveStatus(val);};
 private:
+    void handleWeather();
+
 	UnitTile* selected;
 
 	sf::Vector2f cameraVelocity;

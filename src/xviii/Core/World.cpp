@@ -232,7 +232,6 @@ void World::draw(sf::RenderTarget &target, sf::RenderStates states) const{
         target.draw(rain);
     }
 
-    rainVector.clear();
 
 	for(auto& t : temporaryBridges){
         if(t->visible){

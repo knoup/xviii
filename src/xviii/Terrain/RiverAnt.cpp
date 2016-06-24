@@ -19,7 +19,7 @@ void RiverAnt::crawl(){
 		int randomDirection{randomDirectionDist(world->masterManager.mapSeedEngine)};
 
 
-		 boost::random::uniform_int_distribution<int> randDist(1, 100);
+        boost::random::uniform_int_distribution<int> randDist(1, 100);
 		int randNum{randDist(world->masterManager.mapSeedEngine)};
 
 
