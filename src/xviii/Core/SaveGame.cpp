@@ -467,6 +467,13 @@ void SaveGame::parse(boost::filesystem::path _dir){
                     game->mWorld->terrainLayer[currentIndex] = std::move(ptr);
 				}
 
+				else if(currentTypeStr.find("mud") != std::string::npos){
+                    auto ptr = std::move(std::unique_ptr<Mud>(new Mud(game->mWorld, currentPos)));
+                    game->mWorld->mudTiles.push_back(ptr.get());
+                    game->mWorld->terrainLayer[currentIndex] = std::move(ptr);
+
+				}
+
 
                 else{
 				//type, class, texture, string

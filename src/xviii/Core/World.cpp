@@ -482,6 +482,49 @@ void World::wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinati
 	return;
 }
 
+void World::toggleMud(TerrainTile* terrain){
+    int index = indexAtTile(*terrain);
+    UnitTile* unit = terrain->getUnit();
+
+    //This part gave me headaches for hours.
+    //It is crucial to reset the unit's terrain pointer, because the function spawn() below resets
+    //the terrain pointer's unit pointer; needless to say, spawn() is not designed to be used on
+    //removed tiles. Remove the following check if you want to spend your night debugging cryptic
+    //compiler messages.
+
+    if(unit != nullptr){
+        unit->resetTerrain();
+    }
+
+
+    for(auto it = visibleTiles.begin(); it != visibleTiles.end(); ){
+        if(*it == terrain){
+            it = visibleTiles.erase(it);
+        }
+        else{
+            it++;
+        }
+    }
+
+    if(terrain->getTerrainType() == TerrainTile::TerrainType::MEADOW){
+        auto ptr =  std::move(std::unique_ptr<Mud>(new Mud{this, terrain->getPixelPos()}));
+        mudTiles.push_back(ptr.get());
+        terrainLayer[index] = std::move(ptr);
+    }
+
+    else if(terrain->getTerrainType() == TerrainTile::TerrainType::MUD){
+        mudTiles.erase(std::remove(mudTiles.begin(), mudTiles.end(), terrainLayer[index].get()), mudTiles.end());
+        terrainLayer[index] =  std::move(std::unique_ptr<Meadow>(new Meadow{this, terrain->getPixelPos()}));
+
+        visibleTiles.insert(terrainLayer[index].get());
+        highlightVisibleTiles();
+    }
+
+    if(unit != nullptr){
+        unit->spawn(terrainLayer[index].get());
+    }
+}
+
 void World::turnlyUpdate(){
     boost::random::uniform_int_distribution<int> dist(1, 100);
 
@@ -534,6 +577,123 @@ void World::turnlyUpdate(){
         addWeather();
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //////////////////MUD CREATION AND REMOVAL//////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+
+    //Firstly, depending on whether the rain is heavy or light, there will be a varying
+    //amount of mud formations per turn.
+
+
+    bool rain{false};
+    int minimumMudFormations{0};
+
+    for(auto& effect : weatherEffects){
+
+        if(effect.first == World::Weather::HEAVY_RAIN){
+            rain = true;
+            minimumMudFormations = 4;
+            break;
+        }
+        else if(effect.first == World::Weather::LIGHT_RAIN){
+            rain = true;
+            minimumMudFormations = 2;
+            break;
+        }
+
+    }
+
+    //A random tile on the map that we call the origin is converted to mud (if possible).
+
+    if(rain){
+
+        for (int i{0}; i < minimumMudFormations; ++i){
+            boost::random::uniform_int_distribution<int> randomIndexDist(0, getDimensions().x * getDimensions().y);
+            int randomIndex{randomIndexDist(masterManager.randomEngine)};
+
+            sf::Vector2i originPosition{cartesianPosAtIndex(randomIndex)};
+            TerrainTile* origin = terrainAtCartesianPos(originPosition);
+
+            bool originConvertedToMud{false};
+
+            if(origin->getTerrainType() == TerrainTile::TerrainType::MEADOW){
+                toggleMud(origin);
+                originConvertedToMud = true;
+            }
+
+            if(!originConvertedToMud){
+                break;
+            }
+
+            //There is then an 4/5 chance that a neighboring tile is also converted, if possible...
+
+            int randomNumber{0};
+            do{
+                boost::random::uniform_int_distribution<int> randomDist(1, 5);
+                randomNumber = randomDist(masterManager.randomEngine);
+
+                if(randomNumber >= 2){
+                    boost::random::uniform_int_distribution<int> randomDisplacementDist(-1, 1);
+                    int randomDisplacementX{randomDisplacementDist(masterManager.randomEngine)};
+                    int randomDisplacementY{randomDisplacementDist(masterManager.randomEngine)};
+
+                    sf::Vector2i newPosition{originPosition.x + randomDisplacementX, originPosition.y + randomDisplacementY};
+                    TerrainTile* newTerrain = terrainAtCartesianPos(newPosition);
+
+                    if(newTerrain != nullptr){
+                        if(newTerrain->getTerrainType() == TerrainTile::TerrainType::MEADOW){
+                            toggleMud(newTerrain);
+                        }
+                    }
+                }
+
+            //... and a 3/5 chance for this process to repeat.
+            }while(randomNumber >= 3);
+
+        }
+
+
+        //While new mud tiles are formed, every old mud tile has a 1/8 chance to spread to a neighboring tile, if possible
+
+        for(auto& mudTile : mudTiles){
+            boost::random::uniform_int_distribution<int> randomDist(1, 8);
+            int randomNumber = randomDist(masterManager.randomEngine);
+
+            if(randomNumber == 1){
+                    boost::random::uniform_int_distribution<int> randomDisplacementDist(-1, 1);
+                    int randomDisplacementX{randomDisplacementDist(masterManager.randomEngine)};
+                    int randomDisplacementY{randomDisplacementDist(masterManager.randomEngine)};
+
+                    sf::Vector2i originPosition = mudTile->getCartesianPos();
+                    sf::Vector2i newPosition{originPosition.x + randomDisplacementX, originPosition.y + randomDisplacementY};
+                    TerrainTile* newTerrain = terrainAtCartesianPos(newPosition);
+
+                    if(newTerrain != nullptr){
+                        if(newTerrain->getTerrainType() == TerrainTile::TerrainType::MEADOW){
+                            toggleMud(newTerrain);
+                        }
+                    }
+                }
+        }
+
+    }
+
+    //Finally, after the rain has stopped, each mud tile has a 9/10 chance to dry up.
+
+    else if (!rain){
+
+        for(auto& mud : mudTiles){
+            boost::random::uniform_int_distribution<int> randomDryingChanceDist(1, 10);
+            int randomDryingChance{randomDryingChanceDist(masterManager.randomEngine)};
+
+            if(randomDryingChance <= 9){
+                toggleMud(mud);
+            }
+        }
+
+    }
 
     unhighlightVisibleTiles();
     visibleTiles.clear();

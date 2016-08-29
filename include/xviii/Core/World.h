@@ -151,6 +151,9 @@ public:
 	void toggleBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
 	void toggleTBridge(TerrainTile* terrain, TerrainTile::Orientation _or);
 
+    //This function toggles a mud tile to a meadow tile, and vice versa
+	void toggleMud(TerrainTile* terrain);
+
     //This function ensures the connection variables for bridges are properly set
     void connectBridges();
 
@@ -199,6 +202,8 @@ private:
 	//Also, store regular pointers of bridges in these vectors, for convenience
 	std::vector<Bridge*> permanentBridges;
 	std::vector<TBridge*> temporaryBridges;
+    //Same idea for mud tiles
+	std::vector<Mud*> mudTiles;
 
 
 	//This vector stores pointers to the units that have been damaged during an attack. It is reset afterwards
