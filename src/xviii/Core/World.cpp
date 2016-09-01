@@ -657,7 +657,11 @@ void World::turnlyUpdate(){
 
         //While new mud tiles are formed, every old mud tile has a 1/8 chance to spread to a neighboring tile, if possible
 
-        for(auto& mudTile : mudTiles){
+        //IMPORTANT NOTE: here we use an integer-based index rather than a foreach loop, because toggleMud()
+        //itself actually erases a mud tile from mudTiles. So if we do a foreach mudTiles loop, we end up with
+        //messy dangling pointers and, in my case, days of debugging crashes.
+
+        for(int i{0}; i < mudTiles.size(); i++){
             boost::random::uniform_int_distribution<int> randomDist(1, 8);
             int randomNumber = randomDist(masterManager.randomEngine);
 
@@ -666,7 +670,7 @@ void World::turnlyUpdate(){
                     int randomDisplacementX{randomDisplacementDist(masterManager.randomEngine)};
                     int randomDisplacementY{randomDisplacementDist(masterManager.randomEngine)};
 
-                    sf::Vector2i originPosition = mudTile->getCartesianPos();
+                    sf::Vector2i originPosition = mudTiles[i]->getCartesianPos();
                     sf::Vector2i newPosition{originPosition.x + randomDisplacementX, originPosition.y + randomDisplacementY};
                     TerrainTile* newTerrain = terrainAtCartesianPos(newPosition);
 
@@ -684,12 +688,16 @@ void World::turnlyUpdate(){
 
     else if (!rain){
 
-        for(auto& mud : mudTiles){
+        //IMPORTANT NOTE: here we use an integer-based index rather than a foreach loop, because toggleMud()
+        //itself actually erases a mud tile from mudTiles. So if we do a foreach mudTiles loop, we end up with
+        //messy dangling pointers and, in my case, days of debugging crashes.
+
+        for(int i{0}; i < mudTiles.size(); i++){
             boost::random::uniform_int_distribution<int> randomDryingChanceDist(1, 10);
             int randomDryingChance{randomDryingChanceDist(masterManager.randomEngine)};
 
             if(randomDryingChance <= 9){
-                toggleMud(mud);
+                toggleMud(mudTiles[i]);
             }
         }
 
