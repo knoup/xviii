@@ -86,6 +86,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
         bool exitLoop{false};
 
+        //sf::Clock animationTimer;
         //Begin at the tile that comes after the current tile, and loop to the destination (inclusive)
         for (int i{PRIMARYAXIS_CURRENT + PRIMARYAXIS_MOVEMENT}; i != PRIMARYAXIS_DESTINATION && !exitLoop; i += PRIMARYAXIS_MOVEMENT){
 
@@ -113,6 +114,13 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 
                 exitLoop = true;
             }
+
+            //while(animationTimer.getElapsedTime().asSeconds() < 0.5f){
+
+            //}
+
+            //playMoveToAnimation(terrainInTheWay);
+
         }
 
 

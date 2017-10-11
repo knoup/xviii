@@ -240,9 +240,17 @@ void GameState_Play::getInput(){
 					}
 				}
 
-				//If you previously had a selected unit, unhighlight it
+
 				if (selected != nullptr){
-					selected->setHighlighted(false);
+
+					//If the unit's movement "animation" is still playing,
+					//teleport the unit to its destination instantly
+                    if(moveAnimationPlaying){
+                        selected->setSpritePixelPos(selected->getTerrain()->getPixelPos());
+                        selected->updateStats();
+
+                        moveAnimationPlaying = false;
+					}
 
 					//If a unit is selected and you click on a terrain tile,
 					//move the unit there if it is unnocupied
@@ -259,7 +267,11 @@ void GameState_Play::getInput(){
                                 playUI.setCurrentMessageText(selected->attack(terrain));
                             }
                             else{
+                                TerrainTile* initialTerrain = selected->getTerrain();
                                 playUI.setCurrentMessageText(selected->moveTo(terrain));
+                                selected->setSpritePixelPos(initialTerrain->getPixelPos());
+                                moveAnimationPlaying = true;
+                                selected->setHighlighted(false);
                             }
 
                             playUI.setSaveStatus(false);
@@ -281,7 +293,11 @@ void GameState_Play::getInput(){
                                 }
 
                                 else{
+                                    TerrainTile* initialTerrain = selected->getTerrain();
                                     playUI.setCurrentMessageText(selected->moveTo(terrain));
+                                    selected->setSpritePixelPos(initialTerrain->getPixelPos());
+                                    moveAnimationPlaying = true;
+                                    selected->setHighlighted(false);
                                 }
 
                             }
@@ -293,9 +309,6 @@ void GameState_Play::getInput(){
 
 						}
 					}
-
-					//Finally, unselect the tile
-					selected = nullptr;
 				}
 
 				else if (selected == nullptr){
@@ -311,7 +324,17 @@ void GameState_Play::getInput(){
 			else if (event.mouseButton.button == sf::Mouse::Right){
 
 				if (selected != nullptr){
-					selected->setHighlighted(false);
+
+					//If the unit's movement "animation" is still playing,
+					//teleport the unit to its destination instantly
+                    if(moveAnimationPlaying){
+                        selected->setSpritePixelPos(selected->getTerrain()->getPixelPos());
+
+                        moveAnimationPlaying = false;
+                        selected->updateStats();
+					}
+
+                    selected->setHighlighted(false);
 					selected = nullptr;
 				}
 
@@ -405,6 +428,54 @@ void GameState_Play::update(float mFT){
 	}
 
 	playUI.update();
+
+    //////////////////////////////////////////////////////////////////////////////
+	//MOVE ANIMATION LOGIC
+	//////////////////////////////////////////////////////////////////////////////
+
+	if(selected != nullptr){
+        if(moveAnimationPlaying){
+            sf::Vector2f currentPos = selected->getPixelPos();
+            sf::Vector2f finalPos = selected->getTerrain()->getPixelPos();
+
+            float xVariance = currentPos.x - finalPos.x;
+            float yVariance = currentPos.y - finalPos.y;
+
+            float modifier = 0;
+
+            if(xVariance == 0 && yVariance == 0){
+                moveAnimationPlaying = false;
+                //During movement, highlights are disabled for aesthetic purposes.
+                //Enable them again afterwards.
+                selected->setHighlighted(true);
+                selected->updateStats();
+            }
+
+            else if(xVariance == 0){
+
+                if(yVariance < 0){
+                    modifier = 0.5;
+                }
+                else{
+                    modifier = -0.5;
+                }
+
+                selected->setSpritePixelPos({currentPos.x, currentPos.y + modifier});
+            }
+
+            else if(yVariance == 0){
+
+                if(xVariance < 0){
+                    modifier = 0.5;
+                }
+                else{
+                    modifier = -0.5;
+                }
+
+                selected->setSpritePixelPos({currentPos.x + modifier, currentPos.y});
+            }
+        }
+	}
 
     //////////////////////////////////////////////////////////////////////////////
 	//TURNLY UPDATES

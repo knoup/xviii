@@ -24,7 +24,7 @@ inactivePlayer{nullptr},
 mousePos{},
 saveCreator{this}
 {
-	mWindow.setFramerateLimit(120);
+	mWindow.setFramerateLimit(60);
 
     sf::Image icon;
 

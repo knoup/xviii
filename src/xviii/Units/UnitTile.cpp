@@ -371,6 +371,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 
         bool exitLoop{false};
 
+        //sf::Clock animationTimer;
         //Begin at the tile that comes after the current tile, and loop to the destination (inclusive)
         for (int i{PRIMARYAXIS_CURRENT + PRIMARYAXIS_MOVEMENT}; i != PRIMARYAXIS_DESTINATION && !exitLoop; i += PRIMARYAXIS_MOVEMENT){
 
@@ -398,6 +399,12 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 
                 exitLoop = true;
             }
+
+            //while(animationTimer.getElapsedTime().asSeconds() < 0.5f){
+
+            //}
+
+            //playMoveToAnimation(terrainInTheWay);
         }
 
 
@@ -450,6 +457,17 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
     return{"???"};
 }
 
+void UnitTile::playMoveToAnimation(TerrainTile* _terrain){
+    TerrainTile* currentTerrain = getTerrain();
+
+    sf::Vector2f currentPos = currentTerrain->getPixelPos();
+    sf::Vector2f destinationPost = _terrain->getPixelPos();
+
+    this->sprite.setPosition(destinationPost);
+
+    updateStats();
+}
+
 //Virtual
 void UnitTile::reset(){
 	calculateEffectiveMov();
@@ -476,6 +494,25 @@ void UnitTile::reset(){
 	updateStats();
 }
 
+void UnitTile::setSpritePixelPos(sf::Vector2f _pos){
+    sprite.setPosition(_pos);
+    unitFlag.setPosition(_pos);
+    outline.setPosition(_pos);
+
+    //////////////////////////////////////////////
+
+    //Update the physical position of the stats, and sprite, if needed
+    //This algorithm attempts to place the numbers in as even a space as possible:
+    auto spriteSize = sprite.getLocalBounds();
+	auto spritePos = sprite.getPosition();
+
+    int combinedWidth = dirText.getLocalBounds().width + hpText.getLocalBounds().width + movText.getLocalBounds().width;
+    int edgeSize = (spriteSize.width - combinedWidth) / 4;
+
+    dirText.setPosition(spritePos.x + edgeSize, spritePos.y + spriteSize.height);
+    movText.setPosition(spritePos.x + spriteSize.width - edgeSize - movText.getLocalBounds().width, spritePos.y + spriteSize.height);
+    hpText.setPosition((dirText.getPosition().x + dirText.getLocalBounds().width + movText.getPosition().x) / 2 - hpText.getLocalBounds().width / 2 , spritePos.y + spriteSize.height);
+}
 
 void UnitTile::stun(){
 	mov = 0;

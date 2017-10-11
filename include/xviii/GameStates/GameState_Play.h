@@ -82,5 +82,7 @@ private:
 	bool drawUI{true};
 	sf::Clock animationClock;
 
+	bool moveAnimationPlaying{false};
+
 };
 

@@ -299,6 +299,8 @@ public:
 	void applyFlankModifier(Modifier _flank, UnitTile* _enemy);
 	void applyTerrainModifiers(TerrainTile* _terrain, int _distance, bool _attacking);
 
+	void playMoveToAnimation(TerrainTile* _terrain);
+
 	//Needed for double dispatch
 	virtual std::string meleeAttack(UnitTile* _unit) = 0;
 
@@ -341,6 +343,8 @@ public:
 
 	//Other - Non Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
+	void setSpritePixelPos(sf::Vector2f _pos);
+
 	void stun();
 	std::string heal(UnitTile* _unit);
 	std::string beHealed(float num);
