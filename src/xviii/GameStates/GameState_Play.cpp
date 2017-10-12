@@ -194,10 +194,14 @@ void GameState_Play::getInput(){
 			break;
 
 		case sf::Event::MouseWheelMoved:
-			if (event.mouseWheel.delta > 0){
+			if (event.mouseWheel.delta > 0 && game->currentView->getSize().x > xResolution && game->currentView->getSize().y > yResolution){
+                //zoom in
+                std::cout << game->currentView->getSize().x << ',' << game->currentView->getSize().y << std::endl;
 				game->currentView->setSize(game->currentView->getSize().x - xResolution / 12, game->currentView->getSize().y - yResolution / 12);
 			}
-			else if (event.mouseWheel.delta < 0){
+			else if (event.mouseWheel.delta < 0 && game->currentView->getSize().x < xResolution * 4 && game->currentView->getSize().y < yResolution * 4){
+			    //zoom out
+			    std::cout << game->currentView->getSize().x << ',' << game->currentView->getSize().y << std::endl;
 				game->currentView->setSize(game->currentView->getSize().x + xResolution / 12, game->currentView->getSize().y + yResolution / 12);
 			}
 

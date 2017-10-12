@@ -60,6 +60,7 @@ protected:
 	static sf::View backgroundView;
 
 	static sf::Text titleText;
+	static sf::Text quoteText;
 	//Due to the massive amount of available backgrounds, and the fact that only one will be ever used,
 	//this is the only place in the code where I won't handle a texture with TextureManager.
 	static std::unique_ptr<sf::Texture> backgroundTexture;

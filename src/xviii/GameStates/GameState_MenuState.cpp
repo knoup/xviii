@@ -6,12 +6,27 @@
 sf::View GameState_MenuState::menuSelectView;
 sf::View GameState_MenuState::backgroundView;
 sf::Text GameState_MenuState::titleText;
+sf::Text GameState_MenuState::quoteText;
 std::unique_ptr<sf::Texture> GameState_MenuState::backgroundTexture;
 sf::Sprite GameState_MenuState::backgroundSprite;
 
 GameState_MenuState::GameState_MenuState(Game* game) :
 GameState{game}
 {
+    std::vector<std::string> quotes;
+
+    quotes.push_back("\"Cavalry is useful before, during, and after the battle.\" - Napoleon");
+    quotes.push_back("\"Don't forget your great guns, which are the most respectable arguments of the rights of kings.\" - Frederick II");
+    quotes.push_back("\"Do not fire until you see the white of their eyes!\" - Joseph Warren");
+    quotes.push_back("\"Soldiers usually win the battles and generals get the credit for them.\" - Napoleon");
+    quotes.push_back("\"War is not merely a political act but a real political instrument, a continuation of political\n intercourse, a carrying out of the same by other means.\" - Carl von Clausewitz");
+    quotes.push_back("\"Discipline is the soul of an army. It makes small numbers formidable;\nprocures success to the weak, and esteem to all.\" - George Washington");
+    quotes.push_back("\"The backbone of surprise is fusing speed with secrecy.\" - Carl von Clausewitz");
+    quotes.push_back("\"It is even better to act quickly and err than to hesitate until the time of action is past.\" - Carl von Clausewitz");
+    quotes.push_back("\"Men are always more inclined to pitch their estimate of the enemy's strength\n too high than too low, such is human nature.\" - Carl von Clausewitz");
+    quotes.push_back("\"Everything in war is simple, but the simplest thing is difficult.\" - Carl von Clausewitz");
+    quotes.push_back("\"There are times when the utmost daring is the height of wisdom.\" - Carl von Clausewitz");
+
 	titleText.setCharacterSize(275);
 	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Eighteen));
 	titleText.setString("X V I I I");
@@ -27,7 +42,19 @@ GameState{game}
 	titleText.setColor(sf::Color(randColourR, randColourG, randColourB));
 
 	titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
-	titleText.setPosition(xResolution / 2, -(yResolution / 2.5f));
+	titleText.setPosition(xResolution / 2, -(yResolution / 2.f));
+
+    //Select a random quote:
+	boost::random::uniform_int_distribution<int> quoteDistribution(0, quotes.size() - 1);
+	int randQuote{quoteDistribution(game->mManager.randomEngine)};
+
+    quoteText.setCharacterSize(20);
+	quoteText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+    quoteText.setStyle(2);
+	quoteText.setString(quotes.at(randQuote));
+
+    quoteText.setOrigin(quoteText.getLocalBounds().width / 2, quoteText.getLocalBounds().height / 2);
+	quoteText.setPosition(xResolution / 2, -(yResolution / 7.5f));
 
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
 
@@ -36,7 +63,6 @@ GameState{game}
 
 void GameState_MenuState::getInput(){
 	sf::Event event;
-
 	bool confirm{false};
 
 	while (game->mWindow.pollEvent(event)){
@@ -182,6 +208,7 @@ void GameState_MenuState::draw(){
 
 	game->mWindow.setView(menuSelectView);
 	game->mWindow.draw(titleText);
+	game->mWindow.draw(quoteText);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);
