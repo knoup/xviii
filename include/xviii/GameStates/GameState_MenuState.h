@@ -40,6 +40,7 @@ protected:
 
 		boost::filesystem::path path;
 		bool highlightable;
+		bool highlighted{false};
 		sf::Text text;
 		GameState* state;
 		Action action;
@@ -58,6 +59,12 @@ protected:
 
 	static sf::View menuSelectView;
 	static sf::View backgroundView;
+
+	//fadeAnimationClock is responsible for the timing of the menu selection fading
+	//fadingOut is a toggle responsible for keeping track of whether the current menu selection is fading
+	//in, or out
+	static sf::Clock fadeAnimationClock;
+	static bool fadingOut;
 
 	static sf::Text titleText;
 	static sf::Text quoteText;

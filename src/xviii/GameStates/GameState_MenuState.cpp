@@ -5,6 +5,8 @@
 
 sf::View GameState_MenuState::menuSelectView;
 sf::View GameState_MenuState::backgroundView;
+sf::Clock GameState_MenuState::fadeAnimationClock;
+bool GameState_MenuState::fadingOut{true};
 sf::Text GameState_MenuState::titleText;
 sf::Text GameState_MenuState::quoteText;
 std::unique_ptr<sf::Texture> GameState_MenuState::backgroundTexture;
@@ -153,8 +155,12 @@ void GameState_MenuState::getInput(){
                 for(size_t i{0}; i < menuList.size(); ++i){
                     if(menuList[i].text.getGlobalBounds().contains(mousePos)){
 
+                        //Ensure that the next highlighted menu will start at
+                        //maximum opaqueness and start fading out
+                        fadingOut = true;
                         //Unhighlight current object
-                        menuIterator->text.setColor((sf::Color::White));
+                        menuIterator->highlighted = false;
+                        menuIterator->text.setColor(sf::Color::White);
 
                         menuIterator = menuList.begin();
                         menuIterator += i;
@@ -193,8 +199,34 @@ void GameState_MenuState::getInput(){
 }
 
 void GameState_MenuState::update(float mFT){
-	if (menuIterator->text.getColor() != sf::Color::Yellow && menuIterator->highlightable){
-		menuIterator->text.setColor(sf::Color::Yellow);
+	if (!menuIterator->highlighted && menuIterator->highlightable){
+		menuIterator->highlighted = true;
+	}
+
+	if(menuIterator->highlighted){
+        auto transparency = menuIterator->text.getColor().a;
+
+        int modifier;
+        if(fadingOut){
+            modifier = -1;
+        }
+        else{
+            modifier = 1;
+        }
+
+        if(fadeAnimationClock.getElapsedTime().asMicroseconds() > 10){
+            transparency += modifier;
+            fadeAnimationClock.restart();
+        }
+
+        if(transparency <= 50){
+            fadingOut = false;
+        }
+        else if(transparency == 255){
+            fadingOut = true;
+        }
+
+        menuIterator->text.setColor(sf::Color(255,255,0,transparency));
 	}
 
     //This will probably be required for the save menu
