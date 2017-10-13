@@ -12,14 +12,8 @@
 #include "xviii/GameStates/GameState_MainMenu.h"
 #include "xviii/GameStates/GameState_CustomBattleMenu.h"
 #include "xviii/GameStates/GameState_MultiplayerMenu.h"
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include "xviii/GameStates/GameState_MultiplayerHostMenu.h"
 #include "xviii/GameStates/GameState_MultiplayerConnectMenu.h"
-=======
->>>>>>> 2b8098701c691294f749b5e8c9c5b3a93db8e50d
-=======
->>>>>>> 2b8098701c691294f749b5e8c9c5b3a93db8e50d
 #include "xviii/GameStates/GameState_CustomBattleLoadMenu.h"
 #include "xviii/GameStates/GameState_CreditMenu.h"
 #include "xviii/GameStates/GameState_CustomBattlePauseMenu.h"
@@ -53,14 +47,8 @@ public:
 	std::unique_ptr<GameState_MainMenu> MainMenuState;
 	std::unique_ptr<GameState_CustomBattleMenu> CustomBattleMenuState;
 	std::unique_ptr<GameState_MultiplayerMenu> MultiplayerMenuState;
-<<<<<<< HEAD
-<<<<<<< HEAD
 	std::unique_ptr<GameState_MultiplayerHostMenu> MultiplayerHostMenuState;
 	std::unique_ptr<GameState_MultiplayerConnectMenu> MultiplayerConnectMenuState;
-=======
->>>>>>> 2b8098701c691294f749b5e8c9c5b3a93db8e50d
-=======
->>>>>>> 2b8098701c691294f749b5e8c9c5b3a93db8e50d
 	std::unique_ptr<GameState_CustomBattleLoadMenu> CustomBattleLoadMenuState;
 	std::unique_ptr<GameState_CreditMenu> CreditMenuState;
 	std::unique_ptr<GameState_CustomBattlePauseMenu> CustomBattlePauseMenuState;

@@ -38,14 +38,8 @@ saveCreator{this}
 	MainMenuState = (std::unique_ptr<GameState_MainMenu>(new GameState_MainMenu(this)));
 	CustomBattleMenuState = (std::unique_ptr<GameState_CustomBattleMenu>(new GameState_CustomBattleMenu(this)));
 	MultiplayerMenuState = (std::unique_ptr<GameState_MultiplayerMenu>(new GameState_MultiplayerMenu(this)));
-<<<<<<< HEAD
-<<<<<<< HEAD
 	MultiplayerHostMenuState = (std::unique_ptr<GameState_MultiplayerHostMenu>(new GameState_MultiplayerHostMenu(this)));
 	MultiplayerConnectMenuState = (std::unique_ptr<GameState_MultiplayerConnectMenu>(new GameState_MultiplayerConnectMenu(this)));
-=======
->>>>>>> 2b8098701c691294f749b5e8c9c5b3a93db8e50d
-=======
->>>>>>> 2b8098701c691294f749b5e8c9c5b3a93db8e50d
     CustomBattleLoadMenuState = (std::unique_ptr<GameState_CustomBattleLoadMenu>(new GameState_CustomBattleLoadMenu(this)));
     CreditMenuState = (std::unique_ptr<GameState_CreditMenu>(new GameState_CreditMenu(this)));
 	SelectNationsState = (std::unique_ptr<GameState_SelectNationsMenu>(new GameState_SelectNationsMenu(this)));
@@ -57,14 +51,8 @@ saveCreator{this}
 	MainMenuState->init();
 	CustomBattleMenuState->init();
 	MultiplayerMenuState->init();
-<<<<<<< HEAD
-<<<<<<< HEAD
 	MultiplayerHostMenuState->init();
 	MultiplayerConnectMenuState->init();
-=======
->>>>>>> 2b8098701c691294f749b5e8c9c5b3a93db8e50d
-=======
->>>>>>> 2b8098701c691294f749b5e8c9c5b3a93db8e50d
 	CustomBattleLoadMenuState->init();
 	CreditMenuState->init();
 	CustomBattlePauseMenuState->init();
