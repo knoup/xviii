@@ -37,6 +37,7 @@ saveCreator{this}
 
 	MainMenuState = (std::unique_ptr<GameState_MainMenu>(new GameState_MainMenu(this)));
 	CustomBattleMenuState = (std::unique_ptr<GameState_CustomBattleMenu>(new GameState_CustomBattleMenu(this)));
+	MultiplayerMenuState = (std::unique_ptr<GameState_MultiplayerMenu>(new GameState_MultiplayerMenu(this)));
     CustomBattleLoadMenuState = (std::unique_ptr<GameState_CustomBattleLoadMenu>(new GameState_CustomBattleLoadMenu(this)));
     CreditMenuState = (std::unique_ptr<GameState_CreditMenu>(new GameState_CreditMenu(this)));
 	SelectNationsState = (std::unique_ptr<GameState_SelectNationsMenu>(new GameState_SelectNationsMenu(this)));
@@ -47,6 +48,7 @@ saveCreator{this}
 
 	MainMenuState->init();
 	CustomBattleMenuState->init();
+	MultiplayerMenuState->init();
 	CustomBattleLoadMenuState->init();
 	CreditMenuState->init();
 	CustomBattlePauseMenuState->init();

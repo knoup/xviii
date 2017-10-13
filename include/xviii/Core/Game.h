@@ -11,6 +11,7 @@
 #include "xviii/GameStates/GameState_Setup.h"
 #include "xviii/GameStates/GameState_MainMenu.h"
 #include "xviii/GameStates/GameState_CustomBattleMenu.h"
+#include "xviii/GameStates/GameState_MultiplayerMenu.h"
 #include "xviii/GameStates/GameState_CustomBattleLoadMenu.h"
 #include "xviii/GameStates/GameState_CreditMenu.h"
 #include "xviii/GameStates/GameState_CustomBattlePauseMenu.h"
@@ -43,6 +44,7 @@ public:
 
 	std::unique_ptr<GameState_MainMenu> MainMenuState;
 	std::unique_ptr<GameState_CustomBattleMenu> CustomBattleMenuState;
+	std::unique_ptr<GameState_MultiplayerMenu> MultiplayerMenuState;
 	std::unique_ptr<GameState_CustomBattleLoadMenu> CustomBattleLoadMenuState;
 	std::unique_ptr<GameState_CreditMenu> CreditMenuState;
 	std::unique_ptr<GameState_CustomBattlePauseMenu> CustomBattlePauseMenuState;
