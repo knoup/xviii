@@ -1,11 +1,19 @@
-Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and several <a href="http://www.boost.org/">Boost</a> modules.Inspired by, and continutally developed with, the ideas and input of a friend.
+Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and several <a href="http://www.boost.org/">Boost</a> modules. Inspired by, and continutally developed with, the ideas and input of a friend.
+
+Build Instructions
+-----------------------
+
+Required libraries:
+
+	*SFML 2.1 (system, window, graphics, and network modules)
+	*Boost (version 1.63 tested), with the filesystem, random, and algorithm libraries
+
+Compiled with TDM-GCC (version 4.9.2, 32 bit, SJLJ)
 
 Items of Note
 -----------------------
 
- *This is my first real project, hence the generally amateurish code. 
-
- *This file may be incomplete or outdated.
+ *This file may be incomplete or outdated. A complete revision of this file is due.
 
  *There is code for random menu wallpapers. My personal collection is nearly 30MB in size, and thus I won't upload it on Github for the time being. However, you are free to place your own images in the dir assets/gfx/backgrounds.
 

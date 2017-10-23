@@ -15,6 +15,7 @@ void GameState_MainMenu::init(){
 	menuList.push_back({{"Battle Menu"}, true, game->CustomBattleMenuState.get(), Action::NONE});
 	menuList.push_back({{"Options"}, true, nullptr, Action::NONE});
 	menuList.push_back({{"Credits"}, true, game->CreditMenuState.get(), Action::NONE});
+	menuList.push_back({{""}, false, nullptr, Action::NONE});
 	menuList.push_back({{"Exit"}, true, nullptr, Action::EXIT});
 
 	lineUpObjects();

@@ -19,6 +19,7 @@ void GameState_CustomBattleLoadMenu::init(){
 		}
 	}
 
+    menuList.push_back({{""}, false, nullptr, Action::NONE});
 	menuList.push_back({{"Back"}, true, game->CustomBattleMenuState.get(), Action::NONE});
 
 	lineUpObjects();

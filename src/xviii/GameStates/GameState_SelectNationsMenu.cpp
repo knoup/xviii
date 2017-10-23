@@ -101,6 +101,7 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	menuList.push_back({{"Start (Mid Era)"}, true, nullptr, Action::NEW, World::Era::MID});
 	menuList.push_back({{"Start (Early Era)"}, true, nullptr, Action::NEW, World::Era::EARLY});
 	menuList.push_back({{"Advanced Settings"}, true, nullptr, Action::NONE});
+	menuList.push_back({{""}, false, nullptr, Action::NONE});
 	menuList.push_back({{"Back"}, true, game->CustomBattleMenuState.get(), Action::NONE});
 	////////////
 

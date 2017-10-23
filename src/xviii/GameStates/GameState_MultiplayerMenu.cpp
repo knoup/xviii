@@ -13,6 +13,7 @@ void GameState_MultiplayerMenu::init(){
     menuList.push_back({{"Host"}, true, game->MultiplayerHostMenuState.get(), Action::NONE});
 	menuList.push_back({{"Connect to host"}, true, game->MultiplayerConnectMenuState.get(), Action::NONE});
 	menuList.push_back({{"Multiplayer options"}, true, nullptr, Action::NONE});
+	menuList.push_back({{""}, false, nullptr, Action::NONE});
 	menuList.push_back({{"Back"}, true, game->CustomBattleMenuState.get(), Action::NONE});
 
 	lineUpObjects();

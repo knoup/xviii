@@ -10,6 +10,8 @@ GameState_MenuState{game}
 }
 
 void GameState_MultiplayerConnectMenu::init(){
+    menuList.push_back({{"Establish connection"}, true, nullptr, Action::NONE});
+    menuList.push_back({{""}, false, nullptr, Action::NONE});
 	menuList.push_back({{"Back"}, true, game->MultiplayerMenuState.get(), Action::NONE});
 	lineUpObjects();
 
@@ -33,8 +35,8 @@ void GameState_MultiplayerConnectMenu::getInput(){
 	while (game->mWindow.pollEvent(event)){
 
         if (event.type == sf::Event::TextEntered){
-        // Handle ASCII characters only
-            if (event.text.unicode == 46 || (event.text.unicode >= 48 && event.text.unicode <= 57)){
+
+            if (IPString.size() < 15 && (event.text.unicode == 46 || (event.text.unicode >= 48 && event.text.unicode <= 57))){
                 IPString += static_cast<char>(event.text.unicode);
             }
             else if(event.text.unicode == 8 && !IPString.empty()){
