@@ -83,9 +83,9 @@ void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking
     /////////////////////////////////////////////////////////////////////////////////////////
     for(auto& bonus : unitMainBonuses){
         if(bonus.mainType == mainType){
-            if((bonus.inMelee && _distance == 1 || bonus.inRanged && _distance > 1)
+            if(((bonus.inMelee && _distance == 1) || (bonus.inRanged && _distance > 1))
                &&
-               (bonus.whenAttacking && _attacking || bonus.whenDefending && !_attacking)){
+               ((bonus.whenAttacking && _attacking) || (bonus.whenDefending && !_attacking))){
                     _unit->modVector.emplace_back(UnitTile::Modifier::TERRAIN, bonus.modifier, bonus.isAdditional);
                }
         }
@@ -95,9 +95,9 @@ void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking
 
      for(auto& bonus : unitFamilyBonuses){
         if(bonus.familyType == familyType){
-            if((bonus.inMelee && _distance == 1 || bonus.inRanged && _distance > 1)
+            if(((bonus.inMelee && _distance == 1) || (bonus.inRanged && _distance > 1))
                &&
-               (bonus.whenAttacking && _attacking || bonus.whenDefending && !_attacking)){
+               ((bonus.whenAttacking && _attacking) || (bonus.whenDefending && !_attacking))){
                     _unit->modVector.emplace_back(UnitTile::Modifier::TERRAIN, bonus.modifier, bonus.isAdditional);
                }
         }
@@ -107,9 +107,9 @@ void TerrainTile::applyModifiers(UnitTile* _unit, int _distance, bool _attacking
 
      for(auto& bonus : unitIDBonuses){
         if(bonus.unitID == unitID){
-            if((bonus.inMelee && _distance == 1 || bonus.inRanged && _distance > 1)
+            if(((bonus.inMelee && _distance == 1) || (bonus.inRanged && _distance > 1))
                &&
-               (bonus.whenAttacking && _attacking || bonus.whenDefending && !_attacking)){
+               ((bonus.whenAttacking && _attacking) || (bonus.whenDefending && !_attacking))){
                     _unit->modVector.emplace_back(UnitTile::Modifier::TERRAIN, bonus.modifier, bonus.isAdditional);
                }
         }

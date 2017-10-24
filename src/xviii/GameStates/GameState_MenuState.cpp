@@ -108,6 +108,10 @@ void GameState_MenuState::getInput(){
                         if (game->saveCreator.create()){
                             game->PlayState->setSaveStatus(true);
                         }
+                        break;
+
+                    case Action::NONE:
+                        break;
 				}
 
 				if(menuIterator->state != nullptr){
@@ -205,7 +209,7 @@ void GameState_MenuState::update(float mFT){
 	}
 
 	if(menuIterator->highlighted){
-        auto transparency = menuIterator->text.getColor().a;
+        auto transparency = menuIterator->text.getFillColor().a;
 
         int modifier;
         if(fadingOut){

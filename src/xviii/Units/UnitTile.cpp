@@ -299,12 +299,14 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 		return SF_ACTIVE;
 	}
 
-	bool validMovDirection{false};
+
 	bool validAttackDirection{false};
 	bool rangedObstructionPresent{false};
+	bool inRangedAttackRange{false};
+
+	bool validMovDirection{false};
 	bool meleeObstructionPresent{false};
 	bool inMovementRange{false};
-	bool inRangedAttackRange{false};
 	int movExpended{0};
 
 	//Get the coordinates of the current tile the unit is at
@@ -313,7 +315,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	//Get the coordinates of the tile to be moved to
 	sf::Vector2i toMoveToCoords{world->cartesianPosAtIndex(world->indexAtTile(*_terrainTile))};
 
-	sf::Vector2i vectorDist = distanceFrom(_terrainTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
+	distanceFrom(_terrainTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 
 	if (meleeObstructionPresent){
 		return OBSTRUCTION_PRESENT_MOV;
@@ -324,7 +326,8 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
         int PRIMARYAXIS_CURRENT;
         int PRIMARYAXIS_DESTINATION;
         int SECONDARYAXIS_CURRENT;
-        int SECONDARYAXIS_DESTINATION;
+        //Declared but unused; commented out in case I'll need it in the future
+        //int SECONDARYAXIS_DESTINATION;
 
         int PRIMARYAXIS_MOVEMENT;
 
@@ -333,7 +336,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
                 PRIMARYAXIS_CURRENT = currentCoords.y;
                 PRIMARYAXIS_DESTINATION = toMoveToCoords.y;
                 SECONDARYAXIS_CURRENT = currentCoords.x;
-                SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
+                //SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
 
                 PRIMARYAXIS_MOVEMENT = -1;
                 break;
@@ -342,7 +345,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
                 PRIMARYAXIS_CURRENT = currentCoords.x;
                 PRIMARYAXIS_DESTINATION = toMoveToCoords.x;
                 SECONDARYAXIS_CURRENT = currentCoords.y;
-                SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
+                //SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
 
                 PRIMARYAXIS_MOVEMENT = 1;
                 break;
@@ -351,7 +354,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
                 PRIMARYAXIS_CURRENT = currentCoords.y;
                 PRIMARYAXIS_DESTINATION = toMoveToCoords.y;
                 SECONDARYAXIS_CURRENT = currentCoords.x;
-                SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
+                //SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
 
                 PRIMARYAXIS_MOVEMENT = 1;
                 break;
@@ -361,7 +364,7 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
                 PRIMARYAXIS_CURRENT = currentCoords.x;
                 PRIMARYAXIS_DESTINATION = toMoveToCoords.x;
                 SECONDARYAXIS_CURRENT = currentCoords.y;
-                SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
+                //SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
                 PRIMARYAXIS_MOVEMENT = -1;
 
                 break;
@@ -458,13 +461,8 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 }
 
 void UnitTile::playMoveToAnimation(TerrainTile* _terrain){
-    TerrainTile* currentTerrain = getTerrain();
-
-    sf::Vector2f currentPos = currentTerrain->getPixelPos();
     sf::Vector2f destinationPost = _terrain->getPixelPos();
-
     this->sprite.setPosition(destinationPost);
-
     updateStats();
 }
 
@@ -653,9 +651,9 @@ std::string UnitTile::attack(TerrainTile* _terrain){
 		return SF_ACTIVE;
 	}
 
-	if (dist > 1 && (!canRangedAttack() || getHasMeleeAttacked())
+	if (((dist > 1 && (!canRangedAttack())) || getHasMeleeAttacked())
         ||
-        dist == 1 && (!canMeleeAttack() || getHasRangedAttacked())){
+        ((dist == 1 && (!canMeleeAttack())) || getHasRangedAttacked())){
 
 		return{ALREADY_ATTACKED};
 	}
@@ -1459,7 +1457,8 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
 	int PRIMARYAXIS_CURRENT;
     int PRIMARYAXIS_DESTINATION;
     int SECONDARYAXIS_CURRENT;
-    int SECONDARYAXIS_DESTINATION;
+    //Declared but unused; commented out in case I'll need it in the future
+    //int SECONDARYAXIS_DESTINATION;
 
     int PRIMARYAXIS_MOVEMENT;
 
@@ -1486,7 +1485,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
             PRIMARYAXIS_CURRENT = currentCoords.y;
             PRIMARYAXIS_DESTINATION = enemyCoords.y;
             SECONDARYAXIS_CURRENT = enemyCoords.x;
-            SECONDARYAXIS_DESTINATION = enemyCoords.x;
+            //SECONDARYAXIS_DESTINATION = enemyCoords.x;
 
             PRIMARYAXIS_MOVEMENT = -1;
             break;
@@ -1495,7 +1494,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
             PRIMARYAXIS_CURRENT = currentCoords.x;
             PRIMARYAXIS_DESTINATION = enemyCoords.x;
             SECONDARYAXIS_CURRENT = enemyCoords.y;
-            SECONDARYAXIS_DESTINATION = enemyCoords.y;
+            //SECONDARYAXIS_DESTINATION = enemyCoords.y;
 
             PRIMARYAXIS_MOVEMENT = 1;
             break;
@@ -1504,7 +1503,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
             PRIMARYAXIS_CURRENT = currentCoords.y;
             PRIMARYAXIS_DESTINATION = enemyCoords.y;
             SECONDARYAXIS_CURRENT = enemyCoords.x;
-            SECONDARYAXIS_DESTINATION = enemyCoords.x;
+            //SECONDARYAXIS_DESTINATION = enemyCoords.x;
 
             PRIMARYAXIS_MOVEMENT = 1;
             break;
@@ -1514,7 +1513,7 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
             PRIMARYAXIS_CURRENT = currentCoords.x;
             PRIMARYAXIS_DESTINATION = enemyCoords.x;
             SECONDARYAXIS_CURRENT = enemyCoords.y;
-            SECONDARYAXIS_DESTINATION = enemyCoords.y;
+            //SECONDARYAXIS_DESTINATION = enemyCoords.y;
             PRIMARYAXIS_MOVEMENT = -1;
 
             break;

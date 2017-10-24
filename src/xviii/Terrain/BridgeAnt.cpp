@@ -71,7 +71,8 @@ void BridgeAnt::crawl(){
             }
 
             bridgesToBuild.push_back(terrainTile.get());
-            int index = world->indexAtCartesianPos(currentPos);
+            //Declared but unused; commented out in case I'll need it in the future
+            //int index = world->indexAtCartesianPos(currentPos);
 
             //Ensure bridges are properly connected to land
 
@@ -146,8 +147,9 @@ void BridgeAnt::crawl(){
                 }
             }
 
-            bool verticalConnection = northernLandConnection && southernLandConnection;
-            bool horizontalConnection = easternLandConnection && westernLandConnection;
+            //Declared but unused; commented out in case I'll need it in the future
+            //bool verticalConnection = northernLandConnection && southernLandConnection;
+            //bool horizontalConnection = easternLandConnection && westernLandConnection;
 
             sf::Vector2i tempCartesianPos = currentPos;
             TerrainTile* nextTile = nullptr;

@@ -20,7 +20,8 @@ void RiverAnt::crawl(){
 
 
         boost::random::uniform_int_distribution<int> randDist(1, 100);
-		int randNum{randDist(world->masterManager.mapSeedEngine)};
+        //Declared but unused; commented out in case I'll need it in the future
+		//int randNum{randDist(world->masterManager.mapSeedEngine)};
 
 
         world->terrainLayer[currentIndex] = std::move(std::unique_ptr<Water>(new Water{world, currentPos}));

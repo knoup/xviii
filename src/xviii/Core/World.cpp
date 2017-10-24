@@ -10,8 +10,8 @@ World::World(MasterManager& _mManager, sf::Vector2i _dimensions) :
 masterManager{_mManager},
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * masterManager.textureManager->getSize().x, dimensions.y * masterManager.textureManager->getSize().y)},
-mTerrainTexture(masterManager.textureManager->getTerrainTexture()),
-currentTime{}
+currentTime{},
+mTerrainTexture(masterManager.textureManager->getTerrainTexture())
 {
 	mTerrainVertices.setPrimitiveType(sf::PrimitiveType::Quads);
 	mTerrainVertices.resize(dimensions.x * dimensions.y * 4);
@@ -215,7 +215,7 @@ TerrainTile* World::terrainAtPixelPos(sf::Vector2i _pos){
 }
 
 TerrainTile* World::terrainAtCartesianPos(sf::Vector2i _pos){
-	int index = indexAtCartesianPos(_pos);
+	std::vector<TerrainTile::terrainPtr>::size_type index = indexAtCartesianPos(_pos);
 
 	if(index > terrainLayer.size() - 1){
         return nullptr;
@@ -414,7 +414,8 @@ void World::wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinati
     int CURRENTCOORDS_PRIMARY;
 	int CURRENTCOORDS_SECONDARY;
 	int DESTINATIONCOORDS_PRIMARY;
-	int DESTINATIONCOORDS_SECONDARY;
+	//Declared but unused; commented out in case I'll need it in the future
+	//int DESTINATIONCOORDS_SECONDARY;
 	bool VERTICAL{false};
 	bool HORIZONTAL{false};
 	bool POSITIVE{false};
@@ -429,7 +430,7 @@ void World::wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinati
 		CURRENTCOORDS_PRIMARY = currentCoords.y;
 		CURRENTCOORDS_SECONDARY = currentCoords.x;
 		DESTINATIONCOORDS_PRIMARY = destinationCoords.y;
-		DESTINATIONCOORDS_SECONDARY = destinationCoords.x;
+		//DESTINATIONCOORDS_SECONDARY = destinationCoords.x;
 		VERTICAL = true;
     }
 
@@ -442,7 +443,7 @@ void World::wearDownTempBridges(TerrainTile* currentTile, TerrainTile* destinati
 		CURRENTCOORDS_PRIMARY = currentCoords.x;
 		CURRENTCOORDS_SECONDARY = currentCoords.y;
 		DESTINATIONCOORDS_PRIMARY = destinationCoords.x;
-		DESTINATIONCOORDS_SECONDARY = destinationCoords.y;
+		//DESTINATIONCOORDS_SECONDARY = destinationCoords.y;
 		HORIZONTAL = true;
     }
 
@@ -661,7 +662,7 @@ void World::turnlyUpdate(){
         //itself actually erases a mud tile from mudTiles. So if we do a foreach mudTiles loop, we end up with
         //messy dangling pointers and, in my case, days of debugging crashes.
 
-        for(int i{0}; i < mudTiles.size(); i++){
+        for(std::vector<Mud*>::size_type i{0}; i < mudTiles.size(); i++){
             boost::random::uniform_int_distribution<int> randomDist(1, 8);
             int randomNumber = randomDist(masterManager.randomEngine);
 
@@ -692,7 +693,7 @@ void World::turnlyUpdate(){
         //itself actually erases a mud tile from mudTiles. So if we do a foreach mudTiles loop, we end up with
         //messy dangling pointers and, in my case, days of debugging crashes.
 
-        for(int i{0}; i < mudTiles.size(); i++){
+        for(std::vector<Mud*>::size_type i{0}; i < mudTiles.size(); i++){
             boost::random::uniform_int_distribution<int> randomDryingChanceDist(1, 10);
             int randomDryingChance{randomDryingChanceDist(masterManager.randomEngine)};
 

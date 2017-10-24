@@ -588,7 +588,7 @@ void GameState_Play::update(float mFT){
 		}
 
 		//If you aren't mousing over a (visible) enemy unit
-		if ((unit == nullptr && terrain != nullptr) || (unit != nullptr && !unit->drawUnit || !unit->drawFlag)){
+		if ((unit == nullptr && terrain != nullptr) || ((unit != nullptr && !unit->drawUnit) || !unit->drawFlag)){
 
 			if (inMovementRange && !meleeObstructionPresent){
 				tileDistanceText.setFillColor(sf::Color::Black);
@@ -641,7 +641,7 @@ void GameState_Play::update(float mFT){
 		mouseLocation.x -= 18;
 		mouseLocation.y += 18;
 
-		tileDistanceText.setPosition({mouseLocation.x, mouseLocation.y});
+		tileDistanceText.setPosition({float(mouseLocation.x), float(mouseLocation.y)});
 
 	}
 }

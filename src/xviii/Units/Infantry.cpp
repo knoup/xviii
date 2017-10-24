@@ -14,12 +14,15 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 		return SF_ACTIVE;
 	}
 
-	bool validMovDirection{false};
+
+
 	bool validAttackDirection{false};
 	bool rangedObstructionPresent{false};
+	bool inRangedAttackRange{false};
+
+	bool validMovDirection{false};
 	bool meleeObstructionPresent{false};
 	bool inMovementRange{false};
-	bool inRangedAttackRange{false};
 	int movExpended{0};
 
 	//Get the coordinates of the current tile the unit is at
@@ -28,7 +31,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
 	//Get the coordinates of the tile to be moved to
 	sf::Vector2i toMoveToCoords{world->cartesianPosAtIndex(world->indexAtTile(*terrainTile))};
 
-	sf::Vector2i vectorDist = distanceFrom(terrainTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
+	distanceFrom(terrainTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 
 	if (meleeObstructionPresent){
 		return OBSTRUCTION_PRESENT_MOV;
@@ -39,7 +42,8 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
             int PRIMARYAXIS_CURRENT;
             int PRIMARYAXIS_DESTINATION;
             int SECONDARYAXIS_CURRENT;
-            int SECONDARYAXIS_DESTINATION;
+            //Declared but unused; commented out in case I'll need it in the future
+            //int SECONDARYAXIS_DESTINATION;
 
             int PRIMARYAXIS_MOVEMENT;
 
@@ -48,7 +52,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
                 PRIMARYAXIS_CURRENT = currentCoords.y;
                 PRIMARYAXIS_DESTINATION = toMoveToCoords.y;
                 SECONDARYAXIS_CURRENT = currentCoords.x;
-                SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
+                //SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
 
                 PRIMARYAXIS_MOVEMENT = -1;
                 break;
@@ -57,7 +61,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
                 PRIMARYAXIS_CURRENT = currentCoords.x;
                 PRIMARYAXIS_DESTINATION = toMoveToCoords.x;
                 SECONDARYAXIS_CURRENT = currentCoords.y;
-                SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
+                //SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
 
                 PRIMARYAXIS_MOVEMENT = 1;
                 break;
@@ -66,7 +70,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
                 PRIMARYAXIS_CURRENT = currentCoords.y;
                 PRIMARYAXIS_DESTINATION = toMoveToCoords.y;
                 SECONDARYAXIS_CURRENT = currentCoords.x;
-                SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
+                //SECONDARYAXIS_DESTINATION = toMoveToCoords.x;
 
                 PRIMARYAXIS_MOVEMENT = 1;
                 break;
@@ -76,7 +80,7 @@ std::string Infantry::moveTo(TerrainTile* terrainTile){
                 PRIMARYAXIS_CURRENT = currentCoords.x;
                 PRIMARYAXIS_DESTINATION = toMoveToCoords.x;
                 SECONDARYAXIS_CURRENT = currentCoords.y;
-                SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
+                //SECONDARYAXIS_DESTINATION = toMoveToCoords.y;
                 PRIMARYAXIS_MOVEMENT = -1;
 
                 break;

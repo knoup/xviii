@@ -189,5 +189,5 @@ sf::Sprite TextureManager::getSprite(UI type){
 }
 
 sf::Sprite TextureManager::getRandomBackground(){
-    return {*randomBackground, {0,0,randomBackground->getSize().x, randomBackground->getSize().y}};
+    return {*randomBackground, sf::IntRect(0,0, randomBackground->getSize().x, randomBackground->getSize().y)};
 }

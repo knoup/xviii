@@ -6,6 +6,7 @@ Build Instructions
 Required libraries:
 
 SFML 2.4.2: **system**, **window**, **graphics**, and **network** libraries (linked in that order)
+
 Boost (version 1.63 tested): **filesystem**, **random**, and **algorithm** libraries
 
 Compiled with **TDM-GCC (version 4.9.2, 32 bit, SJLJ)**
@@ -13,9 +14,7 @@ Compiled with **TDM-GCC (version 4.9.2, 32 bit, SJLJ)**
 Items of Note
 -----------------------
 
- *This file may be incomplete or outdated. A complete revision of this file is due.
-
- *There is code for random menu wallpapers. My personal collection is nearly 30MB in size, and thus I won't upload it on Github for the time being. However, you are free to place your own images in the dir assets/gfx/backgrounds.
+ *There is code for random menu wallpapers. My personal collection is nearly 30MB in size, and thus I won't upload it on Github. However, you are free to place your own images in the dir assets/gfx/backgrounds.
 
 General
 -------
@@ -36,9 +35,9 @@ General
 
 *INF can either MOVE, PARTIALLY ROTATE, or FULLY ROTATE in addition to attacking.
 
-*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving. They can FULLY ROTATE after moving, however, but not before. (To be looked at)
+*CAV can either FULLY ROTATE, or PARTIALLY ROTATE in addition to moving. They can FULLY ROTATE after moving, however, but not before. 
 
-*However, unless otherwise stated, units may not ROTATE or MOVE at all AFTER attacking.
+*Unless otherwise stated, units may not ROTATE or MOVE at all AFTER attacking.
 
 *INF by default features a square formation mechanic (although this can be removed/defined for other units as well). SF status can be toggled with F; while a unit is in SF, any melee enemy attack will use the modifier of that enemy's SQUAREFORMATIONMODIFIER.
 
@@ -70,17 +69,22 @@ The "big three":
 
 And then the rest:
 
-	GEN (General) - behaves the same as Cavalry, except has a hardcoded limit of 1. 
-        In addition, if allied units are between 34 and 21 tiles away (radius) from
-	the general, they get only 75% of their maximum movement at the start of
-	the turn. If they are further than 34, they get only 65%.
+	GEN (General) - derived from Cavalry, but has a hardcoded limit of 1 per player. 
+    A general may heal up to one friendly unit per turn for 2HP. In addition, if 
+    allied units are between 34 and 21 tiles away (radius) from the general, they 
+    get only 75% of their maximum movement at the start of the turn. If they are 
+    further than 34, they get only 65%. When a General dies, all friendly units 
+    will suffer 2 DMG. Note that the movement malus applies even if the General 
+    is dead or was not spawned.
 
-	ARTGUARD (Artillery Guard) - behaves the same as Infantry, except for that any
-	adjacent artillery tile will be immune to attacks from the enemy until the
-	ARTGUARD is either killed or moved away.
 
-	SAPPER (Sapper/engineer) - behaves the same as Infantry, but has a unique ability;
-	is able to construct bridges by "attacking" water tiles.
+	ARTGUARD (Artillery Guard) - derived from Infantry. Any adjacent artillery 
+	tile will be immune to attacks from the enemy until the ARTGUARD is either 
+	killed or moves away.
+
+
+	SAPPER (Sapper/engineer) - derived from Infantry. Is able to construct bridges 
+	over water tiles.
 
 Please note that details (HP, MOV, LIMIT, attacking capabilities, etc.) are defined in assets/units. All units must, however, be based on one of these classes.
 
@@ -100,63 +104,67 @@ EXAMPLE:
 Player 1 has INF shooting at Player 2's CAV from 2 tiles away. Since INF has a modifier of 2d while shooting from this distance, his roll is multiplied by 2. Player 1 rolls 4 and inflicts 8 DMG on Player  2's CAV.
 
 
-A unit's cone width determines the horizontal range of their capabilities.
+A unit's cone width determines the horizontal range of their capabilities. For example, a unit with a cone width of 5 can shoot both straight ahead, two tiles to the left, and two tiles to the right.
 
 
 Melee Combat Rules
 -------------------
 
 
-	INF vs INF
+Infantry vs Infantry:
 
-		*Roll dice
+	-Roll dice
 
-		*If difference between player 1 and 2 is less than 3, player with highest roll inflicts 1 DMG
+	-If difference between player 1 and 2 is less than 3, player with highest roll inflicts 1 DMG
 
-		*If both get the same roll, both take 1 DMG
+	-If both get the same roll, both take 1 DMG
 
-		*Otherwise, inflict 2 DMG
-
-
-	CAV vs CAV:
-
-		*Roll dice
-
-		*Same rules as INF vs INF.
-
-	INF vs CAV
-
-		*Roll dice
-
-		*Player with higher roll wins
-
-		*If CAV wins, inflict 4 DMG
-
-		*If equal rolls, CAV takes 1 DMG and INF takes 0.5 DMG
-
-		*If INF wins, inflict 2 DMG (and receive 1)
-
-	INF/CAV vs ART
-
-		*Only INF/CAV rolls
-
-		*If INF/CAV rolls 3 or more, inflict 2 DMG. If 2 or less, both INF/CAV and ART take 3 DMG.
+	-Otherwise, inflict 2 DMG
 
 
-	INF/CAV vs MOR
+Cavalry vs Cavalry:
 
-		*Only INF/CAV rolls
+	-Roll dice
 
-		*If INF/CAV rolls 3 or more, inflict 2 DMG. If 2 or less, INF/CAV take 0.5 DMG, MOR takes 2 DMG.
+	-If difference between player 1 and 2 is less than 3, player with highest roll inflicts 1 DMG
+
+	-If both get the same roll, both take 1 DMG
+
+	-Otherwise, inflict 2 DMG
+
+Infantry vs Cavalry:
+
+	-Roll dice
+
+	-Player with higher roll wins
+
+	-If CAV wins, inflict 4 DMG
+
+	-If equal rolls, CAV takes 1 DMG and INF takes 0.5 DMG
+
+	-If INF wins, inflict 2 DMG (and receive 1)
+
+Infantry/Cavalry vs Artillery:
+
+	-Only INF/CAV rolls
+
+	-If INF/CAV rolls 3 or more, inflict 2 DMG. If 2 or less, both INF/CAV and ART take 3 DMG.
+
+
+Infantry/Cavalry vs Mortar:
+
+	-Only INF/CAV rolls
+
+	-If INF/CAV rolls 3 or more, inflict 2 DMG. If 2 or less, INF/CAV take 0.5 DMG, MOR takes 2 DMG.
 
 
 
 In-Game
 -------
 
-During the setup phase, each player deploys their units on the game board. Players are limited to the far reaches of the map during this phase. In order to deploy a unit, click on its sprite and then place it on the desired tile.
+During the setup phase, each player deploys their units on the game board. Players are limited to the far reaches of the map during this phase (note that this limitation is currently disabled in order to facilitate testing. You may currently spawn units anywhere). In order to deploy a unit, click on its sprite and then place it on the desired tile.
 
-The indicators under the counters represent the unit's current direction, health, and movement points, respectively. A unit with W 5 4 under it would therefore represent a state in which it is facing westward, has 5 HP, and 4 movement points.
+The indicators under the counters represent the unit's current direction, health, and movement points, respectively. A unit with W 5 4 under it would therefore represent a state in which it is facing west, has 5 HP, and 4 movement points.
 
 During the playing phase, players successively command their units by clicking on the desired unit and giving it movement/attack/rotation orders while selected (see below). The currently selected unit is outlined in yellow, while units that have already attacked this turn are outlined in red.
 
@@ -165,11 +173,11 @@ Line of Sight & Weather
 
 In addition to movement points and max attacking range, units are limited by their line of sight. 
 
-Each unit has a primary and secondary visual range. Enemy units outside the primary, but within the secondary, are seen only as flags and their location may be inaccurate. Units outside of the secondary range are completely invisible. 
+Each unit has a primary and secondary visual range. Enemy units outside the primary, but within the secondary, are seen only as flags, with their unit type hidden, and their location may be inaccurate. Units outside of the secondary range are completely invisible. 
 
 A unit can neither move to a tile, nor attack an enemy, that has an enemy unit in the way. Friendly units can move past each other; however, whether they can fire "above" units in the way is determined in their .txt.
 
-XVIII also features a dynamic weather system. Every once in a while, the weather changes, and with it, the visual range of all units is affected. The values are as follows, with P representing primary and S secondary visual range:
+XVIII also features a dynamic weather system. Every once in a while, the weather changes, and with it, the visual range of all units is affected. The values are as follows (subject to change), with P representing primary and S secondary visual range:
 
 	Light fog: -2P, -2S
 
@@ -180,7 +188,7 @@ XVIII also features a dynamic weather system. Every once in a while, the weather
 	Heavy rain: -2P, -2S
 
 
-Additionally, both primary and secondary visual ranges are halved during the night hours (1900 - 5000).
+Additionally, both primary and secondary visual ranges are halved during the night hours (**1900 - 5000**).
 
 Every in-game turn represents the passage of 15 minutes.
 
@@ -190,8 +198,6 @@ Keyboard shortcuts & mouse commands
 ---Menu Phase---
 
 	W/Up/S/Down keys & Return
-
-Two premade save files are provided for those who just want to dive in without bothering to set up.
 
 ---Nation Selection Phase---
 
@@ -214,10 +220,9 @@ Two premade save files are provided for those who just want to dive in without b
 ---Playing Phase---
 
 	LMB - select a unit and issue movement/attack orders
+	LCtrl + LMB - attack a terrain tile. This will currently have no effect, unless there is a hidden enemy unit on the tile. **When used by sappers on water tiles, constructs a bridge.**
 	RMB - deselect currently selected unit/dismiss current message
 	L - Toggle limber (if applicable)
-        F - Toggle square formation (if applicable)
+    F - Toggle square formation (if applicable)
 
-	Up/down/left/right arrow keys - rotate a unit North, South, East, and West respectively
-
-	Z - save
+	Up/down/left/right arrow keys - rotate a unit north, south, east, and west respectively

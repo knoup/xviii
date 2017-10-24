@@ -88,6 +88,10 @@ void GameState_MultiplayerConnectMenu::getInput(){
                         if (game->saveCreator.create()){
                             game->PlayState->setSaveStatus(true);
                         }
+                        break;
+
+                    case Action::NONE:
+                        break;
 				}
 
 				if(menuIterator->state != nullptr){
