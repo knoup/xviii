@@ -1,14 +1,14 @@
-Uses <a href="http://sfml-dev.org/">SFML 2.1</a> and several <a href="http://www.boost.org/">Boost</a> modules. Inspired by, and continutally developed with, the ideas and input of a friend.
+Inspired by, and continutally developed with, the ideas and input of a friend.
 
 Build Instructions
 -----------------------
 
 Required libraries:
 
-	*SFML 2.1 (system, window, graphics, and network modules)
-	*Boost (version 1.63 tested), with the filesystem, random, and algorithm libraries
+	*SFML 2.1: **system**, **window**, **graphics**, and **network** libraries
+	*Boost (version 1.63 tested): **filesystem**, **random**, and **algorithm** libraries
 
-Compiled with TDM-GCC (version 4.9.2, 32 bit, SJLJ)
+Compiled with **TDM-GCC (version 4.9.2, 32 bit, SJLJ)**
 
 Items of Note
 -----------------------

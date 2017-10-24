@@ -667,13 +667,16 @@ void GameState_Play::draw(){
 }
 
 void GameState_Play::onSwitch(){
-    game->Player1->view.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
-    game->Player2->view.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+    //Old code, keeping it commented for now just in case there's something I missed
+    //and I need to reintroduce it
 
-    sf::FloatRect viewport;
-    viewport.width = playUI.barWidth / game->mWindow.getSize().x;
-    viewport.height = playUI.barHeight / game->mWindow.getSize().y;
-    viewport.left = (1 - viewport.width) / 2;
-    viewport.top = 1 - viewport.height;
-    playUI.uiView.setViewport(viewport);
+    //game->Player1->view.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+    //game->Player2->view.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+
+    //sf::FloatRect viewport;
+    //viewport.width = playUI.barWidth / game->mWindow.getSize().x;
+    //viewport.height = playUI.barHeight / game->mWindow.getSize().y;
+    //viewport.left = (1 - viewport.width) / 2;
+    //viewport.top = 1 - viewport.height;
+    //playUI.uiView.setViewport(viewport);
 }

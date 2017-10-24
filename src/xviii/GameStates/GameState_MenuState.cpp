@@ -33,7 +33,10 @@ GameState{game}
 	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Eighteen));
 	titleText.setString("X V I I I");
 
-    menuSelectView.reset(sf::FloatRect({}, {},xResolution, yResolution));
+    //menuSelectView.reset(sf::FloatRect({}, {},xResolution, yResolution));
+    menuSelectView.setCenter({680,0});
+    menuSelectView.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+
     backgroundView.reset(sf::FloatRect({}, {},xResolution, yResolution));
 
 	//Randomise title text colour, for the heck of it:
@@ -59,8 +62,6 @@ GameState{game}
 	quoteText.setPosition(xResolution / 2, -(yResolution / 7.5f));
 
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
-
-    menuSelectView.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
 }
 
 void GameState_MenuState::getInput(){
@@ -248,6 +249,7 @@ void GameState_MenuState::draw(){
 }
 
 void GameState_MenuState::onSwitch(){
+    menuSelectView.setCenter({680,0});
     menuSelectView.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
 }
 

@@ -239,7 +239,7 @@ std::string Infantry::meleeAttack(Infantry* inf){
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//The retreat bool does not specify whether the retreat was successful (in that the unit was actually able to retreat),
-	//but rather that the breakthrough bonus was procced. Its only purpose is to give information to attackReport()
+	//but rather that the breakthrough bonus was proccessed. Its only purpose is to give information to attackReport()
 	bool retreat{false};
 	bool frontal{false};
 
