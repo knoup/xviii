@@ -13,6 +13,13 @@ void GameState_MultiplayerHostMenu::init(){
 	menuList.push_back({{"Back"}, true, game->MultiplayerMenuState.get(), Action::NONE});
 	lineUpObjects();
 
+    waitText.setCharacterSize(40);
+	waitText.setFont(game->mManager.fontManager->getFont(FontManager::Lucon));
+	waitText.setString("Waiting for an incoming connection...");
+	waitText.setColor(sf::Color::Red);
+	waitText.setOrigin(waitText.getLocalBounds().width / 2, waitText.getLocalBounds().height / 2);
+	waitText.setPosition(xResolution / 2, -(yResolution / 3.5f));
+
 	tcpListener.setBlocking(false);
 
 	if (tcpListener.listen(53000) != sf::Socket::Done)
@@ -37,5 +44,14 @@ void GameState_MultiplayerHostMenu::update(float mFT){
 }
 
 void GameState_MultiplayerHostMenu::draw(){
-	GameState_MenuState::draw();
+    game->mWindow.clear(sf::Color::Black);
+	game->mWindow.setView(backgroundView);
+	game->mWindow.draw(backgroundSprite);
+
+	game->mWindow.setView(menuSelectView);
+	game->mWindow.draw(waitText);
+
+	for (auto& item : menuList){
+		game->mWindow.draw(item.text);
+	}
 }

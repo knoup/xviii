@@ -20,8 +20,10 @@ public:
     virtual void update(float mFT);
 	virtual void draw();
 
+	inline std::string getIPString(){return IPString;};
+
 private:
-    std::string IPString;
+    std::string IPString{};
     sf::Text IPText;
     sf::Text instructionalText;
 };

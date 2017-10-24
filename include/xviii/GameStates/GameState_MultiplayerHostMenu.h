@@ -21,5 +21,6 @@ public:
 
 private:
     sf::TcpListener tcpListener;
+    sf::Text waitText;
 };
 
