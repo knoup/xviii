@@ -5,7 +5,7 @@ Build Instructions
 
 Required libraries:
 
-SFML 2.1: **system**, **window**, **graphics**, and **network** libraries
+SFML 2.4.2: **system**, **window**, **graphics**, and **network** libraries (linked in that order)
 Boost (version 1.63 tested): **filesystem**, **random**, and **algorithm** libraries
 
 Compiled with **TDM-GCC (version 4.9.2, 32 bit, SJLJ)**

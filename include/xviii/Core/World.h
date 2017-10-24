@@ -215,8 +215,8 @@ private:
     std::unordered_set<TerrainTile*> visibleTiles;
 
 	//Used for drawing efficiency
-	sf::VertexArray mTerrainVertices;
 	sf::Texture& mTerrainTexture;
+	sf::VertexArray mTerrainVertices;
 
     public:
      //A vector of sprites of rain

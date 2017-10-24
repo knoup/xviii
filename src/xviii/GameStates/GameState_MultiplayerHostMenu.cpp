@@ -16,7 +16,7 @@ void GameState_MultiplayerHostMenu::init(){
     waitText.setCharacterSize(40);
 	waitText.setFont(game->mManager.fontManager->getFont(FontManager::Lucon));
 	waitText.setString("Waiting for an incoming connection...");
-	waitText.setColor(sf::Color::Red);
+	waitText.setFillColor(sf::Color::Red);
 	waitText.setOrigin(waitText.getLocalBounds().width / 2, waitText.getLocalBounds().height / 2);
 	waitText.setPosition(xResolution / 2, -(yResolution / 3.5f));
 

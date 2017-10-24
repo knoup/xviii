@@ -11,7 +11,7 @@ orientation{Orientation::VERTICAL}
 {
     hpText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::Arial));
     hpText.setCharacterSize(18);
-    hpText.setColor(sf::Color::Black);
+    hpText.setFillColor(sf::Color::Black);
     hpText.setString(std::to_string(hp));
 
     hpText.setPosition(sprite.getPosition());

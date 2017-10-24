@@ -14,27 +14,27 @@ gameState{_gameState}
 	button.text.setPosition(button.sprite.getPosition().x, button.sprite.getPosition().y - 10);
 
 	elapsedTurnsText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
-	elapsedTurnsText.setColor(sf::Color::Yellow);
+	elapsedTurnsText.setFillColor(sf::Color::Yellow);
 	elapsedTurnsText.setPosition(20, 44);
 
 	messageLogText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
-	messageLogText.setColor(sf::Color::White);
+	messageLogText.setFillColor(sf::Color::White);
 	messageLogText.setCharacterSize(15);
 	messageLogText.setPosition(580, 4);
 	messageLogText.setString("Messages");
 
 	currentMessageText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
-	currentMessageText.setColor(sf::Color::Cyan);
+	currentMessageText.setFillColor(sf::Color::Cyan);
 	currentMessageText.setCharacterSize(19);
 	currentMessageText.setPosition(340, 24);
 
 	currentWeatherText.setFont(masterManager.fontManager->getFont(FontManager::Type::Eighteen));
-	currentWeatherText.setColor(sf::Color::White);
+	currentWeatherText.setFillColor(sf::Color::White);
 	currentWeatherText.setCharacterSize(30);
 	currentWeatherText.setPosition(205, 4);
 
 	currentTimeText.setFont(masterManager.fontManager->getFont(FontManager::Type::Eighteen));
-	currentTimeText.setColor(sf::Color::Cyan);
+	currentTimeText.setFillColor(sf::Color::Cyan);
 	currentTimeText.setCharacterSize(40);
 	currentTimeText.setPosition(135, 94);
 
@@ -45,15 +45,15 @@ gameState{_gameState}
 	setSaveStatus(false);
 
 	squareFormationText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
-	limberText.setColor(sf::Color::White);
+	limberText.setFillColor(sf::Color::White);
 	squareFormationText.setPosition(970, 4);
 
 	limberText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
-	limberText.setColor(sf::Color::White);
+	limberText.setFillColor(sf::Color::White);
 	limberText.setPosition(970, 44);
 
 	lancerBonusReadyText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
-	lancerBonusReadyText.setColor(sf::Color::White);
+	lancerBonusReadyText.setFillColor(sf::Color::White);
 	lancerBonusReadyText.setPosition(970, 94);
 }
 
@@ -100,10 +100,10 @@ void PlayUI::setCurrentTimeText(std::pair<int,int> _time){
 	currentTimeText.setString(std::to_string(_time.first) + ":" + minutesStr);
 
 	if(gameState->game->mWorld->getIsNighttime()){
-        currentTimeText.setColor(sf::Color::Cyan);
+        currentTimeText.setFillColor(sf::Color::Cyan);
 	}
 	else{
-        currentTimeText.setColor(sf::Color::Yellow);
+        currentTimeText.setFillColor(sf::Color::Yellow);
 	}
 
 }

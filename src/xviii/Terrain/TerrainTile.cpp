@@ -20,7 +20,7 @@ terrainType{terrainType},
 unit{nullptr}
 {
 	sprite.setPosition(_pos);
-	//sprite.setColor(sf::Color{255,255,255,170});
+	//sprite.setFillColor(sf::Color{255,255,255,170});
 
 	refreshVertexArray();
 }

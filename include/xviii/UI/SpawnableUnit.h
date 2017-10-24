@@ -20,7 +20,7 @@ public:
 		player{_player}
 	{
 		unitName.setFont(player->masterManager.fontManager->getFont(FontManager::Type::Lucon));
-		unitName.setColor(sf::Color::White);
+		unitName.setFillColor(sf::Color::White);
 		unitName.setCharacterSize(12);
 
 		unitName.setString(player->masterManager.unitLoader->customClasses.at(_unitID).shortDisplayName);

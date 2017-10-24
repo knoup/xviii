@@ -44,7 +44,7 @@ GameState{game}
 	int randColourR{distribution(game->mManager.randomEngine)};
 	int randColourG{distribution(game->mManager.randomEngine)};
 	int randColourB{distribution(game->mManager.randomEngine)};
-	titleText.setColor(sf::Color(randColourR, randColourG, randColourB));
+	titleText.setFillColor(sf::Color(randColourR, randColourG, randColourB));
 
 	titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
 	titleText.setPosition(xResolution / 2, -(yResolution / 2.f));
@@ -122,7 +122,7 @@ void GameState_MenuState::getInput(){
 			else if ((event.key.code == Key::UP_ARROW || event.key.code == Key::DOWN_ARROW || event.key.code == Key::UP_KEY || event.key.code == Key::DOWN_KEY) && menuList.size() > 1){
 
 				//Unhighlight current object
-				menuIterator->text.setColor((sf::Color::White));
+				menuIterator->text.setFillColor((sf::Color::White));
 
 				if (event.key.code == Key::UP_ARROW || event.key.code == Key::UP_KEY){
 					if (menuIterator == menuList.begin()){
@@ -161,7 +161,7 @@ void GameState_MenuState::getInput(){
                         fadingOut = true;
                         //Unhighlight current object
                         menuIterator->highlighted = false;
-                        menuIterator->text.setColor(sf::Color::White);
+                        menuIterator->text.setFillColor(sf::Color::White);
 
                         menuIterator = menuList.begin();
                         menuIterator += i;
@@ -227,7 +227,7 @@ void GameState_MenuState::update(float mFT){
             fadingOut = true;
         }
 
-        menuIterator->text.setColor(sf::Color(255,255,0,transparency));
+        menuIterator->text.setFillColor(sf::Color(255,255,0,transparency));
 	}
 
     //This will probably be required for the save menu
@@ -258,7 +258,7 @@ void GameState_MenuState::lineUpObjects(){
 	for (size_t i{0}; i < menuList.size(); ++i){
 		menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
 		menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
-		menuList[i].text.setColor(sf::Color::White);
+		menuList[i].text.setFillColor(sf::Color::White);
 		menuList[i].text.setStyle(sf::Text::Bold);
 
 		int textXPos = xResolution / 2;

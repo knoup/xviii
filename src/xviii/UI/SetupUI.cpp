@@ -14,12 +14,12 @@ gameState{_gameState}
 
 	numbRemaining.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	numbRemaining.setCharacterSize(70);
-	numbRemaining.setColor(sf::Color::Green);
+	numbRemaining.setFillColor(sf::Color::Green);
 	numbRemaining.setPosition(50, 34);
 
 	deploymentPointsTextRemaining.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	deploymentPointsTextRemaining.setCharacterSize(19);
-	deploymentPointsTextRemaining.setColor(sf::Color::White);
+	deploymentPointsTextRemaining.setFillColor(sf::Color::White);
 	deploymentPointsTextRemaining.setPosition(10, 114);
 
 	deploymentPointsTextRemaining.setString("deployment points");
@@ -34,7 +34,7 @@ void SetupUI::setNumbRemaining(int _num){
 }
 
 void SetupUI::setNumbRemainingColour(sf::Color col){
-	numbRemaining.setColor(col);
+	numbRemaining.setFillColor(col);
 }
 
 void SetupUI::update(){

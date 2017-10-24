@@ -18,7 +18,7 @@ void GameState_MultiplayerConnectMenu::init(){
     instructionalText.setCharacterSize(40);
 	instructionalText.setFont(game->mManager.fontManager->getFont(FontManager::Lucon));
 	instructionalText.setString("Enter the host's IP:");
-	instructionalText.setColor(sf::Color::Red);
+	instructionalText.setFillColor(sf::Color::Red);
 	instructionalText.setOrigin(instructionalText.getLocalBounds().width / 2, instructionalText.getLocalBounds().height / 2);
 	instructionalText.setPosition(xResolution / 2, -(yResolution / 3.5f));
 
@@ -102,7 +102,7 @@ void GameState_MultiplayerConnectMenu::getInput(){
 			else if ((event.key.code == Key::UP_ARROW || event.key.code == Key::DOWN_ARROW || event.key.code == Key::UP_KEY || event.key.code == Key::DOWN_KEY) && menuList.size() > 1){
 
 				//Unhighlight current object
-				menuIterator->text.setColor((sf::Color::White));
+				menuIterator->text.setFillColor((sf::Color::White));
 
 				if (event.key.code == Key::UP_ARROW || event.key.code == Key::UP_KEY){
 					if (menuIterator == menuList.begin()){
@@ -141,7 +141,7 @@ void GameState_MultiplayerConnectMenu::getInput(){
                         fadingOut = true;
                         //Unhighlight current object
                         menuIterator->highlighted = false;
-                        menuIterator->text.setColor(sf::Color::White);
+                        menuIterator->text.setFillColor(sf::Color::White);
 
                         menuIterator = menuList.begin();
                         menuIterator += i;

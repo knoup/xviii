@@ -12,7 +12,7 @@ uiView{sf::FloatRect(0, 0, barWidth, barHeight)}
 	uiSprite.setPosition(0, 0);
 
 	currentPlayerText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
-	currentPlayerText.setColor(sf::Color::Green);
+	currentPlayerText.setFillColor(sf::Color::Green);
 	currentPlayerText.setPosition(20, 4);
 
 	button.sprite = masterManager.textureManager->getSprite(TextureManager::UI::BUTTON);
@@ -27,7 +27,7 @@ uiView{sf::FloatRect(0, 0, barWidth, barHeight)}
 	button.rekt.setPosition(button.sprite.getPosition().x + button.rekt.getOutlineThickness()
 		, button.sprite.getPosition().y + button.rekt.getOutlineThickness());
 
-	button.text.setColor(sf::Color::White);
+	button.text.setFillColor(sf::Color::White);
 }
 
 UI::~UI(){

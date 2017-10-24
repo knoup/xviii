@@ -72,24 +72,24 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 
     player1Text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
 	player1Text.setString("Player 1");
-	player1Text.setColor(sf::Color::Yellow);
+	player1Text.setFillColor(sf::Color::Yellow);
 	player1Text.setCharacterSize(30);;
 	//player1Text.setOrigin(player1Text.getLocalBounds().width / 2, player1Text.getLocalBounds().height / 2);
 	//player1Text.setPosition(xResolution / 8, -350);
 
 	player2Text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
 	player2Text.setString("Player 2");
-	player2Text.setColor(sf::Color::Yellow);
+	player2Text.setFillColor(sf::Color::Yellow);
 	player2Text.setCharacterSize(30);;
 	player2Text.setOrigin(player2Text.getLocalBounds().width, 0);
 	//player2Text.setPosition((xResolution / 8) * 3, -350);
 
 	player1NationText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
-	player1NationText.setColor(sf::Color::White);
+	player1NationText.setFillColor(sf::Color::White);
 	player1NationText.setCharacterSize(30);
 
 	player2NationText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
-	player2NationText.setColor(sf::Color::White);
+	player2NationText.setFillColor(sf::Color::White);
 	player2NationText.setCharacterSize(30);;
 	player2NationText.setOrigin(player2NationText.getLocalBounds().width, 0);
 
@@ -238,7 +238,7 @@ void GameState_SelectNationsMenu::getInput(){
 			else if ((event.key.code == Key::UP_ARROW || event.key.code == Key::DOWN_ARROW || event.key.code == Key::UP_KEY || event.key.code == Key::DOWN_KEY) && menuList.size() > 1){
 
 				//Unhighlight current object
-				menuIterator->text.setColor((sf::Color::White));
+				menuIterator->text.setFillColor((sf::Color::White));
 
 				if (event.key.code == Key::UP_ARROW || event.key.code == Key::UP_KEY){
 					if (menuIterator == menuList.begin()){
@@ -272,12 +272,12 @@ void GameState_SelectNationsMenu::getInput(){
                     if(menuList[i].text.getGlobalBounds().contains(mousePos)){
 
                         //Unhighlight current object
-                        menuIterator->text.setColor((sf::Color::White));
+                        menuIterator->text.setFillColor((sf::Color::White));
 
                         menuIterator = menuList.begin();
                         menuIterator += i;
 
-                        menuIterator->text.setColor((sf::Color::Yellow));
+                        menuIterator->text.setFillColor((sf::Color::Yellow));
                     }
                 }
 

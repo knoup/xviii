@@ -268,9 +268,9 @@ canShootOverUnits{false}
     hpText.setCharacterSize(15);
     movText.setCharacterSize(15);
 
-    dirText.setColor(sf::Color(0,0,180));
-    hpText.setColor(sf::Color::Red);
-    movText.setColor(sf::Color::Black);
+    dirText.setFillColor(sf::Color(0,0,180));
+    hpText.setFillColor(sf::Color::Red);
+    movText.setFillColor(sf::Color::Black);
 
 	outline.setPosition(sprite.getPosition().x, sprite.getPosition().y);
 	outline.setSize(sf::Vector2f(world->masterManager.textureManager->getSize().x, world->masterManager.textureManager->getSize().y));
@@ -1472,8 +1472,8 @@ std::string UnitTile::rangedAttack(UnitTile* unit, int distance){
     //..........-...........
     //..........-...........
     //..........-...........
+    //..........-...........
     //........U.............
-    //......................
     //
     //We already know that this function won't be called if the enemy is not in
     //the cone width.

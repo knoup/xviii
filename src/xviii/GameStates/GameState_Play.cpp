@@ -591,13 +591,13 @@ void GameState_Play::update(float mFT){
 		if ((unit == nullptr && terrain != nullptr) || (unit != nullptr && !unit->drawUnit || !unit->drawFlag)){
 
 			if (inMovementRange && !meleeObstructionPresent){
-				tileDistanceText.setColor(sf::Color::Black);
+				tileDistanceText.setFillColor(sf::Color::Black);
 			}
 			else if (!inMovementRange && inRangedAttackRange){
-				tileDistanceText.setColor(sf::Color::Magenta);
+				tileDistanceText.setFillColor(sf::Color::Magenta);
 			}
 			else{
-				tileDistanceText.setColor(sf::Color::Red);
+				tileDistanceText.setFillColor(sf::Color::Red);
 			}
 
 		}
@@ -608,14 +608,14 @@ void GameState_Play::update(float mFT){
 			bool friendly = (unit->getPlayer() == game->currentPlayer);
 
 			if (((!validAttackDirection && (!selected->canHeal())) || meleeObstructionPresent || rangedObstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || !selected->canMeleeAttack())){
-					tileDistanceText.setColor(sf::Color::Red);
+					tileDistanceText.setFillColor(sf::Color::Red);
 				}
 				else{
 					if (friendly && !selected->canHeal()){
-						tileDistanceText.setColor(sf::Color::Magenta);
+						tileDistanceText.setFillColor(sf::Color::Magenta);
 					}
 					else{
-						tileDistanceText.setColor(sf::Color::Blue);
+						tileDistanceText.setFillColor(sf::Color::Blue);
 					}
 				}
 

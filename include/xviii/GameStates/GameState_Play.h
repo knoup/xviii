@@ -22,7 +22,7 @@ public:
 		{
 			text.setString("NEXT TURN");
 			text.setCharacterSize(25);
-			text.setColor(sf::Color::Black);
+			text.setFillColor(sf::Color::Black);
 			rekt.setFillColor(sf::Color::Transparent);
 			rekt.setOutlineColor(sf::Color::Yellow);
 			rekt.setOutlineThickness(5);

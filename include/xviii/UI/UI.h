@@ -19,7 +19,7 @@ public:
 		Button() :
 			highlighted{false}
 		{
-			text.setColor(sf::Color::Black);
+			text.setFillColor(sf::Color::Black);
 			rekt.setFillColor(sf::Color::Transparent);
 			rekt.setOutlineColor(sf::Color::Yellow);
 			rekt.setOutlineThickness(5);
