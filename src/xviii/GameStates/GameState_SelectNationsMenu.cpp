@@ -17,8 +17,17 @@ void GameState_SelectNationsMenu::updateNationName(){
 
 GameState_SelectNationsMenu::GameState_SelectNationsMenu(Game* _game) :
 GameState_MenuState{_game},
+flagMenuItems1{},
+flagMenuItems2{},
+flagIterator1{},
+flagIterator2{},
 flagView1{sf::FloatRect({}, {}, xResolution, yResolution)},
 flagView2{sf::FloatRect({}, {}, xResolution, yResolution)},
+player1Text{},
+player2Text{},
+player1NationText{},
+player2NationText{},
+backgroundSprite{},
 backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 {
     backgroundSprite = game->mManager.textureManager->getRandomBackground();

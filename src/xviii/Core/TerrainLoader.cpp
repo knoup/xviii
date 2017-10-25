@@ -1,7 +1,8 @@
 #include "xviii/Headers/stdafx.h"
 #include "xviii/Core/TerrainLoader.h"
 
-TerrainLoader::TerrainLoader()
+TerrainLoader::TerrainLoader():
+    customDefinitions{}
 {
     //Initialise a "definition" for each terrain type with empty parameters. If there is anything relevant in bonuses.txt,
     //it will modify the contents of the appropriate definition

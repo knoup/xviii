@@ -15,6 +15,14 @@ public:
 		//This struct contains all the data needed to customise terrain bonuses from read
 		//txt files
 
+		TerrainClassData():
+            unitMainBonuses{},
+            unitFamilyBonuses{},
+            unitIDBonuses{},
+            unitIDMovementCapabilities{}
+		{
+		}
+
         std::vector<TerrainTile::UnitMainTypeBonus> unitMainBonuses;
         std::vector<TerrainTile::UnitFamilyTypeBonus> unitFamilyBonuses;
         std::vector<TerrainTile::UnitIDBonus> unitIDBonuses;

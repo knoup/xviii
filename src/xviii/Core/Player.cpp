@@ -10,11 +10,18 @@ static const sf::View topView{sf::View{sf::FloatRect(1183, -50, xResolution, yRe
 static const sf::View centerView{sf::View{sf::FloatRect(1183, 2900, xResolution, yResolution)}};
 
 Player::Player(MasterManager& _masterManager, World* _world, std::string _factionID, bool _spawnedAtBottom) :
+view{},
 masterManager(_masterManager),
 world(_world),
+units{},
 general{nullptr},
+spawnableUnits{},
 factionID{_factionID},
 displayName{},
+shortDisplayName{},
+factionCulture{},
+nationColour{sf::Color::White},
+nationFlag{},
 deploymentPoints{maxDeploymentPoints},
 ready{false},
 spawnedAtBottom{_spawnedAtBottom}

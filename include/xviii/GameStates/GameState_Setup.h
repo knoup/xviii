@@ -20,10 +20,10 @@ public:
 private:
 	sf::Vector2f cameraVelocity;
 	sf::Vector2i middleButtonCoords;
-	bool middleButtonHeld{false};
+	bool middleButtonHeld;
 
 	SetupUI setupUI;
-	bool drawUI{true};
+	bool drawUI;
 
 	std::unique_ptr<SpawnableUnit> selectedSpawnableUnit;
 

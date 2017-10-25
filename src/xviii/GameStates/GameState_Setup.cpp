@@ -5,7 +5,11 @@
 
 GameState_Setup::GameState_Setup(Game* _game) :
 GameState{_game},
+cameraVelocity{},
+middleButtonCoords{},
+middleButtonHeld{false},
 setupUI(game->mManager, this),
+drawUI{true},
 selectedSpawnableUnit{nullptr}
 {
 }

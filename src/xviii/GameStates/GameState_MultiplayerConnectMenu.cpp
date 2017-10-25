@@ -4,7 +4,10 @@
 #include "xviii/Core/Game.h"
 
 GameState_MultiplayerConnectMenu::GameState_MultiplayerConnectMenu(Game* game) :
-GameState_MenuState{game}
+GameState_MenuState{game},
+IPString{},
+IPText{},
+instructionalText{}
 {
 
 }

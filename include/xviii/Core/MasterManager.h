@@ -26,6 +26,14 @@ public:
     MasterManager();
     ~MasterManager();
 
+
+    //randomEngine will always be seeded with a random seed and used for rolls.
+    //mapSeedEngine will (at the moment) also be seeded randomly, but will later have an
+    //option for a specific seed; it is used for world generation
+	boost::random::random_device randevice;
+	boost::random::mt19937 randomEngine;
+	boost::random::mt19937 mapSeedEngine;
+
     std::unique_ptr<FontManager> fontManager;
     std::unique_ptr<TextureManager> textureManager;
 
@@ -39,12 +47,4 @@ public:
     std::unique_ptr<FactionLoader> factionLoader;
     std::unique_ptr<UnitLoader> unitLoader;
     std::unique_ptr<TerrainLoader> terrainLoader;
-
-
-    //randomEngine will always be seeded with a random seed and used for rolls.
-    //mapSeedEngine will (at the moment) also be seeded randomly, but will later have an
-    //option for a specific seed; it is used for world generation
-	boost::random::random_device randevice;
-	boost::random::mt19937 randomEngine;
-	boost::random::mt19937 mapSeedEngine;
 };

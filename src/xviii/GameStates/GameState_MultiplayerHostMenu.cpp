@@ -4,7 +4,9 @@
 #include "xviii/Core/Game.h"
 
 GameState_MultiplayerHostMenu::GameState_MultiplayerHostMenu(Game* game) :
-GameState_MenuState{game}
+GameState_MenuState{game},
+tcpListener{},
+waitText{}
 {
 
 }

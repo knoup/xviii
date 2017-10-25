@@ -17,7 +17,13 @@ std::string boolToString(bool _value){
 GameState_Play::GameState_Play(Game* _game) :
 GameState{_game},
 selected{nullptr},
-playUI(game->mManager, this)
+cameraVelocity{},
+middleButtonCoords{},
+middleButtonHeld{false},
+tileDistanceText{},
+playUI(game->mManager, this),
+drawUI{true},
+animationClock{}
 {
 
 

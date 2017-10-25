@@ -10,8 +10,18 @@ World::World(MasterManager& _mManager, sf::Vector2i _dimensions) :
 masterManager{_mManager},
 dimensions{_dimensions},
 dimensionsInPixels{sf::Vector2i(dimensions.x * masterManager.textureManager->getSize().x, dimensions.y * masterManager.textureManager->getSize().y)},
+era{},
+weatherEffects{},
 currentTime{},
-mTerrainTexture(masterManager.textureManager->getTerrainTexture())
+terrainLayer{},
+permanentBridges{},
+temporaryBridges{},
+mudTiles{},
+damagedUnits{},
+visibleTiles{},
+mTerrainVertices{},
+mTerrainTexture(masterManager.textureManager->getTerrainTexture()),
+rainVector{}
 {
 	mTerrainVertices.setPrimitiveType(sf::PrimitiveType::Quads);
 	mTerrainVertices.resize(dimensions.x * dimensions.y * 4);

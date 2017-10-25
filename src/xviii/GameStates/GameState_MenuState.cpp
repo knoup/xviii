@@ -13,7 +13,9 @@ std::unique_ptr<sf::Texture> GameState_MenuState::backgroundTexture;
 sf::Sprite GameState_MenuState::backgroundSprite;
 
 GameState_MenuState::GameState_MenuState(Game* game) :
-GameState{game}
+GameState{game},
+menuList{},
+menuIterator{}
 {
     std::vector<std::string> quotes;
 

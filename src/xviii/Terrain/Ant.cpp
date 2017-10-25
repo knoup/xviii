@@ -20,6 +20,9 @@ currentIndex{0}
 	currentIndex = world->indexAtCartesianPos({xCoord, yCoord});
 }
 
+Ant::~Ant(){
+}
+
 void Ant::increment(int dir, sf::Vector2i& cartesianCoords){
 	int maxWorldX{world->getDimensions().x - 1};
 	int maxWorldY{world->getDimensions().y - 1};

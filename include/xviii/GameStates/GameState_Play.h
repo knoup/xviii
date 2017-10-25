@@ -82,12 +82,12 @@ private:
 
 	sf::Vector2f cameraVelocity;
 	sf::Vector2i middleButtonCoords;
-	bool middleButtonHeld{false};
+	bool middleButtonHeld;
 
 	sf::Text tileDistanceText;
 
 	PlayUI playUI;
-	bool drawUI{true};
+	bool drawUI;
 	sf::Clock animationClock;
 
 	bool moveAnimationPlaying{false};

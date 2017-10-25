@@ -14,6 +14,12 @@ class Ant
 {
 public:
 	Ant(World* _world, TerrainTile::TerrainType _type, int _lifetime);
+    //The copy constructor and = operator for this class have been disabled
+	//Copy constructor
+	Ant(const Ant&) = delete;
+	//Operator=
+	Ant & operator=(const Ant&) = delete;
+	~Ant();
 	virtual void crawl();
 protected:
 	virtual void increment(int dir, sf::Vector2i& cartesianCoords);

@@ -14,6 +14,11 @@ class GameState
 public:
 	Game* game;
 	GameState(Game* _game);
+    //The copy constructor and = operator for this class have been disabled
+	//Copy constructor
+	GameState(const GameState&) = delete;
+	//Operator=
+	GameState & operator=(const GameState&) = delete;
 	virtual void getInput() = 0;
 	virtual void update(float mFT) = 0;
 	virtual void draw() = 0;

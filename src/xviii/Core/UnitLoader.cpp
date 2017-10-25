@@ -2,6 +2,7 @@
 #include "xviii/Core/UnitLoader.h"
 
 UnitLoader::UnitLoader(TextureManager& _tm) :
+customClasses{},
 tm(_tm)
 {
 }

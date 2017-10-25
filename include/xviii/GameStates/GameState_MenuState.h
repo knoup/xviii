@@ -40,14 +40,16 @@ protected:
 
 
         //Copy constructor (required for this object (not pointers) to be in a vector)
-        menuObject(const menuObject& _obj){
-            path = _obj.path;
-            highlightable = _obj.highlightable;
-            highlighted = _obj.highlighted;
-            text = _obj.text;
-            state = _obj.state;
-            action = _obj.action;
-            era = _obj.era;
+        menuObject(const menuObject& _obj):
+            path{_obj.path},
+            highlightable{_obj.highlightable},
+            highlighted{_obj.highlighted},
+            text{_obj.text},
+            state{_obj.state},
+            action{_obj.action},
+            era{_obj.era}
+        {
+
         }
         //Operator=
         menuObject & operator=(const menuObject& _obj){
