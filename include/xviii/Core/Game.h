@@ -21,7 +21,7 @@
 
 class UnitTile;
 
-class Game : public sf::NonCopyable
+class Game
 {
 public:
 	Game(sf::RenderWindow& _mWindow);

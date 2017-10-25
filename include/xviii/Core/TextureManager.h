@@ -3,7 +3,7 @@
 #include <boost/random.hpp>
 #include <boost/random/random_device.hpp>
 
-class TextureManager : public sf::NonCopyable
+class TextureManager
 {
 public:
 	using texturePtr = std::unique_ptr<sf::Texture>;
@@ -12,6 +12,11 @@ public:
 	enum class UI{RECTANGLE, BUTTON};
 
 	TextureManager(boost::random::mt19937& _randomEngine);
+    //The copy constructor and = operator for this class have been disabled
+	//Copy constructor
+	TextureManager(const TextureManager&) = delete;
+	//Operator=
+	TextureManager & operator=(const TextureManager&) = delete;
 
 	sf::Sprite getUnitSprite(std::string _textureID);
 	sf::Sprite getFlagSprite(std::string _textureID);

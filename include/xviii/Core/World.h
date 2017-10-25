@@ -36,7 +36,7 @@
 
 class TerrainLoader;
 
-class World : public sf::NonCopyable, public sf::Drawable
+class World : public sf::Drawable
 {
 	friend class Ant;
 	friend class RiverAnt;
@@ -104,6 +104,12 @@ public:
 	};
 
 	World(MasterManager& _mManager, sf::Vector2i _dimensions);
+    //The copy constructor and = operator for this class have been disabled
+	//Copy constructor
+	World(const World&) = delete;
+	//Operator=
+	World & operator=(const World&) = delete;
+
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
 	void generateRandomWorld(Era _era);
