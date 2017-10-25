@@ -18,6 +18,9 @@ public:
 		bool highlighted;
 
 		Button() :
+		    text{},
+		    sprite{},
+		    rekt{},
 			highlighted{false}
 		{
 			text.setString("NEXT TURN");
@@ -52,6 +55,11 @@ public:
 	};
 
 	GameState_Play(Game* _game);
+    //The copy constructor and = operator for this class have been disabled
+	//Copy constructor
+	GameState_Play(const GameState_Play&) = delete;
+	//Operator=
+	GameState_Play & operator=(const GameState_Play&) = delete;
 
 	//Due to the way gamestate changing works, the PlayState is created before the player decides
 	//whether to load a save or not. When the player loads the save, there are some essential values

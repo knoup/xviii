@@ -8,6 +8,11 @@ class PlayUI : public UI
 {
 public:
 	PlayUI(MasterManager& _masterManager, GameState_Play* _gameState);
+    //The copy constructor and = operator for this class have been disabled
+	//Copy constructor
+	PlayUI(const PlayUI&) = delete;
+	//Operator=
+	PlayUI & operator=(const PlayUI&) = delete;
 	virtual ~PlayUI();
 	void setElapsedTurnsText(int _num);
 	void setCurrentMessageText(std::string _str);

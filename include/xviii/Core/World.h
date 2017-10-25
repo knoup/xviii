@@ -65,8 +65,9 @@ public:
     //A basic 24h clock
 	struct Time{
 
-        Time(){
-            set(10, 0);
+        Time() :
+        HHMM{10,0}
+        {
         }
 
         void set(int _hour, int _minutes){

@@ -6,6 +6,9 @@ game{_game}
 {
 }
 
+GameState::~GameState(){
+}
+
 void GameState::getInput(){
 
 }

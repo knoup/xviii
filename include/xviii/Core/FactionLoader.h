@@ -14,7 +14,13 @@ public:
 
         FactionClassData(std::string _factionID, boost::filesystem::path _path) :
 			factionID{_factionID},
-			mPath{_path}
+			displayName{},
+			shortDisplayName{},
+			textureID{},
+			mPath{_path},
+			languageID{"english"},
+			factionCulture{},
+			availableInCustomBattles{true}
 		{
 		}
 
@@ -36,9 +42,9 @@ public:
 
         boost::filesystem::path mPath;
 
-        std::string languageID{"english"};
+        std::string languageID;
         std::string factionCulture;
-        bool availableInCustomBattles{true};
+        bool availableInCustomBattles;
 
     };
 

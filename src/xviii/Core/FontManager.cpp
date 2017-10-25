@@ -2,7 +2,10 @@
 #include "xviii/Core/FontManager.h"
 
 
-FontManager::FontManager()
+FontManager::FontManager() :
+lucon{},
+arial{},
+eighteen{}
 {
 	lucon.loadFromFile("assets/fonts/lucon.ttf");
 	arial.loadFromFile("assets/fonts/arial.ttf");

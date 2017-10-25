@@ -20,6 +20,11 @@ class Player
 	friend class SpawnableUnit;
     public:
 		Player(MasterManager& _masterManager, World* _world, std::string _factionID, bool _spawnedAtBottom);
+        //The copy constructor and = operator for this class have been disabled
+        //Copy constructor
+        Player(const Player& _player) = delete;
+        //Operator=
+        Player & operator=(const Player& _player) = delete;
 
 		//Returns true if successfully spawned unit
 		bool spawnUnit(std::string _unitID, sf::Vector2i _worldCoords);

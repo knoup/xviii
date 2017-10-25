@@ -17,6 +17,9 @@ public:
 		bool highlighted;
 
 		Button() :
+		    text{},
+		    sprite{},
+		    rekt{},
 			highlighted{false}
 		{
 			text.setFillColor(sf::Color::Black);

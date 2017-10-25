@@ -25,6 +25,11 @@ class Game : public sf::NonCopyable
 {
 public:
 	Game(sf::RenderWindow& _mWindow);
+    //The copy constructor and = operator for this class have been disabled
+	//Copy constructor
+	Game(const Game&) = delete;
+	//Operator=
+	Game & operator=(const Game&) = delete;
 
 	bool gameLoop();
 
@@ -44,19 +49,19 @@ public:
 
 	GameState* state;
 
-	std::unique_ptr<GameState_MainMenu> MainMenuState;
-	std::unique_ptr<GameState_CustomBattleMenu> CustomBattleMenuState;
-	std::unique_ptr<GameState_MultiplayerMenu> MultiplayerMenuState;
-	std::unique_ptr<GameState_MultiplayerHostMenu> MultiplayerHostMenuState;
-	std::unique_ptr<GameState_MultiplayerConnectMenu> MultiplayerConnectMenuState;
-	std::unique_ptr<GameState_CustomBattleLoadMenu> CustomBattleLoadMenuState;
-	std::unique_ptr<GameState_CreditMenu> CreditMenuState;
-	std::unique_ptr<GameState_CustomBattlePauseMenu> CustomBattlePauseMenuState;
-	std::unique_ptr<GameState_SetupPauseMenu> SetupPauseMenuState;
+	std::unique_ptr<GameState_MainMenu> MainMenuState{nullptr};
+	std::unique_ptr<GameState_CustomBattleMenu> CustomBattleMenuState{nullptr};
+	std::unique_ptr<GameState_MultiplayerMenu> MultiplayerMenuState{nullptr};
+	std::unique_ptr<GameState_MultiplayerHostMenu> MultiplayerHostMenuState{nullptr};
+	std::unique_ptr<GameState_MultiplayerConnectMenu> MultiplayerConnectMenuState{nullptr};
+	std::unique_ptr<GameState_CustomBattleLoadMenu> CustomBattleLoadMenuState{nullptr};
+	std::unique_ptr<GameState_CreditMenu> CreditMenuState{nullptr};
+	std::unique_ptr<GameState_CustomBattlePauseMenu> CustomBattlePauseMenuState{nullptr};
+	std::unique_ptr<GameState_SetupPauseMenu> SetupPauseMenuState{nullptr};
 
-	std::unique_ptr<GameState_SelectNationsMenu> SelectNationsState;
-	std::unique_ptr<GameState_Setup> SetupState;
-	std::unique_ptr<GameState_Play> PlayState;
+	std::unique_ptr<GameState_SelectNationsMenu> SelectNationsState{nullptr};
+	std::unique_ptr<GameState_Setup> SetupState{nullptr};
+	std::unique_ptr<GameState_Play> PlayState{nullptr};
 
 	World* mWorld;
 	Player* Player1;
@@ -67,7 +72,7 @@ public:
 
 	Player* inactivePlayer;
 
-	std::vector<Player*> mPlayers;
+	std::vector<Player*> mPlayers{};
 
 	sf::Vector2i mousePos;
 

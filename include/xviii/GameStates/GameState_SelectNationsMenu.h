@@ -20,7 +20,8 @@ private:
 			factionID{_factionID},
 			displayName{_displayName},
 			sprite{_sprite},
-			highlighted{false}
+			highlighted{false},
+			rekt{}
 		{
 		    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
 			rekt.setSize({sprite.getLocalBounds().width, sprite.getLocalBounds().height});

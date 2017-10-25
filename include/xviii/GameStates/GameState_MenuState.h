@@ -33,14 +33,38 @@ protected:
 
 	struct menuObject{
 		menuObject(boost::filesystem::path _path, bool _highlightable, GameState* _state, Action _action, World::Era _era = World::Era::ALL) :
-			path{_path}, highlightable{_highlightable}, state{_state}, action{_action}, era{_era}
+			path{_path}, highlightable{_highlightable}, highlighted{false}, text{}, state{_state}, action{_action}, era{_era}
 		{
 			text.setString(_path.filename().string());
 		}
 
+
+        //Copy constructor (required for this object (not pointers) to be in a vector)
+        menuObject(const menuObject& _obj){
+            path = _obj.path;
+            highlightable = _obj.highlightable;
+            highlighted = _obj.highlighted;
+            text = _obj.text;
+            state = _obj.state;
+            action = _obj.action;
+            era = _obj.era;
+        }
+        //Operator=
+        menuObject & operator=(const menuObject& _obj){
+            path = _obj.path;
+            highlightable = _obj.highlightable;
+            highlighted = _obj.highlighted;
+            text = _obj.text;
+            state = _obj.state;
+            action = _obj.action;
+            era = _obj.era;
+
+            return *this;
+        }
+
 		boost::filesystem::path path;
 		bool highlightable;
-		bool highlighted{false};
+		bool highlighted;
 		sf::Text text;
 		GameState* state;
 		Action action;
@@ -77,6 +101,5 @@ protected:
 
 
 	bool scroll{false};
-
 };
 

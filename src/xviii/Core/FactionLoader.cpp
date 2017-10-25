@@ -2,6 +2,7 @@
 #include "xviii/Core/FactionLoader.h"
 
 FactionLoader::FactionLoader(TextureManager& _tm) :
+customFactions{},
 tm(_tm)
 {
     load();

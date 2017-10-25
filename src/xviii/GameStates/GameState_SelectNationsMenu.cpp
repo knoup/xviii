@@ -201,10 +201,10 @@ void GameState_SelectNationsMenu::getInput(){
 					    game->mWorld = new World(game->mManager, sf::Vector2i(69, 100));
 						game->mWorld->generateRandomWorld(menuIterator->era);
 
-                        game->Player1 = new Player({game->mManager, game->mWorld, flagIterator1->factionID, true});
+                        game->Player1 = new Player{game->mManager, game->mWorld, flagIterator1->factionID, true};
                         game->mPlayers.emplace_back(game->Player1);
 
-                        game->Player2 = new Player({game->mManager, game->mWorld, flagIterator2->factionID, false});
+                        game->Player2 = new Player{game->mManager, game->mWorld, flagIterator2->factionID, false};
                         game->mPlayers.emplace_back(game->Player2);
 
                         game->currentPlayer = game->Player1;

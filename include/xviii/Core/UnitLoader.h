@@ -14,7 +14,23 @@ public:
 		//txt files; the name acts as a unique ID
 		UnitClassData(std::string _unitID, boost::filesystem::path _path) :
 			unitID{_unitID},
-			mPath{_path}
+			displayName{},
+			shortDisplayName{},
+			textureID{},
+			mPath{_path},
+			unitName{},
+			unitType{},
+			unitFamilyType{},
+            availableFactions{},
+            availableCultures{},
+            eras{},
+            rangedAttackDistValues{},
+            bridgeAttackDistValues{},
+            healingRangeValues{},
+            flankModifierValues{},
+            bonusesVsMainTypes{},
+            bonusesVsFamilyTypes{},
+            bonusesVsUnitIDs{}
 		{
 		}
 

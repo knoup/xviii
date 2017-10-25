@@ -180,6 +180,13 @@ public:
 	};
 
 	UnitTile(World* _world, Player* _belongsToPlayer, std::string _unitID, UnitType _type, UnitFamily _familyType, Direction _dir);
+    //The copy constructor and = operator for this class have been disabled, as they are not only unnecessary, but require careful
+    //attention should they ever be used. Two units can not share the same terrain tile, so one will have to be manually assigned.
+    //Additionally, this class is abstract. All things considered, these functions are not needed and wouldn't ever be used.
+    //Copy constructor
+	UnitTile(const UnitTile&) = delete;
+	//Operator=
+	UnitTile & operator=(const UnitTile&) = delete;
 	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~UnitTile() = 0;
 

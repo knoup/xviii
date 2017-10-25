@@ -321,7 +321,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("player1=") != std::string::npos){
 			std::string factionID = AFTEREQUALS;
 
-			game->Player1 = new Player({game->mManager, game->mWorld, factionID, true});
+			game->Player1 = new Player{game->mManager, game->mWorld, factionID, true};
 			game->mPlayers.emplace_back(game->Player1);
 		}
 
@@ -338,7 +338,7 @@ void SaveGame::parse(boost::filesystem::path _dir){
 		else if (line.find("player2=") != std::string::npos){
 			std::string factionID = AFTEREQUALS;
 
-			game->Player2 = new Player({game->mManager, game->mWorld, factionID, false});
+			game->Player2 = new Player{game->mManager, game->mWorld, factionID, false};
 			game->mPlayers.emplace_back(game->Player2);
 		}
 

@@ -108,6 +108,12 @@ public:
 	enum class Orientation{VERTICAL, HORIZONTAL};
 
 	TerrainTile(World* _world, TextureManager::Terrain textType, TerrainType terrainType, sf::Vector2f _pos);
+    //The copy constructor and = operator for this class have been disabled
+	//Copy constructor
+	TerrainTile(const TerrainTile& _terrain) = delete;
+	//Operator=
+	TerrainTile & operator=(const TerrainTile& _terrain) = delete;
+	//Create a virtual destructor, signifying this is an abstract class
 	virtual ~TerrainTile() = 0;
 
 	void setPos(sf::Vector2f _pos);
