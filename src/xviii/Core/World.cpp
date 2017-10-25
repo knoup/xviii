@@ -224,7 +224,7 @@ TerrainTile* World::terrainAtCartesianPos(sf::Vector2i _pos){
 	return terrainLayer[index].get();
 }
 
-void World::draw(sf::RenderTarget &target, sf::RenderStates states) const{
+void World::draw(sf::RenderTarget &target, sf::RenderStates /*states*/) const{
 	target.draw(mTerrainVertices, &mTerrainTexture);
 
 

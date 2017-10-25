@@ -1,7 +1,7 @@
 Inspired by, and continutally developed with, the ideas and input of a friend.
 
 Build Instructions
------------------------
+===================
 
 Required libraries:
 
@@ -11,13 +11,13 @@ Boost (version 1.63 tested): **filesystem**, **random**, and **algorithm** libra
 
 Compiled with **TDM-GCC (version 4.9.2, 32 bit, SJLJ)**
 
-Items of Note
------------------------
+Notes
+======
 
- *There is code for random menu wallpapers. My personal collection is nearly 30MB in size, and thus I won't upload it on Github. However, you are free to place your own images in the dir assets/gfx/backgrounds.
+There is code for random menu wallpapers. My personal collection is nearly 30MB in size, and thus I won't upload it on Github. However, you are free to place your own images in the dir assets/gfx/backgrounds.
 
-General
--------
+Overview
+========
 	There are four types of actions:
 
 
@@ -55,7 +55,7 @@ General
 
 
 Unit Types 
--------------------
+-----------
 
 There are 6 types of MAIN classes:
 
@@ -94,7 +94,7 @@ N.B.: There is also currently an unused Mortar class in the code. Do not use thi
 
 
 Ranged Combat Rules
--------------------
+--------------------
 
 
 The player rolls a die and the result is multiplied by the unit's dist./dir. modifier, in addition to terrain modifiers (see assets/terrain)
@@ -108,8 +108,7 @@ A unit's cone width determines the horizontal range of their capabilities. For e
 
 
 Melee Combat Rules
--------------------
-
+------------------
 
 Infantry vs Infantry:
 
@@ -169,7 +168,7 @@ The indicators under the counters represent the unit's current direction, health
 During the playing phase, players successively command their units by clicking on the desired unit and giving it movement/attack/rotation orders while selected (see below). The currently selected unit is outlined in yellow, while units that have already attacked this turn are outlined in red.
 
 Line of Sight & Weather
---------------
+------------------------
 
 In addition to movement points and max attacking range, units are limited by their line of sight. 
 
@@ -193,36 +192,51 @@ Additionally, both primary and secondary visual ranges are halved during the nig
 Every in-game turn represents the passage of 15 minutes.
 
 Keyboard shortcuts & mouse commands
-------------------------------------
+===================================
 
----Menu Phase---
+Menu Phase
+-----------
 
 	W/Up/S/Down keys & Return
 
----Nation Selection Phase---
+Nation Selection Phase
+----------------------
 
 	Left/A/Right/D keys & Return
 
----Setup & Playing Phases---
+Setup & Playing Phases
+----------------------
 
 	H - Hide UI
+
 	R - reset zoom level
+
 	WASD - pan view
+
 	dash (-) - zoom out
+
 	equal (=) - zoom in
+
 	Mouse wheel - zoom out/in
 
----Setup Phase---
+Setup Phase
+-----------
 
 	LMB - place unit on tile
+
 	RMB - deselect currently selected sprite, or delete unit at tile
 
----Playing Phase---
+Playing Phase
+-------------
 
 	LMB - select a unit and issue movement/attack orders
-	LCtrl + LMB - attack a terrain tile. This will currently have no effect, unless there is a hidden enemy unit on the tile. **When used by sappers on water tiles, constructs a bridge.**
+
+	LCtrl + LMB - attack a terrain tile. This currently has no effect, unless there is a hidden enemy unit on the tile. When 			used by sappers on water tiles, constructs a bridge.
+
 	RMB - deselect currently selected unit/dismiss current message
+
 	L - Toggle limber (if applicable)
-    F - Toggle square formation (if applicable)
+
+	F - Toggle square formation (if applicable)
 
 	Up/down/left/right arrow keys - rotate a unit north, south, east, and west respectively

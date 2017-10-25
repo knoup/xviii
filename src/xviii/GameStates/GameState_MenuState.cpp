@@ -203,7 +203,7 @@ void GameState_MenuState::getInput(){
 	}
 }
 
-void GameState_MenuState::update(float mFT){
+void GameState_MenuState::update(float /*mFT*/){
 	if (!menuIterator->highlighted && menuIterator->highlightable){
 		menuIterator->highlighted = true;
 	}

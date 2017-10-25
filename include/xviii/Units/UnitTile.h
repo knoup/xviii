@@ -293,7 +293,7 @@ public:
 	virtual std::string moveTo(TerrainTile* _terrainTile);
 	//Called at the end of every turn;
 	virtual void reset();
-	inline virtual std::string rotate(Direction _dir){ return{}; };
+	inline virtual std::string rotate(Direction){ return{}; };
 
 	void applyBonusModifiers(UnitTile* _unit, bool _attacking);
 	void applyFlankModifier(Modifier _flank, UnitTile* _enemy);
@@ -304,10 +304,10 @@ public:
 	//Needed for double dispatch
 	virtual std::string meleeAttack(UnitTile* _unit) = 0;
 
-	inline virtual std::string meleeAttack(Infantry* inf){ return{}; };
-	inline virtual std::string meleeAttack(Cavalry* cav){ return{}; };
-	inline virtual std::string meleeAttack(Artillery* art){ return{}; };
-	inline virtual std::string meleeAttack(Mortar* mor){ return{}; };
+	inline virtual std::string meleeAttack(Infantry*){ return{}; };
+	inline virtual std::string meleeAttack(Cavalry*){ return{}; };
+	inline virtual std::string meleeAttack(Artillery*){ return{}; };
+	inline virtual std::string meleeAttack(Mortar*){ return{}; };
 
 	virtual std::string rangedAttack(UnitTile* unit, int distance);
 
@@ -323,13 +323,13 @@ public:
     virtual std::string terrainAttack(TBridge* tBridge, int distance);
 
     //Whereas the rest, not necessarily
-    virtual std::string terrainAttack(Hills* hills, int distance){return {"Attacked terrain"};};
-    virtual std::string terrainAttack(Slopes* slopes, int distance){return {"Attacked terrain"};};
-    virtual std::string terrainAttack(Meadow* meadow, int distance){return {"Attacked terrain"};};
-    virtual std::string terrainAttack(Mud* mud, int distance){return {"Attacked terrain"};};
-    virtual std::string terrainAttack(Urban* urban, int distance){return {"Attacked terrain"};};
-    virtual std::string terrainAttack(Water* water, int distance){return {"Attacked terrain"};};
-    virtual std::string terrainAttack(Woods* woods, int distance){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Hills*, int /*distance*/){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Slopes*, int /*distance*/){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Meadow*, int /*distance*/){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Mud*, int /*distance*/){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Urban*, int /*distance*/){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Water*, int /*distance*/){return {"Attacked terrain"};};
+    virtual std::string terrainAttack(Woods*, int /*distance*/){return {"Attacked terrain"};};
 
     //Just a shortcut for the below function
     sf::Vector2i distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange);

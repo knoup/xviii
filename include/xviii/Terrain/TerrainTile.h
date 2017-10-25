@@ -123,7 +123,7 @@ public:
     virtual bool unitCanStopHere(UnitTile* _unit);
     virtual bool unitCanCrossHere(UnitTile* _unit);
 
-    virtual void takeDamage(int dmg){};
+    virtual void takeDamage(int){};
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	//Needed for double dispatch; hacky solution, possibly fix this in future

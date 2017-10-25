@@ -10,7 +10,7 @@ void GameState::getInput(){
 
 }
 
-void GameState::update(float mFT){
+void GameState::update(float /*mFT*/){
 
 }
 

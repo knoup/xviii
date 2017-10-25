@@ -68,7 +68,7 @@ void SetupUI::update(){
 	}
 }
 
-void SetupUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
+void SetupUI::draw(sf::RenderTarget &target, sf::RenderStates /*states*/) const{
 	//Don't forget to set the view first
 
 	target.draw(uiSprite);

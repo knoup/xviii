@@ -130,7 +130,7 @@ public:
 	TerrainTile* terrainAtCartesianPos(sf::Vector2i _pos);
 
 	const std::vector<UnitTile*>& getDamagedUnits() const;
-	const int getElapsedTurns() const{ return elapsedTurns;};
+    int getElapsedTurns() const{ return elapsedTurns;};
 	void setElapsedTurns(int _elapsedTurns){ elapsedTurns = _elapsedTurns; };
 	void incrementElapsedTurns(){ elapsedTurns+=1; };
 

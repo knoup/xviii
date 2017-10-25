@@ -39,7 +39,7 @@
 
 */
 
-int main(int argc, char* argv[]){
+int main(){
     sf::RenderWindow mWindow{{xResolution, yResolution}, "xviii - Dong Bong Military Board Game"};
 
 	Game* game = new Game(mWindow);

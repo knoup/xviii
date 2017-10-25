@@ -192,7 +192,7 @@ void PlayUI::turnlyUpdate(){
     setCurrentWeatherText();
 }
 
-void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates states) const{
+void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates /*states*/) const{
 	//Don't forget to set the view first
 
 	target.draw(uiSprite);
