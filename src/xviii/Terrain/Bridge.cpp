@@ -31,7 +31,7 @@ void Bridge::takeDamage(int dmg){
         //When "untoggling" a bridge, the second argument doesn't really matter
         world->toggleBridge(this, orientation);
     }
-};
+}
 
 void Bridge::flip(Orientation _or){
     if(_or == Orientation::HORIZONTAL){

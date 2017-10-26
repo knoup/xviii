@@ -29,7 +29,7 @@ counterSize{54, 34} //Current: 54,34
 
 	boost::filesystem::recursive_directory_iterator rEnd;
 
-	for (boost::filesystem::recursive_directory_iterator it("assets/gfx/units"); it != rEnd; ++it){
+	for (boost::filesystem::recursive_directory_iterator it(std::string("assets/gfx/units")); it != rEnd; ++it){
        std::string name = it->path().filename().leaf().stem().string();
 
        texturePtr texture = texturePtr(new sf::Texture());
@@ -41,7 +41,7 @@ counterSize{54, 34} //Current: 54,34
        }
 	}
 
-	for (boost::filesystem::recursive_directory_iterator it("assets/gfx/factions"); it != rEnd; ++it){
+	for (boost::filesystem::recursive_directory_iterator it(std::string("assets/gfx/factions")); it != rEnd; ++it){
        std::string name = it->path().filename().leaf().stem().string();
 
        texturePtr texture = texturePtr(new sf::Texture());
@@ -53,7 +53,7 @@ counterSize{54, 34} //Current: 54,34
        }
 	}
 
-	for (boost::filesystem::recursive_directory_iterator it("assets/gfx/weather"); it != rEnd; ++it){
+	for (boost::filesystem::recursive_directory_iterator it(std::string("assets/gfx/weather")); it != rEnd; ++it){
        std::string name = it->path().filename().leaf().stem().string();
 
        texturePtr texture = texturePtr(new sf::Texture());
@@ -71,8 +71,8 @@ counterSize{54, 34} //Current: 54,34
 	std::vector<boost::filesystem::path> paths;
 	boost::filesystem::directory_iterator end;
 
-	if (boost::filesystem::exists("assets/gfx/backgrounds")){
-		for (boost::filesystem::directory_iterator it("assets/gfx/backgrounds"); it != end; ++it){
+	if (boost::filesystem::exists(std::string("assets/gfx/backgrounds"))){
+		for (boost::filesystem::directory_iterator it(std::string("assets/gfx/backgrounds")); it != end; ++it){
 			paths.push_back(it->path());
 		}
 	}

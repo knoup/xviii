@@ -13,9 +13,9 @@ instructionalText{}
 }
 
 void GameState_MultiplayerConnectMenu::init(){
-    menuList.push_back({{"Establish connection"}, true, nullptr, Action::NONE});
-    menuList.push_back({{""}, false, nullptr, Action::NONE});
-	menuList.push_back({{"Back"}, true, game->MultiplayerMenuState.get(), Action::NONE});
+    menuList.push_back({std::string("Establish connection"), true, nullptr, Action::NONE});
+    menuList.push_back({std::string(""), false, nullptr, Action::NONE});
+	menuList.push_back({std::string("Back"), true, game->MultiplayerMenuState.get(), Action::NONE});
 	lineUpObjects();
 
     instructionalText.setCharacterSize(40);

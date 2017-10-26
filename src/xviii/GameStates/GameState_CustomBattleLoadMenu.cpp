@@ -13,14 +13,14 @@ void GameState_CustomBattleLoadMenu::init(){
 
     boost::filesystem::directory_iterator end;
 
-	if (boost::filesystem::exists("save")){
-		for (boost::filesystem::directory_iterator it("save"); it != end; ++it){
+	if (boost::filesystem::exists(std::string("save"))){
+		for (boost::filesystem::directory_iterator it(std::string("save")); it != end; ++it){
 			menuList.push_back({it->path(), true, nullptr, Action::LOAD});
 		}
 	}
 
-    menuList.push_back({{""}, false, nullptr, Action::NONE});
-	menuList.push_back({{"Back"}, true, game->CustomBattleMenuState.get(), Action::NONE});
+    menuList.push_back({std::string(""), false, nullptr, Action::NONE});
+	menuList.push_back({std::string("Back"), true, game->CustomBattleMenuState.get(), Action::NONE});
 
 	lineUpObjects();
 }

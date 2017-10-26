@@ -18,7 +18,7 @@ class TerrainLoader;
 class MasterManager
 {
 public:
-    //Note: due to a GCC peculiarity, a destructor must be defined (TL;DR) in order for forward
+    //Note: due to a GCC peculiarity, a destruct or must be defined (TL;DR) in order for forward
     //declarations involving unique pointers. This should not be happening according to the
     //standard. See here for more information:
     //http://stackoverflow.com/a/25853985

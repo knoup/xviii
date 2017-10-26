@@ -10,11 +10,11 @@ GameState_MenuState{game}
 }
 
 void GameState_CustomBattlePauseMenu::init(){
-    menuList.push_back({{"Back to Main Menu"}, true, game->MainMenuState.get(), Action::NONE});
-	menuList.push_back({{"Save"}, true, game->PlayState.get(), Action::SAVE});
-	menuList.push_back({{"Resume"}, true, game->PlayState.get(), Action::NONE});
-	menuList.push_back({{""}, false, nullptr, Action::NONE});
-	menuList.push_back({{"Exit"}, true, nullptr, Action::EXIT});
+    menuList.push_back({std::string("Back to Main Menu"), true, game->MainMenuState.get(), Action::NONE});
+	menuList.push_back({std::string("Save"), true, game->PlayState.get(), Action::SAVE});
+	menuList.push_back({std::string("Resume"), true, game->PlayState.get(), Action::NONE});
+	menuList.push_back({std::string(""), false, nullptr, Action::NONE});
+	menuList.push_back({std::string("Exit"), true, nullptr, Action::EXIT});
 
 	lineUpObjects();
 }

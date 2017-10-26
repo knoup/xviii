@@ -10,7 +10,7 @@ tm(_tm)
 void UnitLoader::load(){
 	boost::filesystem::recursive_directory_iterator end;
 
-	for (boost::filesystem::recursive_directory_iterator it("assets/units"); it != end; ++it){
+	for (boost::filesystem::recursive_directory_iterator it(std::string("assets/units")); it != end; ++it){
 		parse(it->path());
 	}
 }

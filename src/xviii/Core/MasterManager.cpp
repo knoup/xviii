@@ -5,6 +5,16 @@
 #include "xviii/Core/UnitLoader.h"
 #include "xviii/Core/TerrainLoader.h"
 
+/*
+The only warning I was unable to eliminate was the vague "required from here"
+warning on line 20. It has something to do with...
+
+xviii\src\xviii\Core\MasterManager.cpp:19:66:   required from here
+     BOOST_RANDOM_DETAIL_ARITHMETIC_CONSTRUCTOR(mersenne_twister_engine,
+                                                ^
+     explicit Self(const T& x)
+*/
+
 MasterManager::MasterManager():
 randevice{},
 randomEngine{randevice()},

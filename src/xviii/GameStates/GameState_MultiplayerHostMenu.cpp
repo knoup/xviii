@@ -12,7 +12,7 @@ waitText{}
 }
 
 void GameState_MultiplayerHostMenu::init(){
-	menuList.push_back({{"Back"}, true, game->MultiplayerMenuState.get(), Action::NONE});
+	menuList.push_back({std::string("Back"), true, game->MultiplayerMenuState.get(), Action::NONE});
 	lineUpObjects();
 
     waitText.setCharacterSize(40);

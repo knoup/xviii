@@ -105,13 +105,13 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
 	updateNationName();
 
 	////////////
-	menuList.push_back({{"Start (All Eras)"}, true, nullptr, Action::NEW, World::Era::ALL});
-	menuList.push_back({{"Start (Late Era)"}, true, nullptr, Action::NEW, World::Era::LATE});
-	menuList.push_back({{"Start (Mid Era)"}, true, nullptr, Action::NEW, World::Era::MID});
-	menuList.push_back({{"Start (Early Era)"}, true, nullptr, Action::NEW, World::Era::EARLY});
-	menuList.push_back({{"Advanced Settings"}, true, nullptr, Action::NONE});
-	menuList.push_back({{""}, false, nullptr, Action::NONE});
-	menuList.push_back({{"Back"}, true, game->CustomBattleMenuState.get(), Action::NONE});
+	menuList.push_back({std::string("Start (All Eras)"), true, nullptr, Action::NEW, World::Era::ALL});
+	menuList.push_back({std::string("Start (Late Era)"), true, nullptr, Action::NEW, World::Era::LATE});
+	menuList.push_back({std::string("Start (Mid Era)"), true, nullptr, Action::NEW, World::Era::MID});
+	menuList.push_back({std::string("Start (Early Era)"), true, nullptr, Action::NEW, World::Era::EARLY});
+	menuList.push_back({std::string("Advanced Settings"), true, nullptr, Action::NONE});
+	menuList.push_back({std::string(""), false, nullptr, Action::NONE});
+	menuList.push_back({std::string("Back"), true, game->CustomBattleMenuState.get(), Action::NONE});
 	////////////
 
 	lineUpObjects();

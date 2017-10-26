@@ -61,8 +61,8 @@ bool SaveGame::create(){
 
 	#define INDENT "\t"
 
-	if (!boost::filesystem::exists("save")){
-		boost::filesystem::create_directory("save");
+	if (!boost::filesystem::exists(std::string("save"))){
+		boost::filesystem::create_directory(std::string("save"));
 	}
 
 	std::string saveName{"turn_" + std::to_string(game->mWorld->getElapsedTurns())};
@@ -71,7 +71,7 @@ bool SaveGame::create(){
 
 	boost::filesystem::recursive_directory_iterator end;
 
-	for (boost::filesystem::recursive_directory_iterator it("save"); it != end; ++it){
+	for (boost::filesystem::recursive_directory_iterator it(std::string("save")); it != end; ++it){
 		if (it->path().filename().leaf().stem() == saveName){
 			saveName += "i";
 		}

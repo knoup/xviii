@@ -16,30 +16,30 @@ void UnitTile::setTerrain(TerrainTile* _terrain){
     truePosition = terrain->getCartesianPos();
 }
 
-bool UnitTile::getMelee() const{ return world->masterManager.unitLoader->customClasses.at(unitID).melee; };
-bool UnitTile::getSkirmish() const{ return world->masterManager.unitLoader->customClasses.at(unitID).skirmish; };
-bool UnitTile::getFrightening() const { return world->masterManager.unitLoader->customClasses.at(unitID).frightening; };
-bool UnitTile::getHalfRangedDamage() const { return world->masterManager.unitLoader->customClasses.at(unitID).halfRangedDamage; };
-bool UnitTile::canHeal() const{ return !(world->masterManager.unitLoader->customClasses.at(unitID).healingRangeValues.empty()); };
-bool UnitTile::hasRangedCapability() const{ return !(world->masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues.empty()); };
-bool UnitTile::canAttackBridge() const{ return !(world->masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()); };
-bool UnitTile::getCanShootOverUnits() const { return world->masterManager.unitLoader->customClasses.at(unitID).canShootOverUnits; };
+bool UnitTile::getMelee() const{ return world->masterManager.unitLoader->customClasses.at(unitID).melee; }
+bool UnitTile::getSkirmish() const{ return world->masterManager.unitLoader->customClasses.at(unitID).skirmish; }
+bool UnitTile::getFrightening() const { return world->masterManager.unitLoader->customClasses.at(unitID).frightening; }
+bool UnitTile::getHalfRangedDamage() const { return world->masterManager.unitLoader->customClasses.at(unitID).halfRangedDamage; }
+bool UnitTile::canHeal() const{ return !(world->masterManager.unitLoader->customClasses.at(unitID).healingRangeValues.empty()); }
+bool UnitTile::hasRangedCapability() const{ return !(world->masterManager.unitLoader->customClasses.at(unitID).rangedAttackDistValues.empty()); }
+bool UnitTile::canAttackBridge() const{ return !(world->masterManager.unitLoader->customClasses.at(unitID).bridgeAttackDistValues.empty()); }
+bool UnitTile::getCanShootOverUnits() const { return world->masterManager.unitLoader->customClasses.at(unitID).canShootOverUnits; }
 
-int UnitTile::getChargesPerTurn() const { return world->masterManager.unitLoader->customClasses.at(unitID).chargesPerTurn; };
-int UnitTile::getShotsPerTurn() const { return world->masterManager.unitLoader->customClasses.at(unitID).shotsPerTurn; };
+int UnitTile::getChargesPerTurn() const { return world->masterManager.unitLoader->customClasses.at(unitID).chargesPerTurn; }
+int UnitTile::getShotsPerTurn() const { return world->masterManager.unitLoader->customClasses.at(unitID).shotsPerTurn; }
 
-bool UnitTile::hasSquareFormationAbility() const{ return world->masterManager.unitLoader->customClasses.at(unitID).hasSquareFormationAbility; };
-bool UnitTile::hasLimberAbility() const{ return world->masterManager.unitLoader->customClasses.at(unitID).hasLimberAbility; };
-bool UnitTile::hasLancerAbility() const{ return world->masterManager.unitLoader->customClasses.at(unitID).hasLancerAbility; };
+bool UnitTile::hasSquareFormationAbility() const{ return world->masterManager.unitLoader->customClasses.at(unitID).hasSquareFormationAbility; }
+bool UnitTile::hasLimberAbility() const{ return world->masterManager.unitLoader->customClasses.at(unitID).hasLimberAbility; }
+bool UnitTile::hasLancerAbility() const{ return world->masterManager.unitLoader->customClasses.at(unitID).hasLancerAbility; }
 
-int UnitTile::getCost() const{ return world->masterManager.unitLoader->customClasses.at(unitID).cost; };
-int UnitTile::getLimit() const{ return world->masterManager.unitLoader->customClasses.at(unitID).limit; };
-int UnitTile::getMaxHp() const{ return world->masterManager.unitLoader->customClasses.at(unitID).maxHp; };
-int UnitTile::getMaxMov() const{ return world->masterManager.unitLoader->customClasses.at(unitID).maxMov; };
-int UnitTile::getConeWidth() const{ return world->masterManager.unitLoader->customClasses.at(unitID).coneWidth; };
+int UnitTile::getCost() const{ return world->masterManager.unitLoader->customClasses.at(unitID).cost; }
+int UnitTile::getLimit() const{ return world->masterManager.unitLoader->customClasses.at(unitID).limit; }
+int UnitTile::getMaxHp() const{ return world->masterManager.unitLoader->customClasses.at(unitID).maxHp; }
+int UnitTile::getMaxMov() const{ return world->masterManager.unitLoader->customClasses.at(unitID).maxMov; }
+int UnitTile::getConeWidth() const{ return world->masterManager.unitLoader->customClasses.at(unitID).coneWidth; }
 
-int UnitTile::getDefaultUnitViewDistance() const {return world->masterManager.unitLoader->customClasses.at(unitID).unitViewDistance;};
-int UnitTile::getDefaultFlagViewDistance() const {return world->masterManager.unitLoader->customClasses.at(unitID).flagViewDistance;};
+int UnitTile::getDefaultUnitViewDistance() const {return world->masterManager.unitLoader->customClasses.at(unitID).unitViewDistance;}
+int UnitTile::getDefaultFlagViewDistance() const {return world->masterManager.unitLoader->customClasses.at(unitID).flagViewDistance;}
 
 void UnitTile::applyBonusModifiers(UnitTile* _unit, bool _attacking){
 	UnitTile::UnitType mainType = _unit->getUnitType();

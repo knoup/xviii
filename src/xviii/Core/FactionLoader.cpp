@@ -11,7 +11,7 @@ tm(_tm)
 void FactionLoader::load(){
 	boost::filesystem::recursive_directory_iterator end;
 
-	for (boost::filesystem::recursive_directory_iterator it("assets/factions"); it != end; ++it){
+	for (boost::filesystem::recursive_directory_iterator it(std::string("assets/factions")); it != end; ++it){
 		parse(it->path());
 	}
 }

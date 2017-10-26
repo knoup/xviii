@@ -10,10 +10,10 @@ GameState_MenuState{game}
 }
 
 void GameState_CreditMenu::init(){
-    menuList.push_back({{"Concept, design, testing - Giuseppe Fazio"}, false, nullptr, Action::NONE});
-	menuList.push_back({{"Programming, design, testing - Ralph Chaanine"}, false, nullptr, Action::NONE});
-	menuList.push_back({{""}, false, nullptr, Action::NONE});
-	menuList.push_back({{"Back"}, true, game->MainMenuState.get(), Action::NONE});
+    menuList.push_back({std::string("Concept, design, testing - Giuseppe Fazio"), false, nullptr, Action::NONE});
+	menuList.push_back({std::string("Programming, design, testing - Ralph Chaanine"), false, nullptr, Action::NONE});
+	menuList.push_back({std::string(""), false, nullptr, Action::NONE});
+	menuList.push_back({std::string("Back"), true, game->MainMenuState.get(), Action::NONE});
 
 	lineUpObjects();
 }
