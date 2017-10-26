@@ -9,6 +9,12 @@
 
 TextureManager::TextureManager(boost::random::mt19937& _randomEngine) :
 units{},
+flags{},
+weather{},
+randomBackground{nullptr},
+terrain{nullptr},
+ui{nullptr},
+button{nullptr},
 size{54, 54}, //Current: 54,54
 counterSize{54, 34} //Current: 54,34
 {

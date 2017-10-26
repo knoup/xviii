@@ -6,7 +6,9 @@
 
 SetupUI::SetupUI(MasterManager& _masterManager, GameState_Setup* _gameState) :
 UI(_masterManager),
-gameState{_gameState}
+gameState{_gameState},
+numbRemaining{},
+deploymentPointsTextRemaining{}
 {
 	button.setString("READY");
 	button.text.setOrigin(button.text.getLocalBounds().width / 2, button.text.getGlobalBounds().height / 2);

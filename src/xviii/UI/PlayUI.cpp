@@ -6,7 +6,16 @@
 
 PlayUI::PlayUI(MasterManager& _masterManager, GameState_Play* _gameState) :
 UI(_masterManager),
-gameState{_gameState}
+gameState{_gameState},
+elapsedTurnsText{},
+messageLogText{},
+currentMessageText{},
+currentWeatherText{},
+currentTimeText{},
+saveText{},
+squareFormationText{},
+limberText{},
+lancerBonusReadyText{}
 {
 	button.text.setCharacterSize(20);
 	button.setString("NEXT TURN");

@@ -6,6 +6,7 @@
 
 Bridge::Bridge(World* _world, sf::Vector2f _pos) :
 TerrainTile(_world, TextureManager::Terrain::BLANK, TerrainType::BRIDGE, _pos),
+hpText{},
 hp{5},
 orientation{Orientation::VERTICAL}
 {

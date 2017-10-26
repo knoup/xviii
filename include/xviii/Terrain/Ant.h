@@ -19,7 +19,7 @@ public:
 	Ant(const Ant&) = delete;
 	//Operator=
 	Ant & operator=(const Ant&) = delete;
-	~Ant();
+	virtual ~Ant();
 	virtual void crawl();
 protected:
 	virtual void increment(int dir, sf::Vector2i& cartesianCoords);

@@ -6,6 +6,8 @@
 UI::UI(MasterManager& _masterManager) :
 masterManager(_masterManager),
 uiSprite{masterManager.textureManager->getSprite(TextureManager::UI::RECTANGLE)},
+currentPlayerText{},
+button{},
 uiView{sf::FloatRect(0, 0, barWidth, barHeight)}
 {
 	uiView.setViewport(sf::FloatRect(0, 0.8f, 1, 0.2f));

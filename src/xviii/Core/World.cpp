@@ -19,8 +19,8 @@ temporaryBridges{},
 mudTiles{},
 damagedUnits{},
 visibleTiles{},
-mTerrainVertices{},
 mTerrainTexture(masterManager.textureManager->getTerrainTexture()),
+mTerrainVertices{},
 rainVector{}
 {
 	mTerrainVertices.setPrimitiveType(sf::PrimitiveType::Quads);

@@ -24,13 +24,13 @@ type{}
 }
 
 //Copy constructor
-SpawnableUnit::SpawnableUnit(const SpawnableUnit& _spawnableUnit){
-    unitID = _spawnableUnit.unitID;
-    unitName = _spawnableUnit.unitName;
-    unitSprite = _spawnableUnit.unitSprite;
-    player = _spawnableUnit.player;
-    type = _spawnableUnit.type;
-
+SpawnableUnit::SpawnableUnit(const SpawnableUnit& _spawnableUnit):
+unitID{_spawnableUnit.unitID},
+unitName{_spawnableUnit.unitName},
+unitSprite{_spawnableUnit.unitSprite},
+player{_spawnableUnit.player},
+type{_spawnableUnit.type}
+{
 }
 //Operator=
 SpawnableUnit & SpawnableUnit::operator=(const SpawnableUnit& _spawnableUnit){

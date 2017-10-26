@@ -393,7 +393,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Data member
-	std::vector<ModifierReport> modVector;
+	std::vector<ModifierReport> modVector{};
 
 	bool drawUnit{true};
 	bool drawFlag{true};
@@ -411,24 +411,24 @@ protected:
     //These are initialised to the defaults defined in the unit's .txt; they are modified by
     //World::calculateViewDistance() when it is called.
 
-	int currentUnitViewDistance;
-	int currentFlagViewDistance;
+	int currentUnitViewDistance{};
+	int currentFlagViewDistance{};
 
-	sf::Sprite unitFlag;
+	sf::Sprite unitFlag{};
 	//Pointer to the terrain tile that the unit is on. This is only to be used for units, to indicate
 	//where they are easily and efficiently, since a unit must always be on a terrain tile
 	TerrainTile* terrain;
 
-	mutable sf::RectangleShape outline;
+	mutable sf::RectangleShape outline{};
 
 	//The visual representations of the stats
-    sf::Text dirText;
-	sf::Text hpText;
-	sf::Text movText;
+    sf::Text dirText{};
+	sf::Text hpText{};
+	sf::Text movText{};
 
 	std::string unitID;
-	std::string displayName;
-	std::string shortDisplayName;
+	std::string displayName{};
+	std::string shortDisplayName{};
 
 	UnitType unitType;
 	UnitFamily unitFamilyType;
