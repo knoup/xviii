@@ -69,16 +69,25 @@ generalRangeIndicator2{}
 
 	float thickness{5};
 
+
 	generalRangeIndicator1.setFillColor(sf::Color::Transparent);
     generalRangeIndicator1.setOutlineThickness(thickness);
 	generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0,250));
     generalRangeIndicator1.setSize({(masterManager.textureManager->getSize().x * 21), (masterManager.textureManager->getSize().y * 21)});
+
+    generalRangeIndicator1.setCornersRadius(20);
+    generalRangeIndicator1.setCornerPointCount(20);
+
     generalRangeIndicator1.setOrigin((generalRangeIndicator1.getLocalBounds().width / 2) - thickness, (generalRangeIndicator1.getLocalBounds().height / 2) - thickness);
 
     generalRangeIndicator2.setFillColor(sf::Color::Transparent);
     generalRangeIndicator2.setOutlineThickness(thickness);
 	generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0,250));
     generalRangeIndicator2.setSize({(masterManager.textureManager->getSize().x * 31), (masterManager.textureManager->getSize().y * 31)});
+
+    generalRangeIndicator2.setCornersRadius(20);
+    generalRangeIndicator2.setCornerPointCount(20);
+
     generalRangeIndicator2.setOrigin((generalRangeIndicator2.getLocalBounds().width / 2) - thickness, (generalRangeIndicator2.getLocalBounds().height / 2) - thickness);
 
 

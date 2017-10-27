@@ -2,6 +2,8 @@
 
 #include "xviii/UI/UI.h"
 
+#include "xviii/Misc/RoundedRectangleShape.h"
+
 class GameState_Play;
 
 class PlayUI : public UI
@@ -40,8 +42,8 @@ private:
 	sf::Text limberText;
 	sf::Text lancerBonusReadyText;
 
-	sf::RectangleShape generalRangeIndicator1;
-	sf::RectangleShape generalRangeIndicator2;
+	sf::RoundedRectangleShape generalRangeIndicator1;
+	sf::RoundedRectangleShape generalRangeIndicator2;
 
 	bool drawSquareFormationText{false};
 	bool drawLimberText{false};
