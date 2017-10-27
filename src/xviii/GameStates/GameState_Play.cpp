@@ -666,7 +666,8 @@ void GameState_Play::draw(){
 
 	//
 	if (drawUI){
-		game->mWindow.setView(playUI.uiView);
+		//playUI.draw() automatically changes views in order to draw what it needs to.
+		//Keep this in mind, and always reset the view after calling it.
 		playUI.draw(game->mWindow);
 	}
 	//

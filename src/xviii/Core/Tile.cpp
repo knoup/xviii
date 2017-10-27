@@ -41,6 +41,10 @@ sf::Vector2f Tile::getPixelPos() const{
 	return sprite.getPosition();
 }
 
+sf::Vector2f Tile::getPixelPosCenter() const{
+    return{sprite.getPosition().x + (sprite.getLocalBounds().width / 2), sprite.getPosition().y + (sprite.getLocalBounds().height / 2)};
+}
+
 int Tile::top() const{
 	return sprite.getPosition().y;
 }

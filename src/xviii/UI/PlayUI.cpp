@@ -15,11 +15,13 @@ currentTimeText{},
 saveText{},
 squareFormationText{},
 limberText{},
-lancerBonusReadyText{}
+lancerBonusReadyText{},
+generalRangeIndicator1{},
+generalRangeIndicator2{}
 {
 	button.text.setCharacterSize(20);
 	button.setString("NEXT TURN");
-	button.text.setOrigin(button.text.getLocalBounds().width / 2, button.text.getGlobalBounds().height / 2);
+	button.text.setOrigin(button.text.getLocalBounds().width / 2, button.text.getLocalBounds().height / 2);
 	button.text.setPosition(button.sprite.getPosition().x, button.sprite.getPosition().y - 10);
 
 	elapsedTurnsText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
@@ -64,10 +66,25 @@ lancerBonusReadyText{}
 	lancerBonusReadyText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
 	lancerBonusReadyText.setFillColor(sf::Color::White);
 	lancerBonusReadyText.setPosition(970, 94);
+
+	float thickness{5};
+
+	generalRangeIndicator1.setFillColor(sf::Color::Transparent);
+    generalRangeIndicator1.setOutlineThickness(thickness);
+	generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0,250));
+    generalRangeIndicator1.setSize({(masterManager.textureManager->getSize().x * 21), (masterManager.textureManager->getSize().y * 21)});
+    generalRangeIndicator1.setOrigin((generalRangeIndicator1.getLocalBounds().width / 2) - thickness, (generalRangeIndicator1.getLocalBounds().height / 2) - thickness);
+
+    generalRangeIndicator2.setFillColor(sf::Color::Transparent);
+    generalRangeIndicator2.setOutlineThickness(thickness);
+	generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0,250));
+    generalRangeIndicator2.setSize({(masterManager.textureManager->getSize().x * 31), (masterManager.textureManager->getSize().y * 31)});
+    generalRangeIndicator2.setOrigin((generalRangeIndicator2.getLocalBounds().width / 2) - thickness, (generalRangeIndicator2.getLocalBounds().height / 2) - thickness);
+
+
 }
 
 PlayUI::~PlayUI(){
-
 }
 
 void PlayUI::setElapsedTurnsText(int _num){
@@ -178,6 +195,12 @@ void PlayUI::update(){
 				lancerBonusReadyText.setString("Lncr bns NT RDY");
 			}
 		}
+
+		if(gameState->selected == gameState->game->currentPlayer->getGeneral()){
+            UnitTile* general = gameState->game->currentPlayer->getGeneral();
+            generalRangeIndicator1.setPosition(general->getTerrain()->getPixelPosCenter());
+            generalRangeIndicator2.setPosition(general->getTerrain()->getPixelPosCenter());
+		}
 	}
 
 	//For the highlighting of the next turn button:
@@ -202,7 +225,16 @@ void PlayUI::turnlyUpdate(){
 }
 
 void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates /*states*/) const{
-	//Don't forget to set the view first
+    //Normally, the world view should be already set when this function is called
+    if(gameState->selected != nullptr){
+        if(gameState->selected == gameState->game->currentPlayer->getGeneral()){
+            target.draw(generalRangeIndicator2);
+            target.draw(generalRangeIndicator1);
+        }
+    }
+
+	//After drawing the general range indicators, we move on to the UI view
+	gameState->game->mWindow.setView(uiView);
 
 	target.draw(uiSprite);
 	target.draw(currentPlayerText);

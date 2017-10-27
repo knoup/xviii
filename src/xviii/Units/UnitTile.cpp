@@ -1398,7 +1398,7 @@ void UnitTile::calculateEffectiveMov(){
 
 	if (general == nullptr){
 		//Implicitly rounded down
-		setMov(getMaxMov()*0.65);
+		setMov(getMaxMov()*0.50);
 	}
 	else{
 		sf::Vector2i generalPos = general->getCartesianPos();
@@ -1407,8 +1407,18 @@ void UnitTile::calculateEffectiveMov(){
 		distance.x = abs(distance.x);
 		distance.y = abs(distance.y);
 
-		if (distance.x >= 21 || distance.y >= 21){
-			if (distance.x <= 34 && distance.y <= 34){
+		/*
+		The values here are 21 and 31
+
+        Because they are radii, however, we half them (and subtract 1 to
+        exclude the tile the general is on themselves)
+
+        We therefore get 10 and 15 respectively.
+
+        */
+
+		if (distance.x > 10 || distance.y > 10){
+			if (distance.x <= 15 && distance.y <= 15){
 				setMov(getMaxMov()*0.75);
 			}
 			else{

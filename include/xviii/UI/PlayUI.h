@@ -24,6 +24,8 @@ public:
 	void turnlyUpdate();
 
 	virtual void update();
+    //playUI.draw() automatically changes views in order to draw what it needs to.
+    //Keep this in mind, and always reset the view after calling it.
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 private:
 	GameState_Play* gameState;
@@ -37,6 +39,9 @@ private:
 	sf::Text squareFormationText;
 	sf::Text limberText;
 	sf::Text lancerBonusReadyText;
+
+	sf::RectangleShape generalRangeIndicator1;
+	sf::RectangleShape generalRangeIndicator2;
 
 	bool drawSquareFormationText{false};
 	bool drawLimberText{false};

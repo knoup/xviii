@@ -71,11 +71,12 @@ And then the rest:
 
 	GEN (General) - derived from Cavalry, but has a hardcoded limit of 1 per player. 
     A general may heal up to one friendly unit per turn for 2HP. In addition, if 
-    allied units are between 34 and 21 tiles away (radius) from the general, they 
+    allied units are between 21 and 31 tiles away (radius!) from the general, they 
     get only 75% of their maximum movement at the start of the turn. If they are 
-    further than 34, they get only 65%. When a General dies, all friendly units 
-    will suffer 2 DMG. Note that the movement malus applies even if the General 
-    is dead or was not spawned.
+    further than 31, they get only 65%. When a General dies, all friendly units 
+    will suffer 2 DMG. If a General is absent (either killed or not spawned to begin
+    with), all units will start turns with only 50% of their movement points.
+    Values are implicitly rounded down where appropriate.
 
 
 	ARTGUARD (Artillery Guard) - derived from Infantry. Any adjacent artillery 

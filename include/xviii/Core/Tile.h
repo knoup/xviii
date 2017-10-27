@@ -23,6 +23,7 @@ public:
 
 	sf::Vector2i getCartesianPos() const;
 	sf::Vector2f getPixelPos() const;
+	sf::Vector2f getPixelPosCenter() const;
 
 	void setHighlighted(bool _value);
 	void setColor(sf::Color _color);
