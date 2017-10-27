@@ -48,5 +48,10 @@ private:
 	bool drawSquareFormationText{false};
 	bool drawLimberText{false};
 	bool drawLancerBonusReadyText{false};
+
+    //generalRangeAnimationClock is responsible for the timing of the general range indicator's fading animation
+	//fadingOut is a toggle responsible for keeping track of whether it's currently fading in or out
+	static sf::Clock generalRangeAnimationClock;
+	static bool fadingOut;
 };
 

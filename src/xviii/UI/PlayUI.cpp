@@ -4,6 +4,9 @@
 #include "xviii/GameStates/GameState_Play.h"
 #include "xviii/Core/Game.h"
 
+sf::Clock PlayUI::generalRangeAnimationClock{};
+bool PlayUI::fadingOut{true};
+
 PlayUI::PlayUI(MasterManager& _masterManager, GameState_Play* _gameState) :
 UI(_masterManager),
 gameState{_gameState},
@@ -72,7 +75,7 @@ generalRangeIndicator2{}
 
 	generalRangeIndicator1.setFillColor(sf::Color::Transparent);
     generalRangeIndicator1.setOutlineThickness(thickness);
-	generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0,250));
+	generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0));
     generalRangeIndicator1.setSize({(masterManager.textureManager->getSize().x * 21), (masterManager.textureManager->getSize().y * 21)});
 
     generalRangeIndicator1.setCornersRadius(20);
@@ -82,7 +85,7 @@ generalRangeIndicator2{}
 
     generalRangeIndicator2.setFillColor(sf::Color::Transparent);
     generalRangeIndicator2.setOutlineThickness(thickness);
-	generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0,250));
+	generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0));
     generalRangeIndicator2.setSize({(masterManager.textureManager->getSize().x * 31), (masterManager.textureManager->getSize().y * 31)});
 
     generalRangeIndicator2.setCornersRadius(20);
@@ -209,6 +212,32 @@ void PlayUI::update(){
             UnitTile* general = gameState->game->currentPlayer->getGeneral();
             generalRangeIndicator1.setPosition(general->getTerrain()->getPixelPosCenter());
             generalRangeIndicator2.setPosition(general->getTerrain()->getPixelPosCenter());
+
+
+            auto transparency = generalRangeIndicator1.getOutlineColor().a;
+
+            int modifier;
+            if(fadingOut){
+                modifier = -1;
+            }
+            else{
+                modifier = 1;
+            }
+
+            if(generalRangeAnimationClock.getElapsedTime().asMicroseconds() > 20){
+                transparency += modifier;
+                generalRangeAnimationClock.restart();
+            }
+
+            if(transparency <= 50){
+                fadingOut = false;
+            }
+            else if(transparency == 255){
+                fadingOut = true;
+            }
+
+            generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0,transparency));
+            generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0,transparency));
 		}
 	}
 
