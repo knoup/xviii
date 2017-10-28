@@ -9,7 +9,7 @@ public:
 	using texturePtr = std::unique_ptr<sf::Texture>;
 
 	enum class Terrain{MEADOW, HILLS, MUD, ROAD, SLOPES, URBAN, WATER, WOODS, BRIDGE_VER, BRIDGE_HOR, TBRIDGE_VER, TBRIDGE_HOR, BLANK};
-	enum class UI{RECTANGLE, BUTTON};
+	enum class UI{RECTANGLE, BUTTON, GENERALRANGE1, GENERALRANGE2, GENERALDEAD};
 
 	TextureManager(boost::random::mt19937& _randomEngine);
     //The copy constructor and = operator for this class have been disabled
@@ -43,6 +43,10 @@ private:
 	texturePtr ui;
 	//Ready/next turn button
 	texturePtr button;
+	//The General range alert icons
+	texturePtr generalRange1;
+	texturePtr generalRange2;
+	texturePtr generalDead;
 
 	//This should correspond to the FULL size of each [Terrain] tile
 	//for everything to work properly

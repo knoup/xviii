@@ -272,6 +272,14 @@ canShootOverUnits{false}
     hpText.setFillColor(sf::Color::Red);
     movText.setFillColor(sf::Color::Black);
 
+    generalRange1 = world->masterManager.textureManager->getSprite(TextureManager::UI::GENERALRANGE1);
+    //Opacity to be finalized
+    //generalRange1.setColor(sf::Color(255,255,255, 190));
+    generalRange2 = world->masterManager.textureManager->getSprite(TextureManager::UI::GENERALRANGE2);
+    //generalRange2.setColor(sf::Color(255,255,255, 190));
+    generalDead = world->masterManager.textureManager->getSprite(TextureManager::UI::GENERALDEAD);
+    //generalDead.setColor(sf::Color(255,255,255, 190));
+
 	outline.setPosition(sprite.getPosition().x, sprite.getPosition().y);
 	outline.setSize(sf::Vector2f(world->masterManager.textureManager->getSize().x, world->masterManager.textureManager->getSize().y));
 	outline.setOutlineColor(sf::Color::Yellow);
@@ -298,7 +306,6 @@ std::string UnitTile::moveTo(TerrainTile* _terrainTile){
 	if (getSquareFormationActive()){
 		return SF_ACTIVE;
 	}
-
 
 	bool validAttackDirection{false};
 	bool rangedObstructionPresent{false};
@@ -496,6 +503,10 @@ void UnitTile::setSpritePixelPos(sf::Vector2f _pos){
     sprite.setPosition(_pos);
     unitFlag.setPosition(_pos);
     outline.setPosition(_pos);
+
+	generalRange1.setPosition(getPixelPosCenter().x, bottom() - generalRange1.getTexture()->getSize().y);
+	generalRange2.setPosition(getPixelPosCenter().x, bottom() - generalRange2.getTexture()->getSize().y);
+	generalDead.setPosition(getPixelPosCenter().x, bottom() - generalDead.getTexture()->getSize().y);
 
     //////////////////////////////////////////////
 
@@ -896,6 +907,10 @@ void UnitTile::updateStats(bool randomisePerceivedPosition){
     unitFlag.setPosition(finalPosition);
     outline.setPosition(finalPosition);
 
+	generalRange1.setPosition(getPixelPosCenter().x, bottom() - generalRange1.getTexture()->getSize().y);
+	generalRange2.setPosition(getPixelPosCenter().x, bottom() - generalRange2.getTexture()->getSize().y);
+	generalDead.setPosition(getPixelPosCenter().x, bottom() - generalDead.getTexture()->getSize().y);
+
     //////////////////////////////////////////////
 
 	//Update the physical position of the stats, and sprite, if needed
@@ -945,6 +960,17 @@ void UnitTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
     if(drawFlag){
         target.draw(unitFlag);
     }
+
+    if(drawGeneralRange2 && drawUnit){
+        target.draw(generalRange2);
+    }
+    else if(drawGeneralRange1 && drawUnit){
+        target.draw(generalRange1);
+    }
+    else if(drawGeneralDead && drawUnit){
+        target.draw(generalDead);
+    }
+
 }
 
 sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange){
@@ -1399,6 +1425,9 @@ void UnitTile::calculateEffectiveMov(){
 	if (general == nullptr){
 		//Implicitly rounded down
 		setMov(getMaxMov()*0.50);
+		drawGeneralDead = true;
+        drawGeneralRange2 = false;
+        drawGeneralRange1 = false;
 	}
 	else{
 		sf::Vector2i generalPos = general->getCartesianPos();
@@ -1420,13 +1449,22 @@ void UnitTile::calculateEffectiveMov(){
 		if (distance.x > 10 || distance.y > 10){
 			if (distance.x <= 15 && distance.y <= 15){
 				setMov(getMaxMov()*0.75);
+				drawGeneralDead = false;
+				drawGeneralRange1 = true;
+				drawGeneralRange2 = false;
 			}
 			else{
 				setMov(getMaxMov()*0.65);
+				drawGeneralDead = false;
+				drawGeneralRange1 = false;
+				drawGeneralRange2 = true;
 			}
 		}
 		else{
 			setMov(getMaxMov());
+			drawGeneralDead = false;
+            drawGeneralRange2 = false;
+            drawGeneralRange1 = false;
 		}
 
 	}

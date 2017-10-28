@@ -15,6 +15,9 @@ randomBackground{nullptr},
 terrain{nullptr},
 ui{nullptr},
 button{nullptr},
+generalRange1{nullptr},
+generalRange2{nullptr},
+generalDead{nullptr},
 size{54, 54}, //Current: 54,54
 counterSize{54, 34} //Current: 54,34
 {
@@ -26,6 +29,15 @@ counterSize{54, 34} //Current: 54,34
 
 	button = std::move(texturePtr(new sf::Texture()));
 	button->loadFromFile("assets/gfx/button.png");
+
+    generalRange1 = std::move(texturePtr(new sf::Texture()));
+	generalRange1->loadFromFile("assets/gfx/range1.png");
+
+    generalRange2 = std::move(texturePtr(new sf::Texture()));
+	generalRange2->loadFromFile("assets/gfx/range2.png");
+
+    generalDead = std::move(texturePtr(new sf::Texture()));
+	generalDead->loadFromFile("assets/gfx/generaldead.png");
 
 	boost::filesystem::recursive_directory_iterator rEnd;
 
@@ -189,6 +201,18 @@ sf::Sprite TextureManager::getSprite(UI type){
 	case UI::BUTTON:{
 		return sf::Sprite{*button};
 		}
+
+    case UI::GENERALRANGE1:{
+        return sf::Sprite{*generalRange1};
+        }
+
+    case UI::GENERALRANGE2:{
+        return sf::Sprite{*generalRange2};
+        }
+
+    case UI::GENERALDEAD:{
+        return sf::Sprite{*generalDead};
+        }
 	}
 
 	return{};

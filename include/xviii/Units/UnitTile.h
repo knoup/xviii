@@ -426,6 +426,15 @@ protected:
 	sf::Text hpText{};
 	sf::Text movText{};
 
+
+	sf::Sprite generalRange1{};
+	sf::Sprite generalRange2{};
+	sf::Sprite generalDead{};
+    //Only one of these will be drawn at a time
+	bool drawGeneralRange1{false};
+	bool drawGeneralRange2{false};
+	bool drawGeneralDead{false};
+
 	std::string unitID;
 	std::string displayName{};
 	std::string shortDisplayName{};
