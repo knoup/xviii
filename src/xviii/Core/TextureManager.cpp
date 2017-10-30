@@ -22,22 +22,22 @@ size{54, 54}, //Current: 54,54
 counterSize{54, 34} //Current: 54,34
 {
 	terrain = std::move(texturePtr(new sf::Texture()));
-	terrain->loadFromFile("assets/gfx/terrain.png");
+	terrain->loadFromFile("assets/gfx/terrain/terrain.png");
 
 	ui = std::move(texturePtr(new sf::Texture()));
-	ui->loadFromFile("assets/gfx/ui.png");
+	ui->loadFromFile("assets/gfx/interface/ui.png");
 
 	button = std::move(texturePtr(new sf::Texture()));
-	button->loadFromFile("assets/gfx/button.png");
+	button->loadFromFile("assets/gfx/interface/button.png");
 
     generalRange1 = std::move(texturePtr(new sf::Texture()));
-	generalRange1->loadFromFile("assets/gfx/range1.png");
+	generalRange1->loadFromFile("assets/gfx/interface/range1.png");
 
     generalRange2 = std::move(texturePtr(new sf::Texture()));
-	generalRange2->loadFromFile("assets/gfx/range2.png");
+	generalRange2->loadFromFile("assets/gfx/interface/range2.png");
 
     generalDead = std::move(texturePtr(new sf::Texture()));
-	generalDead->loadFromFile("assets/gfx/generaldead.png");
+	generalDead->loadFromFile("assets/gfx/interface/generaldead.png");
 
 	boost::filesystem::recursive_directory_iterator rEnd;
 
