@@ -14,12 +14,12 @@ deploymentPointsTextRemaining{}
 	button.text.setOrigin(button.text.getLocalBounds().width / 2, button.text.getGlobalBounds().height / 2);
 	button.text.setPosition(button.sprite.getPosition().x, button.sprite.getPosition().y - 10);
 
-	numbRemaining.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
+	numbRemaining.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	numbRemaining.setCharacterSize(70);
 	numbRemaining.setFillColor(sf::Color::Green);
 	numbRemaining.setPosition(50, 34);
 
-	deploymentPointsTextRemaining.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
+	deploymentPointsTextRemaining.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	deploymentPointsTextRemaining.setCharacterSize(19);
 	deploymentPointsTextRemaining.setFillColor(sf::Color::White);
 	deploymentPointsTextRemaining.setPosition(10, 114);

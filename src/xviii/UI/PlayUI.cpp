@@ -27,46 +27,46 @@ generalRangeIndicator2{}
 	button.text.setOrigin(button.text.getLocalBounds().width / 2, button.text.getLocalBounds().height / 2);
 	button.text.setPosition(button.sprite.getPosition().x, button.sprite.getPosition().y - 10);
 
-	elapsedTurnsText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
+	elapsedTurnsText.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	elapsedTurnsText.setFillColor(sf::Color::Yellow);
 	elapsedTurnsText.setPosition(20, 44);
 
-	messageLogText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
+	messageLogText.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	messageLogText.setFillColor(sf::Color::White);
 	messageLogText.setCharacterSize(15);
 	messageLogText.setPosition(580, 4);
 	messageLogText.setString("Messages");
 
-	currentMessageText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
+	currentMessageText.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	currentMessageText.setFillColor(sf::Color::Cyan);
 	currentMessageText.setCharacterSize(19);
 	currentMessageText.setPosition(340, 24);
 
-	currentWeatherText.setFont(masterManager.fontManager->getFont(FontManager::Type::Eighteen));
+	currentWeatherText.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	currentWeatherText.setFillColor(sf::Color::White);
 	currentWeatherText.setCharacterSize(30);
 	currentWeatherText.setPosition(205, 4);
 
-	currentTimeText.setFont(masterManager.fontManager->getFont(FontManager::Type::Eighteen));
+	currentTimeText.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	currentTimeText.setFillColor(sf::Color::Cyan);
 	currentTimeText.setCharacterSize(40);
 	currentTimeText.setPosition(135, 94);
 
 
-	saveText.setFont(masterManager.fontManager->getFont(FontManager::Type::Arial));
+	saveText.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	saveText.setCharacterSize(20);
 	saveText.setPosition(20, 94);
 	setSaveStatus(false);
 
-	squareFormationText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
+	squareFormationText.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	limberText.setFillColor(sf::Color::White);
 	squareFormationText.setPosition(970, 4);
 
-	limberText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
+	limberText.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	limberText.setFillColor(sf::Color::White);
 	limberText.setPosition(970, 44);
 
-	lancerBonusReadyText.setFont(masterManager.fontManager->getFont(FontManager::Type::Lucon));
+	lancerBonusReadyText.setFont(masterManager.fontManager->getFont(FontManager::Type::TCMT));
 	lancerBonusReadyText.setFillColor(sf::Color::White);
 	lancerBonusReadyText.setPosition(970, 94);
 

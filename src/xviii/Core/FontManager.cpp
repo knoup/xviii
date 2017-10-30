@@ -5,11 +5,13 @@
 FontManager::FontManager() :
 lucon{},
 arial{},
-eighteen{}
+eighteen{},
+tcmt{}
 {
 	lucon.loadFromFile("assets/fonts/lucon.ttf");
 	arial.loadFromFile("assets/fonts/arial.ttf");
 	eighteen.loadFromFile("assets/fonts/eighteen.ttf");
+	tcmt.loadFromFile("assets/fonts/tcmt.ttf");
 }
 
 const sf::Font& FontManager::getFont(Type _type) const{
@@ -20,6 +22,8 @@ const sf::Font& FontManager::getFont(Type _type) const{
 		return arial;
 	case Eighteen:
 		return eighteen;
+    case TCMT:
+        return tcmt;
 
 	default:
         return lucon;

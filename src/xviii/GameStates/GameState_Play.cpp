@@ -25,9 +25,7 @@ playUI(game->mManager, this),
 drawUI{true},
 animationClock{}
 {
-
-
-	tileDistanceText.setFont(game->mManager.fontManager->getFont(FontManager::Type::Lucon));
+	tileDistanceText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	tileDistanceText.setString("");
 	tileDistanceText.setCharacterSize(20);
 }
@@ -637,7 +635,7 @@ void GameState_Play::update(float mFT){
 		}
 		if (xDistanceOverZero){
 			if (yDistanceOverZero){
-				finalString += ",";
+				finalString += " ";
 			}
 			finalString += std::to_string(abs(vectorDist.x)) + dir_string_X;
 		}

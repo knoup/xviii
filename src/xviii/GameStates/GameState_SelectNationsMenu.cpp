@@ -79,25 +79,25 @@ backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    player1Text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+    player1Text.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	player1Text.setString("Player 1");
 	player1Text.setFillColor(sf::Color::Yellow);
 	player1Text.setCharacterSize(30);;
 	//player1Text.setOrigin(player1Text.getLocalBounds().width / 2, player1Text.getLocalBounds().height / 2);
 	//player1Text.setPosition(xResolution / 8, -350);
 
-	player2Text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+	player2Text.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	player2Text.setString("Player 2");
 	player2Text.setFillColor(sf::Color::Yellow);
 	player2Text.setCharacterSize(30);;
 	player2Text.setOrigin(player2Text.getLocalBounds().width, 0);
 	//player2Text.setPosition((xResolution / 8) * 3, -350);
 
-	player1NationText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+	player1NationText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	player1NationText.setFillColor(sf::Color::White);
 	player1NationText.setCharacterSize(30);
 
-	player2NationText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+	player2NationText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	player2NationText.setFillColor(sf::Color::White);
 	player2NationText.setCharacterSize(30);;
 	player2NationText.setOrigin(player2NationText.getLocalBounds().width, 0);

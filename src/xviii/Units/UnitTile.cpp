@@ -260,13 +260,13 @@ canShootOverUnits{false}
 
     dirText.setString(dirToString());
 
-    dirText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::Arial));
-    hpText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::Arial));
-    movText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::Arial));
+    dirText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::TCMT));
+    hpText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::TCMT));
+    movText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::TCMT));
 
-    dirText.setCharacterSize(15);
-    hpText.setCharacterSize(15);
-    movText.setCharacterSize(15);
+    dirText.setCharacterSize(17);
+    hpText.setCharacterSize(17);
+    movText.setCharacterSize(17);
 
     dirText.setFillColor(sf::Color(0,0,180));
     hpText.setFillColor(sf::Color::Red);

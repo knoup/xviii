@@ -8,7 +8,7 @@ unitSprite{},
 player{_player},
 type{}
 {
-    unitName.setFont(player->masterManager.fontManager->getFont(FontManager::Type::Lucon));
+    unitName.setFont(player->masterManager.fontManager->getFont(FontManager::Type::TCMT));
     unitName.setFillColor(sf::Color::White);
     unitName.setCharacterSize(12);
 

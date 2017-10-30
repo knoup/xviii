@@ -32,7 +32,7 @@ menuIterator{}
     quotes.push_back("\"There are times when the utmost daring is the height of wisdom.\" - Carl von Clausewitz");
 
 	titleText.setCharacterSize(275);
-	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Eighteen));
+	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Type::Eighteen));
 	titleText.setString("X V I I I");
 
     //menuSelectView.reset(sf::FloatRect({}, {},xResolution, yResolution));
@@ -56,7 +56,7 @@ menuIterator{}
 	int randQuote{quoteDistribution(game->mManager.randomEngine)};
 
     quoteText.setCharacterSize(20);
-	quoteText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+	quoteText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
     quoteText.setStyle(2);
 	quoteText.setString(quotes.at(randQuote));
 
@@ -262,10 +262,11 @@ void GameState_MenuState::onSwitch(){
 void GameState_MenuState::lineUpObjects(){
 
 	for (size_t i{0}; i < menuList.size(); ++i){
-		menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+		menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 		menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
 		menuList[i].text.setFillColor(sf::Color::White);
 		menuList[i].text.setStyle(sf::Text::Bold);
+		menuList[i].text.setCharacterSize(35);
 
 		int textXPos = xResolution / 2;
 		int textYPos = (i * 50);

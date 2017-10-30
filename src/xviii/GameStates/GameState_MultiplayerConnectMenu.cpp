@@ -19,14 +19,14 @@ void GameState_MultiplayerConnectMenu::init(){
 	lineUpObjects();
 
     instructionalText.setCharacterSize(40);
-	instructionalText.setFont(game->mManager.fontManager->getFont(FontManager::Lucon));
+	instructionalText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	instructionalText.setString("Enter the host's IP:");
 	instructionalText.setFillColor(sf::Color::Red);
 	instructionalText.setOrigin(instructionalText.getLocalBounds().width / 2, instructionalText.getLocalBounds().height / 2);
 	instructionalText.setPosition(xResolution / 2, -(yResolution / 3.5f));
 
     IPText.setCharacterSize(30);
-	IPText.setFont(game->mManager.fontManager->getFont(FontManager::Arial));
+	IPText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	IPText.setOrigin(IPText.getLocalBounds().width / 2, IPText.getLocalBounds().height / 2);
 	IPText.setPosition(xResolution / 2, -(yResolution / 5.f));
 }

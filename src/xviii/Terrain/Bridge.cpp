@@ -10,7 +10,7 @@ hpText{},
 hp{5},
 orientation{Orientation::VERTICAL}
 {
-    hpText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::Arial));
+    hpText.setFont(world->masterManager.fontManager->getFont(FontManager::Type::TCMT));
     hpText.setCharacterSize(18);
     hpText.setFillColor(sf::Color::Black);
     hpText.setString(std::to_string(hp));
