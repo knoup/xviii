@@ -30,26 +30,31 @@ public:
     //Keep this in mind, and always reset the view after calling it.
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
 
+    //This function purposely doesn't alter the arrow's alpha value
     inline void setArrowColor(sf::Color _color){
-        arrow[0].color  = _color;
-        arrow[1].color = _color;
+        arrow[0].color.r  = _color.r;
+        arrow[0].color.g  = _color.g;
+        arrow[0].color.b  = _color.b;
 
-        arrowTip1[0].color  = _color;
-        arrowTip1[1].color = _color;
+        arrow[1].color.r  = _color.r;
+        arrow[1].color.g  = _color.g;
+        arrow[1].color.b  = _color.b;
 
-        arrowTip2[0].color  = _color;
-        arrowTip2[1].color = _color;
-	}
+        arrowTip1[0].color.r  = _color.r;
+        arrowTip1[0].color.g  = _color.g;
+        arrowTip1[0].color.b  = _color.b;
 
-	inline void setArrowColor(sf::Color _color1, sf::Color _color2){
-        arrow[0].color  = _color1;
-        arrow[1].color = _color2;
+        arrowTip1[1].color.r  = _color.r;
+        arrowTip1[1].color.g  = _color.g;
+        arrowTip1[1].color.b  = _color.b;
 
-        arrowTip1[0].color  = _color2;
-        arrowTip1[1].color = _color2;
+        arrowTip2[0].color.r  = _color.r;
+        arrowTip2[0].color.g  = _color.g;
+        arrowTip2[0].color.b  = _color.b;
 
-        arrowTip2[0].color  = _color2;
-        arrowTip2[1].color = _color2;
+        arrowTip2[1].color.r  = _color.r;
+        arrowTip2[1].color.g  = _color.g;
+        arrowTip2[1].color.b  = _color.b;
 	}
 
 private:
@@ -86,6 +91,8 @@ private:
 	//rectangle with an outline and setting its position to the mouseover-ed tile instead.
 
 	//outlineAnimationClock and outlineFadingOut work similarly to generalRangeAnimationClock and generalRangeFadingOut
+
+	//Note that these are also used to animate the arrow.
 	static sf::Clock outlineAnimationClock;
 	static bool outlineFadingOut;
 

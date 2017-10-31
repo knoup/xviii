@@ -286,24 +286,26 @@ void PlayUI::update(){
 
             //The other statements determine the exact starting and ending positions of the arrow.
 
+            int offset{25};
+
             if(((abs(distance.x) + abs(distance.y)) <= 2) && abs(distance.x) < 2 && abs(distance.y) < 2){
                 finalPosition1 = gameState->selected->getTerrain()->getPixelPosCenter();
                 arrowVisible = false;
             }
             else if(abs(distance.x) > abs(distance.y)){
                 if(distance.x < 0){
-                    finalPosition1 = {gameState->selected->right() + 15, gameState->selected->getTerrain()->getPixelPosCenter().y};
+                    finalPosition1 = {gameState->selected->right() + offset, gameState->selected->getTerrain()->getPixelPosCenter().y};
                 }
                 else{
-                    finalPosition1 = {gameState->selected->left() - 15, gameState->selected->getTerrain()->getPixelPosCenter().y};
+                    finalPosition1 = {gameState->selected->left() - offset, gameState->selected->getTerrain()->getPixelPosCenter().y};
                 }
             }
             else if((abs(distance.x) < abs(distance.y)) || abs(distance.x) == abs(distance.y)){
                 if(distance.y < 0){
-                    finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->bottom() + 15};
+                    finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->bottom() + offset};
                 }
                 else{
-                    finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->top() - 15};
+                    finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->top() - offset};
                 }
             }
 
@@ -390,6 +392,15 @@ void PlayUI::update(){
         else if(outlineTransparency == 255){
             outlineFadingOut = true;
         }
+
+
+
+        arrow[0].color.a = outlineTransparency;
+        arrow[1].color.a = outlineTransparency;
+        arrowTip1[0].color.a  = outlineTransparency;
+        arrowTip1[1].color.a = outlineTransparency;
+        arrowTip2[0].color.a  = outlineTransparency;
+        arrowTip2[1].color.a = outlineTransparency;
 
         pseudoOutline.setOutlineColor(sf::Color(255,255,0,outlineTransparency));
 
