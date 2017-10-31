@@ -25,6 +25,8 @@ lancerBonusReadyText{},
 generalRangeIndicator1{},
 generalRangeIndicator2{},
 arrow{sf::LineStrip, 2},
+arrowTip1{sf::LineStrip, 2},
+arrowTip2{sf::LineStrip, 2},
 pseudoOutline{}
 {
 	button.text.setCharacterSize(20);
@@ -97,9 +99,6 @@ pseudoOutline{}
     generalRangeIndicator2.setCornerPointCount(20);
 
     generalRangeIndicator2.setOrigin((generalRangeIndicator2.getLocalBounds().width / 2) - rangeIndicatorThickness, (generalRangeIndicator2.getLocalBounds().height / 2) - rangeIndicatorThickness);
-
-    arrow[0].color  = sf::Color::Red;
-    arrow[1].color = sf::Color::Red;
 
     float outlineThickness{1};
 
@@ -260,52 +259,62 @@ void PlayUI::update(){
 		//Management of the arrow and pseudo outline
 		/////////////////////////////////////////////////////////////
 
+		bool arrowVisible{true};
+
 		//The code here is to make sure that the beginning and edges of the arrow are properly aligned
 
 		sf::Vector2i mouseLocation{gameState->game->mWindow.mapPixelToCoords(gameState->game->mousePos, *(gameState->game->currentView))};
 
         TerrainTile* terrain = gameState->game->mWorld->terrainAtPixelPos(mouseLocation);
 
-        sf::Vector2i terrainCartesianPos{terrain->getCartesianPos()};
-        sf::Vector2i currentCartesianPos{gameState->selected->getCartesianPos()};
-        sf::Vector2i distance{currentCartesianPos - terrainCartesianPos};
+        if(terrain != nullptr){
 
-        sf::Vector2f finalPosition1{};
+            pseudoOutline.setPosition(terrain->getPixelPosCenter());
 
-        //The first if statements looks a little loaded.
-        //It prevents the line from being drawn if the selected tile is equivalent to the
-        //currently selected unit, or directly adjacent to it, by setting both positions to
-        //the center of the current tile. Therefore, the line won't be visible
+            sf::Vector2i terrainCartesianPos{terrain->getCartesianPos()};
+            sf::Vector2i currentCartesianPos{gameState->selected->getCartesianPos()};
+            sf::Vector2i distance{currentCartesianPos - terrainCartesianPos};
 
-        //The other statements determine the exact starting and ending positions of the lines.
+            sf::Vector2f finalPosition1{};
 
-        if(((abs(distance.x) + abs(distance.y)) <= 2) && abs(distance.x) < 2 && abs(distance.y) < 2){
-            finalPosition1 = gameState->selected->getTerrain()->getPixelPosCenter();
-        }
-        else if(abs(distance.x) > abs(distance.y)){
-            if(distance.x < 0){
-                finalPosition1 = {gameState->selected->right() + 15, gameState->selected->getTerrain()->getPixelPosCenter().y};
+            //The first if statements looks a little loaded.
+            //It prevents the arrow from being drawn if the selected tile is equivalent to the
+            //currently selected unit, or directly adjacent to it, by setting both positions to
+            //the center of the current tile. Therefore, the arrow won't be visible. By setting
+            //the variable arrowVisible, we determine whether the arrowheads should be calculated
+            //or not.
+
+            //The other statements determine the exact starting and ending positions of the arrow.
+
+            if(((abs(distance.x) + abs(distance.y)) <= 2) && abs(distance.x) < 2 && abs(distance.y) < 2){
+                finalPosition1 = gameState->selected->getTerrain()->getPixelPosCenter();
+                arrowVisible = false;
             }
-            else{
-                finalPosition1 = {gameState->selected->left() - 15, gameState->selected->getTerrain()->getPixelPosCenter().y};
+            else if(abs(distance.x) > abs(distance.y)){
+                if(distance.x < 0){
+                    finalPosition1 = {gameState->selected->right() + 15, gameState->selected->getTerrain()->getPixelPosCenter().y};
+                }
+                else{
+                    finalPosition1 = {gameState->selected->left() - 15, gameState->selected->getTerrain()->getPixelPosCenter().y};
+                }
             }
-        }
-        else if((abs(distance.x) < abs(distance.y)) || abs(distance.x) == abs(distance.y)){
-            if(distance.y < 0){
-                finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->bottom() + 15};
+            else if((abs(distance.x) < abs(distance.y)) || abs(distance.x) == abs(distance.y)){
+                if(distance.y < 0){
+                    finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->bottom() + 15};
+                }
+                else{
+                    finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->top() - 15};
+                }
             }
-            else{
-                finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->top() - 15};
-            }
-        }
 
-        arrow[0].position = finalPosition1;
+            arrow[0].position = finalPosition1;
 
-		if(terrain != nullptr){
+
             sf::Vector2f finalPosition2{};
 
             if(((abs(distance.x) + abs(distance.y)) <= 2) && abs(distance.x) < 2 && abs(distance.y) < 2){
                 finalPosition2 = gameState->selected->getTerrain()->getPixelPosCenter();
+                arrowVisible = false;
             }
             else if(abs(distance.x) > abs(distance.y)){
                 if(distance.x < 0){
@@ -326,11 +335,37 @@ void PlayUI::update(){
 
             arrow[1].position = finalPosition2;
 		}
-		else{
-            arrow[1].position = {mouseLocation.x, mouseLocation.y};
-		}
 
-		pseudoOutline.setPosition(terrain->getPixelPosCenter());
+		///////////////////////////////////////////////////////////////////////////////
+		//Now, with a little vector math, we do some calculations to determine how the
+		//arrowheads should be placed.
+		///////////////////////////////////////////////////////////////////////////////
+        if(arrowVisible){
+            arrowTip1[0].position = arrow[1].position;
+            arrowTip2[0].position = arrow[1].position;
+
+            float h = 10*sqrt(3);
+            float w = 10;
+
+            sf::Vector2f minusVector = {arrow[1].position - arrow[0].position};
+            float length{(minusVector.x * minusVector.x) + (minusVector.y * minusVector.y)};
+            length = sqrt(length);
+
+            sf::Vector2f U = minusVector/length;
+            sf::Vector2f V{-U.y, U.x};
+
+            arrowTip1[1].position = arrow[1].position - h*U + w*V;
+            arrowTip2[1].position = arrow[1].position - h*U - w*V;
+        }
+        else{
+            arrowTip1[0].position = arrow[0].position;
+            arrowTip2[0].position = arrow[0].position;
+
+            arrowTip1[1].position = arrow[0].position;
+            arrowTip2[1].position = arrow[0].position;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////
 
 		//Once the positions are properly set, we manage the outline fading
 
@@ -394,6 +429,8 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates /*states*/) const{
 
         target.draw(pseudoOutline);
         target.draw(arrow);
+        target.draw(arrowTip1);
+        target.draw(arrowTip2);
     }
 
 	//After drawing the general range indicators and the arrow, we move on to the UI view

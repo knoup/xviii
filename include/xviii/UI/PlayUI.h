@@ -33,11 +33,23 @@ public:
     inline void setArrowColor(sf::Color _color){
         arrow[0].color  = _color;
         arrow[1].color = _color;
+
+        arrowTip1[0].color  = _color;
+        arrowTip1[1].color = _color;
+
+        arrowTip2[0].color  = _color;
+        arrowTip2[1].color = _color;
 	}
 
 	inline void setArrowColor(sf::Color _color1, sf::Color _color2){
         arrow[0].color  = _color1;
         arrow[1].color = _color2;
+
+        arrowTip1[0].color  = _color2;
+        arrowTip1[1].color = _color2;
+
+        arrowTip2[0].color  = _color2;
+        arrowTip2[1].color = _color2;
 	}
 
 private:
@@ -66,6 +78,8 @@ private:
 	static bool generalRangeFadingOut;
 
 	sf::VertexArray arrow;
+	sf::VertexArray arrowTip1;
+	sf::VertexArray arrowTip2;
 
 	//Due to the fact that terrain tiles are not drawn individually, but rather a vertex array is used for them,
 	//we can't simply highlight the terrain tile. I've come up with a workaround to this by using a transparent
