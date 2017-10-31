@@ -87,7 +87,7 @@ class RoundedRectangleShape : public sf::Shape
         /// \see SetRadius
         ///
         ////////////////////////////////////////////////////////////
-        const float getCornersRadius() const;
+        float getCornersRadius() const;
 
         ////////////////////////////////////////////////////////////
         /// \brief Set the number of points of each corner

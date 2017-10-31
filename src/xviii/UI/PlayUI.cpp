@@ -83,7 +83,7 @@ pseudoOutline{}
 	generalRangeIndicator1.setFillColor(sf::Color::Transparent);
     generalRangeIndicator1.setOutlineThickness(rangeIndicatorThickness);
 	generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0));
-    generalRangeIndicator1.setSize({(masterManager.textureManager->getSize().x * 21), (masterManager.textureManager->getSize().y * 21)});
+    generalRangeIndicator1.setSize({float(masterManager.textureManager->getSize().x * 21), float(masterManager.textureManager->getSize().y * 21)});
 
     generalRangeIndicator1.setCornersRadius(20);
     generalRangeIndicator1.setCornerPointCount(20);
@@ -93,7 +93,7 @@ pseudoOutline{}
     generalRangeIndicator2.setFillColor(sf::Color::Transparent);
     generalRangeIndicator2.setOutlineThickness(rangeIndicatorThickness);
 	generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0));
-    generalRangeIndicator2.setSize({(masterManager.textureManager->getSize().x * 31), (masterManager.textureManager->getSize().y * 31)});
+    generalRangeIndicator2.setSize({float(masterManager.textureManager->getSize().x * 31), float(masterManager.textureManager->getSize().y * 31)});
 
     generalRangeIndicator2.setCornersRadius(20);
     generalRangeIndicator2.setCornerPointCount(20);
@@ -105,7 +105,7 @@ pseudoOutline{}
     pseudoOutline.setFillColor(sf::Color::Transparent);
     pseudoOutline.setOutlineThickness(outlineThickness);
 	pseudoOutline.setOutlineColor(sf::Color::Yellow);
-    pseudoOutline.setSize({(masterManager.textureManager->getSize().x), (masterManager.textureManager->getSize().y)});
+    pseudoOutline.setSize({float(masterManager.textureManager->getSize().x), float(masterManager.textureManager->getSize().y)});
 
     pseudoOutline.setOrigin((pseudoOutline.getLocalBounds().width / 2) - outlineThickness, (pseudoOutline.getLocalBounds().height / 2) - outlineThickness);
 
@@ -294,18 +294,18 @@ void PlayUI::update(){
             }
             else if(abs(distance.x) > abs(distance.y)){
                 if(distance.x < 0){
-                    finalPosition1 = {gameState->selected->right() + offset, gameState->selected->getTerrain()->getPixelPosCenter().y};
+                    finalPosition1 = {float(gameState->selected->right() + offset), float(gameState->selected->getTerrain()->getPixelPosCenter().y)};
                 }
                 else{
-                    finalPosition1 = {gameState->selected->left() - offset, gameState->selected->getTerrain()->getPixelPosCenter().y};
+                    finalPosition1 = {float(gameState->selected->left() - offset), float(gameState->selected->getTerrain()->getPixelPosCenter().y)};
                 }
             }
             else if((abs(distance.x) < abs(distance.y)) || abs(distance.x) == abs(distance.y)){
                 if(distance.y < 0){
-                    finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->bottom() + offset};
+                    finalPosition1 = {float(gameState->selected->getPixelPosCenter().x), float(gameState->selected->getTerrain()->bottom() + offset)};
                 }
                 else{
-                    finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->top() - offset};
+                    finalPosition1 = {float(gameState->selected->getPixelPosCenter().x), float(gameState->selected->getTerrain()->top() - offset)};
                 }
             }
 
@@ -320,18 +320,18 @@ void PlayUI::update(){
             }
             else if(abs(distance.x) > abs(distance.y)){
                 if(distance.x < 0){
-                    finalPosition2 = {terrain->left() - 15, terrain->getPixelPosCenter().y};
+                    finalPosition2 = {float(terrain->left() - 15), float(terrain->getPixelPosCenter().y)};
                 }
                 else{
-                    finalPosition2 = {terrain->right() + 15, terrain->getPixelPosCenter().y};
+                    finalPosition2 = {float(terrain->right() + 15), float(terrain->getPixelPosCenter().y)};
                 }
             }
             else if((abs(distance.x) < abs(distance.y)) || abs(distance.x) == abs(distance.y)){
                 if(distance.y < 0){
-                    finalPosition2 = {terrain->getPixelPosCenter().x, terrain->top() - 15};
+                    finalPosition2 = {float(terrain->getPixelPosCenter().x), float(terrain->top() - 15)};
                 }
                 else{
-                    finalPosition2 = {terrain->getPixelPosCenter().x, terrain->bottom() + 15};
+                    finalPosition2 = {float(terrain->getPixelPosCenter().x), float(terrain->bottom() + 15)};
                 }
             }
 

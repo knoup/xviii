@@ -225,7 +225,7 @@ TerrainTile* World::terrainAtPixelPos(sf::Vector2i _pos){
         return nullptr;
     }
 
-    int index{indexAtPixelPos(_pos)};
+    size_t index{size_t(indexAtPixelPos(_pos))};
 
     if(index > terrainLayer.size() - 1){
         return nullptr;
