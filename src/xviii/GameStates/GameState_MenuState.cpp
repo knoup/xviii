@@ -55,9 +55,9 @@ menuIterator{}
 	boost::random::uniform_int_distribution<int> quoteDistribution(0, quotes.size() - 1);
 	int randQuote{quoteDistribution(game->mManager.randomEngine)};
 
-    quoteText.setCharacterSize(20);
+    quoteText.setCharacterSize(23);
 	quoteText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
-    quoteText.setStyle(2);
+    //quoteText.setStyle(2);
 	quoteText.setString(quotes.at(randQuote));
 
     quoteText.setOrigin(quoteText.getLocalBounds().width / 2, quoteText.getLocalBounds().height / 2);

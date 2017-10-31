@@ -596,12 +596,15 @@ void GameState_Play::update(float mFT){
 
 			if (inMovementRange && !meleeObstructionPresent){
 				tileDistanceText.setFillColor(sf::Color::Black);
+				playUI.setArrowColor(sf::Color::Black);
 			}
 			else if (!inMovementRange && inRangedAttackRange){
 				tileDistanceText.setFillColor(sf::Color::Magenta);
+				playUI.setArrowColor(sf::Color::Magenta);
 			}
 			else{
 				tileDistanceText.setFillColor(sf::Color::Red);
+				playUI.setArrowColor(sf::Color::Red);
 			}
 
 		}
@@ -613,13 +616,16 @@ void GameState_Play::update(float mFT){
 
 			if (((!validAttackDirection && (!selected->canHeal())) || meleeObstructionPresent || rangedObstructionPresent || (primaryAxisDistance > 1 && !inRangedAttackRange) || !selected->canMeleeAttack())){
 					tileDistanceText.setFillColor(sf::Color::Red);
+					playUI.setArrowColor(sf::Color::Red);
 				}
 				else{
 					if (friendly && !selected->canHeal()){
 						tileDistanceText.setFillColor(sf::Color::Magenta);
+						playUI.setArrowColor(sf::Color::Magenta);
 					}
 					else{
 						tileDistanceText.setFillColor(sf::Color::Blue);
+						playUI.setArrowColor(sf::Color::Blue);
 					}
 				}
 

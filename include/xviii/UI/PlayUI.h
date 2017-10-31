@@ -29,6 +29,17 @@ public:
     //playUI.draw() automatically changes views in order to draw what it needs to.
     //Keep this in mind, and always reset the view after calling it.
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default) const;
+
+    inline void setArrowColor(sf::Color _color){
+        arrow[0].color  = _color;
+        arrow[1].color = _color;
+	}
+
+	inline void setArrowColor(sf::Color _color1, sf::Color _color2){
+        arrow[0].color  = _color1;
+        arrow[1].color = _color2;
+	}
+
 private:
 	GameState_Play* gameState;
 
@@ -53,5 +64,7 @@ private:
 	//fadingOut is a toggle responsible for keeping track of whether it's currently fading in or out
 	static sf::Clock generalRangeAnimationClock;
 	static bool fadingOut;
+
+	sf::VertexArray arrow{sf::LineStrip, 2};
 };
 

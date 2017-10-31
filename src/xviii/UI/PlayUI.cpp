@@ -93,6 +93,8 @@ generalRangeIndicator2{}
 
     generalRangeIndicator2.setOrigin((generalRangeIndicator2.getLocalBounds().width / 2) - thickness, (generalRangeIndicator2.getLocalBounds().height / 2) - thickness);
 
+    arrow[0].color  = sf::Color::Red;
+    arrow[1].color = sf::Color::Red;
 
 }
 
@@ -239,6 +241,20 @@ void PlayUI::update(){
             generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0,transparency));
             generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0,transparency));
 		}
+
+		sf::Vector2i mouseLocation{gameState->game->mWindow.mapPixelToCoords(gameState->game->mousePos, *(gameState->game->currentView))};
+
+        TerrainTile* terrain = gameState->game->mWorld->terrainAtPixelPos(mouseLocation);
+
+		arrow[0].position = gameState->selected->getTerrain()->getPixelPosCenter();
+
+		if(terrain != nullptr){
+            arrow[1].position = terrain->getPixelPosCenter();
+		}
+		else{
+            arrow[1].position = {mouseLocation.x, mouseLocation.y};
+		}
+
 	}
 
 	//For the highlighting of the next turn button:
@@ -269,9 +285,11 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates /*states*/) const{
             target.draw(generalRangeIndicator2);
             target.draw(generalRangeIndicator1);
         }
+
+        target.draw(arrow);
     }
 
-	//After drawing the general range indicators, we move on to the UI view
+	//After drawing the general range indicators and the arrow, we move on to the UI view
 	gameState->game->mWindow.setView(uiView);
 
 	target.draw(uiSprite);
