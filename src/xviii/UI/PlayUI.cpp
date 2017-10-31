@@ -5,7 +5,10 @@
 #include "xviii/Core/Game.h"
 
 sf::Clock PlayUI::generalRangeAnimationClock{};
-bool PlayUI::fadingOut{true};
+bool PlayUI::generalRangeFadingOut{true};
+
+sf::Clock PlayUI::outlineAnimationClock{};
+bool PlayUI::outlineFadingOut{true};
 
 PlayUI::PlayUI(MasterManager& _masterManager, GameState_Play* _gameState) :
 UI(_masterManager),
@@ -20,7 +23,9 @@ squareFormationText{},
 limberText{},
 lancerBonusReadyText{},
 generalRangeIndicator1{},
-generalRangeIndicator2{}
+generalRangeIndicator2{},
+arrow{sf::LineStrip, 2},
+pseudoOutline{}
 {
 	button.text.setCharacterSize(20);
 	button.setString("NEXT TURN");
@@ -70,31 +75,40 @@ generalRangeIndicator2{}
 	lancerBonusReadyText.setFillColor(sf::Color::White);
 	lancerBonusReadyText.setPosition(970, 94);
 
-	float thickness{5};
+	float rangeIndicatorThickness{5};
 
 
 	generalRangeIndicator1.setFillColor(sf::Color::Transparent);
-    generalRangeIndicator1.setOutlineThickness(thickness);
+    generalRangeIndicator1.setOutlineThickness(rangeIndicatorThickness);
 	generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0));
     generalRangeIndicator1.setSize({(masterManager.textureManager->getSize().x * 21), (masterManager.textureManager->getSize().y * 21)});
 
     generalRangeIndicator1.setCornersRadius(20);
     generalRangeIndicator1.setCornerPointCount(20);
 
-    generalRangeIndicator1.setOrigin((generalRangeIndicator1.getLocalBounds().width / 2) - thickness, (generalRangeIndicator1.getLocalBounds().height / 2) - thickness);
+    generalRangeIndicator1.setOrigin((generalRangeIndicator1.getLocalBounds().width / 2) - rangeIndicatorThickness, (generalRangeIndicator1.getLocalBounds().height / 2) - rangeIndicatorThickness);
 
     generalRangeIndicator2.setFillColor(sf::Color::Transparent);
-    generalRangeIndicator2.setOutlineThickness(thickness);
+    generalRangeIndicator2.setOutlineThickness(rangeIndicatorThickness);
 	generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0));
     generalRangeIndicator2.setSize({(masterManager.textureManager->getSize().x * 31), (masterManager.textureManager->getSize().y * 31)});
 
     generalRangeIndicator2.setCornersRadius(20);
     generalRangeIndicator2.setCornerPointCount(20);
 
-    generalRangeIndicator2.setOrigin((generalRangeIndicator2.getLocalBounds().width / 2) - thickness, (generalRangeIndicator2.getLocalBounds().height / 2) - thickness);
+    generalRangeIndicator2.setOrigin((generalRangeIndicator2.getLocalBounds().width / 2) - rangeIndicatorThickness, (generalRangeIndicator2.getLocalBounds().height / 2) - rangeIndicatorThickness);
 
     arrow[0].color  = sf::Color::Red;
     arrow[1].color = sf::Color::Red;
+
+    float outlineThickness{1};
+
+    pseudoOutline.setFillColor(sf::Color::Transparent);
+    pseudoOutline.setOutlineThickness(outlineThickness);
+	pseudoOutline.setOutlineColor(sf::Color::Yellow);
+    pseudoOutline.setSize({(masterManager.textureManager->getSize().x), (masterManager.textureManager->getSize().y)});
+
+    pseudoOutline.setOrigin((pseudoOutline.getLocalBounds().width / 2) - outlineThickness, (pseudoOutline.getLocalBounds().height / 2) - outlineThickness);
 
 }
 
@@ -216,31 +230,35 @@ void PlayUI::update(){
             generalRangeIndicator2.setPosition(general->getTerrain()->getPixelPosCenter());
 
 
-            auto transparency = generalRangeIndicator1.getOutlineColor().a;
+            auto generalTransparency = generalRangeIndicator1.getOutlineColor().a;
 
-            int modifier;
-            if(fadingOut){
-                modifier = -1;
+            int generalModifier;
+            if(generalRangeFadingOut){
+                generalModifier = -1;
             }
             else{
-                modifier = 1;
+                generalModifier = 1;
             }
 
-            if(generalRangeAnimationClock.getElapsedTime().asMicroseconds() > 20){
-                transparency += modifier;
+            if(generalRangeAnimationClock.getElapsedTime().asMicroseconds() > 200){
+                generalTransparency += generalModifier;
                 generalRangeAnimationClock.restart();
             }
 
-            if(transparency <= 50){
-                fadingOut = false;
+            if(generalTransparency <= 50){
+                generalRangeFadingOut = false;
             }
-            else if(transparency == 255){
-                fadingOut = true;
+            else if(generalTransparency == 255){
+                generalRangeFadingOut = true;
             }
 
-            generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0,transparency));
-            generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0,transparency));
+            generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0,generalTransparency));
+            generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0,generalTransparency));
 		}
+
+		/////////////////////////////////////////////////////////////
+		//Management of the arrow and pseudo outline
+		/////////////////////////////////////////////////////////////
 
 		sf::Vector2i mouseLocation{gameState->game->mWindow.mapPixelToCoords(gameState->game->mousePos, *(gameState->game->currentView))};
 
@@ -254,6 +272,35 @@ void PlayUI::update(){
 		else{
             arrow[1].position = {mouseLocation.x, mouseLocation.y};
 		}
+
+		pseudoOutline.setPosition(terrain->getPixelPosCenter());
+
+        auto outlineTransparency = pseudoOutline.getOutlineColor().a;
+
+        int outlineModifier;
+        if(outlineFadingOut){
+            outlineModifier = -1;
+        }
+        else{
+            outlineModifier = 1;
+        }
+
+        if(outlineAnimationClock.getElapsedTime().asMicroseconds() > 20){
+            outlineTransparency += outlineModifier;
+            outlineAnimationClock.restart();
+        }
+
+        if(outlineTransparency <= 50){
+            outlineFadingOut = false;
+        }
+        else if(outlineTransparency == 255){
+            outlineFadingOut = true;
+        }
+
+        pseudoOutline.setOutlineColor(sf::Color(255,255,0,outlineTransparency));
+
+        /////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
 
 	}
 
@@ -286,6 +333,7 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates /*states*/) const{
             target.draw(generalRangeIndicator1);
         }
 
+        target.draw(pseudoOutline);
         target.draw(arrow);
     }
 

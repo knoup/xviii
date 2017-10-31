@@ -61,10 +61,20 @@ private:
 	bool drawLancerBonusReadyText{false};
 
     //generalRangeAnimationClock is responsible for the timing of the general range indicator's fading animation
-	//fadingOut is a toggle responsible for keeping track of whether it's currently fading in or out
+	//generalRangeFadingOut is a toggle responsible for keeping track of whether it's currently fading in or out
 	static sf::Clock generalRangeAnimationClock;
-	static bool fadingOut;
+	static bool generalRangeFadingOut;
 
-	sf::VertexArray arrow{sf::LineStrip, 2};
+	sf::VertexArray arrow;
+
+	//Due to the fact that terrain tiles are not drawn individually, but rather a vertex array is used for them,
+	//we can't simply highlight the terrain tile. I've come up with a workaround to this by using a transparent
+	//rectangle with an outline and setting its position to the mouseover-ed tile instead.
+
+	//outlineAnimationClock and outlineFadingOut work similarly to generalRangeAnimationClock and generalRangeFadingOut
+	static sf::Clock outlineAnimationClock;
+	static bool outlineFadingOut;
+
+	sf::RectangleShape pseudoOutline;
 };
 
