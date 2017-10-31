@@ -260,20 +260,79 @@ void PlayUI::update(){
 		//Management of the arrow and pseudo outline
 		/////////////////////////////////////////////////////////////
 
+		//The code here is to make sure that the beginning and edges of the arrow are properly aligned
+
 		sf::Vector2i mouseLocation{gameState->game->mWindow.mapPixelToCoords(gameState->game->mousePos, *(gameState->game->currentView))};
 
         TerrainTile* terrain = gameState->game->mWorld->terrainAtPixelPos(mouseLocation);
 
-		arrow[0].position = gameState->selected->getTerrain()->getPixelPosCenter();
+        sf::Vector2i terrainCartesianPos{terrain->getCartesianPos()};
+        sf::Vector2i currentCartesianPos{gameState->selected->getCartesianPos()};
+        sf::Vector2i distance{currentCartesianPos - terrainCartesianPos};
+
+        sf::Vector2f finalPosition1{};
+
+        //The first if statements looks a little loaded.
+        //It prevents the line from being drawn if the selected tile is equivalent to the
+        //currently selected unit, or directly adjacent to it, by setting both positions to
+        //the center of the current tile. Therefore, the line won't be visible
+
+        //The other statements determine the exact starting and ending positions of the lines.
+
+        if(((abs(distance.x) + abs(distance.y)) <= 2) && abs(distance.x) < 2 && abs(distance.y) < 2){
+            finalPosition1 = gameState->selected->getTerrain()->getPixelPosCenter();
+        }
+        else if(abs(distance.x) > abs(distance.y)){
+            if(distance.x < 0){
+                finalPosition1 = {gameState->selected->right() + 15, gameState->selected->getTerrain()->getPixelPosCenter().y};
+            }
+            else{
+                finalPosition1 = {gameState->selected->left() - 15, gameState->selected->getTerrain()->getPixelPosCenter().y};
+            }
+        }
+        else if((abs(distance.x) < abs(distance.y)) || abs(distance.x) == abs(distance.y)){
+            if(distance.y < 0){
+                finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->bottom() + 15};
+            }
+            else{
+                finalPosition1 = {gameState->selected->getPixelPosCenter().x, gameState->selected->getTerrain()->top() - 15};
+            }
+        }
+
+        arrow[0].position = finalPosition1;
 
 		if(terrain != nullptr){
-            arrow[1].position = terrain->getPixelPosCenter();
+            sf::Vector2f finalPosition2{};
+
+            if(((abs(distance.x) + abs(distance.y)) <= 2) && abs(distance.x) < 2 && abs(distance.y) < 2){
+                finalPosition2 = gameState->selected->getTerrain()->getPixelPosCenter();
+            }
+            else if(abs(distance.x) > abs(distance.y)){
+                if(distance.x < 0){
+                    finalPosition2 = {terrain->left() - 15, terrain->getPixelPosCenter().y};
+                }
+                else{
+                    finalPosition2 = {terrain->right() + 15, terrain->getPixelPosCenter().y};
+                }
+            }
+            else if((abs(distance.x) < abs(distance.y)) || abs(distance.x) == abs(distance.y)){
+                if(distance.y < 0){
+                    finalPosition2 = {terrain->getPixelPosCenter().x, terrain->top() - 15};
+                }
+                else{
+                    finalPosition2 = {terrain->getPixelPosCenter().x, terrain->bottom() + 15};
+                }
+            }
+
+            arrow[1].position = finalPosition2;
 		}
 		else{
             arrow[1].position = {mouseLocation.x, mouseLocation.y};
 		}
 
 		pseudoOutline.setPosition(terrain->getPixelPosCenter());
+
+		//Once the positions are properly set, we manage the outline fading
 
         auto outlineTransparency = pseudoOutline.getOutlineColor().a;
 
