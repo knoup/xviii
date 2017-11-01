@@ -272,17 +272,18 @@ void PlayUI::update(){
             pseudoOutline.setPosition(terrain->getPixelPosCenter());
 
             sf::Vector2i terrainCartesianPos{terrain->getCartesianPos()};
-            sf::Vector2i currentCartesianPos{gameState->selected->getCartesianPos()};
+            sf::Vector2i currentCartesianPos{gameState->selected->getTerrain()->getCartesianPos()};
             sf::Vector2i distance{currentCartesianPos - terrainCartesianPos};
 
             sf::Vector2f finalPosition1{};
+            sf::Vector2f finalPosition2{};
 
             //The first if statements looks a little loaded.
             //It prevents the arrow from being drawn if the selected tile is equivalent to the
             //currently selected unit, or directly adjacent to it, by setting both positions to
             //the center of the current tile. Therefore, the arrow won't be visible. By setting
-            //the variable arrowVisible, we determine whether the arrowheads should be calculated
-            //or not.
+            //the variable arrowVisible, we determine whether the arrowheads's calculation should
+            //result in them being visible or not.
 
             //The other statements determine the exact starting and ending positions of the arrow.
 
@@ -290,51 +291,31 @@ void PlayUI::update(){
 
             if(((abs(distance.x) + abs(distance.y)) <= 2) && abs(distance.x) < 2 && abs(distance.y) < 2){
                 finalPosition1 = gameState->selected->getTerrain()->getPixelPosCenter();
-                arrowVisible = false;
-            }
-            else if(abs(distance.x) > abs(distance.y)){
-                if(distance.x < 0){
-                    finalPosition1 = {float(gameState->selected->right() + offset), float(gameState->selected->getTerrain()->getPixelPosCenter().y)};
-                }
-                else{
-                    finalPosition1 = {float(gameState->selected->left() - offset), float(gameState->selected->getTerrain()->getPixelPosCenter().y)};
-                }
-            }
-            else if((abs(distance.x) < abs(distance.y)) || abs(distance.x) == abs(distance.y)){
-                if(distance.y < 0){
-                    finalPosition1 = {float(gameState->selected->getPixelPosCenter().x), float(gameState->selected->getTerrain()->bottom() + offset)};
-                }
-                else{
-                    finalPosition1 = {float(gameState->selected->getPixelPosCenter().x), float(gameState->selected->getTerrain()->top() - offset)};
-                }
-            }
-
-            arrow[0].position = finalPosition1;
-
-
-            sf::Vector2f finalPosition2{};
-
-            if(((abs(distance.x) + abs(distance.y)) <= 2) && abs(distance.x) < 2 && abs(distance.y) < 2){
                 finalPosition2 = gameState->selected->getTerrain()->getPixelPosCenter();
                 arrowVisible = false;
             }
-            else if(abs(distance.x) > abs(distance.y)){
+            else if(abs(distance.x) >= abs(distance.y)){
                 if(distance.x < 0){
+                    finalPosition1 = {float(gameState->selected->right() + offset), float(gameState->selected->getTerrain()->getPixelPosCenter().y)};
                     finalPosition2 = {float(terrain->left() - 15), float(terrain->getPixelPosCenter().y)};
                 }
                 else{
+                    finalPosition1 = {float(gameState->selected->left() - offset), float(gameState->selected->getTerrain()->getPixelPosCenter().y)};
                     finalPosition2 = {float(terrain->right() + 15), float(terrain->getPixelPosCenter().y)};
                 }
             }
-            else if((abs(distance.x) < abs(distance.y)) || abs(distance.x) == abs(distance.y)){
+            else if((abs(distance.x) < abs(distance.y))){
                 if(distance.y < 0){
+                    finalPosition1 = {float(gameState->selected->getPixelPosCenter().x), float(gameState->selected->getTerrain()->bottom() + offset)};
                     finalPosition2 = {float(terrain->getPixelPosCenter().x), float(terrain->top() - 15)};
                 }
                 else{
+                    finalPosition1 = {float(gameState->selected->getPixelPosCenter().x), float(gameState->selected->getTerrain()->top() - offset)};
                     finalPosition2 = {float(terrain->getPixelPosCenter().x), float(terrain->bottom() + 15)};
                 }
             }
 
+            arrow[0].position = finalPosition1;
             arrow[1].position = finalPosition2;
 		}
 
