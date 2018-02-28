@@ -57,7 +57,7 @@
 	}
 [HEALING]
 	{
-		DEFINE:0,0,2
+		DEFINE:0,10,2
 	}
 [MELEE_BONUS]
 	{
