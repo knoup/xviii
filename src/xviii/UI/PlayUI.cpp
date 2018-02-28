@@ -428,7 +428,7 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates /*states*/) const{
         target.draw(arrowTip1);
         target.draw(arrowTip2);
     }
-    else if(drawGeneralRangeIndicator && gameState->game->currentPlayer->getGeneral() != nullptr){
+    if(drawGeneralRangeIndicator && gameState->game->currentPlayer->getGeneral() != nullptr){
 		target.draw(generalRangeIndicator2);
 		target.draw(generalRangeIndicator1);
     }

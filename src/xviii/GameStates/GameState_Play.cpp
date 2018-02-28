@@ -359,6 +359,10 @@ void GameState_Play::getInput(){
 						selected = unit;
 						selected->setHighlighted(true);
 					}
+					else{
+						middleButtonHeld = true;
+						middleButtonCoords = {event.mouseButton.x, event.mouseButton.y};
+					}
 
 				}
 			}
@@ -387,6 +391,9 @@ void GameState_Play::getInput(){
 
 			case sf::Event::MouseButtonReleased:
 				if (event.mouseButton.button == sf::Mouse::Middle){
+					middleButtonHeld = false;
+				}
+				else if(event.mouseButton.button == sf::Mouse::Left){
 					middleButtonHeld = false;
 				}
 
