@@ -23,6 +23,9 @@ public:
 	void clearCurrentMessageText();
 	void setSaveStatus(bool val);
 
+	void setDrawGeneralRangeIndicator(bool _v){drawGeneralRangeIndicator = _v;};
+	bool getDrawGeneralRangeIndicator(){return drawGeneralRangeIndicator;};
+
 	void turnlyUpdate();
 
 	virtual void update();
@@ -76,6 +79,7 @@ private:
 	bool drawSquareFormationText{false};
 	bool drawLimberText{false};
 	bool drawLancerBonusReadyText{false};
+	bool drawGeneralRangeIndicator{false};
 
     //generalRangeAnimationClock is responsible for the timing of the general range indicator's fading animation
 	//generalRangeFadingOut is a toggle responsible for keeping track of whether it's currently fading in or out

@@ -188,6 +188,42 @@ void PlayUI::update(){
 	drawSquareFormationText = false;
 	drawLancerBonusReadyText = false;
 
+	///////////////////General range indicators//////////////////////////
+	if((gameState->selected == gameState->game->currentPlayer->getGeneral() || drawGeneralRangeIndicator)
+		&&
+		gameState->game->currentPlayer->getGeneral() != nullptr){
+            UnitTile* general = gameState->game->currentPlayer->getGeneral();
+            generalRangeIndicator1.setPosition(general->getTerrain()->getPixelPosCenter());
+            generalRangeIndicator2.setPosition(general->getTerrain()->getPixelPosCenter());
+
+
+            auto generalTransparency = generalRangeIndicator1.getOutlineColor().a;
+
+            int generalModifier;
+            if(generalRangeFadingOut){
+                generalModifier = -1;
+            }
+            else{
+                generalModifier = 1;
+            }
+
+            if(generalRangeAnimationClock.getElapsedTime().asMicroseconds() > 200){
+                generalTransparency += generalModifier;
+                generalRangeAnimationClock.restart();
+            }
+
+            if(generalTransparency <= 50){
+                generalRangeFadingOut = false;
+            }
+            else if(generalTransparency == 255){
+                generalRangeFadingOut = true;
+            }
+
+            generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0,generalTransparency));
+            generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0,generalTransparency));
+		}
+	/////////////////////////////////////////////////////////////////////
+
 	if (gameState->selected != nullptr){
 
 		if (gameState->selected->hasLimberAbility()){
@@ -221,38 +257,6 @@ void PlayUI::update(){
 			else{
 				lancerBonusReadyText.setString("Lncr bns NT RDY");
 			}
-		}
-
-		if(gameState->selected == gameState->game->currentPlayer->getGeneral()){
-            UnitTile* general = gameState->game->currentPlayer->getGeneral();
-            generalRangeIndicator1.setPosition(general->getTerrain()->getPixelPosCenter());
-            generalRangeIndicator2.setPosition(general->getTerrain()->getPixelPosCenter());
-
-
-            auto generalTransparency = generalRangeIndicator1.getOutlineColor().a;
-
-            int generalModifier;
-            if(generalRangeFadingOut){
-                generalModifier = -1;
-            }
-            else{
-                generalModifier = 1;
-            }
-
-            if(generalRangeAnimationClock.getElapsedTime().asMicroseconds() > 200){
-                generalTransparency += generalModifier;
-                generalRangeAnimationClock.restart();
-            }
-
-            if(generalTransparency <= 50){
-                generalRangeFadingOut = false;
-            }
-            else if(generalTransparency == 255){
-                generalRangeFadingOut = true;
-            }
-
-            generalRangeIndicator1.setOutlineColor(sf::Color(0,0,0,generalTransparency));
-            generalRangeIndicator2.setOutlineColor(sf::Color(255,0,0,generalTransparency));
 		}
 
 		/////////////////////////////////////////////////////////////
@@ -423,6 +427,10 @@ void PlayUI::draw(sf::RenderTarget &target, sf::RenderStates /*states*/) const{
         target.draw(arrow);
         target.draw(arrowTip1);
         target.draw(arrowTip2);
+    }
+    else if(drawGeneralRangeIndicator && gameState->game->currentPlayer->getGeneral() != nullptr){
+		target.draw(generalRangeIndicator2);
+		target.draw(generalRangeIndicator1);
     }
 
 	//After drawing the general range indicators and the arrow, we move on to the UI view

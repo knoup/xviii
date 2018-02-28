@@ -171,6 +171,10 @@ void GameState_Play::getInput(){
 				}
 				break;
 
+			case Key::SHOW_GENERAL_RANGE_KEY:
+                playUI.setDrawGeneralRangeIndicator(!playUI.getDrawGeneralRangeIndicator());
+				break;
+
 			case Key::LIMBER_KEY:
 			{
 				if (selected != nullptr){

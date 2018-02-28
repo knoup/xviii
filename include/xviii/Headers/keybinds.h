@@ -18,6 +18,7 @@ namespace Key{
     const sf::Keyboard::Key ZOOMIN_KEY = sf::Keyboard::Equal;
 
     const sf::Keyboard::Key HIDE_UI_KEY = sf::Keyboard::H;
+    const sf::Keyboard::Key SHOW_GENERAL_RANGE_KEY = sf::Keyboard::G;
 
     const sf::Keyboard::Key NORTH_KEY = sf::Keyboard::Up;
     const sf::Keyboard::Key EAST_KEY = sf::Keyboard::Right;
