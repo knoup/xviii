@@ -35,9 +35,9 @@ menuIterator{}
 	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Type::Eighteen));
 	titleText.setString("X V I I I");
 
-    //menuSelectView.reset(sf::FloatRect({}, {},xResolution, yResolution));
-    menuSelectView.setCenter({float(game->mWindow.getSize().x / 2),0});
+    menuSelectView.setCenter({float(game->mWindow.getSize().x / 2),menuSelectView.getSize().y / 2});
     menuSelectView.setSize(game->mWindow.getSize().x / 2, game->mWindow.getSize().y / 2);
+    menuSelectView.setViewport({0.25, 0.45, 0.5, 0.5});
 
     backgroundView.reset(sf::FloatRect({}, {},xResolution, yResolution));
 
@@ -196,7 +196,14 @@ void GameState_MenuState::getInput(){
 
 
 		case sf::Event::Resized:
-			menuSelectView.setSize(event.size.width, event.size.height);
+		    //INVESTIGATE
+		    //+CTD when the unit you're attacking with dies
+		    //+make text wrap in the menuSelectView if it's too long
+		    //---------------------------------------------
+			//menuSelectView.setSize(event.size.width / 2, event.size.height / 2);
+			menuSelectView.setCenter({float(game->mWindow.getSize().x / 2),menuSelectView.getSize().y / 2});
+            menuSelectView.setSize(game->mWindow.getSize().x / 2, game->mWindow.getSize().y / 2);
+            menuSelectView.setViewport({0.25, 0.45, 0.5, 0.5});
 			break;
 
 		default: break;
@@ -256,6 +263,7 @@ void GameState_MenuState::draw(){
 }
 
 void GameState_MenuState::onSwitch(){
+    //INVESTIGATE
     menuSelectView.setCenter({float(game->mWindow.getSize().x / 2),menuSelectView.getSize().y / 2});
     menuSelectView.setSize(game->mWindow.getSize().x / 2, game->mWindow.getSize().y / 2);
     menuSelectView.setViewport({0.25, 0.45, 0.5, 0.5});

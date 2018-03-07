@@ -601,8 +601,8 @@ void GameState_Play::update(float mFT){
 	//Code for the mouse indicator of distance:
 
 	sf::Vector2i mouseLocation{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
-	sf::Vector2i worldDimensions{game->mWorld->getDimensionsInPixels()};
 
+	sf::Vector2i worldDimensions{game->mWorld->getDimensionsInPixels()};
 	if (selected != nullptr && (mouseLocation.x < worldDimensions.x && mouseLocation.y < worldDimensions.y
 		&&
 		mouseLocation.x > 0 && mouseLocation.y > 0)){

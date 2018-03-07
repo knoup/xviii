@@ -20,7 +20,7 @@ void GameState_MultiplayerHostMenu::init(){
 	waitText.setString("Waiting for an incoming connection...");
 	waitText.setFillColor(sf::Color::Red);
 	waitText.setOrigin(waitText.getLocalBounds().width / 2, waitText.getLocalBounds().height / 2);
-	waitText.setPosition(xResolution / 2, -(yResolution / 3.5f));
+	waitText.setPosition(xResolution / 2, (yResolution / 3.5f));
 
 	tcpListener.setBlocking(false);
 
@@ -49,9 +49,9 @@ void GameState_MultiplayerHostMenu::draw(){
     game->mWindow.clear(sf::Color::Black);
 	game->mWindow.setView(backgroundView);
 	game->mWindow.draw(backgroundSprite);
+	game->mWindow.draw(waitText);
 
 	game->mWindow.setView(menuSelectView);
-	game->mWindow.draw(waitText);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);

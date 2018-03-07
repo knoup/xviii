@@ -23,12 +23,13 @@ void GameState_MultiplayerConnectMenu::init(){
 	instructionalText.setString("Enter the host's IP:");
 	instructionalText.setFillColor(sf::Color::Red);
 	instructionalText.setOrigin(instructionalText.getLocalBounds().width / 2, instructionalText.getLocalBounds().height / 2);
-	instructionalText.setPosition(xResolution / 2, -(yResolution / 3.5f));
+	instructionalText.setPosition(xResolution / 2, (yResolution / 4.5f));
 
-    IPText.setCharacterSize(30);
+    IPText.setCharacterSize(32);
+    IPText.setFillColor(sf::Color::Black);
 	IPText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	IPText.setOrigin(IPText.getLocalBounds().width / 2, IPText.getLocalBounds().height / 2);
-	IPText.setPosition(xResolution / 2, -(yResolution / 5.f));
+	IPText.setPosition(xResolution / 2, (yResolution / 3.5f));
 }
 
 void GameState_MultiplayerConnectMenu::getInput(){
@@ -48,7 +49,7 @@ void GameState_MultiplayerConnectMenu::getInput(){
 
             IPText.setString(IPString);
             IPText.setOrigin(IPText.getLocalBounds().width / 2, IPText.getLocalBounds().height / 2);
-            IPText.setPosition(xResolution / 2, -(yResolution / 5.f));
+            IPText.setPosition(xResolution / 2, (yResolution / 3.5f));
 
         }
 
@@ -160,18 +161,16 @@ void GameState_MultiplayerConnectMenu::getInput(){
 
             case sf::Event::MouseWheelMoved:
 
-            if(scroll){
-                if (event.mouseWheel.delta > 0){
-                    if(abs(menuList[0].text.getPosition().y - menuSelectView.getCenter().y) > 20){
-                        menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y - 30);
-                    }
-                }
-                else if (event.mouseWheel.delta < 0){
-                    if(abs(menuList[menuList.size() - 1].text.getPosition().y - menuSelectView.getCenter().y) > 300){
-                        menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y + 30);
-                    }
-                }
-            }
+            if (event.mouseWheel.delta > 0){
+				if(menuSelectView.getCenter().y > menuSelectView.getSize().y / 2){
+					menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y - 30);
+				}
+			}
+			else if (event.mouseWheel.delta < 0){
+				if(abs((menuList[menuList.size() - 1].text.getPosition().y + menuList[menuList.size() - 1].text.getGlobalBounds().height) - menuSelectView.getCenter().y) > menuSelectView.getSize().y / 2){
+					menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y + 30);
+				}
+			}
 
 			break;
 
@@ -197,9 +196,10 @@ void GameState_MultiplayerConnectMenu::draw(){
 	game->mWindow.setView(backgroundView);
 	game->mWindow.draw(backgroundSprite);
 
-	game->mWindow.setView(menuSelectView);
-	game->mWindow.draw(IPText);
 	game->mWindow.draw(instructionalText);
+	game->mWindow.draw(IPText);
+
+	game->mWindow.setView(menuSelectView);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);

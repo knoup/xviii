@@ -329,8 +329,9 @@ void GameState_SelectNationsMenu::draw(){
 	game->mWindow.setView(backgroundView);
 	game->mWindow.draw(backgroundSprite);
 
+    game->mWindow.draw(titleText);
+
 	game->mWindow.setView(menuSelectView);
-	game->mWindow.draw(titleText);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);
