@@ -36,8 +36,8 @@ menuIterator{}
 	titleText.setString("X V I I I");
 
     //menuSelectView.reset(sf::FloatRect({}, {},xResolution, yResolution));
-    menuSelectView.setCenter({680,0});
-    menuSelectView.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+    menuSelectView.setCenter({float(game->mWindow.getSize().x / 2),0});
+    menuSelectView.setSize(game->mWindow.getSize().x / 2, game->mWindow.getSize().y / 2);
 
     backgroundView.reset(sf::FloatRect({}, {},xResolution, yResolution));
 
@@ -48,8 +48,8 @@ menuIterator{}
 	int randColourB{distribution(game->mManager.randomEngine)};
 	titleText.setFillColor(sf::Color(randColourR, randColourG, randColourB));
 
-	titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
-	titleText.setPosition(xResolution / 2, -(yResolution / 2.f));
+	titleText.setOrigin(titleText.getGlobalBounds().width / 2, titleText.getGlobalBounds().height / 2);
+	titleText.setPosition(xResolution / 2, 0);
 
     //Select a random quote:
 	boost::random::uniform_int_distribution<int> quoteDistribution(0, quotes.size() - 1);
@@ -60,8 +60,8 @@ menuIterator{}
     //quoteText.setStyle(2);
 	quoteText.setString(quotes.at(randQuote));
 
-    quoteText.setOrigin(quoteText.getLocalBounds().width / 2, quoteText.getLocalBounds().height / 2);
-	quoteText.setPosition(xResolution / 2, -(yResolution / 7.5f));
+    quoteText.setOrigin(quoteText.getGlobalBounds().width / 2, quoteText.getGlobalBounds().height / 2);
+	quoteText.setPosition(xResolution / 2, titleText.getPosition().y + titleText.getGlobalBounds().height * 2);
 
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
 }
@@ -179,18 +179,18 @@ void GameState_MenuState::getInput(){
 
             case sf::Event::MouseWheelMoved:
 
-            if(scroll){
-                if (event.mouseWheel.delta > 0){
-                    if(abs(menuList[0].text.getPosition().y - menuSelectView.getCenter().y) > 20){
-                        menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y - 30);
-                    }
-                }
-                else if (event.mouseWheel.delta < 0){
-                    if(abs(menuList[menuList.size() - 1].text.getPosition().y - menuSelectView.getCenter().y) > 300){
-                        menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y + 30);
-                    }
-                }
-            }
+
+			if (event.mouseWheel.delta > 0){
+				if(menuSelectView.getCenter().y > menuSelectView.getSize().y / 2){
+					menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y - 30);
+				}
+			}
+			else if (event.mouseWheel.delta < 0){
+				if(abs((menuList[menuList.size() - 1].text.getPosition().y + menuList[menuList.size() - 1].text.getGlobalBounds().height) - menuSelectView.getCenter().y) > menuSelectView.getSize().y / 2){
+					menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y + 30);
+				}
+			}
+
 
 			break;
 
@@ -245,9 +245,10 @@ void GameState_MenuState::draw(){
 	game->mWindow.setView(backgroundView);
 	game->mWindow.draw(backgroundSprite);
 
-	game->mWindow.setView(menuSelectView);
 	game->mWindow.draw(titleText);
 	game->mWindow.draw(quoteText);
+
+	game->mWindow.setView(menuSelectView);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);
@@ -255,8 +256,9 @@ void GameState_MenuState::draw(){
 }
 
 void GameState_MenuState::onSwitch(){
-    menuSelectView.setCenter({680,0});
-    menuSelectView.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+    menuSelectView.setCenter({float(game->mWindow.getSize().x / 2),menuSelectView.getSize().y / 2});
+    menuSelectView.setSize(game->mWindow.getSize().x / 2, game->mWindow.getSize().y / 2);
+    menuSelectView.setViewport({0.25, 0.45, 0.5, 0.5});
 }
 
 void GameState_MenuState::lineUpObjects(){
@@ -275,5 +277,4 @@ void GameState_MenuState::lineUpObjects(){
 	}
 
 	menuIterator = menuList.begin();
-	menuSelectView.setCenter(menuSelectView.getCenter().x, menuIterator->text.getPosition().y);
 }

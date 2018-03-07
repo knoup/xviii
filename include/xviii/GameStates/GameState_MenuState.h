@@ -100,8 +100,5 @@ protected:
 	static sf::Sprite backgroundSprite;
 
 	void lineUpObjects();
-
-
-	bool scroll{false};
 };
 
