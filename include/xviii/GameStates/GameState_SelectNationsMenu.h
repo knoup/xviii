@@ -58,8 +58,5 @@ private:
 
 	sf::Text player1NationText;
 	sf::Text player2NationText;
-
-	sf::Sprite backgroundSprite;
-	sf::View backgroundView;
 };
 

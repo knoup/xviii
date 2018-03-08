@@ -13,14 +13,13 @@ waitText{}
 
 void GameState_MultiplayerHostMenu::init(){
 	menuList.push_back({std::string("Back"), true, game->MultiplayerMenuState.get(), Action::NONE});
-	lineUpObjects();
 
     waitText.setCharacterSize(40);
 	waitText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	waitText.setString("Waiting for an incoming connection...");
 	waitText.setFillColor(sf::Color::Red);
-	waitText.setOrigin(waitText.getLocalBounds().width / 2, waitText.getLocalBounds().height / 2);
-	waitText.setPosition(xResolution / 2, (yResolution / 3.5f));
+
+	lineUpObjects();
 
 	tcpListener.setBlocking(false);
 
@@ -28,6 +27,13 @@ void GameState_MultiplayerHostMenu::init(){
     {
         // error...
     }
+}
+
+void GameState_MultiplayerHostMenu::lineUpObjects(){
+	GameState_MenuState::lineUpObjects();
+
+	waitText.setOrigin(waitText.getLocalBounds().width / 2, waitText.getLocalBounds().height / 2);
+	waitText.setPosition(backgroundView.getSize().x / 2, (backgroundView.getSize().y / 3.5f));
 }
 
 void GameState_MultiplayerHostMenu::update(float mFT){

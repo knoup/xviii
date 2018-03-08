@@ -17,6 +17,7 @@ public:
 	void init();
 
     virtual void getInput();
+    virtual void lineUpObjects();
     virtual void update(float mFT);
 	virtual void draw();
 

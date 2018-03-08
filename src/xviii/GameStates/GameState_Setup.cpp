@@ -45,19 +45,7 @@ void GameState_Setup::getInput(){
 			break;
 
 		case sf::Event::Resized:
-			{
-			game->Player1->view.setSize(event.size.width, event.size.height);
-			game->Player2->view.setSize(event.size.width, event.size.height);
-
-			sf::FloatRect viewport;
-            viewport.width = setupUI.barWidth / event.size.width;
-            viewport.height = setupUI.barHeight / event.size.height;
-            viewport.left = (1 - viewport.width) / 2;
-            viewport.top = 1 - viewport.height;
-            setupUI.uiView.setViewport(viewport);
-
-		    }
-
+			handleResize();
 			break;
 
 		case sf::Event::MouseButtonPressed:
@@ -314,5 +302,17 @@ void GameState_Setup::onSwitch(){
     viewport.left = (1 - viewport.width) / 2;
     viewport.top = 1 - viewport.height;
     setupUI.uiView.setViewport(viewport);
+}
+
+void GameState_Setup::handleResize(){
+	game->Player1->view.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+	game->Player2->view.setSize(game->mWindow.getSize().x, game->mWindow.getSize().y);
+
+	sf::FloatRect viewport;
+	viewport.width = setupUI.barWidth / game->mWindow.getSize().x;
+	viewport.height = setupUI.barHeight / game->mWindow.getSize().y;
+	viewport.left = (1 - viewport.width) / 2;
+	viewport.top = 1 - viewport.height;
+	setupUI.uiView.setViewport(viewport);
 }
 

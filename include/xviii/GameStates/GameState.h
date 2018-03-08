@@ -29,5 +29,9 @@ public:
 	//Primarily to take care of minor but annoying things like properly
 	//setting the view
 	virtual void onSwitch();
+
+private:
+
+	virtual void handleResize() = 0;
 };
 

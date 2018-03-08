@@ -21,14 +21,12 @@ flagMenuItems1{},
 flagMenuItems2{},
 flagIterator1{},
 flagIterator2{},
-flagView1{sf::FloatRect({}, {}, xResolution, yResolution)},
-flagView2{sf::FloatRect({}, {}, xResolution, yResolution)},
+flagView1{sf::FloatRect({}, {}, game->mWindow.getSize().x, game->mWindow.getSize().y)},
+flagView2{sf::FloatRect({}, {}, game->mWindow.getSize().x, game->mWindow.getSize().y)},
 player1Text{},
 player2Text{},
 player1NationText{},
-player2NationText{},
-backgroundSprite{},
-backgroundView{sf::FloatRect({}, {}, xResolution, yResolution)}
+player2NationText{}
 {
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
 
@@ -298,7 +296,7 @@ void GameState_SelectNationsMenu::getInput(){
             }
 
             case sf::Event::Resized:
-                menuSelectView.setSize(event.size.width, event.size.height);
+                lineUpObjects();
                 break;
 
 

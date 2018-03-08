@@ -35,10 +35,6 @@ menuIterator{}
 	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Type::Eighteen));
 	titleText.setString("X V I I I");
 
-	lineUpObjects();
-
-    backgroundView.reset(sf::FloatRect({}, {},xResolution, yResolution));
-
 	//Randomise title text colour, for the heck of it:
 	boost::random::uniform_int_distribution<int> distribution(0, 255);
 	int randColourR{distribution(game->mManager.randomEngine)};
@@ -47,7 +43,7 @@ menuIterator{}
 	titleText.setFillColor(sf::Color(randColourR, randColourG, randColourB));
 
 	titleText.setOrigin(titleText.getGlobalBounds().width / 2, titleText.getGlobalBounds().height / 2);
-	titleText.setPosition(xResolution / 2, 0);
+	titleText.setPosition(game->mWindow.getSize().x / 2, 0);
 
     //Select a random quote:
 	boost::random::uniform_int_distribution<int> quoteDistribution(0, quotes.size() - 1);
@@ -55,13 +51,15 @@ menuIterator{}
 
     quoteText.setCharacterSize(23);
 	quoteText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
-    //quoteText.setStyle(2);
+    quoteText.setStyle(2);
 	quoteText.setString(quotes.at(randQuote));
 
     quoteText.setOrigin(quoteText.getGlobalBounds().width / 2, quoteText.getGlobalBounds().height / 2);
-	quoteText.setPosition(xResolution / 2, titleText.getPosition().y + titleText.getGlobalBounds().height * 2);
+	quoteText.setPosition(game->mWindow.getSize().x / 2, titleText.getPosition().y + titleText.getGlobalBounds().height * 2);
 
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
+
+    handleResize();
 }
 
 void GameState_MenuState::getInput(){
@@ -192,7 +190,7 @@ void GameState_MenuState::getInput(){
 			break;
 
 		case sf::Event::Resized:
-            lineUpObjects();
+            handleResize();
 			break;
 
 		default: break;
@@ -249,28 +247,28 @@ void GameState_MenuState::draw(){
 }
 
 void GameState_MenuState::onSwitch(){
-    lineUpObjects();
+    handleResize();
 }
 
-void GameState_MenuState::resizeViews(){
+void GameState_MenuState::handleResize(){
 
 	menuSelectView.setCenter({float(game->mWindow.getSize().x / 2), float(game->mWindow.getSize().y / 4) - 10});
     menuSelectView.setSize(game->mWindow.getSize().x / 2, game->mWindow.getSize().y / 2);
     menuSelectView.setViewport({0.25, 0.45, 0.5, 0.5});
 
     backgroundView.reset(sf::FloatRect({}, {},game->mWindow.getSize().x, game->mWindow.getSize().y));
+
+    lineUpObjects();
 }
 
 void GameState_MenuState::lineUpObjects(){
 
-	resizeViews();
-
-	titleText.setPosition(game->mWindow.getSize().x / 2, 0);
-	quoteText.setPosition(game->mWindow.getSize().x / 2, titleText.getPosition().y + titleText.getGlobalBounds().height * 2);
+	titleText.setPosition(backgroundView.getSize().x / 2, 0);
+	quoteText.setPosition(backgroundView.getSize().x / 2, titleText.getPosition().y + titleText.getGlobalBounds().height * 2);
 
 	for (size_t i{0}; i < menuList.size(); ++i){
 		menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
-		menuList[i].text.setOrigin(menuList[i].text.getLocalBounds().width / 2, menuList[i].text.getLocalBounds().height / 2);
+		menuList[i].text.setOrigin(menuList[i].text.getGlobalBounds().width / 2, menuList[i].text.getGlobalBounds().height / 2);
 		menuList[i].text.setFillColor(sf::Color::White);
 		menuList[i].text.setStyle(sf::Text::Bold);
 		menuList[i].text.setCharacterSize(35);

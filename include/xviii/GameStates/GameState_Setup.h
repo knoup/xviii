@@ -18,6 +18,8 @@ public:
 	void oneTimeUpdate();
 
 private:
+	virtual void handleResize();
+
 	sf::Vector2f cameraVelocity;
 	sf::Vector2i middleButtonCoords;
 	bool middleButtonHeld;
@@ -26,6 +28,5 @@ private:
 	bool drawUI;
 
 	std::unique_ptr<SpawnableUnit> selectedSpawnableUnit;
-
 };
 

@@ -16,20 +16,17 @@ void GameState_MultiplayerConnectMenu::init(){
     menuList.push_back({std::string("Establish connection"), true, nullptr, Action::NONE});
     menuList.push_back({std::string(""), false, nullptr, Action::NONE});
 	menuList.push_back({std::string("Back"), true, game->MultiplayerMenuState.get(), Action::NONE});
-	lineUpObjects();
 
     instructionalText.setCharacterSize(40);
 	instructionalText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	instructionalText.setString("Enter the host's IP:");
 	instructionalText.setFillColor(sf::Color::Red);
-	instructionalText.setOrigin(instructionalText.getLocalBounds().width / 2, instructionalText.getLocalBounds().height / 2);
-	instructionalText.setPosition(xResolution / 2, (yResolution / 4.5f));
 
     IPText.setCharacterSize(32);
-    IPText.setFillColor(sf::Color::Black);
+    IPText.setFillColor(sf::Color::White);
 	IPText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
-	IPText.setOrigin(IPText.getLocalBounds().width / 2, IPText.getLocalBounds().height / 2);
-	IPText.setPosition(xResolution / 2, (yResolution / 3.5f));
+
+	lineUpObjects();
 }
 
 void GameState_MultiplayerConnectMenu::getInput(){
@@ -49,7 +46,7 @@ void GameState_MultiplayerConnectMenu::getInput(){
 
             IPText.setString(IPString);
             IPText.setOrigin(IPText.getLocalBounds().width / 2, IPText.getLocalBounds().height / 2);
-            IPText.setPosition(xResolution / 2, (yResolution / 3.5f));
+			IPText.setPosition(backgroundView.getSize().x / 2, (backgroundView.getSize().y / 3.5f));
 
         }
 
@@ -176,13 +173,25 @@ void GameState_MultiplayerConnectMenu::getInput(){
 
 
 		case sf::Event::Resized:
-			menuSelectView.setSize(event.size.width, event.size.height);
+			handleResize();
 			break;
 
 		default: break;
 
 		}
 	}
+}
+
+void GameState_MultiplayerConnectMenu::lineUpObjects(){
+	GameState_MenuState::lineUpObjects();
+
+	instructionalText.setOrigin(instructionalText.getLocalBounds().width / 2, instructionalText.getLocalBounds().height / 2);
+	instructionalText.setPosition(backgroundView.getSize().x / 2, (backgroundView.getSize().y / 4.5f));
+
+	IPText.setOrigin(IPText.getLocalBounds().width / 2, IPText.getLocalBounds().height / 2);
+	IPText.setPosition(backgroundView.getSize().x / 2, (backgroundView.getSize().y / 3.5f));
+
+
 }
 
 

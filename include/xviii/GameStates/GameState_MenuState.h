@@ -99,7 +99,7 @@ protected:
 	static std::unique_ptr<sf::Texture> backgroundTexture;
 	static sf::Sprite backgroundSprite;
 
-	void resizeViews();
-	void lineUpObjects();
+	virtual void lineUpObjects();
+	virtual void handleResize();
 };
 
