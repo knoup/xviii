@@ -28,7 +28,6 @@ void GameState_CustomBattlePauseMenu::draw(){
 	}
 
 	game->mWindow.setView(menuSelectView);
-	game->mWindow.draw(titleText);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);

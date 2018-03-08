@@ -35,9 +35,7 @@ menuIterator{}
 	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Type::Eighteen));
 	titleText.setString("X V I I I");
 
-    menuSelectView.setCenter({float(game->mWindow.getSize().x / 2),menuSelectView.getSize().y / 2});
-    menuSelectView.setSize(game->mWindow.getSize().x / 2, game->mWindow.getSize().y / 2);
-    menuSelectView.setViewport({0.25, 0.45, 0.5, 0.5});
+	lineUpObjects();
 
     backgroundView.reset(sf::FloatRect({}, {},xResolution, yResolution));
 
@@ -191,19 +189,10 @@ void GameState_MenuState::getInput(){
 				}
 			}
 
-
 			break;
 
-
 		case sf::Event::Resized:
-		    //INVESTIGATE
-		    //+CTD when the unit you're attacking with dies
-		    //+make text wrap in the menuSelectView if it's too long
-		    //---------------------------------------------
-			//menuSelectView.setSize(event.size.width / 2, event.size.height / 2);
-			menuSelectView.setCenter({float(game->mWindow.getSize().x / 2),menuSelectView.getSize().y / 2});
-            menuSelectView.setSize(game->mWindow.getSize().x / 2, game->mWindow.getSize().y / 2);
-            menuSelectView.setViewport({0.25, 0.45, 0.5, 0.5});
+            lineUpObjects();
 			break;
 
 		default: break;
@@ -242,9 +231,6 @@ void GameState_MenuState::update(float /*mFT*/){
 
         menuIterator->text.setFillColor(sf::Color(255,255,0,transparency));
 	}
-
-    //This will probably be required for the save menu
-	//menuSelectView.setCenter(menuSelectView.getCenter().x, menuIterator->text.getPosition().y);
 }
 
 void GameState_MenuState::draw(){
@@ -263,13 +249,24 @@ void GameState_MenuState::draw(){
 }
 
 void GameState_MenuState::onSwitch(){
-    //INVESTIGATE
-    menuSelectView.setCenter({float(game->mWindow.getSize().x / 2),menuSelectView.getSize().y / 2});
+    lineUpObjects();
+}
+
+void GameState_MenuState::resizeViews(){
+
+	menuSelectView.setCenter({float(game->mWindow.getSize().x / 2), float(game->mWindow.getSize().y / 4) - 10});
     menuSelectView.setSize(game->mWindow.getSize().x / 2, game->mWindow.getSize().y / 2);
     menuSelectView.setViewport({0.25, 0.45, 0.5, 0.5});
+
+    backgroundView.reset(sf::FloatRect({}, {},game->mWindow.getSize().x, game->mWindow.getSize().y));
 }
 
 void GameState_MenuState::lineUpObjects(){
+
+	resizeViews();
+
+	titleText.setPosition(game->mWindow.getSize().x / 2, 0);
+	quoteText.setPosition(game->mWindow.getSize().x / 2, titleText.getPosition().y + titleText.getGlobalBounds().height * 2);
 
 	for (size_t i{0}; i < menuList.size(); ++i){
 		menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
@@ -278,7 +275,7 @@ void GameState_MenuState::lineUpObjects(){
 		menuList[i].text.setStyle(sf::Text::Bold);
 		menuList[i].text.setCharacterSize(35);
 
-		int textXPos = xResolution / 2;
+		int textXPos = menuSelectView.getCenter().x;
 		int textYPos = (i * 50);
 
 		menuList[i].text.setPosition(textXPos, textYPos);
