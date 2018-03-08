@@ -28,5 +28,15 @@ private:
 	bool drawUI;
 
 	std::unique_ptr<SpawnableUnit> selectedSpawnableUnit;
+
+	//These are all required for the smooth zoom/interpolation of the camera
+	sf::Vector2f smoothZoom_currentCenter{};
+	sf::Vector2f smoothZoom_targetCenter{};
+	float smoothZoom_targetZoom = 0.0f;
+	float smoothZoom_currentZoom = 0.0f;
+	float smoothZoom_previousZoom = 0.0f;
+	bool smoothZoom_zooming = false;
+	float smoothZoom_lerpFactor = 0.0085f;
+	////////////////////////////////////////////////////////////////////////
 };
 

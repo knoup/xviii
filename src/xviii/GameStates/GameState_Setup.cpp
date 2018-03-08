@@ -86,6 +86,11 @@ void GameState_Setup::getInput(){
 						}
 
 					}
+
+					if(selectedSpawnableUnit == nullptr){
+						middleButtonHeld = true;
+						middleButtonCoords = {event.mouseButton.x, event.mouseButton.y};
+					}
 				}
 
 				//Spawn a unit on the tile:
@@ -134,6 +139,17 @@ void GameState_Setup::getInput(){
 					break;
 				}
 
+			}
+
+			break;
+
+		case sf::Event::MouseButtonReleased:
+
+			if (event.mouseButton.button == sf::Mouse::Middle){
+				middleButtonHeld = false;
+			}
+			else if(event.mouseButton.button == sf::Mouse::Left){
+				middleButtonHeld = false;
 			}
 
 			break;
@@ -196,18 +212,40 @@ void GameState_Setup::getInput(){
 			break;
 
 		case sf::Event::MouseWheelMoved:
-			if (event.mouseWheel.delta > 0){
-				game->currentView->setSize(game->currentView->getSize().x - xResolution / 12, game->currentView->getSize().y - yResolution / 12);
+			smoothZoom_zooming = true;
+			smoothZoom_lerpFactor = 0.0085f;
+
+			if (event.mouseWheel.delta > 0 && game->currentView->getSize().x > xResolution && game->currentView->getSize().y > yResolution){
+                //zoom in
+                //std::cout << game->currentView->getSize().x << ',' << game->currentView->getSize().y << std::endl;
+				//game->currentView->setSize(game->currentView->getSize().x - xResolution / 12, game->currentView->getSize().y - yResolution / 12);
+				smoothZoom_targetZoom = 0.8f;
 			}
-			else if (event.mouseWheel.delta < 0){
-				game->currentView->setSize(game->currentView->getSize().x + xResolution / 12, game->currentView->getSize().y + yResolution / 12);
+			else if (event.mouseWheel.delta < 0 && game->currentView->getSize().x < xResolution * 4 && game->currentView->getSize().y < yResolution * 4){
+			    //zoom out
+			    //std::cout << game->currentView->getSize().x << ',' << game->currentView->getSize().y << std::endl;
+				//game->currentView->setSize(game->currentView->getSize().x + xResolution / 12, game->currentView->getSize().y + yResolution / 12);
+				smoothZoom_targetZoom = 1.2f;
 			}
 
-			break;
+			smoothZoom_currentZoom = 1.0f;
+			smoothZoom_previousZoom = smoothZoom_currentZoom;
 
-		case sf::Event::MouseButtonReleased:
-			if (event.mouseButton.button == sf::Mouse::Middle){
-				middleButtonHeld = false;
+			smoothZoom_currentCenter = game->currentView->getCenter();
+
+			if(smoothZoom_targetZoom >= 1.f){
+				smoothZoom_targetCenter = game->mWindow.mapPixelToCoords(game->mousePos, *(game->currentView));
+				auto dist = smoothZoom_targetCenter - smoothZoom_currentCenter;
+				dist.x /= 2;
+				dist.y /= 2;
+				smoothZoom_targetCenter = smoothZoom_currentCenter - dist;
+			}
+			else{
+				smoothZoom_targetCenter = game->mWindow.mapPixelToCoords(game->mousePos, *(game->currentView));
+				auto dist = smoothZoom_targetCenter - smoothZoom_currentCenter;
+				dist.x /= 2;
+				dist.y /= 2;
+				smoothZoom_targetCenter = smoothZoom_targetCenter - dist;
 			}
 
 			break;
@@ -250,6 +288,34 @@ void GameState_Setup::update(float mFT){
 	}
 
 	setupUI.update();
+
+	//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
+
+	if (smoothZoom_zooming) {
+		// Interpolate between the current zoom and the target zoom for a smooth effect.
+		smoothZoom_currentZoom = lerp(smoothZoom_lerpFactor, smoothZoom_currentZoom, smoothZoom_targetZoom);
+		game->currentView->zoom(1.0f + (smoothZoom_currentZoom - smoothZoom_previousZoom));
+
+		// Interpolate the between the current center of the view and the target.
+		smoothZoom_currentCenter.x = lerp(smoothZoom_lerpFactor, smoothZoom_currentCenter.x, smoothZoom_targetCenter.x);
+		smoothZoom_currentCenter.y = lerp(smoothZoom_lerpFactor, smoothZoom_currentCenter.y, smoothZoom_targetCenter.y);
+		game->currentView->setCenter(smoothZoom_currentCenter);
+
+		// Store the previous zoom because we will need the difference between the previous and current zoom.
+		// This is because sf::View::Zoom zooms relative to the current zoom.
+		smoothZoom_previousZoom = smoothZoom_currentZoom;
+
+		// If the difference between the current and previous zoom is less then 0.01, stop zooming.
+		// Linear interpolation will never reach the target value so we stop here.
+		if (fabs(smoothZoom_targetZoom - smoothZoom_currentZoom) < 0.01f)
+			smoothZoom_zooming = false;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
 
 	if (game->currentPlayer->isReady()){
 		if (game->currentPlayer == game->Player1){

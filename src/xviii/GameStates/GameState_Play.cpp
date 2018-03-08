@@ -3,11 +3,6 @@
 
 #include "xviii/Core/Game.h"
 
-float lerp(float value, float start, float end)
-{
-	return start + (end - start) * value;
-}
-
 std::string boolToString(bool _value){
 	if (_value){
 		return "YES";

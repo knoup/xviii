@@ -31,7 +31,8 @@ public:
 	virtual void onSwitch();
 
 private:
-
 	virtual void handleResize() = 0;
+protected:
+	inline float lerp(float value, float start, float end){return start + (end - start) * value;}
 };
 
