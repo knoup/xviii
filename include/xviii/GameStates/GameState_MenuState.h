@@ -99,6 +99,9 @@ protected:
 	static std::unique_ptr<sf::Texture> backgroundTexture;
 	static sf::Sprite backgroundSprite;
 
+	static sf::RectangleShape scrollBarOuterRect;
+	static sf::RectangleShape scrollBarInnerRect;
+
 	virtual void lineUpObjects();
 	virtual void handleResize();
 };

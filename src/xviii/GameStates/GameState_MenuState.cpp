@@ -17,20 +17,6 @@ GameState{game},
 menuList{},
 menuIterator{}
 {
-    std::vector<std::string> quotes;
-
-    quotes.push_back("\"Cavalry is useful before, during, and after the battle.\" - Napoleon");
-    quotes.push_back("\"Don't forget your great guns, which are the most respectable arguments of the rights of kings.\" - Frederick II");
-    quotes.push_back("\"Do not fire until you see the white of their eyes!\" - Joseph Warren");
-    quotes.push_back("\"Soldiers usually win the battles and generals get the credit for them.\" - Napoleon");
-    quotes.push_back("\"War is not merely a political act but a real political instrument, a continuation of political\n intercourse, a carrying out of the same by other means.\" - Carl von Clausewitz");
-    quotes.push_back("\"Discipline is the soul of an army. It makes small numbers formidable;\nprocures success to the weak, and esteem to all.\" - George Washington");
-    quotes.push_back("\"The backbone of surprise is fusing speed with secrecy.\" - Carl von Clausewitz");
-    quotes.push_back("\"It is even better to act quickly and err than to hesitate until the time of action is past.\" - Carl von Clausewitz");
-    quotes.push_back("\"Men are always more inclined to pitch their estimate of the enemy's strength\n too high than too low, such is human nature.\" - Carl von Clausewitz");
-    quotes.push_back("\"Everything in war is simple, but the simplest thing is difficult.\" - Carl von Clausewitz");
-    quotes.push_back("\"There are times when the utmost daring is the height of wisdom.\" - Carl von Clausewitz");
-
 	titleText.setCharacterSize(275);
 	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Type::Eighteen));
 	titleText.setString("X V I I I");
@@ -44,18 +30,6 @@ menuIterator{}
 
 	titleText.setOrigin(titleText.getGlobalBounds().width / 2, titleText.getGlobalBounds().height / 2);
 	titleText.setPosition(game->mWindow.getSize().x / 2, 0);
-
-    //Select a random quote:
-	boost::random::uniform_int_distribution<int> quoteDistribution(0, quotes.size() - 1);
-	int randQuote{quoteDistribution(game->mManager.randomEngine)};
-
-    quoteText.setCharacterSize(23);
-	quoteText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
-    quoteText.setStyle(2);
-	quoteText.setString(quotes.at(randQuote));
-
-    quoteText.setOrigin(quoteText.getGlobalBounds().width / 2, quoteText.getGlobalBounds().height / 2);
-	quoteText.setPosition(game->mWindow.getSize().x / 2, titleText.getPosition().y + titleText.getGlobalBounds().height * 2);
 
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
 
@@ -262,21 +236,53 @@ void GameState_MenuState::handleResize(){
 }
 
 void GameState_MenuState::lineUpObjects(){
+	bool scrollbar{false};
+	menuObject* widestObject = nullptr;
+
+
+	if(!menuList.empty()){
+		if(menuList.back().text.getPosition().y - menuList.front().text.getPosition().y > menuSelectView.getSize().y){
+				scrollbar = true;
+			}
+
+			widestObject = &menuList.front();
+	}
 
 	titleText.setPosition(backgroundView.getSize().x / 2, 0);
 	quoteText.setPosition(backgroundView.getSize().x / 2, titleText.getPosition().y + titleText.getGlobalBounds().height * 2);
 
 	for (size_t i{0}; i < menuList.size(); ++i){
+		int characterSize{35};
+
 		menuList[i].text.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
+		menuList[i].text.setCharacterSize(characterSize);
+
+        float textWidth{menuList[i].text.getGlobalBounds().width};
+        float viewWidth{menuSelectView.getSize().x};
+
+        while(textWidth > viewWidth && characterSize > 2){
+			characterSize -= 2;
+			menuList[i].text.setCharacterSize(characterSize);
+			textWidth = menuList[i].text.getGlobalBounds().width;
+			viewWidth = menuSelectView.getSize().x;
+        }
+
+        if(widestObject->text.getGlobalBounds().width < textWidth){
+			widestObject = &menuList[i];
+        }
+
 		menuList[i].text.setOrigin(menuList[i].text.getGlobalBounds().width / 2, menuList[i].text.getGlobalBounds().height / 2);
 		menuList[i].text.setFillColor(sf::Color::White);
 		menuList[i].text.setStyle(sf::Text::Bold);
-		menuList[i].text.setCharacterSize(35);
 
 		int textXPos = menuSelectView.getCenter().x;
 		int textYPos = (i * 50);
 
 		menuList[i].text.setPosition(textXPos, textYPos);
+	}
+
+	if(scrollbar){
+
 	}
 
 	menuIterator = menuList.begin();
