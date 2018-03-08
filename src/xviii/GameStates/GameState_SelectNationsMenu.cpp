@@ -296,7 +296,7 @@ void GameState_SelectNationsMenu::getInput(){
             }
 
             case sf::Event::Resized:
-                lineUpObjects();
+                handleResize();
                 break;
 
 

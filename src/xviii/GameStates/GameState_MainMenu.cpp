@@ -6,9 +6,24 @@
 GameState_MainMenu::GameState_MainMenu(Game* game) :
 GameState_MenuState{game}
 {
-	std::vector<std::string> quotes;
+	titleText.setCharacterSize(275);
+	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Type::Eighteen));
+	titleText.setString("X V I I I");
 
-	/*
+	//Randomise title text colour, for the heck of it:
+	boost::random::uniform_int_distribution<int> distribution(0, 255);
+	int randColourR{distribution(game->mManager.randomEngine)};
+	int randColourG{distribution(game->mManager.randomEngine)};
+	int randColourB{distribution(game->mManager.randomEngine)};
+	titleText.setFillColor(sf::Color(randColourR, randColourG, randColourB));
+
+	titleText.setOrigin(titleText.getGlobalBounds().width / 2, titleText.getGlobalBounds().height / 2);
+	titleText.setPosition(game->mWindow.getSize().x / 2, 0);
+
+    backgroundSprite = game->mManager.textureManager->getRandomBackground();
+
+
+	std::vector<std::string> quotes;
 
     quotes.push_back("\"Cavalry is useful before, during, and after the battle.\" - Napoleon");
     quotes.push_back("\"Don't forget your great guns, which are the most respectable arguments of the rights of kings.\" - Frederick II");
@@ -20,8 +35,6 @@ GameState_MenuState{game}
     quotes.push_back("\"Men are always more inclined to pitch their estimate of the enemy's strength too high than too low, such is human nature.\" - Carl von Clausewitz");
     quotes.push_back("\"Everything in war is simple, but the simplest thing is difficult.\" - Carl von Clausewitz");
     quotes.push_back("\"There are times when the utmost daring is the height of wisdom.\" - Carl von Clausewitz");
-    */
-
     quotes.push_back("\"War is not merely a political act but a real political instrument, a continuation of political intercourse, a carrying out of the same by other means.\" - Carl von Clausewitz");
 
 	//Select a random quote:
@@ -46,9 +59,10 @@ GameState_MenuState{game}
 			quoteStr.insert(breakPos, "\n");
 		}
 
+		/*
 		if(quoteStr.length() - breakPos < breakPos){
             int blankSpacesToInsert{int((2 * breakPos) - quoteStr.length()) / 2};
-            std::string blankString{""};
+            std::string blankString{"      "};
 
 
             for(int i{0}; i < blankSpacesToInsert; ++i){
@@ -59,6 +73,7 @@ GameState_MenuState{game}
 
             quoteStr.insert(breakPos + 2, blankString);
 		}
+		*/
 
 		quoteText.setString(quoteStr);
 	}

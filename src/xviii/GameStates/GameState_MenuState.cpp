@@ -17,22 +17,6 @@ GameState{game},
 menuList{},
 menuIterator{}
 {
-	titleText.setCharacterSize(275);
-	titleText.setFont(game->mManager.fontManager->getFont(FontManager::Type::Eighteen));
-	titleText.setString("X V I I I");
-
-	//Randomise title text colour, for the heck of it:
-	boost::random::uniform_int_distribution<int> distribution(0, 255);
-	int randColourR{distribution(game->mManager.randomEngine)};
-	int randColourG{distribution(game->mManager.randomEngine)};
-	int randColourB{distribution(game->mManager.randomEngine)};
-	titleText.setFillColor(sf::Color(randColourR, randColourG, randColourB));
-
-	titleText.setOrigin(titleText.getGlobalBounds().width / 2, titleText.getGlobalBounds().height / 2);
-	titleText.setPosition(game->mWindow.getSize().x / 2, 0);
-
-    backgroundSprite = game->mManager.textureManager->getRandomBackground();
-
     handleResize();
 }
 
