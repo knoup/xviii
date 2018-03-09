@@ -5,12 +5,19 @@
 
 sf::View GameState_MenuState::menuSelectView;
 sf::View GameState_MenuState::backgroundView;
+
 sf::Clock GameState_MenuState::fadeAnimationClock;
 bool GameState_MenuState::fadingOut{true};
+
 sf::Text GameState_MenuState::titleText;
 sf::Text GameState_MenuState::quoteText;
+
 std::unique_ptr<sf::Texture> GameState_MenuState::backgroundTexture;
 sf::Sprite GameState_MenuState::backgroundSprite;
+
+bool GameState_MenuState::scrollbarActive{false};
+sf::RectangleShape GameState_MenuState::scrollBarOuterRect;
+sf::RectangleShape GameState_MenuState::scrollBarInnerRect;
 
 GameState_MenuState::GameState_MenuState(Game* game) :
 GameState{game},
@@ -132,16 +139,27 @@ void GameState_MenuState::getInput(){
             }
 
             case sf::Event::MouseWheelMoved:
-
-
-			if (event.mouseWheel.delta > 0){
-				if(menuSelectView.getCenter().y > menuSelectView.getSize().y / 2){
-					menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y - 30);
+			{
+				/*
+				if (event.mouseWheel.delta > 0){
+					if(menuSelectView.getCenter().y > menuSelectView.getSize().y / 2){
+						menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y - 30);
+					}
 				}
-			}
-			else if (event.mouseWheel.delta < 0){
-				if(abs((menuList[menuList.size() - 1].text.getPosition().y + menuList[menuList.size() - 1].text.getGlobalBounds().height) - menuSelectView.getCenter().y) > menuSelectView.getSize().y / 2){
-					menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y + 30);
+				else if (event.mouseWheel.delta < 0){
+					if(abs((menuList[menuList.size() - 1].text.getPosition().y + menuList[menuList.size() - 1].text.getGlobalBounds().height) - menuSelectView.getCenter().y) > menuSelectView.getSize().y / 2){
+						menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y + 30);
+					}
+				}
+				*/
+
+				if(scrollbarActive){
+					if(event.mouseWheel.delta > 0){
+						scrollBar(0);
+					}
+					else if(event.mouseWheel.delta < 0){
+						scrollBar(1);
+					}
 				}
 			}
 
@@ -187,6 +205,33 @@ void GameState_MenuState::update(float /*mFT*/){
 
         menuIterator->text.setFillColor(sf::Color(255,255,0,transparency));
 	}
+
+
+	//Scrollbar logic
+	///////////////////////////////////////////////////////////
+	//This still needs some minor tweaking. Namely, the -30 and +30.
+	//They need to be dynamic values. I'm trying to find the exact
+	//relationship they have with the ratio and menuSelectView...
+	///////////////////////////////////////////////////////////
+	if(scrollbarActive){
+		float scrollBarOuter_top{scrollBarOuterRect.getPosition().y - 30};
+		float scrollBarInner_centerX{scrollBarInnerRect.getPosition().x + scrollBarInnerRect.getGlobalBounds().width / 2};
+		float scrollBarInner_centerY{scrollBarInnerRect.getPosition().y + scrollBarInnerRect.getGlobalBounds().height / 2};
+		float scrollBarOuter_bottom{scrollBarOuter_top + scrollBarOuterRect.getGlobalBounds().height};
+
+		float scrollBarInner_distanceFromTop{scrollBarInner_centerY - scrollBarOuter_top};
+		float menuList_distanceFromTop{menuSelectView.getCenter().y - menuList.front().text.getPosition().y};
+
+		float totalMenuListHeight = menuList.back().text.getPosition().y;
+		float totalScrollBarOuter_Height = scrollBarOuterRect.getGlobalBounds().height + 30;
+
+		float finalRatio = totalMenuListHeight / totalScrollBarOuter_Height;
+
+		float finalY = (finalRatio * (scrollBarInner_distanceFromTop));
+
+		menuSelectView.setCenter(menuSelectView.getCenter().x, finalY);
+	}
+	///////////////////////////////////////////////////////////
 }
 
 void GameState_MenuState::draw(){
@@ -197,11 +242,18 @@ void GameState_MenuState::draw(){
 	game->mWindow.draw(titleText);
 	game->mWindow.draw(quoteText);
 
+	if(scrollbarActive){
+		game->mWindow.draw(scrollBarOuterRect);
+		game->mWindow.draw(scrollBarInnerRect);
+	}
+
 	game->mWindow.setView(menuSelectView);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);
 	}
+
+
 }
 
 void GameState_MenuState::onSwitch(){
@@ -220,15 +272,16 @@ void GameState_MenuState::handleResize(){
 }
 
 void GameState_MenuState::lineUpObjects(){
-	bool scrollbar{false};
 	menuObject* widestObject = nullptr;
 
 
 	if(!menuList.empty()){
 		if(menuList.back().text.getPosition().y - menuList.front().text.getPosition().y > menuSelectView.getSize().y){
-				scrollbar = true;
-			}
-
+				scrollbarActive = true;
+		}
+		else{
+			scrollbarActive = false;
+		}
 			widestObject = &menuList.front();
 	}
 
@@ -265,9 +318,55 @@ void GameState_MenuState::lineUpObjects(){
 		menuList[i].text.setPosition(textXPos, textYPos);
 	}
 
-	if(scrollbar){
+	if(scrollbarActive){
+		float scrollbarXPos = widestObject->text.getPosition().x + (widestObject->text.getGlobalBounds().width / 2) * 1.2;
+		scrollBarOuterRect.setSize({10, menuSelectView.getSize().y});
+		scrollBarOuterRect.setPosition(scrollbarXPos, menuSelectView.getViewport().top * backgroundView.getSize().y);
+		scrollBarOuterRect.setFillColor(sf::Color::Transparent);
+		scrollBarOuterRect.setOutlineThickness(2);
+		scrollBarOuterRect.setOutlineColor(sf::Color::White);
 
+		scrollBarInnerRect.setPosition(scrollBarOuterRect.getPosition());
+		scrollBarInnerRect.setSize({float(scrollBarOuterRect.getSize().x), float(scrollBarOuterRect.getSize().y * 0.1)});
+		scrollBarInnerRect.setFillColor(titleText.getColor());
+	}
+	else{
+		scrollBarOuterRect.setFillColor(sf::Color::Transparent);
+		scrollBarOuterRect.setOutlineColor(sf::Color::Transparent);
+		scrollBarInnerRect.setFillColor(sf::Color::Transparent);
+		scrollBarInnerRect.setOutlineColor(sf::Color::Transparent);
 	}
 
 	menuIterator = menuList.begin();
+}
+
+
+void GameState_MenuState::scrollBar(bool _down){
+	float step{float(scrollBarOuterRect.getGlobalBounds().height * 0.07)};
+
+	float distanceFromTop{scrollBarInnerRect.getPosition().y - scrollBarOuterRect.getPosition().y};
+
+	float distanceFromBottom
+	{
+		(scrollBarOuterRect.getPosition().y + scrollBarOuterRect.getGlobalBounds().height - scrollBarOuterRect.getOutlineThickness() * 2)
+		-
+		(scrollBarInnerRect.getPosition().y + scrollBarInnerRect.getGlobalBounds().height)
+	};
+
+	if(!_down){
+		if(distanceFromTop > 0){
+			if(step > distanceFromTop){
+				step = distanceFromTop;
+			}
+			scrollBarInnerRect.setPosition(scrollBarInnerRect.getPosition().x, scrollBarInnerRect.getPosition().y - step);
+		}
+	}
+	else{
+		if(distanceFromBottom > 0){
+			if(step > distanceFromBottom){
+				step = distanceFromBottom;
+			}
+			scrollBarInnerRect.setPosition(scrollBarInnerRect.getPosition().x, scrollBarInnerRect.getPosition().y + step);
+		}
+	}
 }

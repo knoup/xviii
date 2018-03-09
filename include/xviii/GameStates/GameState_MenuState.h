@@ -23,6 +23,12 @@ public:
 	virtual void draw();
 	virtual void onSwitch();
 protected:
+	virtual void lineUpObjects();
+	virtual void handleResize();
+
+	//0 for up, 1 for down
+	void scrollBar(bool _down);
+
 	enum class Action{NEW, LOAD, EXIT, SAVE, NONE};
 
 	//If the action is not NONE, the game will perform that action upon choosing the object.
@@ -99,10 +105,10 @@ protected:
 	static std::unique_ptr<sf::Texture> backgroundTexture;
 	static sf::Sprite backgroundSprite;
 
+	static bool scrollbarActive;
 	static sf::RectangleShape scrollBarOuterRect;
 	static sf::RectangleShape scrollBarInnerRect;
 
-	virtual void lineUpObjects();
-	virtual void handleResize();
+
 };
 
