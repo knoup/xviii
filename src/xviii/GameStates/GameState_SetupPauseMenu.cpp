@@ -26,7 +26,6 @@ void GameState_SetupPauseMenu::draw(){
     game->currentPlayer->drawUnits(game->mWindow);
 
 	game->mWindow.setView(menuSelectView);
-	game->mWindow.draw(titleText);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);
