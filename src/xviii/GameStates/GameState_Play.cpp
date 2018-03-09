@@ -313,6 +313,20 @@ void GameState_Play::getInput(){
                                     unit->modVector.clear();
 
                                     game->mWorld->clearDamagedUnits();
+
+                                    const std::vector<UnitTile::unitPtr>& currentPlayerUnits = game->currentPlayer->getUnits();
+
+									bool attackingUnitStillExists{false};
+
+                                    for(auto& unit : currentPlayerUnits){
+										if(unit.get() == selected){
+											attackingUnitStillExists = true;
+										}
+                                    }
+
+                                    if(!attackingUnitStillExists){
+										selected = nullptr;
+                                    }
                                 }
 
                                 else{
