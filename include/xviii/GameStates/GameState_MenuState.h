@@ -110,5 +110,7 @@ protected:
 	static bool scrollbarActive;
 	static sf::RectangleShape scrollBarOuterRect;
 	static sf::RectangleShape scrollBarInnerRect;
+
+	bool lmbHeld{false};
 };
 

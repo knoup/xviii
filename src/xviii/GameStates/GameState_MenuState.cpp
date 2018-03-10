@@ -38,11 +38,26 @@ void GameState_MenuState::getInput(){
 			game->exitGame(false);
 			break;
 
+		case sf::Event::MouseButtonReleased:
+
+			if(event.mouseButton.button == sf::Mouse::Left){
+				lmbHeld = false;
+			}
+			break;
 
         case sf::Event::MouseButtonPressed:
 
             if(event.mouseButton.button == sf::Mouse::Left){
-                confirm = true;
+            	sf::FloatRect scrollBarOuterRectBounds = scrollBarOuterRect.getGlobalBounds();
+            	sf::Vector2i coords{game->mousePos};
+                sf::Vector2f mousePos{game->mWindow.mapPixelToCoords(coords, backgroundView)};
+
+            	if(scrollbarActive && scrollBarOuterRectBounds.intersects({mousePos.x, mousePos.y, 1.f, 1.f})){
+					lmbHeld = true;
+            	}
+            	else{
+					confirm = true;
+            	}
             }
 
         case sf::Event::KeyPressed:
@@ -115,8 +130,9 @@ void GameState_MenuState::getInput(){
 
 
             case sf::Event::MouseMoved:{
+            	game->mousePos = {event.mouseMove.x, event.mouseMove.y};
 
-                sf::Vector2i coords{event.mouseMove.x, event.mouseMove.y};
+                sf::Vector2i coords{game->mousePos};
 
                 sf::Vector2f mousePos{game->mWindow.mapPixelToCoords(coords, menuSelectView)};
 
@@ -198,7 +214,7 @@ void GameState_MenuState::update(float /*mFT*/){
 	///////////////////////////////////////////////////////////
 	if(scrollbarActive){
 		float scrollBarOuter_top = scrollBarOuterRect.getPosition().y;
-		float scrollBarOuter_bottom = scrollBarOuter_top + scrollBarOuterRect.getGlobalBounds().height;
+		float scrollBarOuter_bottom = scrollBarOuter_top + scrollBarOuterRect.getGlobalBounds().height - (scrollBarOuterRect.getOutlineThickness() * 2);
 
 		float scrollBarInner_centerY{scrollBarInnerRect.getPosition().y + scrollBarInnerRect.getGlobalBounds().height / 2};
 
@@ -215,6 +231,27 @@ void GameState_MenuState::update(float /*mFT*/){
 		float finalY = (finalRatio * (scrollBarInner_distanceFromTop));
 
 		menuSelectView.setCenter(menuSelectView.getCenter().x, finalY);
+
+		if(lmbHeld){
+			sf::Vector2i coords{game->mousePos};
+			sf::Vector2f mousePos{game->mWindow.mapPixelToCoords(coords, backgroundView)};
+
+			float newYPos{mousePos.y - scrollBarInnerRect.getGlobalBounds().height / 2};
+
+			float newTop{newYPos};
+			float newBottom{mousePos.y + scrollBarInnerRect.getGlobalBounds().height / 2};
+
+			if(newTop < scrollBarOuter_top){
+				newYPos = scrollBarOuter_top;
+			}
+
+			else if(newBottom > scrollBarOuter_bottom){
+				newYPos = scrollBarOuter_bottom - scrollBarInnerRect.getGlobalBounds().height;
+			}
+
+			scrollBarInnerRect.setPosition(scrollBarInnerRect.getPosition().x, newYPos);
+
+		}
 	}
 	///////////////////////////////////////////////////////////
 }
@@ -305,7 +342,7 @@ void GameState_MenuState::lineUpObjects(){
 
 	if(scrollbarActive){
 		float scrollbarXPos = widestObject->text.getPosition().x + (widestObject->text.getGlobalBounds().width / 2) * 1.2;
-		scrollBarOuterRect.setSize({10, menuSelectView.getSize().y});
+		scrollBarOuterRect.setSize({20, menuSelectView.getSize().y});
 		scrollBarOuterRect.setPosition(scrollbarXPos, menuSelectView.getViewport().top * backgroundView.getSize().y);
 		scrollBarOuterRect.setFillColor(sf::Color::Transparent);
 		scrollBarOuterRect.setOutlineThickness(2);
