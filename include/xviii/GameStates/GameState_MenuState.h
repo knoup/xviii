@@ -105,10 +105,10 @@ protected:
 	static std::unique_ptr<sf::Texture> backgroundTexture;
 	static sf::Sprite backgroundSprite;
 
+	//Everything related to the scroll bar
+
 	static bool scrollbarActive;
 	static sf::RectangleShape scrollBarOuterRect;
 	static sf::RectangleShape scrollBarInnerRect;
-
-
 };
 

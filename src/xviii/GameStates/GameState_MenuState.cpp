@@ -140,19 +140,6 @@ void GameState_MenuState::getInput(){
 
             case sf::Event::MouseWheelMoved:
 			{
-				/*
-				if (event.mouseWheel.delta > 0){
-					if(menuSelectView.getCenter().y > menuSelectView.getSize().y / 2){
-						menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y - 30);
-					}
-				}
-				else if (event.mouseWheel.delta < 0){
-					if(abs((menuList[menuList.size() - 1].text.getPosition().y + menuList[menuList.size() - 1].text.getGlobalBounds().height) - menuSelectView.getCenter().y) > menuSelectView.getSize().y / 2){
-						menuSelectView.setCenter(menuSelectView.getCenter().x, menuSelectView.getCenter().y + 30);
-					}
-				}
-				*/
-
 				if(scrollbarActive){
 					if(event.mouseWheel.delta > 0){
 						scrollBar(0);
@@ -209,21 +196,19 @@ void GameState_MenuState::update(float /*mFT*/){
 
 	//Scrollbar logic
 	///////////////////////////////////////////////////////////
-	//This still needs some minor tweaking. Namely, the -30 and +30.
-	//They need to be dynamic values. I'm trying to find the exact
-	//relationship they have with the ratio and menuSelectView...
-	///////////////////////////////////////////////////////////
 	if(scrollbarActive){
-		float scrollBarOuter_top{scrollBarOuterRect.getPosition().y - 30};
-		float scrollBarInner_centerX{scrollBarInnerRect.getPosition().x + scrollBarInnerRect.getGlobalBounds().width / 2};
+		float scrollBarOuter_top = scrollBarOuterRect.getPosition().y;
+		float scrollBarOuter_bottom = scrollBarOuter_top + scrollBarOuterRect.getGlobalBounds().height;
+
 		float scrollBarInner_centerY{scrollBarInnerRect.getPosition().y + scrollBarInnerRect.getGlobalBounds().height / 2};
-		float scrollBarOuter_bottom{scrollBarOuter_top + scrollBarOuterRect.getGlobalBounds().height};
 
 		float scrollBarInner_distanceFromTop{scrollBarInner_centerY - scrollBarOuter_top};
-		float menuList_distanceFromTop{menuSelectView.getCenter().y - menuList.front().text.getPosition().y};
 
-		float totalMenuListHeight = menuList.back().text.getPosition().y;
-		float totalScrollBarOuter_Height = scrollBarOuterRect.getGlobalBounds().height + 30;
+		float totalMenuListHeight = (menuList.back().text.getPosition().y + menuList.back().text.getGlobalBounds().height / 2)
+
+								  - (menuList.front().text.getPosition().y - menuList.front().text.getGlobalBounds().height / 2);
+
+		float totalScrollBarOuter_Height = scrollBarOuter_bottom - scrollBarOuter_top;
 
 		float finalRatio = totalMenuListHeight / totalScrollBarOuter_Height;
 
@@ -327,8 +312,24 @@ void GameState_MenuState::lineUpObjects(){
 		scrollBarOuterRect.setOutlineColor(sf::Color::White);
 
 		scrollBarInnerRect.setPosition(scrollBarOuterRect.getPosition());
-		scrollBarInnerRect.setSize({float(scrollBarOuterRect.getSize().x), float(scrollBarOuterRect.getSize().y * 0.1)});
 		scrollBarInnerRect.setFillColor(titleText.getColor());
+
+		float totalMenuListHeight = (menuList.back().text.getPosition().y + menuList.back().text.getGlobalBounds().height / 2)
+
+								  - (menuList.front().text.getPosition().y - menuList.front().text.getGlobalBounds().height / 2);
+
+		float totalScrollBarOuter_Height = scrollBarOuterRect.getGlobalBounds().height;
+
+		float finalRatio = totalMenuListHeight / totalScrollBarOuter_Height;
+
+		float innerRectHeight{menuSelectView.getCenter().y - menuList.front().text.getPosition().y
+
+											- menuList.front().text.getGlobalBounds().height / 2};
+
+		innerRectHeight /= finalRatio;
+		innerRectHeight *= 2;
+
+		scrollBarInnerRect.setSize({float(scrollBarOuterRect.getSize().x), innerRectHeight});
 	}
 	else{
 		scrollBarOuterRect.setFillColor(sf::Color::Transparent);
