@@ -13,36 +13,53 @@ public:
 	virtual void draw();
 
 private:
+	virtual void lineUpObjects();
+	virtual void handleResize();
+
 	void updateNationName();
 
 	struct FlagMenuItem{
-		FlagMenuItem(std::string _factionID, std::string _displayName, sf::Sprite _sprite) :
+		FlagMenuItem(std::string _factionID, std::string _displayName, sf::Sprite _sprite, const sf::Font& _font) :
 			factionID{_factionID},
 			displayName{_displayName},
 			sprite{_sprite},
 			highlighted{false},
 			rekt{}
 		{
-		    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
-			rekt.setSize({sprite.getLocalBounds().width, sprite.getLocalBounds().height});
-			rekt.setOrigin(rekt.getLocalBounds().width / 2, rekt.getLocalBounds().height / 2);
+			displayNameText.setFont(_font);
+			displayNameText.setString(displayName);
+			displayNameText.setFillColor(sf::Color::Black);
+			displayNameText.setCharacterSize(25);
+
+			while(displayNameText.getGlobalBounds().width > 300){
+				displayNameText.setCharacterSize(displayNameText.getCharacterSize() - 2);
+			}
+
+			rekt.setSize({sprite.getLocalBounds().width + float(1.2 * displayNameText.getGlobalBounds().width), sprite.getLocalBounds().height});
 			rekt.setFillColor(sf::Color::Transparent);
-			rekt.setOutlineColor(sf::Color::Yellow);
-			rekt.setOutlineThickness(2);
+			rekt.setOutlineColor(sf::Color::Black);
+			rekt.setOutlineThickness(1);
 		};
 
         std::string factionID;
         std::string displayName;
 		sf::Sprite sprite;
+		sf::Text displayNameText;
 
 		bool highlighted;
 		sf::RectangleShape rekt;
 
 		void draw(sf::RenderTarget& _window){
 			_window.draw(sprite);
-			if (highlighted){
-				_window.draw(rekt);
-			}
+			_window.draw(displayNameText);
+			_window.draw(rekt);
+		}
+
+		void setPosition(sf::Vector2f _pos){
+			rekt.setPosition(_pos);
+			sprite.setPosition({_pos.x + 3, _pos.y});
+			float heightDifference{sprite.getGlobalBounds().height - displayNameText.getGlobalBounds().height};
+			displayNameText.setPosition({sprite.getPosition().x + sprite.getGlobalBounds().width + 3, sprite.getPosition().y + heightDifference});
 		}
 	};
 
@@ -50,6 +67,8 @@ private:
 	std::vector<FlagMenuItem> flagMenuItems2;
 	std::vector<FlagMenuItem>::iterator flagIterator1;
 	std::vector<FlagMenuItem>::iterator flagIterator2;
+	//std::vector<sf::VertexArray> lineVector1;
+	//std::vector<sf::VertexArray> lineVector2;
 	sf::View flagView1;
 	sf::View flagView2;
 

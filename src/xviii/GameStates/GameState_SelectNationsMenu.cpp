@@ -5,14 +5,14 @@
 #include "xviii/Core/FactionLoader.h"
 
 void GameState_SelectNationsMenu::updateNationName(){
-    player1NationText.setString(" - " + flagIterator1->displayName);
-    player1NationText.setPosition(flagIterator1->sprite.getPosition().x + 25, flagIterator1->sprite.getPosition().y - 20);
-    player1Text.setPosition(flagIterator1->sprite.getPosition().x - 150, flagIterator1->sprite.getPosition().y - 20);
+    //player1NationText.setString(" - " + flagIterator1->displayName);
+    //player1NationText.setPosition(flagIterator1->sprite.getPosition().x + 25, flagIterator1->sprite.getPosition().y - 20);
+    //player1Text.setPosition(flagIterator1->sprite.getPosition().x - 150, flagIterator1->sprite.getPosition().y - 20);
 
-    player2NationText.setString(flagIterator2->displayName + " - ");
-    player2NationText.setOrigin(player2NationText.getLocalBounds().width, 0);
-    player2NationText.setPosition(flagIterator2->sprite.getPosition().x - 25, flagIterator2->sprite.getPosition().y - 20);
-    player2Text.setPosition(flagIterator2->sprite.getPosition().x + 150, flagIterator2->sprite.getPosition().y - 20);
+    //player2NationText.setString(flagIterator2->displayName + " - ");
+    //player2NationText.setOrigin(player2NationText.getLocalBounds().width, 0);
+    //player2NationText.setPosition(flagIterator2->sprite.getPosition().x - 25, flagIterator2->sprite.getPosition().y - 20);
+    //player2Text.setPosition(flagIterator2->sprite.getPosition().x + 150, flagIterator2->sprite.getPosition().y - 20);
 }
 
 GameState_SelectNationsMenu::GameState_SelectNationsMenu(Game* _game) :
@@ -21,6 +21,8 @@ flagMenuItems1{},
 flagMenuItems2{},
 flagIterator1{},
 flagIterator2{},
+lineVector1{},
+lineVector2{},
 flagView1{sf::FloatRect({}, {}, game->mWindow.getSize().x, game->mWindow.getSize().y)},
 flagView2{sf::FloatRect({}, {}, game->mWindow.getSize().x, game->mWindow.getSize().y)},
 player1Text{},
@@ -30,47 +32,17 @@ player2NationText{}
 {
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
 
-    flagView1.setViewport(sf::FloatRect(0, 0, 1, 1));
-    flagView2.setViewport(sf::FloatRect(0.5f, 0, 1, 1));
-
-
-    flagView1.setCenter(flagView1.getCenter().x, 0);
-    flagView2.setCenter(flagView2.getCenter().x, 0);
-
 	for(auto& faction : game->mManager.factionLoader->customFactions){
-        flagMenuItems1.emplace_back(faction.second.factionID, faction.second.displayName, game->mManager.textureManager->getFlagSprite(faction.second.textureID));
+		flagMenuItems1.emplace_back(faction.second.factionID, faction.second.displayName, game->mManager.textureManager->getFlagSprite(faction.second.textureID), game->mManager.fontManager->getFont(FontManager::Type::TCMT));
+		flagMenuItems2.emplace_back(faction.second.factionID, faction.second.displayName, game->mManager.textureManager->getFlagSprite(faction.second.textureID), game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	}
 
-	for (size_t i{0}; i < flagMenuItems1.size(); ++i){
-		int spriteYPos = (i * 45) - 130;
-		int spriteXPos = xResolution / 8;
-
-		flagMenuItems1[i].sprite.setPosition(spriteXPos, spriteYPos);
-		flagMenuItems1[i].rekt.setPosition(spriteXPos, spriteYPos);
-	}
-
-    flagIterator1 = flagMenuItems1.begin() + flagMenuItems1.size() / 2;
-    //flagIterator1 = flagMenuItems1.begin();
+    //flagIterator1 = flagMenuItems1.begin() + flagMenuItems1.size() / 2;
+    flagIterator1 = flagMenuItems1.begin();
     flagIterator1->highlighted = true;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    for(auto& faction : game->mManager.factionLoader->customFactions){
-        flagMenuItems2.emplace_back(faction.second.factionID, faction.second.displayName, game->mManager.textureManager->getFlagSprite(faction.second.textureID));
-	}
-
-	for (size_t i{0}; i < flagMenuItems2.size(); ++i){
-		int spriteYPos = (i * 45) - 130;
-		int spriteXPos = (xResolution / 8) * 3;
-
-		flagMenuItems2[i].sprite.setPosition(spriteXPos, spriteYPos);
-		flagMenuItems2[i].rekt.setPosition(spriteXPos, spriteYPos);
-	}
-
-    flagIterator2 = flagMenuItems2.begin() + flagMenuItems2.size() / 2;
-    //flagIterator2 = flagMenuItems2.begin();
+    //flagIterator2 = flagMenuItems2.begin() + flagMenuItems2.size() / 2;
+    flagIterator2 = flagMenuItems2.begin();
     flagIterator2->highlighted = true;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,15 +53,11 @@ player2NationText{}
 	player1Text.setString("Player 1");
 	player1Text.setFillColor(sf::Color::Yellow);
 	player1Text.setCharacterSize(30);;
-	//player1Text.setOrigin(player1Text.getLocalBounds().width / 2, player1Text.getLocalBounds().height / 2);
-	//player1Text.setPosition(xResolution / 8, -350);
 
 	player2Text.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	player2Text.setString("Player 2");
 	player2Text.setFillColor(sf::Color::Yellow);
 	player2Text.setCharacterSize(30);;
-	player2Text.setOrigin(player2Text.getLocalBounds().width, 0);
-	//player2Text.setPosition((xResolution / 8) * 3, -350);
 
 	player1NationText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	player1NationText.setFillColor(sf::Color::White);
@@ -98,7 +66,6 @@ player2NationText{}
 	player2NationText.setFont(game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	player2NationText.setFillColor(sf::Color::White);
 	player2NationText.setCharacterSize(30);;
-	player2NationText.setOrigin(player2NationText.getLocalBounds().width, 0);
 
 	updateNationName();
 
@@ -112,7 +79,7 @@ player2NationText{}
 	menuList.push_back({std::string("Back"), true, game->CustomBattleMenuState.get(), Action::NONE});
 	////////////
 
-	lineUpObjects();
+	handleResize();
 }
 
 void GameState_SelectNationsMenu::getInput(){
@@ -312,13 +279,6 @@ void GameState_SelectNationsMenu::getInput(){
 void GameState_SelectNationsMenu::update(float mFT){
 
     GameState_MenuState::update(mFT);
-
-	flagView1.setCenter(flagView1.getCenter().x, flagIterator1->sprite.getPosition().y);
-	flagView2.setCenter(flagView2.getCenter().x, flagIterator2->sprite.getPosition().y);
-
-	//if (!flagIterator->highlighted){
-	//	flagIterator->highlighted = true;
-	//}
 }
 
 void GameState_SelectNationsMenu::draw(){
@@ -339,14 +299,107 @@ void GameState_SelectNationsMenu::draw(){
 	game->mWindow.setView(flagView1);
 	for (auto& flag : flagMenuItems1){
 		flag.draw(game->mWindow);
-		game->mWindow.draw(player1Text);
-		game->mWindow.draw(player1NationText);
+		//game->mWindow.draw(player1Text);
+		//game->mWindow.draw(player1NationText);
+	}
+
+	for (auto& line : lineVector1) {
+		game->mWindow.draw(line);
 	}
 
 	game->mWindow.setView(flagView2);
 	for (auto& flag : flagMenuItems2){
 		flag.draw(game->mWindow);
-		game->mWindow.draw(player2Text);
-		game->mWindow.draw(player2NationText);
+		//game->mWindow.draw(player2Text);
+		//game->mWindow.draw(player2NationText);
 	}
+
+	for (auto& line : lineVector2) {
+		game->mWindow.draw(line);
+	}
+}
+
+void GameState_SelectNationsMenu::handleResize(){
+	//flagView1.setViewport(sf::FloatRect(0, 0, 1, 1));
+    //flagView2.setViewport(sf::FloatRect(0.5f, 0, 1, 1));
+
+    flagView1.setCenter({float(game->mWindow.getSize().x * 0.125), float(game->mWindow.getSize().y / 4) - 30});
+    flagView1.setSize(game->mWindow.getSize().x / 3, game->mWindow.getSize().y / 2);
+    flagView1.setViewport({0, 0.45, 0.33, 0.5});
+
+    flagView2.setCenter({float(game->mWindow.getSize().x * 0.125), float(game->mWindow.getSize().y / 4) - 30});
+    flagView2.setSize(game->mWindow.getSize().x / 3, game->mWindow.getSize().y / 2);
+    flagView2.setViewport({0.66, 0.45, 0.33, 0.5});
+
+
+	GameState_MenuState::handleResize();
+	lineUpObjects();
+}
+
+void GameState_SelectNationsMenu::lineUpObjects(){
+
+	int previousFlagYPos{0};
+
+	//The following algorithm appropriately places the menu items and,
+	//if neccessary, splits them into as many lines as needed.
+
+	//For two lined entries, it attempts to intelligently
+	//split only following following a space character.
+	//If this is not possible, or for entries that span more
+	//than two lines, it splits the string into equal parts.
+
+	for (size_t i{0}; i < flagMenuItems1.size(); ++i){
+        int textYPos{previousFlagYPos};
+        float textXPos{flagMenuItems1[i].sprite.getPosition().x + (flagMenuItems1[i].sprite.getGlobalBounds().width) + flagMenuItems1[i].rekt.getOutlineThickness() * 2};
+
+
+		flagMenuItems1[i].displayNameText.setPosition(textXPos, textYPos);
+
+		int spriteYPos = (previousFlagYPos);
+		int spriteXPos{0};
+
+		flagMenuItems1[i].sprite.setPosition(spriteXPos, spriteYPos);
+		flagMenuItems1[i].rekt.setPosition(spriteXPos, spriteYPos);
+
+		float height{0};
+
+		if(flagMenuItems1[i].displayNameText.getGlobalBounds().height > flagMenuItems1[i].sprite.getGlobalBounds().height){
+			height = flagMenuItems1[i].displayNameText.getGlobalBounds().height;
+		}
+		else{
+			height = flagMenuItems1[i].sprite.getGlobalBounds().height;
+		}
+
+		previousFlagYPos += height * 1.1;
+
+		sf::Vector2f lineStartPos{flagMenuItems1[i].sprite.getPosition().x + (flagMenuItems1[i].sprite.getGlobalBounds().width) + flagMenuItems1[i].rekt.getOutlineThickness(), float(previousFlagYPos)};
+		sf::Vector2f lineEndPos{flagView1.getSize().x - lineStartPos.x, float(previousFlagYPos)};
+
+		sf::VertexArray	 line(sf::LineStrip, 2);
+		line[0].position = lineStartPos;
+		line[0].color = sf::Color::Black;
+		line[1].position = lineEndPos;
+		line[1].color = sf::Color::Black;
+		lineVector1.push_back(line);
+
+		previousFlagYPos += height * 0.1;
+	}
+
+	for (size_t i{0}; i < flagMenuItems2.size(); ++i){
+		int spriteYPos = (i * 45);
+		int spriteXPos{0};
+
+		flagMenuItems2[i].sprite.setPosition(spriteXPos, spriteYPos);
+		flagMenuItems2[i].rekt.setPosition(spriteXPos, spriteYPos);
+	}
+
+	//player1Text.setOrigin(player1Text.getLocalBounds().width / 2, player1Text.getLocalBounds().height / 2);
+	//player1Text.setPosition(xResolution / 8, -350);
+
+	//player2Text.setOrigin(player2Text.getLocalBounds().width, 0);
+	//player2Text.setPosition((xResolution / 8) * 3, -350);
+
+	//player2NationText.setOrigin(player2NationText.getLocalBounds().width, 0);
+
+	GameState_MenuState::lineUpObjects();
 }
