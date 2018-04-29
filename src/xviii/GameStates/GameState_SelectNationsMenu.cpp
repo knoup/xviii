@@ -21,8 +21,6 @@ flagMenuItems1{},
 flagMenuItems2{},
 flagIterator1{},
 flagIterator2{},
-lineVector1{},
-lineVector2{},
 flagView1{sf::FloatRect({}, {}, game->mWindow.getSize().x, game->mWindow.getSize().y)},
 flagView2{sf::FloatRect({}, {}, game->mWindow.getSize().x, game->mWindow.getSize().y)},
 player1Text{},
@@ -303,19 +301,11 @@ void GameState_SelectNationsMenu::draw(){
 		//game->mWindow.draw(player1NationText);
 	}
 
-	for (auto& line : lineVector1) {
-		game->mWindow.draw(line);
-	}
-
 	game->mWindow.setView(flagView2);
 	for (auto& flag : flagMenuItems2){
 		flag.draw(game->mWindow);
 		//game->mWindow.draw(player2Text);
 		//game->mWindow.draw(player2NationText);
-	}
-
-	for (auto& line : lineVector2) {
-		game->mWindow.draw(line);
 	}
 }
 
@@ -371,16 +361,6 @@ void GameState_SelectNationsMenu::lineUpObjects(){
 		}
 
 		previousFlagYPos += height * 1.1;
-
-		sf::Vector2f lineStartPos{flagMenuItems1[i].sprite.getPosition().x + (flagMenuItems1[i].sprite.getGlobalBounds().width) + flagMenuItems1[i].rekt.getOutlineThickness(), float(previousFlagYPos)};
-		sf::Vector2f lineEndPos{flagView1.getSize().x - lineStartPos.x, float(previousFlagYPos)};
-
-		sf::VertexArray	 line(sf::LineStrip, 2);
-		line[0].position = lineStartPos;
-		line[0].color = sf::Color::Black;
-		line[1].position = lineEndPos;
-		line[1].color = sf::Color::Black;
-		lineVector1.push_back(line);
 
 		previousFlagYPos += height * 0.1;
 	}
