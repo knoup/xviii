@@ -103,6 +103,7 @@ protected:
 	static std::unique_ptr<sf::Texture> backgroundTexture;
 	static sf::Sprite backgroundSprite;
 
+private:
 	Scrollbar scrollbar;
 };
 

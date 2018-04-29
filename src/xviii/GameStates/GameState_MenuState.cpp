@@ -231,12 +231,13 @@ void GameState_MenuState::onSwitch(){
 }
 
 void GameState_MenuState::handleResize(){
-
 	menuSelectView.setCenter({float(game->mWindow.getSize().x / 2), float(game->mWindow.getSize().y / 4) - 10});
     menuSelectView.setSize(game->mWindow.getSize().x / 2, game->mWindow.getSize().y / 2);
     menuSelectView.setViewport({0.25, 0.45, 0.5, 0.5});
 
     backgroundView.reset(sf::FloatRect({}, {},game->mWindow.getSize().x, game->mWindow.getSize().y));
+    backgroundSprite.setOrigin(backgroundSprite.getGlobalBounds().width / 2, backgroundSprite.getGlobalBounds().height / 2);
+    backgroundSprite.setPosition(backgroundView.getCenter());
 
     lineUpObjects();
 }

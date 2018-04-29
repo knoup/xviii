@@ -19,7 +19,7 @@ void Scrollbar::init(float _totalMenuHeight, float _initialXPos, float _firstEle
 		outerRect.setOutlineColor(sf::Color::White);
 
 		innerRect.setPosition(outerRect.getPosition());
-		innerRect.setFillColor(sf::Color::Yellow);
+		innerRect.setFillColor(_fillColor);
 
 		float outerRect_height = outerRect.getGlobalBounds().height;
 
