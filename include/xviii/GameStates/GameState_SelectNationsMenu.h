@@ -37,7 +37,7 @@ private:
 			}
 
 			rekt.setSize({sprite.getLocalBounds().width + float(1.2 * displayNameText.getGlobalBounds().width), sprite.getLocalBounds().height});
-			rekt.setFillColor(sf::Color::Transparent);
+			rekt.setFillColor(sf::Color::White);
 			rekt.setOutlineColor(sf::Color::Black);
 			rekt.setOutlineThickness(1);
 		};
@@ -51,9 +51,9 @@ private:
 		sf::RectangleShape rekt;
 
 		void draw(sf::RenderTarget& _window){
+			_window.draw(rekt);
 			_window.draw(sprite);
 			_window.draw(displayNameText);
-			_window.draw(rekt);
 		}
 
 		void setPosition(sf::Vector2f _pos){
@@ -61,6 +61,17 @@ private:
 			sprite.setPosition({_pos.x + 3, _pos.y});
 			float heightDifference{sprite.getGlobalBounds().height - displayNameText.getGlobalBounds().height};
 			displayNameText.setPosition({sprite.getPosition().x + sprite.getGlobalBounds().width + 3, sprite.getPosition().y + heightDifference});
+		}
+
+		void highlight(bool _v){
+            highlighted = _v;
+
+            if(!highlighted){
+                rekt.setFillColor(sf::Color::White);
+            }
+            else{
+                rekt.setFillColor(sf::Color::Yellow);
+            }
 		}
 	};
 
@@ -78,5 +89,9 @@ private:
 
 	sf::Text player1NationText;
 	sf::Text player2NationText;
+
+private:
+    Scrollbar scrollbar_player1;
+    Scrollbar scrollbar_player2;
 };
 

@@ -4,6 +4,15 @@
 #include "xviii/Core/Game.h"
 #include "xviii/Core/FactionLoader.h"
 
+sf::FloatRect getViewBounds(sf::View& _view){
+    sf::FloatRect result{};
+    result.left = _view.getCenter().x - _view.getSize().x/2.f;
+    result.top  = _view.getCenter().y - _view.getSize().y/2.f;
+    result.width  = _view.getSize().x;
+    result.height = _view.getSize().y;
+    return result;
+}
+
 void GameState_SelectNationsMenu::updateNationName(){
     //player1NationText.setString(" - " + flagIterator1->displayName);
     //player1NationText.setPosition(flagIterator1->sprite.getPosition().x + 25, flagIterator1->sprite.getPosition().y - 20);
@@ -26,7 +35,9 @@ flagView2{sf::FloatRect({}, {}, game->mWindow.getSize().x, game->mWindow.getSize
 player1Text{},
 player2Text{},
 player1NationText{},
-player2NationText{}
+player2NationText{},
+scrollbar_player1{game->mWindow, flagView1, backgroundView},
+scrollbar_player2{game->mWindow, flagView2, backgroundView}
 {
     backgroundSprite = game->mManager.textureManager->getRandomBackground();
 
@@ -37,11 +48,11 @@ player2NationText{}
 
     //flagIterator1 = flagMenuItems1.begin() + flagMenuItems1.size() / 2;
     flagIterator1 = flagMenuItems1.begin();
-    flagIterator1->highlighted = true;
+    flagIterator1->highlight(true);
 
     //flagIterator2 = flagMenuItems2.begin() + flagMenuItems2.size() / 2;
     flagIterator2 = flagMenuItems2.begin();
-    flagIterator2->highlighted = true;
+    flagIterator2->highlight(true);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,47 +123,69 @@ void GameState_SelectNationsMenu::getInput(){
                 break;
             }
 
-            if(event.mouseWheel.delta > 0){
-
-                (*flagIterator)->highlighted = false;
-
-                if((*flagIterator) == (*flagMenuItems).begin()){
-                    (*flagIterator) = (*flagMenuItems).end() - 1;
-                }
-                else{
-                    (*flagIterator)--;
-                }
-
-                (*flagIterator)->highlighted = true;
-
-            }
-
-            else if(event.mouseWheel.delta < 0){
-
-                (*flagIterator)->highlighted = false;
-
-                if((*flagIterator) == (*flagMenuItems).end() - 1){
-                    (*flagIterator) = (*flagMenuItems).begin();
-                }
-                else{
-                    (*flagIterator)++;
-                }
-
-                (*flagIterator)->highlighted = true;
-
-            }
-
             updateNationName();
+
+            sf::Vector2f mousePos_player1{game->mWindow.mapPixelToCoords({game->mousePos}, flagView1)};
+            sf::Vector2f mousePos_player2{game->mWindow.mapPixelToCoords({game->mousePos}, flagView2)};
+
+            sf::FloatRect flagView1Bounds{getViewBounds(flagView1)};
+            sf::FloatRect flagView2Bounds{getViewBounds(flagView2)};
+
+            if(scrollbar_player1.getActive() && flagView1Bounds.intersects({mousePos_player1.x, mousePos_player1.y, 1.f, 1.f})){
+                if(event.mouseWheel.delta > 0){
+                    scrollbar_player1.scroll(0);
+                }
+                else if(event.mouseWheel.delta < 0){
+                    scrollbar_player1.scroll(1);
+                }
+            }
+            else if(scrollbar_player2.getActive() && flagView2Bounds.intersects({mousePos_player2.x, mousePos_player2.y, 1.f, 1.f})){
+                if(event.mouseWheel.delta > 0){
+                    scrollbar_player2.scroll(0);
+                }
+                else if(event.mouseWheel.delta < 0){
+                    scrollbar_player2.scroll(1);
+                }
+            }
+
 
 			break;
 
 		    }
 
+        case sf::Event::MouseButtonReleased:
+            {
+                scrollbar_player1.setDragging(false);
+                scrollbar_player2.setDragging(false);
+                break;
+            }
+
 
             case sf::Event::MouseButtonPressed:
 
             if(event.mouseButton.button == sf::Mouse::Left){
-                confirm = true;
+                sf::FloatRect scrollBarOuterRectBounds_player1 = scrollbar_player1.getOuterGlobalBounds();
+                sf::FloatRect scrollBarOuterRectBounds_player2 = scrollbar_player2.getOuterGlobalBounds();
+
+            	sf::Vector2i coords{game->mousePos};
+                sf::Vector2f mousePos{game->mWindow.mapPixelToCoords(coords, backgroundView)};
+
+            	if(scrollbar_player1.getActive() && scrollBarOuterRectBounds_player1.intersects({mousePos.x, mousePos.y, 1.f, 1.f})){
+					scrollbar_player1.setDragging(true);
+            	}
+            	else if(scrollbar_player2.getActive() && scrollBarOuterRectBounds_player2.intersects({mousePos.x, mousePos.y, 1.f, 1.f})){
+					scrollbar_player2.setDragging(true);
+            	}
+            	else{
+                    //Right of flagView1
+                    float leftBound = (flagView1.getViewport().width) * game->mWindow.getSize().x;
+                    //Left of flagView2
+                    float rightBound = (flagView2.getViewport().left) * game->mWindow.getSize().x;
+
+                    if(mousePos.x > leftBound && mousePos.x < rightBound){
+                        confirm = true;
+                    }
+            	}
             }
 
 
@@ -238,7 +271,9 @@ void GameState_SelectNationsMenu::getInput(){
 
 			break;
 
-			case sf::Event::MouseMoved:{
+			case sf::Event::MouseMoved:
+			    {
+			    game->mousePos = {event.mouseMove.x, event.mouseMove.y};
 
                 sf::Vector2i coords{event.mouseMove.x, event.mouseMove.y};
 
@@ -254,6 +289,41 @@ void GameState_SelectNationsMenu::getInput(){
                         menuIterator += i;
 
                         menuIterator->text.setFillColor((sf::Color::Yellow));
+                    }
+                }
+
+                sf::Vector2f mousePos_player1{game->mWindow.mapPixelToCoords({game->mousePos}, flagView1)};
+                sf::Vector2f mousePos_player2{game->mWindow.mapPixelToCoords({game->mousePos}, flagView2)};
+
+                sf::FloatRect flagView1Bounds{getViewBounds(flagView1)};
+                sf::FloatRect flagView2Bounds{getViewBounds(flagView2)};
+
+                if(flagView1Bounds.intersects({mousePos_player1.x, mousePos_player1.y, 1.f, 1.f})){
+                    for(size_t i{0}; i < flagMenuItems1.size(); ++i){
+                        if(flagMenuItems1[i].rekt.getGlobalBounds().contains(mousePos_player1)){
+
+                            //Unhighlight current object
+                            flagIterator1->highlight(false);
+
+                            flagIterator1 = flagMenuItems1.begin();
+                            flagIterator1 += i;
+
+                            flagIterator1->highlight(true);
+                        }
+                    }
+                }
+                else if(flagView2Bounds.intersects({mousePos_player2.x, mousePos_player2.y, 1.f, 1.f})){
+                    for(size_t i{0}; i < flagMenuItems2.size(); ++i){
+                        if(flagMenuItems2[i].rekt.getGlobalBounds().contains(mousePos_player2)){
+
+                            //Unhighlight current object
+                            flagIterator2->highlight(false);
+
+                            flagIterator2 = flagMenuItems2.begin();
+                            flagIterator2 += i;
+
+                            flagIterator2->highlight(true);
+                        }
                     }
                 }
 
@@ -275,8 +345,9 @@ void GameState_SelectNationsMenu::getInput(){
 }
 
 void GameState_SelectNationsMenu::update(float mFT){
-
     GameState_MenuState::update(mFT);
+    scrollbar_player1.update({game->mousePos});
+    scrollbar_player2.update({game->mousePos});
 }
 
 void GameState_SelectNationsMenu::draw(){
@@ -286,6 +357,9 @@ void GameState_SelectNationsMenu::draw(){
 	game->mWindow.draw(backgroundSprite);
 
     game->mWindow.draw(titleText);
+
+    game->mWindow.draw(scrollbar_player1);
+    game->mWindow.draw(scrollbar_player2);
 
 	game->mWindow.setView(menuSelectView);
 
@@ -365,21 +439,84 @@ void GameState_SelectNationsMenu::lineUpObjects(){
 		previousFlagYPos += height * 0.1;
 	}
 
+	previousFlagYPos = 0;
+
 	for (size_t i{0}; i < flagMenuItems2.size(); ++i){
-		int spriteYPos = (i * 45);
+		int textYPos{previousFlagYPos};
+        float textXPos{flagMenuItems2[i].sprite.getPosition().x + (flagMenuItems2[i].sprite.getGlobalBounds().width) + flagMenuItems2[i].rekt.getOutlineThickness() * 2};
+
+		flagMenuItems2[i].displayNameText.setPosition(textXPos, textYPos);
+
+		int spriteYPos = (previousFlagYPos);
 		int spriteXPos{0};
 
 		flagMenuItems2[i].sprite.setPosition(spriteXPos, spriteYPos);
 		flagMenuItems2[i].rekt.setPosition(spriteXPos, spriteYPos);
+
+		float height{0};
+
+		if(flagMenuItems2[i].displayNameText.getGlobalBounds().height > flagMenuItems2[i].sprite.getGlobalBounds().height){
+			height = flagMenuItems2[i].displayNameText.getGlobalBounds().height;
+		}
+		else{
+			height = flagMenuItems2[i].sprite.getGlobalBounds().height;
+		}
+
+		previousFlagYPos += height * 1.1;
+
+		previousFlagYPos += height * 0.1;
 	}
 
-	//player1Text.setOrigin(player1Text.getLocalBounds().width / 2, player1Text.getLocalBounds().height / 2);
-	//player1Text.setPosition(xResolution / 8, -350);
+    if(!flagMenuItems1.empty()){
+		if(flagMenuItems1.back().displayNameText.getPosition().y - flagMenuItems1.front().displayNameText.getPosition().y > flagView1.getSize().y){
+            scrollbar_player1.setActive(true);
+		}
+		else{
+			scrollbar_player1.setActive(false);
+		}
+	}
+	else{
+        scrollbar_player1.setActive(false);
+	}
 
-	//player2Text.setOrigin(player2Text.getLocalBounds().width, 0);
-	//player2Text.setPosition((xResolution / 8) * 3, -350);
+	if(!flagMenuItems2.empty()){
+		if(flagMenuItems2.back().displayNameText.getPosition().y - flagMenuItems2.front().displayNameText.getPosition().y > flagView2.getSize().y){
+            scrollbar_player2.setActive(true);
+		}
+		else{
+			scrollbar_player2.setActive(false);
+		}
+	}
+	else{
+        scrollbar_player2.setActive(false);
+	}
 
-	//player2NationText.setOrigin(player2NationText.getLocalBounds().width, 0);
+	if(scrollbar_player1.getActive()){
+        float totalMenuHeight = (flagMenuItems1.back().displayNameText.getPosition().y + flagMenuItems1.back().displayNameText.getGlobalBounds().height / 2)
+
+                                - (flagMenuItems1.front().displayNameText.getPosition().y - flagMenuItems1.front().displayNameText.getGlobalBounds().height / 2);
+
+        //Right of flagView1
+        float initialXPos = (flagView1.getViewport().width) * game->mWindow.getSize().x;
+        initialXPos += 10;
+        float firstElementPosition_y = flagMenuItems1.front().displayNameText.getPosition().y;
+        float firstElementHeight = flagMenuItems1.front().displayNameText.getGlobalBounds().height;
+
+        scrollbar_player1.init(totalMenuHeight, initialXPos, firstElementPosition_y, firstElementHeight, titleText.getColor());
+	}
+
+	if(scrollbar_player2.getActive()){
+        float totalMenuHeight = (flagMenuItems2.back().displayNameText.getPosition().y + flagMenuItems2.back().displayNameText.getGlobalBounds().height / 2)
+
+                                - (flagMenuItems2.front().displayNameText.getPosition().y - flagMenuItems2.front().displayNameText.getGlobalBounds().height / 2);
+
+        //Left of flagView2
+        float initialXPos = (flagView2.getViewport().left) * game->mWindow.getSize().x;
+        float firstElementPosition_y = flagMenuItems2.front().displayNameText.getPosition().y;
+        float firstElementHeight = flagMenuItems2.front().displayNameText.getGlobalBounds().height;
+
+        scrollbar_player2.init(totalMenuHeight, initialXPos, firstElementPosition_y, firstElementHeight, titleText.getColor());
+	}
 
 	GameState_MenuState::lineUpObjects();
 }

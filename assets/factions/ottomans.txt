@@ -1,6 +1,6 @@
 [FACTION DEFINITION]
 
-[NAME]:Ottomans Empire
+[NAME]:Ottoman Empire
 [SHORT]:OTTO
 [SPRITE]:ottomans
 [LANGUAGE]:turkish

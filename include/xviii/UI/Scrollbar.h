@@ -46,7 +46,7 @@ private:
     sf::View& targetView;
     sf::View& backgroundView;
 
-    bool active{true};
+    bool active{false};
     bool dragging{false};
 
     sf::RectangleShape innerRect{};
