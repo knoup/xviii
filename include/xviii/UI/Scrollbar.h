@@ -14,7 +14,7 @@ public:
 	//Operator=
 	Scrollbar & operator=(const Scrollbar&) = delete;
 
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 	//N.B.
 	//The reason that the init function isn't integrated into the constructor is that,
@@ -22,7 +22,7 @@ public:
 	//Additionally, several events (such as resizing the window) will require plenty
 	//of parameters to be reset.
 
-	void init(float _totalMenuHeight, float _initialXPos, float _firstElementPosition_y, float _firstElementHeight);
+	void init(float _totalMenuHeight, float _initialXPos, float _firstElementPosition_y, float _firstElementHeight, sf::Color _fillColor = sf::Color::Yellow);
 
 	inline void setActive(bool _v){active = _v;};
 	inline void setDragging(bool _v){dragging = _v;};
@@ -34,6 +34,8 @@ public:
     inline sf::FloatRect getInnerGlobalBounds(){return innerRect.getGlobalBounds();};
     inline sf::FloatRect getOuterGlobalBounds(){return outerRect.getGlobalBounds();};
 
+    //0 for up,
+    //1 for down
     void scroll(bool _down);
     void update(sf::Vector2i _mousePos);
 

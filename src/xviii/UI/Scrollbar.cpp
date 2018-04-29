@@ -8,7 +8,7 @@ Scrollbar::Scrollbar(const sf::RenderWindow& _targetWindow, sf::View& _targetVie
 {
 }
 
-void Scrollbar::init(float _totalMenuHeight, float _initialXPos, float _firstElementPosition_y, float _firstElementHeight){
+void Scrollbar::init(float _totalMenuHeight, float _initialXPos, float _firstElementPosition_y, float _firstElementHeight, sf::Color _fillColor){
     totalMenuHeight = _totalMenuHeight;
 
     if(active){
@@ -77,6 +77,10 @@ void Scrollbar::scroll(bool _down){
 }
 
 void Scrollbar::update(sf::Vector2i _mousePos){
+    if(!active){
+        return;
+    }
+
     float outerRect_top = outerRect.getPosition().y;
     float outerRect_bottom = outerRect_top + outerRect.getGlobalBounds().height - (outerRect.getOutlineThickness() * 2);
 
@@ -93,7 +97,7 @@ void Scrollbar::update(sf::Vector2i _mousePos){
     targetView.setCenter(targetView.getCenter().x, finalY);
 
     if(dragging){
-        sf::Vector2f mousePos{targetWindow.mapPixelToCoords(_mousePos, targetView)};
+        sf::Vector2f mousePos{targetWindow.mapPixelToCoords(_mousePos, backgroundView)};
 
         float newYPos{mousePos.y - innerRect.getGlobalBounds().height / 2};
 

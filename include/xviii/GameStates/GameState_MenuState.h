@@ -6,6 +6,7 @@
 
 #include "xviii/Headers/global.h"
 #include "xviii/Headers/keybinds.h"
+#include "xviii/UI/Scrollbar.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -25,9 +26,6 @@ public:
 protected:
 	virtual void lineUpObjects();
 	virtual void handleResize();
-
-	//0 for up, 1 for down
-	void scrollBar(bool _down);
 
 	enum class Action{NEW, LOAD, EXIT, SAVE, NONE};
 
@@ -105,12 +103,6 @@ protected:
 	static std::unique_ptr<sf::Texture> backgroundTexture;
 	static sf::Sprite backgroundSprite;
 
-	//Everything related to the scroll bar
-
-	static bool scrollbarActive;
-	static sf::RectangleShape scrollBarOuterRect;
-	static sf::RectangleShape scrollBarInnerRect;
-
-	bool lmbHeld{false};
+	Scrollbar scrollbar;
 };
 

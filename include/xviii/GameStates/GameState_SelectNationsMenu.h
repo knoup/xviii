@@ -23,6 +23,7 @@ private:
 			factionID{_factionID},
 			displayName{_displayName},
 			sprite{_sprite},
+			displayNameText{},
 			highlighted{false},
 			rekt{}
 		{

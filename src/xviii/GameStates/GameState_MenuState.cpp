@@ -15,14 +15,11 @@ sf::Text GameState_MenuState::quoteText;
 std::unique_ptr<sf::Texture> GameState_MenuState::backgroundTexture;
 sf::Sprite GameState_MenuState::backgroundSprite;
 
-bool GameState_MenuState::scrollbarActive{false};
-sf::RectangleShape GameState_MenuState::scrollBarOuterRect;
-sf::RectangleShape GameState_MenuState::scrollBarInnerRect;
-
 GameState_MenuState::GameState_MenuState(Game* game) :
 GameState{game},
 menuList{},
-menuIterator{}
+menuIterator{},
+scrollbar{game->mWindow, menuSelectView, backgroundView}
 {
     handleResize();
 }
@@ -41,19 +38,19 @@ void GameState_MenuState::getInput(){
 		case sf::Event::MouseButtonReleased:
 
 			if(event.mouseButton.button == sf::Mouse::Left){
-				lmbHeld = false;
+				scrollbar.setDragging(false);
 			}
 			break;
 
         case sf::Event::MouseButtonPressed:
 
             if(event.mouseButton.button == sf::Mouse::Left){
-            	sf::FloatRect scrollBarOuterRectBounds = scrollBarOuterRect.getGlobalBounds();
+            	sf::FloatRect scrollBarOuterRectBounds = scrollbar.getOuterGlobalBounds();
             	sf::Vector2i coords{game->mousePos};
                 sf::Vector2f mousePos{game->mWindow.mapPixelToCoords(coords, backgroundView)};
 
-            	if(scrollbarActive && scrollBarOuterRectBounds.intersects({mousePos.x, mousePos.y, 1.f, 1.f})){
-					lmbHeld = true;
+            	if(scrollbar.getActive() && scrollBarOuterRectBounds.intersects({mousePos.x, mousePos.y, 1.f, 1.f})){
+					scrollbar.setDragging(true);;
             	}
             	else{
 					confirm = true;
@@ -156,12 +153,12 @@ void GameState_MenuState::getInput(){
 
             case sf::Event::MouseWheelMoved:
 			{
-				if(scrollbarActive){
+				if(scrollbar.getActive()){
 					if(event.mouseWheel.delta > 0){
-						scrollBar(0);
+						scrollbar.scroll(0);
 					}
 					else if(event.mouseWheel.delta < 0){
-						scrollBar(1);
+						scrollbar.scroll(1);
 					}
 				}
 			}
@@ -209,51 +206,7 @@ void GameState_MenuState::update(float /*mFT*/){
         menuIterator->text.setFillColor(sf::Color(255,255,0,transparency));
 	}
 
-
-	//Scrollbar logic
-	///////////////////////////////////////////////////////////
-	if(scrollbarActive){
-		float scrollBarOuter_top = scrollBarOuterRect.getPosition().y;
-		float scrollBarOuter_bottom = scrollBarOuter_top + scrollBarOuterRect.getGlobalBounds().height - (scrollBarOuterRect.getOutlineThickness() * 2);
-
-		float scrollBarInner_centerY{scrollBarInnerRect.getPosition().y + scrollBarInnerRect.getGlobalBounds().height / 2};
-
-		float scrollBarInner_distanceFromTop{scrollBarInner_centerY - scrollBarOuter_top};
-
-		float totalMenuListHeight = (menuList.back().text.getPosition().y + menuList.back().text.getGlobalBounds().height / 2)
-
-								  - (menuList.front().text.getPosition().y - menuList.front().text.getGlobalBounds().height / 2);
-
-		float totalScrollBarOuter_Height = scrollBarOuter_bottom - scrollBarOuter_top;
-
-		float finalRatio = totalMenuListHeight / totalScrollBarOuter_Height;
-
-		float finalY = (finalRatio * (scrollBarInner_distanceFromTop));
-
-		menuSelectView.setCenter(menuSelectView.getCenter().x, finalY);
-
-		if(lmbHeld){
-			sf::Vector2i coords{game->mousePos};
-			sf::Vector2f mousePos{game->mWindow.mapPixelToCoords(coords, backgroundView)};
-
-			float newYPos{mousePos.y - scrollBarInnerRect.getGlobalBounds().height / 2};
-
-			float newTop{newYPos};
-			float newBottom{mousePos.y + scrollBarInnerRect.getGlobalBounds().height / 2};
-
-			if(newTop < scrollBarOuter_top){
-				newYPos = scrollBarOuter_top;
-			}
-
-			else if(newBottom > scrollBarOuter_bottom){
-				newYPos = scrollBarOuter_bottom - scrollBarInnerRect.getGlobalBounds().height;
-			}
-
-			scrollBarInnerRect.setPosition(scrollBarInnerRect.getPosition().x, newYPos);
-
-		}
-	}
-	///////////////////////////////////////////////////////////
+	scrollbar.update({game->mousePos});
 }
 
 void GameState_MenuState::draw(){
@@ -264,18 +217,13 @@ void GameState_MenuState::draw(){
 	game->mWindow.draw(titleText);
 	game->mWindow.draw(quoteText);
 
-	if(scrollbarActive){
-		game->mWindow.draw(scrollBarOuterRect);
-		game->mWindow.draw(scrollBarInnerRect);
-	}
+	game->mWindow.draw(scrollbar);
 
 	game->mWindow.setView(menuSelectView);
 
 	for (auto& item : menuList){
 		game->mWindow.draw(item.text);
 	}
-
-
 }
 
 void GameState_MenuState::onSwitch(){
@@ -299,12 +247,15 @@ void GameState_MenuState::lineUpObjects(){
 
 	if(!menuList.empty()){
 		if(menuList.back().text.getPosition().y - menuList.front().text.getPosition().y > menuSelectView.getSize().y){
-				scrollbarActive = true;
+            scrollbar.setActive(true);
 		}
 		else{
-			scrollbarActive = false;
+			scrollbar.setActive(false);
 		}
 			widestObject = &menuList.front();
+	}
+	else{
+        scrollbar.setActive(false);
 	}
 
 	titleText.setPosition(backgroundView.getSize().x / 2, 0);
@@ -340,71 +291,18 @@ void GameState_MenuState::lineUpObjects(){
 		menuList[i].text.setPosition(textXPos, textYPos);
 	}
 
-	if(scrollbarActive){
-		float scrollbarXPos = widestObject->text.getPosition().x + (widestObject->text.getGlobalBounds().width / 2) * 1.2;
-		scrollBarOuterRect.setSize({20, menuSelectView.getSize().y});
-		scrollBarOuterRect.setPosition(scrollbarXPos, menuSelectView.getViewport().top * backgroundView.getSize().y);
-		scrollBarOuterRect.setFillColor(sf::Color::Transparent);
-		scrollBarOuterRect.setOutlineThickness(2);
-		scrollBarOuterRect.setOutlineColor(sf::Color::White);
 
-		scrollBarInnerRect.setPosition(scrollBarOuterRect.getPosition());
-		scrollBarInnerRect.setFillColor(titleText.getColor());
+	if(scrollbar.getActive()){
+        float totalMenuHeight = (menuList.back().text.getPosition().y + menuList.back().text.getGlobalBounds().height / 2)
 
-		float totalMenuListHeight = (menuList.back().text.getPosition().y + menuList.back().text.getGlobalBounds().height / 2)
+                                - (menuList.front().text.getPosition().y - menuList.front().text.getGlobalBounds().height / 2);
 
-								  - (menuList.front().text.getPosition().y - menuList.front().text.getGlobalBounds().height / 2);
+        float initialXPos = widestObject->text.getPosition().x + (widestObject->text.getGlobalBounds().width / 2) * 1.2;
+        float firstElementPosition_y = menuList.front().text.getPosition().y;
+        float firstElementHeight = menuList.front().text.getGlobalBounds().height;
 
-		float totalScrollBarOuter_Height = scrollBarOuterRect.getGlobalBounds().height;
-
-		float finalRatio = totalMenuListHeight / totalScrollBarOuter_Height;
-
-		float innerRectHeight{menuSelectView.getCenter().y - menuList.front().text.getPosition().y
-
-											- menuList.front().text.getGlobalBounds().height / 2};
-
-		innerRectHeight /= finalRatio;
-		innerRectHeight *= 2;
-
-		scrollBarInnerRect.setSize({float(scrollBarOuterRect.getSize().x), innerRectHeight});
-	}
-	else{
-		scrollBarOuterRect.setFillColor(sf::Color::Transparent);
-		scrollBarOuterRect.setOutlineColor(sf::Color::Transparent);
-		scrollBarInnerRect.setFillColor(sf::Color::Transparent);
-		scrollBarInnerRect.setOutlineColor(sf::Color::Transparent);
+        scrollbar.init(totalMenuHeight, initialXPos, firstElementPosition_y, firstElementHeight, titleText.getColor());
 	}
 
 	menuIterator = menuList.begin();
-}
-
-
-void GameState_MenuState::scrollBar(bool _down){
-	float step{float(scrollBarOuterRect.getGlobalBounds().height * 0.07)};
-
-	float distanceFromTop{scrollBarInnerRect.getPosition().y - scrollBarOuterRect.getPosition().y};
-
-	float distanceFromBottom
-	{
-		(scrollBarOuterRect.getPosition().y + scrollBarOuterRect.getGlobalBounds().height - scrollBarOuterRect.getOutlineThickness() * 2)
-		-
-		(scrollBarInnerRect.getPosition().y + scrollBarInnerRect.getGlobalBounds().height)
-	};
-
-	if(!_down){
-		if(distanceFromTop > 0){
-			if(step > distanceFromTop){
-				step = distanceFromTop;
-			}
-			scrollBarInnerRect.setPosition(scrollBarInnerRect.getPosition().x, scrollBarInnerRect.getPosition().y - step);
-		}
-	}
-	else{
-		if(distanceFromBottom > 0){
-			if(step > distanceFromBottom){
-				step = distanceFromBottom;
-			}
-			scrollBarInnerRect.setPosition(scrollBarInnerRect.getPosition().x, scrollBarInnerRect.getPosition().y + step);
-		}
-	}
 }
