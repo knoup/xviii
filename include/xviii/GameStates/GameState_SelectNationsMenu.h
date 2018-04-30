@@ -93,5 +93,7 @@ private:
 private:
     Scrollbar scrollbar_player1;
     Scrollbar scrollbar_player2;
+
+    void detectMousedOverNations();
 };
 

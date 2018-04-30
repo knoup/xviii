@@ -13,6 +13,43 @@ sf::FloatRect getViewBounds(sf::View& _view){
     return result;
 }
 
+void GameState_SelectNationsMenu::detectMousedOverNations(){
+    sf::Vector2f mousePos_player1{game->mWindow.mapPixelToCoords({game->mousePos}, flagView1)};
+    sf::Vector2f mousePos_player2{game->mWindow.mapPixelToCoords({game->mousePos}, flagView2)};
+
+    sf::FloatRect flagView1Bounds{getViewBounds(flagView1)};
+    sf::FloatRect flagView2Bounds{getViewBounds(flagView2)};
+
+    if(flagView1Bounds.intersects({mousePos_player1.x, mousePos_player1.y, 1.f, 1.f})){
+        for(size_t i{0}; i < flagMenuItems1.size(); ++i){
+            if(flagMenuItems1[i].rekt.getGlobalBounds().contains(mousePos_player1)){
+
+                //Unhighlight current object
+                flagIterator1->highlight(false);
+
+                flagIterator1 = flagMenuItems1.begin();
+                flagIterator1 += i;
+
+                flagIterator1->highlight(true);
+            }
+        }
+    }
+    else if(flagView2Bounds.intersects({mousePos_player2.x, mousePos_player2.y, 1.f, 1.f})){
+        for(size_t i{0}; i < flagMenuItems2.size(); ++i){
+            if(flagMenuItems2[i].rekt.getGlobalBounds().contains(mousePos_player2)){
+
+                //Unhighlight current object
+                flagIterator2->highlight(false);
+
+                flagIterator2 = flagMenuItems2.begin();
+                flagIterator2 += i;
+
+                flagIterator2->highlight(true);
+            }
+        }
+    }
+}
+
 void GameState_SelectNationsMenu::updateNationName(){
     //player1NationText.setString(" - " + flagIterator1->displayName);
     //player1NationText.setPosition(flagIterator1->sprite.getPosition().x + 25, flagIterator1->sprite.getPosition().y - 20);
@@ -107,21 +144,6 @@ void GameState_SelectNationsMenu::getInput(){
 
 		case sf::Event::MouseWheelMoved:
 		    {
-
-		    std::vector<FlagMenuItem>* flagMenuItems{nullptr};
-            std::vector<FlagMenuItem>::iterator* flagIterator{nullptr};
-
-            if(event.mouseWheel.x < xResolution / 3){
-                flagMenuItems = &flagMenuItems1;
-                flagIterator = &flagIterator1;
-            }
-            else if(event.mouseWheel.x > 0.66 * xResolution){
-                flagMenuItems = &flagMenuItems2;
-                flagIterator = &flagIterator2;
-            }
-            else{
-                break;
-            }
 
             updateNationName();
 
@@ -292,40 +314,7 @@ void GameState_SelectNationsMenu::getInput(){
                     }
                 }
 
-                sf::Vector2f mousePos_player1{game->mWindow.mapPixelToCoords({game->mousePos}, flagView1)};
-                sf::Vector2f mousePos_player2{game->mWindow.mapPixelToCoords({game->mousePos}, flagView2)};
-
-                sf::FloatRect flagView1Bounds{getViewBounds(flagView1)};
-                sf::FloatRect flagView2Bounds{getViewBounds(flagView2)};
-
-                if(flagView1Bounds.intersects({mousePos_player1.x, mousePos_player1.y, 1.f, 1.f})){
-                    for(size_t i{0}; i < flagMenuItems1.size(); ++i){
-                        if(flagMenuItems1[i].rekt.getGlobalBounds().contains(mousePos_player1)){
-
-                            //Unhighlight current object
-                            flagIterator1->highlight(false);
-
-                            flagIterator1 = flagMenuItems1.begin();
-                            flagIterator1 += i;
-
-                            flagIterator1->highlight(true);
-                        }
-                    }
-                }
-                else if(flagView2Bounds.intersects({mousePos_player2.x, mousePos_player2.y, 1.f, 1.f})){
-                    for(size_t i{0}; i < flagMenuItems2.size(); ++i){
-                        if(flagMenuItems2[i].rekt.getGlobalBounds().contains(mousePos_player2)){
-
-                            //Unhighlight current object
-                            flagIterator2->highlight(false);
-
-                            flagIterator2 = flagMenuItems2.begin();
-                            flagIterator2 += i;
-
-                            flagIterator2->highlight(true);
-                        }
-                    }
-                }
+                detectMousedOverNations();
 
             break;
             }
