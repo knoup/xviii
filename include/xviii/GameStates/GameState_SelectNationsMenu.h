@@ -42,6 +42,12 @@ private:
 			rekt.setOutlineThickness(1);
 		};
 
+        //We're going to want to sort the nations alphabetically, so we define
+        //the < operator for that purpose here.
+        bool operator < (const FlagMenuItem& _other){
+            return (displayNameText.getString() < _other.displayNameText.getString());
+        };
+
         std::string factionID;
         std::string displayName;
 		sf::Sprite sprite;

@@ -83,6 +83,12 @@ scrollbar_player2{game->mWindow, flagView2, backgroundView}
 		flagMenuItems2.emplace_back(faction.second.factionID, faction.second.displayName, game->mManager.textureManager->getFlagSprite(faction.second.textureID), game->mManager.fontManager->getFont(FontManager::Type::TCMT));
 	}
 
+	//Sort alphabetically.
+	//The < operator is defined in the FlagMenuItem struct
+	std::sort(flagMenuItems1.begin(), flagMenuItems1.end());
+	std::sort(flagMenuItems2.begin(), flagMenuItems2.end());
+
+
     //flagIterator1 = flagMenuItems1.begin() + flagMenuItems1.size() / 2;
     flagIterator1 = flagMenuItems1.begin();
     flagIterator1->highlight(true);
@@ -377,12 +383,12 @@ void GameState_SelectNationsMenu::handleResize(){
     //flagView2.setViewport(sf::FloatRect(0.5f, 0, 1, 1));
 
     flagView1.setCenter({float(game->mWindow.getSize().x * 0.125), float(game->mWindow.getSize().y / 4) - 30});
-    flagView1.setSize(game->mWindow.getSize().x / 3, game->mWindow.getSize().y / 2);
-    flagView1.setViewport({0, 0.45, 0.33, 0.5});
+    flagView1.setSize(game->mWindow.getSize().x / 3, game->mWindow.getSize().y * 0.60);
+    flagView1.setViewport({0, 0.35, 0.33, 0.60});
 
     flagView2.setCenter({float(game->mWindow.getSize().x * 0.125), float(game->mWindow.getSize().y / 4) - 30});
-    flagView2.setSize(game->mWindow.getSize().x / 3, game->mWindow.getSize().y / 2);
-    flagView2.setViewport({0.66, 0.45, 0.33, 0.5});
+    flagView2.setSize(game->mWindow.getSize().x / 3, game->mWindow.getSize().y * 0.60);
+    flagView2.setViewport({0.66, 0.35, 0.33, 0.60});
 
 
 	GameState_MenuState::handleResize();
