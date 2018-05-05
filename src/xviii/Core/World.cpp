@@ -939,17 +939,19 @@ void World::unhighlightAllTiles(){
 
 
 sf::Vector2i getNextTileCoordinates(sf::Vector2i _coordinates, UnitTile::Direction _dir){
+    sf::Vector2i result{};
+
     if(_dir == UnitTile::Direction::E){
-        return {_coordinates.x + 1, _coordinates.y};
+        result = {_coordinates.x + 1, _coordinates.y};
     }
     else if(_dir == UnitTile::Direction::W){
-        return {_coordinates.x - 1, _coordinates.y};
+        result = {_coordinates.x - 1, _coordinates.y};
     }
     else if(_dir == UnitTile::Direction::S){
-        return {_coordinates.x, _coordinates.y + 1};
+        result = {_coordinates.x, _coordinates.y + 1};
     }
     else if(_dir == UnitTile::Direction::N){
-        return {_coordinates.x, _coordinates.y - 1};
+        result = {_coordinates.x, _coordinates.y - 1};
     }
 }
 
@@ -1006,7 +1008,6 @@ std::vector<TerrainTile*> World::getTerrainTilesBetween(TerrainTile* _from, Terr
 
         TerrainTile* currentTile{terrainAtCartesianPos(currentCoords)};
         resultVector.push_back(currentTile);
-        std::cout << resultVector.size() << std::endl;
         currentCoords = getNextTileCoordinates(currentCoords, _dir);
     }
 

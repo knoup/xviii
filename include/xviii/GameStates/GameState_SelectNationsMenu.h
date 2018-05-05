@@ -37,7 +37,7 @@ private:
 			}
 
 			rekt.setSize({sprite.getLocalBounds().width + float(1.2 * displayNameText.getGlobalBounds().width), sprite.getLocalBounds().height});
-			rekt.setFillColor(sf::Color::White);
+			rekt.setFillColor(sf::Color(255,255,255, 190));
 			rekt.setOutlineColor(sf::Color::Black);
 			rekt.setOutlineThickness(1);
 		};
@@ -73,10 +73,10 @@ private:
             highlighted = _v;
 
             if(!highlighted){
-                rekt.setFillColor(sf::Color::White);
+                rekt.setFillColor(sf::Color(255,255,255, 190));
             }
             else{
-                rekt.setFillColor(sf::Color::Yellow);
+                rekt.setFillColor(sf::Color(255,255,0, 190));
             }
 		}
 	};
