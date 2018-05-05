@@ -997,9 +997,16 @@ std::vector<TerrainTile*> World::getTerrainTilesBetween(TerrainTile* _from, Terr
 	//Begin at the tile that comes after the current tile, and loop to the destination (inclusive)
     sf::Vector2i currentCoords{getNextTileCoordinates(initialCoords, _dir)};
 
-    while(currentCoords != finalCoords){
+    bool lastLoop{false};
+
+    while(!lastLoop){
+        if(currentCoords == finalCoords){
+            lastLoop = true;
+        }
+
         TerrainTile* currentTile{terrainAtCartesianPos(currentCoords)};
         resultVector.push_back(currentTile);
+        std::cout << resultVector.size() << std::endl;
         currentCoords = getNextTileCoordinates(currentCoords, _dir);
     }
 

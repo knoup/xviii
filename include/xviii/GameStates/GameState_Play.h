@@ -82,6 +82,9 @@ private:
 
 	UnitTile* selected;
 
+	TerrainTile* mousedOverTile{nullptr};
+	TerrainTile* lastMousedOverTile{nullptr};
+
 	sf::Vector2f cameraVelocity;
 	sf::Vector2i middleButtonCoords;
 	bool middleButtonHeld;

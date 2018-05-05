@@ -596,15 +596,19 @@ void GameState_Play::update(float mFT){
 	//Code for the mouse indicator of distance:
 
 	sf::Vector2i mouseLocation{game->mWindow.mapPixelToCoords(game->mousePos, *game->currentView)};
-
 	sf::Vector2i worldDimensions{game->mWorld->getDimensionsInPixels()};
-	if (selected != nullptr && (mouseLocation.x < worldDimensions.x && mouseLocation.y < worldDimensions.y
+
+	if (mouseLocation.x < worldDimensions.x && mouseLocation.y < worldDimensions.y
 		&&
-		mouseLocation.x > 0 && mouseLocation.y > 0)){
+		mouseLocation.x > 0 && mouseLocation.y > 0)
+		{
+			mousedOverTile = game->mWorld->terrainAtPixelPos(mouseLocation);
+		}
 
-		TerrainTile* terrain = game->mWorld->terrainAtPixelPos(mouseLocation);
-		UnitTile* unit = terrain->getUnit();
+	if (selected != nullptr && mousedOverTile != lastMousedOverTile){
 
+		lastMousedOverTile = mousedOverTile;
+		UnitTile* unit = mousedOverTile->getUnit();
 		UnitTile::Direction dir = selected->getDir();
 
 		bool validMovDirection{false};
@@ -615,8 +619,7 @@ void GameState_Play::update(float mFT){
 		bool inRangedAttackRange{false};
 
 		//Store the distance between the selected tile and currently moused over tile in vectorDist
-		sf::Vector2i vectorDist = selected->distanceFrom(terrain, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
-
+		sf::Vector2i vectorDist = selected->distanceFrom(mousedOverTile, validMovDirection, validAttackDirection, rangedObstructionPresent, meleeObstructionPresent, inMovementRange, inRangedAttackRange);
 
 		int primaryAxisDistance{0};
 		if (dir == UnitTile::Direction::N || dir == UnitTile::Direction::S){
@@ -647,7 +650,7 @@ void GameState_Play::update(float mFT){
 		}
 
 		//If you aren't mousing over a (visible) enemy unit
-		if ((unit == nullptr && terrain != nullptr) || ((unit != nullptr && !unit->drawUnit) || !unit->drawFlag)){
+		if ((unit == nullptr) || ((unit != nullptr && !unit->drawUnit) || !unit->drawFlag)){
 
 			if (inMovementRange && !meleeObstructionPresent){
 				tileDistanceText.setFillColor(sf::Color::Black);
