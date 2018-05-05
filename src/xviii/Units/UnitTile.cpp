@@ -973,34 +973,51 @@ void UnitTile::draw(sf::RenderTarget &target, sf::RenderStates states) const{
 
 }
 
+//This function returns a bool that determines whether the unit can cross a bridge or not.
+//For example, if the unit is facing north and wants to cross a bridge, the bridge needs
+//to have a southern connection. Conversely, if the unit is already standing on the bridge
+//and wants to continue north, the bridge needs to have a northern connection.
+
+bool UnitTile::appropriateBridgeConnectionPresent(Bridge* _bridge){
+    if(dir == Direction::N){
+		if(_bridge->getUnit() != this){
+			return _bridge->southernConnection;
+		}
+		else{
+			return _bridge->northernConnection;
+		}
+    }
+    else if(dir == Direction::S){
+		if(_bridge->getUnit() != this){
+			return _bridge->northernConnection;
+		}
+		else{
+			return _bridge->southernConnection;
+		}
+    }
+    else if(dir == Direction::E){
+		if(_bridge->getUnit() != this){
+			return _bridge->westernConnection;
+		}
+		else{
+			return _bridge->easternConnection;
+		}
+    }
+    else if(dir == Direction::W){
+		if(_bridge->getUnit() != this){
+			return _bridge->easternConnection;
+		}
+		else{
+			return _bridge->westernConnection;
+		}
+    }
+}
+
 sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validMovDirection, bool& _validAttackDirection, bool& _rangedObstructionPresent, bool& _meleeObstructionPresent, bool& _inMovementRange, bool& _inRangedAttackRange){
     return distanceFrom(_destinationTile, _validMovDirection, _validAttackDirection, _rangedObstructionPresent, _meleeObstructionPresent, _inMovementRange, _inRangedAttackRange, canShootOverUnits, coneWidth);
 }
 /*
-Because this is one of the most important functions, and looks intimidating, I felt the need to document it well.
-Yes, it is horribly bloated, and something needs to be done about that eventually.
-
-N.B.: This function assumes the reference variables are initialised as false!!
-
-This function, first of all, determines your main and secondary axes and their positive and negative parts. It then:
-
--Checks if your destination tile is a valid attacking direction (valid movement dirs are always valid attack dirs, but not vice
-versa),
-
--If so, continues forward and sets _validAttackingDirection as true; if not, return the distance and don't touch any variables
-
--Checks if your distance is 1 and you cannot shoot at close range; if that is so,
-	-Check if your target is diagonal in relation to you,
-		-If so, set _validAttackingDirection to false
-
--Checks if you are within ranged attacking range, and set _inRangedAttackRange as true if so
-
--Checks if your destination tile is a valid moving direction, and sets _validMovDirection as true if so
-	-Also, if it is a valid moving direction, checks if it is within your current movement range, setting _inMovementRange as true if so
-
--Checks if there are obstructions in the way, and sets _obstructionPresent as true if so
-
-In addition, this function takes three optional parameters: canShootOverUnits, canShootAtCloseRange, coneWidth, which default to false,
+This function takes three optional parameters: canShootOverUnits, canShootAtCloseRange, coneWidth, which default to false,
 false, and 1, respectively
 
 canShootOverUnits specifies whether this unit has the ability to bypass LoS with regards to ranged attacking, and coneWidth specifies
@@ -1016,234 +1033,122 @@ sf::Vector2i UnitTile::distanceFrom(TerrainTile* _destinationTile, bool& _validM
 	//Exclude the center
 	_coneWidth /= 2;
 
-	sf::Vector2i currentCoords{terrain->getCartesianPos()};
-	sf::Vector2i toMoveToCoords{_destinationTile->getCartesianPos()};
+	sf::Vector2i initialCoords{terrain->getCartesianPos()};
+	sf::Vector2i finalCoords{_destinationTile->getCartesianPos()};
 
-	//Check if there is a unit at the terrain tile;
-	UnitTile* unitAtTile = world->unitAtTerrain(_destinationTile);
-	bool destinationIsUnit = (unitAtTile != nullptr);
+	bool destinationIsUnit = (world->unitAtTerrain(_destinationTile) != nullptr);
 
-	int dist{0};
+	int distance{0};
+	std::vector<TerrainTile*> tilesInBetween = world->getTerrainTilesBetween(terrain, _destinationTile, dir);
+	distance = tilesInBetween.size();
 
-	int PRIMARYAXIS_POSITIVE;
-	int PRIMARYAXIS_NEGATIVE;
-	int SECONDARYAXIS_POSITIVE;
-	int SECONDARYAXIS_NEGATIVE;
-
-	int CURRENTAXIS_PRIMARY;
-	int DESTINATIONAXIS_PRIMARY;
-	int COEFFICIENT;
-
-	switch (dir){
-        case UnitTile::Direction::N:
-            PRIMARYAXIS_POSITIVE = currentCoords.y;
-            PRIMARYAXIS_NEGATIVE = toMoveToCoords.y;
-            SECONDARYAXIS_POSITIVE = toMoveToCoords.x;
-            SECONDARYAXIS_NEGATIVE = currentCoords.x;
-
-            CURRENTAXIS_PRIMARY = currentCoords.y;
-            DESTINATIONAXIS_PRIMARY = toMoveToCoords.y;
-            COEFFICIENT = -1;
-
-            break;
-
-        case UnitTile::Direction::E:
-            PRIMARYAXIS_POSITIVE = toMoveToCoords.x;
-            PRIMARYAXIS_NEGATIVE = currentCoords.x;
-            SECONDARYAXIS_POSITIVE = toMoveToCoords.y;
-            SECONDARYAXIS_NEGATIVE = currentCoords.y;
-
-            CURRENTAXIS_PRIMARY = currentCoords.x;
-            DESTINATIONAXIS_PRIMARY = toMoveToCoords.x;
-            COEFFICIENT = 1;
-
-            break;
-
-        case UnitTile::Direction::S:
-            PRIMARYAXIS_POSITIVE = toMoveToCoords.y;
-            PRIMARYAXIS_NEGATIVE = currentCoords.y;
-            SECONDARYAXIS_POSITIVE = toMoveToCoords.x;
-            SECONDARYAXIS_NEGATIVE = currentCoords.x;
-
-            CURRENTAXIS_PRIMARY = currentCoords.y;
-            DESTINATIONAXIS_PRIMARY = toMoveToCoords.y;
-            COEFFICIENT = 1;
-            break;
-
-
-        case UnitTile::Direction::W:
-            PRIMARYAXIS_POSITIVE = currentCoords.x;
-            PRIMARYAXIS_NEGATIVE = toMoveToCoords.x;
-            SECONDARYAXIS_POSITIVE = toMoveToCoords.y;
-            SECONDARYAXIS_NEGATIVE = currentCoords.y;
-
-            CURRENTAXIS_PRIMARY = currentCoords.x;
-            DESTINATIONAXIS_PRIMARY = toMoveToCoords.x;
-            COEFFICIENT = -1;
-            break;
+	if(distance == 0){
+		return {finalCoords - initialCoords};
 	}
 
-	dist = (PRIMARYAXIS_POSITIVE - PRIMARYAXIS_NEGATIVE);
+	////////////////////////////////////////////////////////////////////////////////////////
+	//Anything past this point assumes the distance is > 0;
+	//i.e. that the destination tile is at least valid in
+	//terms of direction.
 
-	if (PRIMARYAXIS_NEGATIVE < PRIMARYAXIS_POSITIVE
-		&& ((SECONDARYAXIS_POSITIVE >= SECONDARYAXIS_NEGATIVE - _coneWidth) && (SECONDARYAXIS_POSITIVE <= SECONDARYAXIS_NEGATIVE + _coneWidth))){
+	//We need to do some further checks to set the bools.
+	////////////////////////////////////////////////////////////////////////////////////////
 
-		_validAttackDirection = true;
+	_validAttackDirection = true;
+	_validMovDirection = true;
 
-		if (dist == 1 && getMelee()){
-			if (!((SECONDARYAXIS_POSITIVE >= SECONDARYAXIS_NEGATIVE) && (SECONDARYAXIS_POSITIVE <= SECONDARYAXIS_NEGATIVE))){
-				_validAttackDirection = false;
-			}
-		}
+	bool withinConeWidth{false};
 
-		if (PRIMARYAXIS_POSITIVE - PRIMARYAXIS_NEGATIVE <= getMaxRange()){
+	if(dir == Direction::E || dir == Direction::W){
+        if((initialCoords.y >= finalCoords.y - _coneWidth) && (initialCoords.y <= finalCoords.y + _coneWidth)){
+			withinConeWidth = true;
+        }
+	}
+	else if(dir == Direction::S || dir == Direction::N){
+        if((initialCoords.x >= finalCoords.x - _coneWidth) && (initialCoords.x <= finalCoords.x + _coneWidth)){
+			withinConeWidth = true;
+        }
+	}
+
+	if(withinConeWidth){
+		if(distance <= getMaxRange()){
 			_inRangedAttackRange = true;
 		}
+	}
 
-		if (SECONDARYAXIS_POSITIVE == SECONDARYAXIS_NEGATIVE){
-			_validMovDirection = true;
+	if(distance <= mov){
+		_inMovementRange = true;
+	}
 
-			//There is no point in having _inMovementRange true if the direction isn't valid, so the check
-			//is nested within the directional check
-			if (PRIMARYAXIS_POSITIVE - PRIMARYAXIS_NEGATIVE <= mov){
-				_inMovementRange = true;
-			}
+	//A unit's destination tile needs to both be able to be crossable and stoppable in.
+	if(!_destinationTile->unitCanCrossHere(this) || !_destinationTile->unitCanStopHere(this)){
+		_meleeObstructionPresent = true;
+	}
+
+	for(auto& tile : tilesInBetween){
+		//If obstructions have already been found, no need to keep searching, just exit loop
+		if (_rangedObstructionPresent && _meleeObstructionPresent){
+			continue;
 		}
 
-        ///////////////////////////////////////////////////////////////////
-
-        //A unit's destination tile needs to both be able to be crossable and stoppable in.
-
-        if(!_destinationTile->unitCanCrossHere(this) || !_destinationTile->unitCanStopHere(this)){
-            _meleeObstructionPresent = true;
-        }
-
-		//For loop is for checking if the LoS is clear. Note that the coordinates begin at the current tile
-		//and end at the destination tile
-		for (int i{CURRENTAXIS_PRIMARY}; i != DESTINATIONAXIS_PRIMARY; i += COEFFICIENT){
-
-			//If obstructions have already been found, no need to keep searching, just exit loop
-			if (_rangedObstructionPresent && _meleeObstructionPresent){
-				continue;
+		//In the case the destination tile contains a unit, there should be no melee obstruction registered,
+		//as the current unit should be able to attack it.
+		//However, if the destination tile doesn't contain a unit, this means
+		//....to fix.
+		if(!destinationIsUnit){
+			if(tile->getTerrainType() == TerrainTile::TerrainType::BRIDGE || tile->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
+				Bridge* bridge = static_cast<Bridge*>(tile);
+				bool validDirection{appropriateBridgeConnectionPresent(bridge)};
+				if(!validDirection){
+					_meleeObstructionPresent = true;
+				}
 			}
+		}
+		//If there's a unit in the way, check if it's an obstruction.
+		//Also, check if the unit can cross the terrain here
 
-			TerrainTile* terrainInTheWay;
+		UnitTile* unitInTheWay{tile->getUnit()};
 
-			if (dir == Direction::N || dir == Direction::S){
-				terrainInTheWay = world->terrainAtCartesianPos({SECONDARYAXIS_POSITIVE, i});
-			}
-			else{
-				terrainInTheWay = world->terrainAtCartesianPos({i, SECONDARYAXIS_POSITIVE});
-			}
 
-			UnitTile* unitInTheWay{terrainInTheWay->getUnit()};
+		//We don't want this part to be included for the destination tile
+		if(tile != tilesInBetween.back()){
+			if (unitInTheWay != nullptr){
+				bool unitIsFriendly{unitInTheWay->getPlayer() == this->getPlayer()};
 
-			//Check if the terrain is an obstruction
-			if (terrainInTheWay != nullptr){
-
-				if (!destinationIsUnit){
-
-                    if(terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::BRIDGE || terrainInTheWay->getTerrainType() == TerrainTile::TerrainType::TBRIDGE){
-                        Bridge* p = static_cast<Bridge*>(terrainInTheWay);
-					    bool validDirection{false};
-
-                        switch (dir){
-                        case Direction::N:
-
-                            //If we are at the current tile, we want a connection in the same direction we are
-                            //facing.
-
-                            if(i == CURRENTAXIS_PRIMARY){
-                                validDirection = p->northernConnection;
-                            }
-                            else{
-                                validDirection = p->southernConnection;
-                            }
-
-                            break;
-                        case Direction::E:
-                            if(i == CURRENTAXIS_PRIMARY){
-                                validDirection = p->easternConnection;
-                            }
-                            else{
-                                validDirection = p->westernConnection;
-                            }
-
-                            break;
-                        case Direction::S:
-                            if(i == CURRENTAXIS_PRIMARY){
-                                validDirection = p->southernConnection;
-                            }
-                            else{
-                                validDirection = p->northernConnection;
-                            }
-
-                            break;
-                        case Direction::W:
-                            if(i == CURRENTAXIS_PRIMARY){
-                                validDirection = p->westernConnection;
-                            }
-                            else{
-                                validDirection = p->easternConnection;
-                            }
-
-                            break;
-                        }
-
-                        if(!validDirection){
-                            _meleeObstructionPresent = true;
-                        }
-					}
+				if (!unitIsFriendly && unitInTheWay->drawUnit){
+					_meleeObstructionPresent = true;
 				}
 
+				if (!_canShootOverUnits && unitInTheWay->drawUnit){
+					_rangedObstructionPresent = true;
+				}
 			}
 
-			//Check if the unit is an obstruction, or if the unit cannot cross the terrain here
-			//We don't want this part to be included for the destination tile or current tile
-
-            if(i != DESTINATIONAXIS_PRIMARY && i != CURRENTAXIS_PRIMARY){
-
-                if (unitInTheWay != nullptr){
-                    bool unitIsFriendly{unitInTheWay->getPlayer() == this->getPlayer()};
-
-                    if (!unitIsFriendly && unitInTheWay->drawUnit){
-                        _meleeObstructionPresent = true;
-                    }
-
-                    if (!_canShootOverUnits && unitInTheWay->drawUnit){
-                        _rangedObstructionPresent = true;
-                    }
-
-                }
-
-                if(!terrainInTheWay->unitCanCrossHere(this)){
-                    _meleeObstructionPresent = true;
-                }
-
-            }
+			if(!tile->unitCanCrossHere(this)){
+				_meleeObstructionPresent = true;
+			}
 		}
 	}
 
-	return {toMoveToCoords - currentCoords};
-
+	return {finalCoords - initialCoords};
 }
 
 int UnitTile::distanceFrom(Tile* _tile){
-	sf::Vector2i currentCoords{world->cartesianPosAtIndex(world->indexAtTile(*terrain))};
-	sf::Vector2i toMoveToCoords{world->cartesianPosAtIndex(world->indexAtTile(*_tile))};
+	sf::Vector2i initialCoords{world->cartesianPosAtIndex(world->indexAtTile(*terrain))};
+	sf::Vector2i finalCoords{world->cartesianPosAtIndex(world->indexAtTile(*_tile))};
 
 	switch (dir){
 	case UnitTile::Direction::N:
-		return (currentCoords.y - toMoveToCoords.y);
+		return (initialCoords.y - finalCoords.y);
 
 	case UnitTile::Direction::E:
-		return (toMoveToCoords.x - currentCoords.x);
+		return (finalCoords.x - initialCoords.x);
 
 	case UnitTile::Direction::S:
-		return (toMoveToCoords.y - currentCoords.y);
+		return (finalCoords.y - initialCoords.y);
 
 	case UnitTile::Direction::W:
-		return (currentCoords.x - toMoveToCoords.x);
+		return (initialCoords.x - finalCoords.x);
 	}
 
     return 0;

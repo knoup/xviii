@@ -350,6 +350,8 @@ public:
 
 	//Other - Non Virtual
 	//////////////////////////////////////////////////////////////////////////////////////////////////
+	bool appropriateBridgeConnectionPresent(Bridge* _bridge);
+
 	void setSpritePixelPos(sf::Vector2f _pos);
 
 	void stun();

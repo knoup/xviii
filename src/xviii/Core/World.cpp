@@ -935,3 +935,73 @@ void World::unhighlightAllTiles(){
         tile->refreshVertexArray();
     }
 }
+
+
+
+sf::Vector2i getNextTileCoordinates(sf::Vector2i _coordinates, UnitTile::Direction _dir){
+    if(_dir == UnitTile::Direction::E){
+        return {_coordinates.x + 1, _coordinates.y};
+    }
+    else if(_dir == UnitTile::Direction::W){
+        return {_coordinates.x - 1, _coordinates.y};
+    }
+    else if(_dir == UnitTile::Direction::S){
+        return {_coordinates.x, _coordinates.y + 1};
+    }
+    else if(_dir == UnitTile::Direction::N){
+        return {_coordinates.x, _coordinates.y - 1};
+    }
+}
+
+//This function is pretty self-explanatory. It first checks if there is a valid path
+//between the tiles, given the direction. If there isn't one, it returns an empty
+//vector of terrain pointers; otherwise, it fills that vector with the tiles that
+//make up the path
+
+std::vector<TerrainTile*> World::getTerrainTilesBetween(TerrainTile* _from, TerrainTile* _to, UnitTile::Direction _dir){
+	if(_from == _to){
+        return {};
+	}
+
+	sf::Vector2i initialCoords{cartesianPosAtIndex(indexAtTile(*_from))};
+	sf::Vector2i finalCoords{cartesianPosAtIndex(indexAtTile(*_to))};
+
+	bool valid{true};
+
+	if(_dir == UnitTile::Direction::E){
+        if(initialCoords.x > finalCoords.x || initialCoords.y != finalCoords.y){
+            valid = false;
+        }
+	}
+	else if(_dir == UnitTile::Direction::W){
+        if(initialCoords.x < finalCoords.x || initialCoords.y != finalCoords.y){
+            valid = false;
+        }
+	}
+	else if(_dir == UnitTile::Direction::S){
+        if(initialCoords.y > finalCoords.y || initialCoords.x != finalCoords.x){
+            valid = false;
+        }
+	}
+	else if(_dir == UnitTile::Direction::N){
+        if(initialCoords.y < finalCoords.y || initialCoords.x != finalCoords.x){
+            valid = false;
+        }
+	}
+
+	if(!valid){
+        return {};
+	}
+
+	std::vector<TerrainTile*> resultVector{};
+	//Begin at the tile that comes after the current tile, and loop to the destination (inclusive)
+    sf::Vector2i currentCoords{getNextTileCoordinates(initialCoords, _dir)};
+
+    while(currentCoords != finalCoords){
+        TerrainTile* currentTile{terrainAtCartesianPos(currentCoords)};
+        resultVector.push_back(currentTile);
+        currentCoords = getNextTileCoordinates(currentCoords, _dir);
+    }
+
+    return resultVector;
+}

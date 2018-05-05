@@ -184,6 +184,8 @@ public:
 
     inline bool getIsNighttime() const {return (currentTime.getTime().first >= 19 || currentTime.getTime().first < 5);};
 
+    std::vector<TerrainTile*> getTerrainTilesBetween(TerrainTile* _from, TerrainTile* _to, UnitTile::Direction _dir);
+
     //Ants and Tiles use this too; since they will always exist in a world, there is no point in them having
     //duplicate references to the master manager.
     MasterManager& masterManager;
