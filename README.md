@@ -1,4 +1,7 @@
-***This is very old and amateur code. This project has served its educational purpose for me and I have moved on from it. ***
+
+## **__NOTE: This is very old and amateur code. This project has served its educational purpose for me and I have moved on from it. It only remains here for archival purposes.__**
+
+
 
 Inspired by, and continutally developed with, the ideas and input of a friend.
 
