@@ -1,3 +1,5 @@
+***This is very old and amateur code. This project has served its educational purpose for me and I have moved on from it. ***
+
 Inspired by, and continutally developed with, the ideas and input of a friend.
 
 Build Instructions
